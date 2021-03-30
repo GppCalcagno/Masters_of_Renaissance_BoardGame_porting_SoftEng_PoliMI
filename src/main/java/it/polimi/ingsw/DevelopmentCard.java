@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DevelopmentCard extends Card{
     /**
@@ -58,5 +59,6 @@ public class DevelopmentCard extends Card{
      */
     public Map<Producible, Integer> getProductedResources() {
         // to implement
+        return null;
     }
 }

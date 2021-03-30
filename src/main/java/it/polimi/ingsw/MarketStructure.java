@@ -35,6 +35,7 @@ public class MarketStructure {
      */
     public Marbles [] extractMarbles (char direction, int n) {
         //to implement
+        return null;
     }
 
     /**

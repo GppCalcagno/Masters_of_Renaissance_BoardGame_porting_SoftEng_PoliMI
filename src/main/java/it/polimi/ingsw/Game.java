@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import java.util.List;
 import java.util.Optional;
 
 public class Game {
@@ -26,7 +27,7 @@ public class Game {
     /**
      * This attribute is the development cards' container. It is implemented like a matrix of pile
      */
-    private DevCardDeck developmentCardDeck;
+    private DevCardsDeck developmentCardDeck;
 
     /**
      * This attribute is a list of the Leader card
@@ -66,6 +67,7 @@ public class Game {
      */
     public int getWinner (){
         //to implement
+        return 0;
     }
 
 

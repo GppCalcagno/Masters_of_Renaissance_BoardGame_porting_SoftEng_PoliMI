@@ -12,5 +12,6 @@ public class DiscountEffect {
      */
     public Resources getResources(){
         //to implement
+        return null;
     }
 }
