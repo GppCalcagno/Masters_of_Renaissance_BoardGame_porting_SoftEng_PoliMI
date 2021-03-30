@@ -40,7 +40,24 @@ public class Player {
     /**
      * this attribute indicates whether the popsfavortiles are active or not
      */
-    boolean [] popsfavortiles;
+    private boolean [] popsfavortiles;
+
+    /**
+     * this attribute indicates  the player's warehouse
+     */
+    private WarehouseDepots warehouse;
+
+    /**
+     * this attribute indicates  the player's strongbox
+     */
+    private Strongbox strongbox;
+
+    /**
+     * this attribute indicates  the player's Slotdevcards
+     */
+    private SlotDevCards slotDevCards;
+
+
 
     /**
      * This is the costructor of Player
@@ -52,7 +69,15 @@ public class Player {
         this.faithMarker=0;
         this.leaderActionBox = new ArrayList<LeaderAction>(); //da inizializzare
         this.connected = true ;
-        this.popsfavortiles = new boolean[popfavortilessize]; //da inizializzare
+
+        this.popsfavortiles = new boolean[popfavortilessize];
+        this.popsfavortiles[0]=false;
+        this.popsfavortiles[1]=false;
+        this.popsfavortiles[2]=false;
+
+        this.slotDevCards= new SlotDevCards();
+        this.strongbox= new Strongbox();
+        this.warehouse= new WarehouseDepots();
     }
 
     /**
@@ -116,6 +141,7 @@ public class Player {
      * @param b is the current state of the player
      */
     public void setConnected(boolean b){
+        //come facciamo a riconoscere che il player è connesso- da implementare quando si costruisce rete
         this.connected=b;
     }
 
@@ -132,5 +158,13 @@ public class Player {
      */
     public void discardLeaderAction(LeaderAction l){
         leaderActionBox.remove(l);
+    }
+
+    /**
+     * add a leaderaction from leaderActionBox
+     * @param l is the leaderAction to be removed
+     */
+    public void addLeaderAction(LeaderAction l){
+        leaderActionBox.add(l);
     }
 }
