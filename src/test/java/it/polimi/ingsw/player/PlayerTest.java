@@ -6,15 +6,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+    //siccome la classe player chiama fa solo dei get e al massimo un remove e un add di una lista,
+    //che sono cose abbastanza "standard" ha senso fare i test?
 
-    Player prova= new Player("prova");
 
     @Test
     @DisplayName("First test")
     void checkInitializzation(){
 
     }
-
 
     @Test
     void setPopsfavortiles() {
