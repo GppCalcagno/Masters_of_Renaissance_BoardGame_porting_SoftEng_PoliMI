@@ -166,8 +166,4 @@ public class Player {
     public void addLeaderAction(LeaderAction l){
         leaderActionBox.add(l);
     }
-
-    public SlotDevCards getSlotDevCards() {
-        return slotDevCards;
-    }
 }
