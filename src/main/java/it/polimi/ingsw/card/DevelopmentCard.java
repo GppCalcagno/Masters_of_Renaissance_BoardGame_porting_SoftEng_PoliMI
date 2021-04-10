@@ -40,6 +40,11 @@ public class DevelopmentCard extends Card {
         this.productedResources = new HashMap<Producible, Integer>();
     }
 
+    public DevelopmentCard() {
+        super();
+
+    }
+
     /**
      * This method returns the Development Card's color
      * @return Card's color

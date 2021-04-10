@@ -14,6 +14,10 @@ public abstract class Card {
         this.victoryPoints = victoryPoints;
     }
 
+    public Card() {
+
+    }
+
     /**
      * This method returns the number of victory points
      * @return the victory points
