@@ -9,7 +9,7 @@ public class Player {
     /**
      * this attribute is the player Nickname
      */
-    private String nickname;
+    private final String nickname;
 
     /**
      * this attribute is the number of Victory Points of the player
@@ -71,13 +71,12 @@ public class Player {
         this.connected = true ;
 
         this.popsfavortiles = new boolean[popfavortilessize];
-        this.popsfavortiles[0]=false;
-        this.popsfavortiles[1]=false;
-        this.popsfavortiles[2]=false;
 
-        this.slotDevCards= new SlotDevCards();
-        this.strongbox= new Strongbox();
-        this.warehouse= new WarehouseDepots();
+        for (int i = 0; i < 2; i++) { this.popsfavortiles[i]=false; }
+
+        //this.slotDevCards= new SlotDevCards();
+        //this.strongbox= new Strongbox();
+        //this.warehouse= new WarehouseDepots();
     }
 
     /**
