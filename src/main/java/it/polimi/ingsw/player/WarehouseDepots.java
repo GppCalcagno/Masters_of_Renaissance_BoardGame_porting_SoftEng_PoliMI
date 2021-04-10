@@ -3,129 +3,94 @@ package it.polimi.ingsw.player;
 import it.polimi.ingsw.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.producible.Resources;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Optional;
 
 public class WarehouseDepots {
-    /** sizex and sizey represent the size of the warehouse
-     */
+    /**
+     * sizex and sizey represent the size of the warehouse
+     **/
     private final int sizex = 3;
     private final int sizey = 3;
-    /** The warehouse is a diagonal matrix, where the constructor block three
+    /**
+     * The warehouse is a diagonal matrix, where the constructor block three
      * cells in order to trasform the warehouse
      */
     private Resources[][] warehouse;
 
-    /** The list leaderCardEffect is not null when the player has a leader card
+    /**
+     * The list leaderCardEffect is not null when the player has a leader card
      * that add extra chest to the warehouse.
+     * It is optional because it could be null if the player has not a leader
+     * card with that ability, or maybe he has not activated it yet
      */
-    private List<ExtraChest> leaderCardEffect;
+    private ExtraChest leaderCardEffect; //da rivedere
+    Optional<ExtraChest> optionalLeaderCardEffect = Optional.of(leaderCardEffect);
 
-    /** this is the constructor, the warehouse is created as a matrix then transform
+    /**
+     * this is the constructor, the warehouse is created as a matrix then transform
      * in a diagonal matrix
      */
     public WarehouseDepots(){
         warehouse = new Resources[sizex][sizey];
-        warehouse[2][1] = null;
-        warehouse[1][1] = null;
-        warehouse[2][0] = null;
+        warehouse[0][0] = null;
+        warehouse[0][1] = null;
+        warehouse[1][0] = null;
 
     }
 
     /**
-     * @param row the caller wants to know how many resources are in that
-     *      *               row
+     *
+     * @param column the caller wants to know how mani resources are in that
+     *      *               column
      * @return an integer: the number of resources
      */
-    public int getWarehouseNum(int row){
-        return (int) Arrays.stream(warehouse[row]).filter(i -> i !=null).count();
+    public int getWarehouseNum(int column){
+        return 0;
     }
 
-    /** this method check if an insertion from the market into the warehouse
+    /**
+     * this method check if an insertion from the market into the warehouse
      * is legal in accord with the rules of the game
-     * @param row the column where i want put my resources
+     * @param column the column where i want put my resources
      * @param res the type of Resources i want insert
      */
-    public void checkInsertion(int row, Resources res) throws CantDoIt{
-        int i = 0;
-        if(warehouse[row][0]!=null) {
-            if (res.getClass().equals(warehouse[row][0].getClass())) {
-                insertResources(row, res);
-            }
-            else throw new CantDoIt("Can't Insert");
+    public void checkInsertion(int column, Resources res){
 
-        }
-        else insertResources(row, res);
     }
 
-    /** this method allow to insert a resource in the warehouse matrix
-     * @param row where
+    /**
+     * this method allow to insert a rescousces in the warehouse matrix
+     * @param column where
      * @param res
      */
-    public void insertResources (int row, Resources res) {
-        int i = 0;
-        while (warehouse[row][i]!=null){
-            i++;
-        }
-        if(i<=row) warehouse[row][i] = res;
-    }
-
-    /** this method check if the player can do a change of depots in accord with the rules
-     * @param row1 the first column that player want change
-     * @param row2 the second column that player want to change
-     */
-    public void checkExchange( int row1, int row2) throws CantDoIt{
-        if(getWarehouseNum(row1)<=row2+1 && getWarehouseNum(row2)<=row1+1){
-            if(getWarehouseNum(row1)>=getWarehouseNum(row2)) exchange(row1, row2);
-            else exchange(row2, row1);
-        }
-        else throw new CantDoIt("Can't Do the Exchange");
-
+    public void insertResousces (int column, Resources res){
 
     }
 
-    /** this method does the exchange if checkExchange allows it
-     * @param row1 the first column that player want change
-     * @param row2 the second column that player want to change
+    /**
+     * this method check if the player can do a change of depots in accord with the rules
+     * @param column1 the first column that player want change
+     * @param column2 the second column that player want to change
      */
-    public void exchange(int row1, int row2){
-        Resources[] vet = new Resources[warehouse[row1].length];
-        for(int i=0; i<getWarehouseNum(row1); i++){
-            vet[i] = warehouse[row1][i];
-            warehouse[row1][i] = warehouse[row2][i];
-            warehouse[row2][i] = vet[i];
-        }
+    public void checkExchange( int column1, int column2){
+
+    }
+
+    /**
+     * this method does the exchange if checkExchange allows it
+     * @param column1 the first column that player want change
+     * @param column2 the second column that player want to change
+     */
+    public void exchange(int column1, int column2){
 
     }
 
     /**
      * this method delete the resources inside the warehouse when player use them
-     * @param res the resources you want delete
+     * @param column where a resource is located
      */
-    public void delete(Resources res){
-        int i = 0;
-        int j = warehouse.length-1;
+    public void delete(int column){
 
-        while(warehouse[i][0]==null || !res.getClass().equals(warehouse[i][0].getClass()) || i>warehouse.length-1){
-            i++;
-        }
-        if(i>warehouse.length-1) System.out.println("This Resource isn't located in the warehouse");
-        else{
-            while (warehouse[i][j]==null) j--;
-            warehouse[i][j]=null;
-        }
     }
-
-    /*public void addLeaderCardEffect(Resources res) throws CantDoIt{
-        if(leaderCardEffect.getnum()==2) throw new CantDoIt("Can't Insert new Resources");
-        else{
-            if(leaderCardEffect.getResources().getClass().equals(res.getClass())) leaderCardEffect.updateResources(leaderCardEffect.getnum()+1);
-            else throw new CantDoIt("Different Resources, can't add");
-        }
-    }
-
-    public void show(){
-        System.out.println(leaderCardEffect.getnum());
-    }*/
 
 }

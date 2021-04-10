@@ -2,8 +2,9 @@ package it.polimi.ingsw.game;
 
 import it.polimi.ingsw.player.Player;
 
-public class FaithTrack {
+import java.util.ArrayList;
 
+public class FaithTrack {
     /**
      * this attribute is a integer  indicating the faithtrack vector length
      */
@@ -20,14 +21,32 @@ public class FaithTrack {
     private final int[]faithtrack;
 
     /**
-     * his attribute is a integer vector indicating the Victorypoints on the popsfavouritetile
+     * this attribute is a integer vector indicating the Victorypoints on the popsfavouritetile
      */
     private final int[] popsfavouritetilepoints;
+
+
+    /**
+     * this attribute is a integer  indicating the current PopTile
+     */
+    private int currentPopTile;
+
+
+    /**
+     * this attribute is a vector indicating the initial and the final point of the Vatican Report Section
+     * index 0 -> start of the first Vatican Report Section
+     * index 1 -> end of the first Vatican Report Section
+     * index 2 -> start of the second Vatican Report Section
+     * index 3 -> end of the second Vatican Report Section
+     * index 4 -> start of the third Vatican Report Section
+     * index 5 -> end of the third Vatican Report Section
+     */
+    private final static int []VaticanReportSection={5,8,12,16,19,24};
 
     /**
      * this is the costructor of the faithtrack
      */
-    public FaithTrack(){
+    FaithTrack(){
         faithtrack= new int [faithtracksize];
         faithtrack[0]=0;
         faithtrack[1]=0;
@@ -59,38 +78,9 @@ public class FaithTrack {
         popsfavouritetilepoints[0]=2;
         popsfavouritetilepoints[1]=3;
         popsfavouritetilepoints[2]=4;
+        
+        currentPopTile=0;
     }
-
-    /**
-     *this attribute is the initial point of the first Vatican Report Section
-     */
-    private final static int section1start=5;
-
-    /**
-     *this attribute is the final point of the first Vatican Report Section
-     */
-    private final static int section1end=8;
-
-    /**
-     *this attribute is the initial point of the second Vatican Report Section
-     */
-    private final static int section2start=12;
-
-    /**
-     *this attribute is the final point of the second Vatican Report Section
-     */
-    private final static int section2end=16;
-
-    /**
-     *this attribute is the initial point of the third Vatican Report Section
-     */
-    private final static int section3start=19;
-
-    /**
-     *this attribute is the final point of the third Vatican Report Section
-     */
-    private final static int section3end=24;
-
 
     /**
      * this method returns the number of VictoryPoints of the selected space
@@ -102,19 +92,6 @@ public class FaithTrack {
         return faithtrack[i];
     }
 
-
-    /**
-     * this method manages the Faithtrack.
-     * Updates player VictoryPoints and
-     * actives or discards Players'popfavortiles
-     *
-     * @param p is the Players Vector
-     * @param blackCrossToken is LorenzoIlMagnifico's blackCrossToken (=O if Multiplayer Game)
-     */
-    public void checkPopeSpace(Player[] p, int blackCrossToken){
-
-    }
-
     /**
      * this method returns the number of Victory points of a popsfavouritetile
      *
@@ -124,5 +101,41 @@ public class FaithTrack {
     public int getPopsfavouritetilepoints(int i) {
         return popsfavouritetilepoints[i];
     }
+
+    /**
+     * this method returns the current popTile
+     * @return currentPopTile
+     */
+    public int getCurrentPopTile() { return currentPopTile; }
+
+    /**
+     * this method manages the Faithtrack.
+     * Updates player VictoryPoints and
+     * actives or discards Players'popfavortiles
+     *
+     * @param p is the Players Vector
+     * @param blackCrossToken is LorenzoIlMagnifico's blackCrossToken (=O if Multiplayer Game)
+     */
+    public void checkPopeSpace(ArrayList<Player> p, int blackCrossToken) {
+        int actived=0;
+        int VaticanReportSectionindex= 1+ currentPopTile*2;
+
+        if(currentPopTile<3){
+            for (Player player:p) {
+                if(player.getFaithMarker()==VaticanReportSection[VaticanReportSectionindex] || blackCrossToken==VaticanReportSection[VaticanReportSectionindex])
+                    actived=1;
+            }
+
+            VaticanReportSectionindex--;
+
+            if (actived==1){
+                for (Player player:p) {
+                    player.setPopsfavortiles(currentPopTile, player.getFaithMarker() >= VaticanReportSection[VaticanReportSectionindex]);
+                }
+                currentPopTile++;
+            }
+        }
+    }
+
 }
 

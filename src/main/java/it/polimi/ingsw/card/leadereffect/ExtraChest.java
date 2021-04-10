@@ -17,8 +17,7 @@ public class ExtraChest {
     /**
      * this is the constructor the initialized the number of resources inside the chestbox = 0
      */
-    public  ExtraChest(Resources resources){
-        this.resources = resources;
+    public  ExtraChest(){
         num = 0;
     }
 
@@ -26,8 +25,8 @@ public class ExtraChest {
      * this method update the amount of resources inside the chest
      * @param n the new amount of resources
      */
-    public void updateResources(int n){
-        num = n;
+    void updateResources(int n){
+
     }
 
     /**
@@ -43,6 +42,6 @@ public class ExtraChest {
      * @return the amount of resources
      */
     public int getnum(){
-        return num;
+        return 0;
     }
 }

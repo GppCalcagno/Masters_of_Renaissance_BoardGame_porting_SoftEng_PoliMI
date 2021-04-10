@@ -1,26 +1,15 @@
 package it.polimi.ingsw.singleplayer.token;
 
-import it.polimi.ingsw.singleplayer.LorenzoIlMagnifico;
 import it.polimi.ingsw.singleplayer.token.Tokens;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-public class MoveOneAndMix extends Tokens{
+public class MoveOneAndMix {
 
     /**
      *this method increase the faith marker of lorenzo by one and shuffle all the tokens in a new vector
-     * @param l lorenzo the player
+     * @param tv all the tokens, both used and not used
      */
-    @Override
-    public void effectTokens(LorenzoIlMagnifico l) {
-        l.increaseFaithMarker(l.getFaithMarker()+1);
-        List<Tokens> intList = Arrays.asList(l.getTokensvet());
-        Collections.shuffle(intList);
-        intList.toArray(l.getTokensvet());
-        l.setI(-1);
-        System.out.println("MoveOneAndMix");
+    public void effectTokens(Tokens[] tv){
+
     }
 
 }
