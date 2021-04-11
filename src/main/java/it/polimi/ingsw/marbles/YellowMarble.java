@@ -1,6 +1,8 @@
 package it.polimi.ingsw.marbles;
 
 import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.producible.Coins;
+import it.polimi.ingsw.producible.Resources;
 
 public class YellowMarble extends Marbles {
     /**
@@ -9,14 +11,6 @@ public class YellowMarble extends Marbles {
      */
     @Override
     public void addtoWarehouse(Player p) {
-        //to implement
-    }
-
-    /**
-     * This method discard a marble
-     */
-    @Override
-    public void discard() {
-        super.discard();
+        p.getWarehouse().checkInsertion(new Coins());
     }
 }

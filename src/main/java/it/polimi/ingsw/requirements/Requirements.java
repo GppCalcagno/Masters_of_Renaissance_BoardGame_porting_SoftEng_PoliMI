@@ -1,6 +1,7 @@
 package it.polimi.ingsw.requirements;
 
 import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.producible.Resources;
 
 public interface Requirements {
     /**

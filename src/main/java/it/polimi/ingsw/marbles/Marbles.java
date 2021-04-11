@@ -1,6 +1,7 @@
 package it.polimi.ingsw.marbles;
 
 import it.polimi.ingsw.player.Player;
+import it.polimi.ingsw.producible.Resources;
 
 public abstract class Marbles {
     /**
@@ -13,13 +14,6 @@ public abstract class Marbles {
      * @param p reference to the player's Warehouse depot
      */
     public void addtoWarehouse (Player p){
-        //to implement
-    }
 
-    /**
-     * This method permits to discard marbles
-     */
-    public void discard(){
-        //to implement
     }
 }

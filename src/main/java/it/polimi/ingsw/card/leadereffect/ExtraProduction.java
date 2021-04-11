@@ -4,12 +4,14 @@ import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Resources;
 
 public class ExtraProduction {
-
     /**
-     * this is
+     * This attribute indicates the requested resource that activate the extra Production of the relative Leader Card
      */
     private Resources resources;
 
+    /**
+     * This method is the constructor
+     */
     public ExtraProduction(){
 
     }

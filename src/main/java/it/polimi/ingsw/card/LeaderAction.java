@@ -2,6 +2,8 @@ package it.polimi.ingsw.card;
 
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Resources;
+import it.polimi.ingsw.requirements.Requirements;
+import it.polimi.ingsw.requirements.RequirementsLeader;
 
 public class LeaderAction extends Card {
     /**
@@ -15,12 +17,14 @@ public class LeaderAction extends Card {
     private Resources resources;
 
     /**
-     * This is the constructor method
-     * @param victoryPoints number of victory points
+     * This attribute indicates the Card's cost
      */
-    public LeaderAction(int victoryPoints) {
-        super(victoryPoints);
-        // to implement activated and resources
+    private Requirements cost;
+
+    /**
+     * This is the constructor method
+     */
+    public LeaderAction() {
     }
 
     /**
@@ -28,15 +32,30 @@ public class LeaderAction extends Card {
      * @return true if the Leader Card is activated
      */
     public boolean getActivated(){
-        return activated;
+        return this.activated;
     }
 
     /**
-     * This method sets the attribute true or false
-     * @param activated true if the Leader Card is activated
+     * This method sets the activated attribute to true
      */
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public void setActivated() {
+        this.activated = true;
+    }
+
+    /**
+     * This method returns the resources attribute
+     * @return a Resources object
+     */
+    public Resources getResources(){
+        return this.resources;
+    }
+
+    /**
+     * This method returns the cost attribute
+     * @return a RequiremententsLeader object
+     */
+    public Requirements getCost (){
+        return this.cost;
     }
 
     /**
@@ -44,6 +63,5 @@ public class LeaderAction extends Card {
      * @param player that uses the Leader Card
      */
     public void doSpecialAbility (Player player) {
-        //to implement
     }
 }

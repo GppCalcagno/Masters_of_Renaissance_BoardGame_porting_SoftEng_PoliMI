@@ -10,8 +10,8 @@ import java.util.Optional;
 
 public class SlotDevCards {
 
-    /**
-     * this is the matrix where the development cards are located
+
+    /** this is the matrix where the development cards are located
      */
     private DevelopmentCard[][] boardDevCards;
 

@@ -9,14 +9,6 @@ public class RedMarble extends Marbles {
      */
     @Override
     public void addtoWarehouse(Player p) {
-        //to implement
-    }
-
-    /**
-     * This method discard a marble
-     */
-    @Override
-    public void discard() {
-        super.discard();
+        p.increasefaithMarker();
     }
 }

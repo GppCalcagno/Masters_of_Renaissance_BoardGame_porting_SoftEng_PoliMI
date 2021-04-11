@@ -1,7 +1,9 @@
 package it.polimi.ingsw.game;
 
 import it.polimi.ingsw.marbles.Marbles;
-import it.polimi.ingsw.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MarketStructure {
     /**
@@ -21,24 +23,53 @@ public class MarketStructure {
     private Marbles remainingMarble;
 
     /**
+     * This attribute is a vector in which extractMarbles inserts the taken Marbles
+     */
+    private List<Marbles> buffer;
+
+    /**
      * This is the constructor method
-     * @param marketTray it is the Market Tray in which there are the Market Marbles
      * @param remainingMarble it is the remaining one from the 13 Marbles
      */
-    public MarketStructure(Marbles[][] marketTray, Marbles remainingMarble) {
+    public MarketStructure(Marbles remainingMarble) {
         marketTray = new Marbles[sizex][sizey];
         this.remainingMarble = remainingMarble;
+        this.buffer = new ArrayList<>();
     }
 
     /**
      * This method returns the row or the column of Marbles, chosen by the player
      * @param direction indicates if the player want to extract a row or a column of Marbles
      * @param n indicates the number of the row or of the column chosen
-     * @return it is a vector of Marbles
      */
-    public Marbles [] extractMarbles (char direction, int n) {
-        //to implement
-        return null;
+    public void extractMarbles (char direction, int n) {
+        // 'c' = colonna, 'r' = riga
+
+        if( direction == 'c' ) {
+            if( n >= 0 && n <= sizey ) {
+                for(int i = 0; i < sizex; i++) {
+                    this.buffer.add(this.marketTray[i][n]);
+                }
+                insertMarble(direction, n);
+            }
+            else {
+                System.out.println("Errore: num colonna inesistente");
+            }
+        }
+        else if ( direction == 'r' ) {
+            if( n >= 0 && n <= sizex ) {
+                for(int j = 0; j < sizey; j++) {
+                    this.buffer.add(this.marketTray[n][j]);
+                }
+                insertMarble(direction, n);
+            }
+            else {
+                System.out.println("Errore: num riga inesistente");
+            }
+        }
+        else {
+            System.out.println("Errore: nessuna riga o colonna valida indicata");
+        }
     }
 
     /**
@@ -47,7 +78,37 @@ public class MarketStructure {
      * @param n indicates the number of the row or the column chosen
      */
     public void insertMarble (char direction, int n) {
-        //to implement
+        // non faccio controlli sulla validità dei parametri, perchè già fatti in extractMarbles
+        if( direction == 'c') {
+            Marbles temp = remainingMarble;
+            remainingMarble = marketTray[0][n];
+            marketTray[0][n] = marketTray[1][n];
+            marketTray[1][n] = marketTray[2][n];
+            marketTray[2][n] = temp;
+        }
+        else if( direction == 'r') {
+            Marbles temp = remainingMarble;
+            remainingMarble = marketTray[n][0];
+            marketTray[n][0] = marketTray[n][1];
+            marketTray[n][1] = marketTray[n][2];
+            marketTray[n][2] = marketTray[n][3];
+            marketTray[n][3] = temp;
+        }
+    }
+
+    /**
+     * This method discards a Marbles from the ones taken from the Market
+     * @param marbles is the Marbles chosen from the Player that it will be discarded
+     */
+    public void discardMarbles(Marbles marbles) {
+        buffer.remove(marbles);
+    }
+
+    /**
+     * This method empties the buffer after converting Marbles into Resources
+     */
+    public void emptyBuffer() {
+        buffer.clear();
     }
 
     /**
@@ -67,10 +128,10 @@ public class MarketStructure {
     }
 
     /**
-     * This method converts the extracted Market Marbles with the respective Resources
-     * @param p to add the converted Resources to the player's Warehouse depots
+     * This method returns the buffer
+     * @return the vector of the taken Marbles with the method extractMarbles
      */
-    public void manageResources (Player p) {
-        //to implement
+    public List<Marbles> getBuffer() {
+        return buffer;
     }
 }

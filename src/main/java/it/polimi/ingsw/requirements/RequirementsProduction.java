@@ -11,26 +11,10 @@ import java.util.Map;
 
 
 public class RequirementsProduction implements Requirements{
-
     /**
      * this attribute is the Map of the required resources
      */
-    private Map<Integer, Integer> reqMap;
-
-    /**
-     * this is the costructor of the class
-     * @param numCoins is the required Coins for the card
-     * @param numServants is the required Servants for the card
-     * @param numShields is the required Shield for the card
-     * @param numStones is the required Stone for the card
-     */
-    public RequirementsProduction(int numCoins, int numServants, int numShields, int numStones) {
-        reqMap = new HashMap<Integer, Integer>();
-        reqMap.put(new Coins().hashCode(),numCoins);
-        reqMap.put(new Servants().hashCode(),numServants);
-        reqMap.put(new Shields().hashCode(),numShields);
-        reqMap.put(new Stones().hashCode(),numStones);
-    }
+    private Map<String, Integer> reqMap;
 
     /**
      * check if the card requirements are met,
@@ -40,8 +24,6 @@ public class RequirementsProduction implements Requirements{
      */
     @Override
     public boolean checkResources(Player P) {
-
-
         return false;
     }
 }
