@@ -1,10 +1,7 @@
 package it.polimi.ingsw.requirements;
 
 import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.producible.Coins;
-import it.polimi.ingsw.producible.Servants;
-import it.polimi.ingsw.producible.Shields;
-import it.polimi.ingsw.producible.Stones;
+import it.polimi.ingsw.producible.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +11,7 @@ public class RequirementsProduction implements Requirements{
     /**
      * this attribute is the Map of the required resources
      */
-    private Map<String, Integer> reqMap;
+    private Map<String, Integer> reqMap = new HashMap<>();
 
     /**
      * check if the card requirements are met,
@@ -25,5 +22,18 @@ public class RequirementsProduction implements Requirements{
     @Override
     public boolean checkResources(Player P) {
         return false;
+    }
+
+    /**
+     * this method is a getter of the RequirementsProduction Map of the card
+     * @return the RequirementsProductionMap
+     */
+    public Map<String, Integer> getReqMap() {
+        return reqMap;
+    }
+
+    public void addRequirementsProduction(Resources rec, int num){
+        if(reqMap.containsKey(rec.toString()));
+
     }
 }
