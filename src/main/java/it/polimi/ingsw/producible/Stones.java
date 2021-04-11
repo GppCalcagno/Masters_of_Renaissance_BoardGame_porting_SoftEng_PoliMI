@@ -14,6 +14,7 @@ public class Stones extends Resources {
 
     /**
      *this method is used to get the  Resources Map's Key in StrongBox
+     * "ok perfetto grazie!!!" -cit
      * @return the key linked to the resources
      */
 

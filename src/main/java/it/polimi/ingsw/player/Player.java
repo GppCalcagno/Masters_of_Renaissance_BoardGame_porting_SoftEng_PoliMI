@@ -18,7 +18,7 @@ public class Player {
     private int victoryPoints;
 
     /**
-     * this attribute is a list of the LeaderAction Card of the Player
+     * this attribute is a list of the LeaderAction Card of the Player!
      */
     private List<LeaderAction> leaderActionBox;
 
@@ -193,6 +193,15 @@ public class Player {
     public SlotDevCards getSlotDevCards(){
         return slotDevCards;
     }
+
+    /**
+     * This method returns the strongbox attribute
+     * @return strongbox object
+     */
+    public Strongbox getStrongbox(){
+        return strongbox;
+    }
+
 
     /**
      * This method adds an object Resources to leaderCardEffectDiscount list

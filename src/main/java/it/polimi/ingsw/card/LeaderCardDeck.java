@@ -19,7 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class LeaderCardDeck {
     /**
@@ -30,7 +29,7 @@ public class LeaderCardDeck {
     /**
      * This attribute is a vector that contains the reference of all Leader Cards
      */
-    private ArrayList<LeaderAction> leaderCardVet;
+    private ArrayList<LeaderAction> leaderCardList;
 
     /**
      * This is the constructor method
@@ -68,8 +67,6 @@ public class LeaderCardDeck {
         this.leaderCardList.addAll(Arrays.asList(chestLeaders));
         this.leaderCardList.addAll(Arrays.asList(productionLeaders));
         this.leaderCardList.addAll(Arrays.asList(transformationMarbleLeaders));
-    public LeaderCardDeck() {
-        leaderCardVet = new ArrayList<>();
     }
 
     /**
@@ -78,7 +75,7 @@ public class LeaderCardDeck {
      * @return the chosen Leader Action
      */
     public LeaderAction getLeaderCardVet(int i) {
-        return leaderCardVet[i];
+        return leaderCardList.get(i);
     }
 
     /**
@@ -87,11 +84,11 @@ public class LeaderCardDeck {
      * @param player to which it is given the card
      */
     public void givetoPlayer (int i, Player player) {
-        player.addLeaderAction(leaderCardVet.get(i));
+        player.addLeaderAction(leaderCardList.get(i));
     }
 
     public void addleaderAction(LeaderAction leaderAction){
-        if(leaderCardVet.size()<=size)
-            leaderCardVet.add(leaderAction);
+        if(leaderCardList.size()<=size)
+            leaderCardList.add(leaderAction);
     }
 }

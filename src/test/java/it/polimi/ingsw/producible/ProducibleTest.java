@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProducibleTest {
 
-    Player player= new Player("ciccio");
+    Player player= new Player("ciccio!");
 
 
     @Test

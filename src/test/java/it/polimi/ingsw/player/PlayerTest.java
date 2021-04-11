@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
     //siccome la classe player chiama fa solo dei get e al massimo un remove e un add di una lista,
-    //che sono cose abbastanza "standard" ha senso fare i test?
+    //che sono cose abbastanza "standard" ha senso fare i test?d
 
 
     @Test
