@@ -14,7 +14,7 @@ class RedMarbleTest {
         Marbles marbles = new RedMarble();
 
         assertEquals(0, playerStub.getFaithMarker());
-        marbles.addtoWarehouse(playerStub);
+        marbles.addtoWarehouse(playerStub, 1);
         assertEquals(1, playerStub.getFaithMarker());
     }
 }

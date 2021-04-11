@@ -16,7 +16,7 @@ class BlueMarbleTest {
         Marbles blue = new BlueMarble();
         Resources shield = new Shields();
 
-        blue.addtoWarehouse(player);
+        blue.addtoWarehouse(player, 1);
 
         // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente uno Shields
         assertEquals(shield.getClass(), player.getWarehouse().getResourcesWarehouse(0, 0).getClass());

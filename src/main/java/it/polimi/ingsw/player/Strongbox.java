@@ -22,7 +22,7 @@ public class Strongbox {
     /** this  method update the resources in the strongbox, it can add o delete depending which other method
      * call this.
      * @param res the type of the resources that amount have to change
-     * @param quantity how many resources you want to add (int can be negative for the delete function)
+     * @param quantity how many resources you want to add (int can be negative for the delete function).
      */
     public void updateResources(Resources res, int quantity) {
         Integer v = 0;

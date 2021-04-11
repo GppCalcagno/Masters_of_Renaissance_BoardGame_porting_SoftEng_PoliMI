@@ -105,7 +105,7 @@ public class WarehouseDepots {
 
     /**
      * this method delete the resources inside the warehouse when player use them
-     * @param res the resources you want delete
+     * @param res the resources you want delete.
      */
     public boolean delete(Resources res){
         int i = 0;
@@ -120,5 +120,8 @@ public class WarehouseDepots {
             warehouse[i][j]=null;
             return true;
         }
+    }
+
+    public void addleaderCardEffect(Resources resources) {
     }
 }

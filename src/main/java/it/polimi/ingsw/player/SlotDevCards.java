@@ -99,7 +99,7 @@ public class SlotDevCards {
 
     /**
      * this method active the card leader extra production
-     * @param r the resources wanted from the extra production
+     * @param r the resources wanted from the extra production.
      */
     public void addLeaderCardEffect(Resources r){
 
@@ -114,5 +114,8 @@ public class SlotDevCards {
     public DevelopmentCard getDevCards(int x, int y){
         return  boardDevCards[x][y];
 
+    }
+
+    public void addleaderCardEffect(Resources resources) {
     }
 }

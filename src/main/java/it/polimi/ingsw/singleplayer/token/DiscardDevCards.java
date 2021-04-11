@@ -15,7 +15,7 @@ public class DiscardDevCards extends Tokens {
     }
 
     /**
-     * this method active one particular token, that one where Lorenzo Discard 2 Developement card
+     * this method active one particular token, that one where Lorenzo Discard 2 Developement card.
      */
     @Override
     public void effectTokens(LorenzoIlMagnifico l){

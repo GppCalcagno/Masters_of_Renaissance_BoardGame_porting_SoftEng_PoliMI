@@ -91,4 +91,8 @@ public class LeaderCardDeck {
         if(leaderCardList.size()<=size)
             leaderCardList.add(leaderAction);
     }
+
+    public int getSize() {
+        return 0;
+    }
 }

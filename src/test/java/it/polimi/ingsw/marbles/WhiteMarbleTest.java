@@ -17,7 +17,7 @@ class WhiteMarbleTest {
 
         player.addleaderCardEffectWhiteMarble(coin);
 
-        white.addtoWarehouse(player);
+        white.addtoWarehouse(player, 1);
 
         assertEquals(coin, player.getWarehouse().getResourcesWarehouse(0, 0));
     }

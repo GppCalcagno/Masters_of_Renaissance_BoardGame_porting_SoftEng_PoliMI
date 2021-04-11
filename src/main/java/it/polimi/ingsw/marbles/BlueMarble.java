@@ -10,7 +10,7 @@ public class BlueMarble extends Marbles {
      * @param p reference to the player's Warehouse depots
      */
     @Override
-    public void addtoWarehouse(Player p) {
-        p.getWarehouse().checkInsertion(new Shields());
+    public void addtoWarehouse(Player p, int i) {
+        p.getWarehouse().checkInsertion(i, new Shields());
     }
 }

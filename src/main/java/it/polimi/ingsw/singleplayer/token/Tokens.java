@@ -11,7 +11,7 @@ public abstract class Tokens {
 
     /**
      * this method active the effect of the token
-     * @param l is the computer that call it
+     * @param l is the computer that call it.
      */
     public void effectTokens(LorenzoIlMagnifico l){
 

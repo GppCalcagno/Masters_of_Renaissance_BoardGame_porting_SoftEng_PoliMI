@@ -97,7 +97,7 @@ public class LorenzoIlMagnifico {
 
     /**
      * a get of the DevCardsDeck
-     * @return developmentDeck
+     * @return developmentDeck.
      */
     public DevCardsDeck getDevelopmentDeck() {
         return developmentDeck;

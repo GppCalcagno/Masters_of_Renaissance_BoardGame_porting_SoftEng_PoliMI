@@ -8,7 +8,7 @@ public class RedMarble extends Marbles {
      * @param p reference to the player's Warehouse depots
      */
     @Override
-    public void addtoWarehouse(Player p) {
+    public void addtoWarehouse(Player p, int i) {
         p.increasefaithMarker();
     }
 }

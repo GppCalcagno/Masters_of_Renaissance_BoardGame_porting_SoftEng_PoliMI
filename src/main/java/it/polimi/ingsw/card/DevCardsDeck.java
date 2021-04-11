@@ -64,7 +64,7 @@ public class DevCardsDeck {
     /**
      * this method return the index of the column from a color
      * @param color the color where cards of that color are stored
-     * @return the column of that color, in order whit the rules
+     * @return the column of that color, in order whit the rules.
      */
     public int getColumnFromColor(ColorCard color){
         int i = 0;
