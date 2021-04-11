@@ -1,5 +1,7 @@
 package it.polimi.ingsw.card;
 
+import it.polimi.ingsw.StubGiovanni.PlayerStubDevCardsDeck;
+import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Coins;
 import it.polimi.ingsw.requirements.RequestedResources;
 import it.polimi.ingsw.requirements.Requirements;
@@ -12,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class LeaderCardDeckTest {
 
     @Test
-    void getLeaderCardVet() throws IOException {
+    void getLeaderCardList() throws IOException {
         LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
 
-        assertEquals(2, leaderCardDeck.getLeaderCardVet(0).getVictoryPoints());
+        assertEquals(2, leaderCardDeck.getLeaderCardList(0).getVictoryPoints());
     }
 
     @Test
@@ -23,7 +25,7 @@ class LeaderCardDeckTest {
         LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
         Requirements requirements = new RequestedResources(new Coins(), 1);
 
-        assertEquals(requirements.getClass(), leaderCardDeck.getLeaderCardVet(6).getCost().getClass());
+        assertEquals(requirements.getClass(), leaderCardDeck.getLeaderCardList(6).getCost().getClass());
     }
 
     @Test
@@ -31,5 +33,14 @@ class LeaderCardDeckTest {
         LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
 
         assertEquals(16, leaderCardDeck.getSize());
+    }
+
+    @Test
+    void givetoPlayer() throws IOException {
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
+        Player player = new Player("Lillo");
+
+        leaderCardDeck.givetoPlayer(0, player);
+        assertFalse(player.getLeaderActionBox().isEmpty());
     }
 }

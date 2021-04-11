@@ -2,8 +2,6 @@ package it.polimi.ingsw.card.leadereffect;
 
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.card.LeaderAction;
-import it.polimi.ingsw.producible.Resources;
-import it.polimi.ingsw.requirements.RequirementsLeader;
 
 public class DiscountLeader extends LeaderAction {
     /**

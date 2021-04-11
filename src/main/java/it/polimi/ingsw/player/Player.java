@@ -234,4 +234,12 @@ public class Player {
     public List<Resources> getLeaderCardEffectWhiteMarble (){
         return leaderCardEffectWhiteMarble;
     }
+
+    /**
+     * This method returns the LeaderActionBox attribute
+     * @return a List of LeaderAction
+     */
+    public List<LeaderAction> getLeaderActionBox(){
+        return this.leaderActionBox;
+    }
 }

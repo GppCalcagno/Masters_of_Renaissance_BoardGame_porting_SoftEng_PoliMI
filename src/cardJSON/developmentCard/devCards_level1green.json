@@ -1,0 +1,81 @@
+[
+  {
+    "cost" : {
+      "reqMap" : {
+        "Shields" : 2,
+        "Coins" : 2
+      }
+    },
+    "colorCard" : "GREEN",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap" : {
+        "Shields" : 1,
+        "Servants" : 1
+      }
+    },
+    "productedResources" : {
+      "Coins" : 2,
+      "FaithMarker" : 1
+    },
+    "victoryPoints" : 4
+  },
+  {
+    "cost" : {
+      "reqMap" : {
+        "Shields" : 3
+      }
+    },
+    "colorCard" : "GREEN",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap" : {
+        "Servants" : 2
+      }
+    },
+    "productedResources" : {
+      "Coins" : 1,
+      "Shields" : 1,
+      "Stones" : 1
+    },
+    "victoryPoints" : 3
+  },
+  {
+    "cost" : {
+      "reqMap" : {
+        "Shields" : 1,
+        "Servants" : 1,
+        "Stones" : 1
+      }
+    },
+    "colorCard" : "GREEN",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap" : {
+        "Stones" : 1
+      }
+    },
+    "productedResources" : {
+      "Servants" : 1
+    },
+    "victoryPoints" : 2
+  },
+  {
+    "cost" : {
+      "reqMap": {
+        "Shields" : 2
+      }
+    },
+    "colorCard" : "GREEN",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap": {
+        "Coins" : 1
+      }
+    },
+    "productedResources" : {
+      "FaithMarker" : 1
+    },
+    "victoryPoints" : 1
+  }
+]

@@ -29,22 +29,14 @@ public class DevelopmentCard extends Card {
     private Map<String, Integer> productedResources;
 
     /**
-     * This attribute indicates the number of victory points
-     */
-    private int victoryPoints;
-
-    /**
      * This attribute indicates the requirements to buy a Development Card
      */
     private RequirementsProduction cost;
 
     /**
      * This is the constructed method
-     *
-     * @param victoryPoints number of victory points
      */
-    public DevelopmentCard(int victoryPoints, ColorCard colorCard, int level, RequirementsProduction costProduction, Map<String, Integer> productedResources) {
-        this.victoryPoints = 0;
+    public DevelopmentCard(ColorCard colorCard, int level, RequirementsProduction costProduction, Map<String, Integer> productedResources) {
         this.colorCard = colorCard;
         this.level = level;
         this.costProduction = costProduction;
@@ -73,14 +65,6 @@ public class DevelopmentCard extends Card {
      */
     public Map<String, Integer> getProductedResources() {
         return productedResources;
-    }
-
-    /**
-     * This method returns the number of victory points
-     * @return the victory points
-     */
-    public int getVictoryPoints() {
-        return victoryPoints;
     }
 
     /**

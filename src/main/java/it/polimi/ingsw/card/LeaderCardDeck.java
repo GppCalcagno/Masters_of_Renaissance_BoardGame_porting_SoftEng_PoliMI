@@ -51,16 +51,16 @@ public class LeaderCardDeck {
                 .registerTypeAdapterFactory(resourcesRuntimeTypeAdapterFactory)
                 .create();
 
-        String discount = Files.readString(Paths.get("C:\\Users\\giochi\\IdeaProjects\\ingswAM2021-Caironi-Calcagno-Chiurco\\src\\cardJSON\\VettDiscountLeader_LeaderCards.json"));
+        String discount = Files.readString(Paths.get("src/cardJSON/leaderCard/VettDiscountLeader_LeaderCards.json"));
         DiscountLeader[] discountLeaders = gson.fromJson(discount, DiscountLeader[].class);
 
-        String chest = Files.readString(Paths.get("C:\\Users\\giochi\\IdeaProjects\\ingswAM2021-Caironi-Calcagno-Chiurco\\src\\cardJSON\\VettChestLeader_LeaderCards.json"));
+        String chest = Files.readString(Paths.get("src/cardJSON/leaderCard/VettChestLeader_LeaderCards.json"));
         ChestLeader[] chestLeaders = gson.fromJson(chest, ChestLeader[].class);
 
-        String production = Files.readString(Paths.get("C:\\Users\\giochi\\IdeaProjects\\ingswAM2021-Caironi-Calcagno-Chiurco\\src\\cardJSON\\VettProductionLeader_LeaderCards.json"));
+        String production = Files.readString(Paths.get("src/cardJSON/leaderCard/VettProductionLeader_LeaderCards.json"));
         ProductionLeader[] productionLeaders = gson.fromJson(production, ProductionLeader[].class);
 
-        String transformation = Files.readString(Paths.get("C:\\Users\\giochi\\IdeaProjects\\ingswAM2021-Caironi-Calcagno-Chiurco\\src\\cardJSON\\VettTrasformationMarbleLeader_LeaderCards.json"));
+        String transformation = Files.readString(Paths.get("src/cardJSON/leaderCard/VettTrasformationMarbleLeader_LeaderCards.json"));
         TrasformationMarbleLeader[] transformationMarbleLeaders = gson.fromJson(transformation, TrasformationMarbleLeader[].class);
 
         this.leaderCardList.addAll(Arrays.asList(discountLeaders));
@@ -74,7 +74,7 @@ public class LeaderCardDeck {
      * @param i index of the card
      * @return the chosen Leader Action
      */
-    public LeaderAction getLeaderCardVet(int i) {
+    public LeaderAction getLeaderCardList(int i) {
         return leaderCardList.get(i);
     }
 
@@ -88,11 +88,15 @@ public class LeaderCardDeck {
     }
 
     public void addleaderAction(LeaderAction leaderAction){
-        if(leaderCardList.size()<=size)
+        if(leaderCardList.size() <= size)
             leaderCardList.add(leaderAction);
     }
 
+    /**
+     * This method returns Leader Card's number
+     * @return the number of Leader Cards
+     */
     public int getSize() {
-        return 0;
+        return this.leaderCardList.size();
     }
 }
