@@ -4,6 +4,8 @@ import it.polimi.ingsw.card.DevCardsDeck;
 import it.polimi.ingsw.card.LeaderCardDeck;
 import it.polimi.ingsw.player.Player;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,7 @@ public class Game {
     /**
      * This attribute is the vector that contains the players' references
      */
-    private Player playersVet [];
+    private List<Player> playersList;
 
     /**
      * This attribute is the current player's reference
@@ -39,10 +41,19 @@ public class Game {
     private LeaderCardDeck leaderCardDeck;
 
     /**
+     * This attribute is a reference to the Market Structure
+     */
+    private MarketStructure marketStructure;
+
+    /**
      * This is the constructor method
      */
-    public Game() {
-       // to implement
+    public Game() throws IOException {
+       this.playersList = new ArrayList<>();
+       this.leaderCardDeck = new LeaderCardDeck();
+       this.developmentCardDeck = new DevCardsDeck();
+       this.marketStructure = new MarketStructure();
+       this.finishedGame = false;
     }
 
     /**
@@ -83,9 +94,7 @@ public class Game {
      * This method initialized the game. It make draw four Leader Cards to each player, that discards two; it extracts the first player and gives to all players the initial resources and faith points
      */
     public void startgame () {
-        // inizializzare carte leader e inserirle nel leaderCardVet di LeaderCardDeck
 
-        // inizializzare dev card e inserirle nella mega matrice developmentCardDeck di DevCardDeck
     }
 
     /**
@@ -95,6 +104,20 @@ public class Game {
         //to implement (vedi ultima pag regole in "Fine della partita")
     }
 
+    /**
+     * This method adds a Player to playersList
+     * @param player that is to add to the players' list
+     */
+    public void addPlayersList(Player player){
+        this.playersList.add(player);
+    }
 
+    /**
+     * This method returns the marketSructure attribute
+     * @return a Market Structure object
+     */
+    public MarketStructure getMarketStructure(){
+        return this.marketStructure;
+    }
 }
 

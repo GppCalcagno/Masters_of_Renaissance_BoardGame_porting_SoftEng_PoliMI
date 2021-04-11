@@ -5,6 +5,7 @@ import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.card.DevCardsDeck;
 import it.polimi.ingsw.card.LeaderCardDeck;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +48,8 @@ public class SinglePlayerGame extends Game {
     /**
      * This is the constructor method
      */
-    public SinglePlayerGame() {
+    public SinglePlayerGame() throws IOException {
+        super();
         // to implement
     }
 

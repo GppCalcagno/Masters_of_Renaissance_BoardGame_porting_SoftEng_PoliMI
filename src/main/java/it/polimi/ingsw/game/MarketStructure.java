@@ -1,8 +1,16 @@
 package it.polimi.ingsw.game;
 
-import it.polimi.ingsw.marbles.Marbles;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.marbles.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MarketStructure {
@@ -29,12 +37,37 @@ public class MarketStructure {
 
     /**
      * This is the constructor method
-     * @param remainingMarble it is the remaining one from the 13 Marbles
      */
-    public MarketStructure(Marbles remainingMarble) {
+    public MarketStructure() throws IOException {
         marketTray = new Marbles[sizex][sizey];
-        this.remainingMarble = remainingMarble;
         this.buffer = new ArrayList<>();
+
+        RuntimeTypeAdapterFactory<Marbles> marblesRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of(Marbles.class)
+                .registerSubtype(WhiteMarble.class)
+                .registerSubtype(BlueMarble.class)
+                .registerSubtype(GreyMarble.class)
+                .registerSubtype(RedMarble.class)
+                .registerSubtype(YellowMarble.class)
+                .registerSubtype(PurpleMarble.class);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(marblesRuntimeTypeAdapterFactory)
+                .create();
+        String marblesString = Files.readString(Paths.get("src/cardJSON/Marbles.json"));
+        Marbles[] marblesvet = gson.fromJson(marblesString, Marbles[].class);
+        List<Marbles> marblesList = Arrays.asList(marblesvet);
+
+        Collections.shuffle(marblesList);
+
+        int k = 0;
+        for(int i = 0; i < sizex; i++){
+            for (int j = 0; j < sizey; j++){
+                this.marketTray[i][j] = marblesList.get(k);
+                k++;
+            }
+        }
+        // Avrei voluto invocare la remove da marblesList, ma dava errori.
+        // Con quel metodo mi sarei risparmiato quella var "k"
+        this.remainingMarble = marblesList.get(k);
     }
 
     /**

@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class LeaderCardDeck {
     /**
@@ -67,6 +68,8 @@ public class LeaderCardDeck {
         this.leaderCardList.addAll(Arrays.asList(chestLeaders));
         this.leaderCardList.addAll(Arrays.asList(productionLeaders));
         this.leaderCardList.addAll(Arrays.asList(transformationMarbleLeaders));
+
+        Collections.shuffle(this.leaderCardList);
     }
 
     /**
