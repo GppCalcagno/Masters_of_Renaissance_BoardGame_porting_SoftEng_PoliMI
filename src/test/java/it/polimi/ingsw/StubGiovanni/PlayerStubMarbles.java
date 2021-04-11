@@ -28,3 +28,4 @@ public class PlayerStubMarbles extends Player {
         return leaderCardEffectWhiteMarble;
     }
 }
+

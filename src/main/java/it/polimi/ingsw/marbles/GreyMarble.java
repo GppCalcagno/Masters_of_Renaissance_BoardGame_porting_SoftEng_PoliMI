@@ -8,7 +8,7 @@ import it.polimi.ingsw.producible.Stones;
 public class GreyMarble extends Marbles {
     /**
      * This method converts a grey marble into a stone
-     * @param p reference to the player's Warehouse depot
+     * @param p reference to the player's Warehouse depots
      */
     @Override
     public void addtoWarehouse(Player p) {

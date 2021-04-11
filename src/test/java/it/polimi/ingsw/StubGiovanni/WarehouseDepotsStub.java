@@ -34,3 +34,4 @@ public class WarehouseDepotsStub extends WarehouseDepots {
         return this.warehouse[i][j];
     }
 }
+

@@ -10,7 +10,7 @@ class RedMarbleTest {
 
     @Test
     void addtoWarehouse() {
-        Player playerStub = new Player("Giovanni");
+        Player playerStub = new Player("Giova");
         Marbles marbles = new RedMarble();
 
         assertEquals(0, playerStub.getFaithMarker());

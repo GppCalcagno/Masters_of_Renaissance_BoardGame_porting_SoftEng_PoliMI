@@ -17,7 +17,7 @@ class PurpleMarbleTest {
 
         purple.addtoWarehouse(player);
 
-        // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente un Servant
+        // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente un Servants
         assertEquals(servants.getClass(), player.getWarehouse().getResourcesWarehouse(0, 0).getClass());
     }
 }

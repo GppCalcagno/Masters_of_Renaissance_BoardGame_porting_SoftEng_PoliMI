@@ -7,7 +7,7 @@ import it.polimi.ingsw.producible.Shields;
 public class BlueMarble extends Marbles {
     /**
      * This method converts a blue marble into a shield
-     * @param p reference to the player's Warehouse depot
+     * @param p reference to the player's Warehouse depots
      */
     @Override
     public void addtoWarehouse(Player p) {
