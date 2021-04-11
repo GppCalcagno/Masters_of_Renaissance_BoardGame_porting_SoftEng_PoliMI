@@ -7,11 +7,10 @@ import java.util.Map;
 
 
 public class RequirementsProduction implements Requirements{
-
     /**
      * this attribute is the Map of the required resources
      */
-    private Map<Resources, Integer> reqMap;
+    private Map<String, Integer> reqMap;
 
     /**
      * check if the card requirements are met,

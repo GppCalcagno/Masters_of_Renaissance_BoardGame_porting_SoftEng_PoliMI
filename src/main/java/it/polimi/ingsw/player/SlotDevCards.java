@@ -3,6 +3,7 @@ package it.polimi.ingsw.player;
 import it.polimi.ingsw.card.DevelopmentCard;
 import it.polimi.ingsw.card.leadereffect.ExtraProduction;
 import it.polimi.ingsw.producible.Producible;
+import it.polimi.ingsw.producible.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,4 +86,6 @@ public class SlotDevCards {
     }
 
 
+    public void addleaderCardEffect(Resources resources) {
+    }
 }

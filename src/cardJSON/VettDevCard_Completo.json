@@ -1,0 +1,1390 @@
+[
+{
+	"cost" : {
+		"reqMap": {
+			{ "type" : "Shields" } : 2
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 1,
+	"costProduction" : {
+		"reqMap": {
+			{ "type" : "Coins" } : 1
+		}
+	},
+	"productedResources" : {
+		{ "type" : "FaithMarker" } : 1
+	},
+	"victoryPoints" : 1
+},
+{
+	"cost" : {
+		"reqMap": {
+			"Servants" : 2
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 1,
+	"costProduction" : {
+		"Stones" : 1
+		}
+	},
+	"productedResources" : {
+		"FaithMarker" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 1
+},
+{
+	"cost" : {
+		"reqMap" : "Coins" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 1,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"FaithMarker" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 1
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 1,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"FaithMarker" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 1
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		},
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 1,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 2
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		},
+		"Coins" :
+		{
+			"num" : 1
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 1,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 2
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		},
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 1,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 2
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 1
+		},
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 1,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 2
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 1,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 1
+		}
+		"Shields" : {
+			"num" : 1
+		},
+		"Stones" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 3
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 1,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 1
+		}
+		"Shields" : {
+			"num" : 1
+		},
+		"Stones" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 3
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 1,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 1
+		}
+		"Servants" : {
+			"num" : 1
+		},
+		"Shields" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 3
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 1,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 1
+		}
+		"Servants" : {
+			"num" : 1
+		},
+		"Stones" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 3
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 2
+		},
+		"Coins" : 
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 1,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 2
+		}
+		"FaithMarker" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 4
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 2
+		},
+		"Stones" : 
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 1,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 2
+		}
+		"FaithMarker" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 4
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 2
+		},
+		"Servants" : 
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 1,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		},
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 2
+		}
+		"FaithMarker" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 4
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 2
+		},
+		"Stones" : 
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 1,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 2
+		}
+		"FaithMarker" : {
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 4
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 2,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"FaithMarker" : {
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 5
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 2,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"FaithMarker" : {
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 5
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 2,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"FaithMarker" : {
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 5
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 2,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"FaithMarker" : {
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 5
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 3
+		},
+		"Servants" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 2,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 6
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 3
+		},
+		"Servants" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 2,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 6
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 3
+		},
+		"Coins" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 2,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 6
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 3
+		},
+		"Stones" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 2,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 6
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 3
+		},
+		"Shields" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 2,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		},
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 6
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 5
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 2,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 7
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 5
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 2,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 7
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 5
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 2,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 7
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 5
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 2,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 7
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 3
+		},
+		"Coins" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 2,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 8
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 3
+		},
+		"Shields" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 2,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 8
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 3
+		},
+		"Stones" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 2,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 8
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 3
+		},
+		"Servants" :
+		{
+			"num" : 3
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 2,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 8
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 6
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 3,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 3
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 9
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 6
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 3,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 3
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 9
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 6
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 3,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 3
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 9
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 6
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 3,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 2
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 3
+		},
+		"FaithMarker" :
+		{
+			"num" : 2
+		}
+	},
+	"victoryPoints" : 9
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 5
+		},
+		"Servants" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 3,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 2
+		},
+		"Stones" :
+		{
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 10
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 5
+		},
+		"Coins" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 3,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		},
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 2
+		},
+		"Servants" :
+		{
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 10
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 5
+		},
+		"Shields" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 3,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		},
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 2
+		},
+		"Stones" :
+		{
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 10
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 5
+		},
+		"Servants" :
+		{
+			"num" : 2
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 3,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 2
+		},
+		"Shields" :
+		{
+			"num" : 2
+		},
+		"FaithMarker" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 10
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 7
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 3,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 1
+		},
+		"FaithMarker" :
+		{
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 11
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 7
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 3,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 1
+		},
+		"FaithMarker" :
+		{
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 11
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 7
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 3,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Shields" : {
+			"num" : 1
+		},
+		"FaithMarker" :
+		{
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 11
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 7
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 3,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Servants" : {
+			"num" : 1
+		},
+		"FaithMarker" :
+		{
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 11
+},
+{
+	"cost" : {
+		"Shields" :
+		{
+			"num" : 4
+		},
+		"Coins" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "GREEN",
+	"level" : 3,
+	"costProduction" : {
+		"Stones" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 3
+		},
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 12
+},
+{
+	"cost" : {
+		"Servants" :
+		{
+			"num" : 4
+		},
+		"Shields" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "PURPLE",
+	"level" : 3,
+	"costProduction" : {
+		"Coins" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 3
+		},
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"victoryPoints" : 12
+},
+{
+	"cost" : {
+		"Coins" :
+		{
+			"num" : 4
+		},
+		"Stones" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "BLUE",
+	"level" : 3,
+	"costProduction" : {
+		"Servants" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Coins" : {
+			"num" : 1
+		},
+		"Shields" :
+		{
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 12
+},
+{
+	"cost" : {
+		"Stones" :
+		{
+			"num" : 4
+		},
+		"Servants" :
+		{
+			"num" : 4
+		}
+	},
+	"colorCard" : "YELLOW",
+	"level" : 3,
+	"costProduction" : {
+		"Shields" :
+		{
+			"num" : 1
+		}
+	},
+	"productedResources" : {
+		"Stones" : {
+			"num" : 1
+		},
+		"Servants" :
+		{
+			"num" : 3
+		}
+	},
+	"victoryPoints" : 12
+}
+]
+	

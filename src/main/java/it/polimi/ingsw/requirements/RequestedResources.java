@@ -34,4 +34,20 @@ public class RequestedResources extends RequirementsLeader {
     public  boolean checkResources(Player P){
         return true; //momentaneo
     }
+
+    /**
+     * This method returns the Resources type
+     * @return a Resources
+     */
+    public Resources getReqResources() {
+        return this.reqResources;
+    }
+
+    /**
+     * This method returns the Requested Resources' number
+     * @return an integer
+     */
+    public int getReqnumResources() {
+        return this.reqnumResources;
+    }
 }

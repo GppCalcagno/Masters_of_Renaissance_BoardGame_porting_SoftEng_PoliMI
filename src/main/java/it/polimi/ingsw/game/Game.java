@@ -2,7 +2,6 @@ package it.polimi.ingsw.game;
 
 import it.polimi.ingsw.card.DevCardsDeck;
 import it.polimi.ingsw.card.LeaderCardDeck;
-import it.polimi.ingsw.card.leadereffect.DiscountEffect;
 import it.polimi.ingsw.player.Player;
 
 import java.util.List;
@@ -38,11 +37,6 @@ public class Game {
      * This attribute is a list of the Leader card
      */
     private LeaderCardDeck leaderCardDeck;
-
-    /**
-     * This attribute is an optional for the Discount effect of Leader card
-     */
-    public List<Optional<DiscountEffect>> leaderCardEffect; // da controllare
 
     /**
      * This is the constructor method
@@ -89,7 +83,9 @@ public class Game {
      * This method initialized the game. It make draw four Leader Cards to each player, that discards two; it extracts the first player and gives to all players the initial resources and faith points
      */
     public void startgame () {
-        //to implemnt
+        // inizializzare carte leader e inserirle nel leaderCardVet di LeaderCardDeck
+
+        // inizializzare dev card e inserirle nella mega matrice developmentCardDeck di DevCardDeck
     }
 
     /**

@@ -1,0 +1,62 @@
+[
+{
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"YELLOW" : 1,
+			"GREEN" : 1
+		}
+	},
+	"victoryPoints" : 2,
+	"resources" : {
+		"type" : "Servants"
+	},
+	"activated" : false
+},
+{
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"BLUE" : 1,
+			"PURPLE" : 1
+		}
+	},
+	"victoryPoints" : 2,
+	"resources" : {
+		"type" : "Shields"
+	},
+	"activated" : false
+},
+{
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"BLUE" : 1,
+			"GREEN" : 1
+		}
+	},
+	"victoryPoints" : 2,
+	"resources" : {
+		"type" : "Stones"
+	},
+	"activated" : false
+},
+{
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"YELLOW" : 1,
+			"PURPLE" : 1
+		}
+	},
+	"victoryPoints" : 2,
+	"resources" : {
+		"type" : "Coins"
+	},
+	"activated" : false
+}
+]

@@ -2,6 +2,7 @@ package it.polimi.ingsw.card;
 
 import it.polimi.ingsw.requirements.Requirements;
 import it.polimi.ingsw.producible.Producible;
+import it.polimi.ingsw.requirements.RequirementsProduction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,24 +21,34 @@ public class DevelopmentCard extends Card {
     /**
      * This attribute indicates the cost to buy this Development Card
      */
-    private Requirements costProduction;
+    private RequirementsProduction costProduction;
 
     /**
      * This attribute indicates the number and the type of Resources given from the Development Card's Production power
      */
-    private Map<Producible, Integer> productedResources;
+    private Map<String, Integer> productedResources;
+
+    /**
+     * This attribute indicates the number of victory points
+     */
+    private int victoryPoints;
+
+    /**
+     * This attribute indicates the requirements to buy a Development Card
+     */
+    private RequirementsProduction cost;
 
     /**
      * This is the constructed method
      *
      * @param victoryPoints number of victory points
      */
-    public DevelopmentCard(int victoryPoints, ColorCard colorCard, int level, Requirements costProduction, Map<Producible, Integer> productedResources) {
-        super(victoryPoints);
+    public DevelopmentCard(int victoryPoints, ColorCard colorCard, int level, RequirementsProduction costProduction, Map<String, Integer> productedResources) {
+        this.victoryPoints = 0;
         this.colorCard = colorCard;
         this.level = level;
         this.costProduction = costProduction;
-        this.productedResources = new HashMap<Producible, Integer>();
+        this.productedResources = new HashMap<>();
     }
 
     /**
@@ -60,8 +71,23 @@ public class DevelopmentCard extends Card {
      * This method returns the Resources produced from the Development Card's Production power
      * @return a Map that indicates the different number of the produced Resources
      */
-    public Map<Producible, Integer> getProductedResources() {
-        // to implement
-        return null;
+    public Map<String, Integer> getProductedResources() {
+        return productedResources;
+    }
+
+    /**
+     * This method returns the number of victory points
+     * @return the victory points
+     */
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    /**
+     * This method returns cost attribute
+     * @return number and type of Resource to buy the Development Card
+     */
+    public RequirementsProduction getCost() {
+        return cost;
     }
 }

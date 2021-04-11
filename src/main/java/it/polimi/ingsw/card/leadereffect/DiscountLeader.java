@@ -2,14 +2,14 @@ package it.polimi.ingsw.card.leadereffect;
 
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.card.LeaderAction;
+import it.polimi.ingsw.producible.Resources;
+import it.polimi.ingsw.requirements.RequirementsLeader;
 
 public class DiscountLeader extends LeaderAction {
     /**
      * This is the constructor method
-     * @param victoryPoints number of victory points
      */
-    public DiscountLeader(int victoryPoints) {
-        super(victoryPoints);
+    public DiscountLeader(){
     }
 
     /**
@@ -18,6 +18,15 @@ public class DiscountLeader extends LeaderAction {
      */
     @Override
     public void doSpecialAbility(Player player) {
-        //to implement
+        if (getActivated())
+            System.out.println("This Leader Card has been already activated");
+        else {
+            if (!getCost().checkResources(player))
+                System.out.println("You don't have the requirements to buy this Leader Card");
+            else {
+                player.addleaderCardEffectDiscount(getResources());
+                setActivated();
+            }
+        }
     }
 }

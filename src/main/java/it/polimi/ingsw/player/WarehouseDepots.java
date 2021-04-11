@@ -3,6 +3,7 @@ package it.polimi.ingsw.player;
 import it.polimi.ingsw.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.producible.Resources;
 
+import java.util.List;
 import java.util.Optional;
 
 public class WarehouseDepots {
@@ -23,8 +24,7 @@ public class WarehouseDepots {
      * It is optional because it could be null if the player has not a leader
      * card with that ability, or maybe he has not activated it yet
      */
-    private ExtraChest leaderCardEffect; //da rivedere
-    Optional<ExtraChest> optionalLeaderCardEffect = Optional.of(leaderCardEffect);
+    private List<ExtraChest> leaderCardEffect;
 
     /**
      * this is the constructor, the warehouse is created as a matrix then transform
@@ -54,7 +54,7 @@ public class WarehouseDepots {
      * @param column the column where i want put my resources
      * @param res the type of Resources i want insert
      */
-    public void checkInsertion(int column, Resources res){
+    public void checkInsertion(Resources res){
 
     }
 
@@ -93,4 +93,6 @@ public class WarehouseDepots {
 
     }
 
+    public void addleaderCardEffect(Resources resources) {
+    }
 }
