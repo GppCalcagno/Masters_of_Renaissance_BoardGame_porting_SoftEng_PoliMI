@@ -6,6 +6,8 @@ import it.polimi.ingsw.producible.Producible;
 import it.polimi.ingsw.producible.Resources;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class SlotDevCards {
@@ -90,9 +92,9 @@ public class SlotDevCards {
     /** this method empty the buffer into the strongbox
      */
     //da vedere
-    public Resources[] emptyBuffer(){
-        Resources[] t = new Resources[buffer.size()];
-        buffer.toArray(t);
+    public ArrayList<Producible> emptyBuffer(){
+        ArrayList<Producible> t = new ArrayList<>();
+        Collections.copy(t,buffer);
         buffer.clear();
         return t;
     }
@@ -106,14 +108,15 @@ public class SlotDevCards {
     }
 
     /**
-     * a get from the boardDevCards
+     * this method is a get from the boardDevCards
+     * leave an NullPointerException exception if the slot is empty
      * @param x row
      * @param y column
-     * @return
+     * @return the corresponding DevelopmentCard
      */
-    public DevelopmentCard getDevCards(int x, int y){
+    public DevelopmentCard getDevCards(int x, int y) throws NullPointerException{
+        if(boardDevCards[x][y]==null) throw new NullPointerException();
         return  boardDevCards[x][y];
-
     }
 
     public void addleaderCardEffect(Resources resources) {

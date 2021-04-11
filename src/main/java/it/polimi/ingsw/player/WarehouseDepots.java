@@ -124,4 +124,27 @@ public class WarehouseDepots {
 
     public void addleaderCardEffect(Resources resources) {
     }
+
+    /**
+     * this method is a getter of the number of a resource in the warehouse
+     * @param res type of resource
+     * @return the number of the selected resouce
+     */
+    public int getNumResources(Resources res){
+        int sum=0;
+        int j=0;
+        int i=0;
+        for (ExtraChest chest: leaderCardEffect){
+            if(chest.getResources().getClass().equals(res.getClass())){
+                sum+=chest.getnum();
+            }
+        }
+
+        while(!warehouse[i][0].getClass().equals(res.getClass()) && i<3)i++;
+
+        if(i<3){ while(warehouse[i][0]!=null && j<3)j++; }
+
+        sum+=j;
+        return sum;
+    }
 }
