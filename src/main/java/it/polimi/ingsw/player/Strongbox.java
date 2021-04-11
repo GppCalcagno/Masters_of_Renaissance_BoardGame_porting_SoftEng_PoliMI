@@ -1,6 +1,6 @@
 package it.polimi.ingsw.player;
 
-import it.polimi.ingsw.producible.Resources;
+import it.polimi.ingsw.producible.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ public class Strongbox {
         chest = new HashMap<Resources, Integer>(); // da rivedere
     }
 
-    public int getNumResources(Resources res) {
+    public int getNumResources(Resources res){
         return chest.get(res);
     }
 

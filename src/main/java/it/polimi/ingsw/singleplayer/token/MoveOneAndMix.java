@@ -11,7 +11,7 @@ public class MoveOneAndMix extends Tokens{
 
     /**
      *this method increase the faith marker of lorenzo by one and shuffle all the tokens in a new vector
-     * @param l lorenzo the player
+     * @param l lorenzo the player.
      */
     @Override
     public void effectTokens(LorenzoIlMagnifico l) {

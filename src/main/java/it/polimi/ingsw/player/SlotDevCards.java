@@ -50,9 +50,12 @@ public class SlotDevCards {
      * @param column the column where player wants put the card just bought in accord with the rules
      * @param card the card just bought
      */
-    public void insertCards( int column, DevelopmentCard card) throws CantDoIt{
-        if(card.getLevel()!=0 && boardDevCards[card.getLevel()-1][column]==null || column>boardDevCards.length || card.getLevel()>boardDevCards.length) throw new CantDoIt("Can't Insert");
-        else boardDevCards[card.getLevel()][column] = card;
+    public boolean insertCards( int column, DevelopmentCard card){
+        if(card.getLevel()!=0 && boardDevCards[card.getLevel()-1][column]==null || column>boardDevCards.length || card.getLevel()>boardDevCards.length) return false;
+        else{
+            boardDevCards[card.getLevel()][column] = card;
+            return true;
+        }
     }
 
     /** this method check if the card selected from the player to be used is on the top of the heap
@@ -112,18 +115,4 @@ public class SlotDevCards {
         return  boardDevCards[x][y];
 
     }
-
-    public void show(){
-        for(int i=0; i<3; i++){
-            for(int j=0; j<3; j++){
-                System.out.println(boardDevCards[i][j]);
-            }
-            System.out.println("\n");
-        }
-    }
-
-    public void showBuffer(){
-            System.out.println(buffer);
-
-        }
 }

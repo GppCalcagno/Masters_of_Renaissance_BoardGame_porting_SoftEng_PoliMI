@@ -46,16 +46,20 @@ public class WarehouseDepots {
      * @param row the column where i want put my resources
      * @param res the type of Resources i want insert
      */
-    public void checkInsertion(int row, Resources res) throws CantDoIt{
+    public boolean checkInsertion(int row, Resources res){
         int i = 0;
         if(warehouse[row][0]!=null) {
             if (res.getClass().equals(warehouse[row][0].getClass())) {
                 insertResources(row, res);
+                return true;
             }
-            else throw new CantDoIt("Can't Insert");
+            else return false;
 
         }
-        else insertResources(row, res);
+        else{
+            insertResources(row, res);
+            return true;
+        }
     }
 
     /** this method allow to insert a resource in the warehouse matrix
@@ -74,12 +78,13 @@ public class WarehouseDepots {
      * @param row1 the first column that player want change
      * @param row2 the second column that player want to change
      */
-    public void checkExchange( int row1, int row2) throws CantDoIt{
+    public boolean checkExchange( int row1, int row2){
         if(getWarehouseNum(row1)<=row2+1 && getWarehouseNum(row2)<=row1+1){
             if(getWarehouseNum(row1)>=getWarehouseNum(row2)) exchange(row1, row2);
             else exchange(row2, row1);
+            return true;
         }
-        else throw new CantDoIt("Can't Do the Exchange");
+        else return false;
 
 
     }
@@ -102,30 +107,18 @@ public class WarehouseDepots {
      * this method delete the resources inside the warehouse when player use them
      * @param res the resources you want delete
      */
-    public void delete(Resources res){
+    public boolean delete(Resources res){
         int i = 0;
         int j = warehouse.length-1;
 
         while(warehouse[i][0]==null || !res.getClass().equals(warehouse[i][0].getClass()) || i>warehouse.length-1){
             i++;
         }
-        if(i>warehouse.length-1) System.out.println("This Resource isn't located in the warehouse");
+        if(i>warehouse.length-1) return false;
         else{
             while (warehouse[i][j]==null) j--;
             warehouse[i][j]=null;
+            return true;
         }
     }
-
-    /*public void addLeaderCardEffect(Resources res) throws CantDoIt{
-        if(leaderCardEffect.getnum()==2) throw new CantDoIt("Can't Insert new Resources");
-        else{
-            if(leaderCardEffect.getResources().getClass().equals(res.getClass())) leaderCardEffect.updateResources(leaderCardEffect.getnum()+1);
-            else throw new CantDoIt("Different Resources, can't add");
-        }
-    }
-
-    public void show(){
-        System.out.println(leaderCardEffect.getnum());
-    }*/
-
 }

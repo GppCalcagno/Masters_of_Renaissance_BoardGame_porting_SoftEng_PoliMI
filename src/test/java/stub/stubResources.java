@@ -1,8 +1,9 @@
 package stub;
 
+import it.polimi.ingsw.producible.Coins;
 import it.polimi.ingsw.producible.Resources;
 
-public class stubResources extends Resources {
+public class stubResources extends Coins {
 
     private int res;
 

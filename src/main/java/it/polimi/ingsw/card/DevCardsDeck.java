@@ -1,7 +1,8 @@
 package it.polimi.ingsw.card;
 
-import it.polimi.ingsw.player.CantDoIt;
 import it.polimi.ingsw.player.Player;
+
+import java.util.NoSuchElementException;
 
 public class DevCardsDeck {
 
@@ -23,8 +24,9 @@ public class DevCardsDeck {
      * @param y column
      * @return the card
      */
-    public DevelopmentCard getDevCards(int x, int y){
-        return developmentCardDeck[x][y][0];
+    public DevelopmentCard getDevCards(int x, int y) throws NoSuchElementException {
+        if(developmentCardDeck[x][y][0]!=null) return developmentCardDeck[x][y][0];
+        else throw new NoSuchElementException();
     }
 
     /**
@@ -32,14 +34,15 @@ public class DevCardsDeck {
      * @param x row
      * @param y column
      */
-    public void removeDevCards(int x, int y) throws CantDoIt{
+    public boolean removeDevCards(int x, int y){
         int i=0;
-        if(developmentCardDeck[x][y][0]==null) throw new CantDoIt("Can't Delete");
+        if(developmentCardDeck[x][y][0]==null) return false;
         else {
             while (i != developmentCardDeck.length - 1 && developmentCardDeck[x][y][i + 1] != null) i++;
             for (int j = 0; j < i; j++) {
                 developmentCardDeck[x][y][j] = developmentCardDeck[x][y][j + 1];
             }
+            return true;
         }
     }
 
@@ -49,9 +52,13 @@ public class DevCardsDeck {
      * @param x row
      * @param y column
      */
-    public void purhcaseCards(Player p, int x, int y){
-       // p.getSlotDevCards().insertCards();
-
+    public boolean purhcaseCards(Player p, int column, int x, int y){
+        if (developmentCardDeck[x][y][0]!=null){
+            p.getSlotDevCards().insertCards(column, developmentCardDeck[x][y][0]);
+            removeDevCards(x,y);
+            return true;
+        }
+        else return false;
     }
 
     /**

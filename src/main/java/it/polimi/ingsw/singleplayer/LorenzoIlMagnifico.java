@@ -2,7 +2,6 @@ package it.polimi.ingsw.singleplayer;
 
 import it.polimi.ingsw.card.ColorCard;
 import it.polimi.ingsw.card.DevCardsDeck;
-import it.polimi.ingsw.card.DevelopmentCard;
 import it.polimi.ingsw.singleplayer.token.DiscardDevCards;
 import it.polimi.ingsw.singleplayer.token.MoveOneAndMix;
 import it.polimi.ingsw.singleplayer.token.MoveTwo;
@@ -55,6 +54,7 @@ public class LorenzoIlMagnifico {
      */
     public void drawTokens(){
         tokensvet[i].effectTokens(this);
+        // i da controllare ?
         i++;
     }
 
