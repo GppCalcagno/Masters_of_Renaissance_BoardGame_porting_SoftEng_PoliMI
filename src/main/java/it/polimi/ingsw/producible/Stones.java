@@ -10,6 +10,15 @@ public class Stones extends Resources {
      */
     @Override
     public void effect(Player p) {
+        p.getStrongbox().updateResources(this, 1);
+    }
 
+    /**
+     *this method is used to get the  Resources Map's Key in StrongBox
+     * @return the key linked to the resources
+     */
+
+    public String tostring(){
+        return "Stones";
     }
 }

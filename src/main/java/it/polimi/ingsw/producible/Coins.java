@@ -10,6 +10,13 @@ public class Coins extends Resources {
      */
     @Override
     public void effect(Player p) {
-
+        p.getStrongbox().updateResources(this, 1);
     }
+
+    public String tostring(){
+        return "Coins";
+    }
+
+
+
 }

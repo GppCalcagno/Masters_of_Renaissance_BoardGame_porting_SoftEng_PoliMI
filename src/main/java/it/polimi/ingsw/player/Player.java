@@ -74,9 +74,9 @@ public class Player {
 
         for (int i = 0; i < 2; i++) { this.popsfavortiles[i]=false; }
 
-        //this.slotDevCards= new SlotDevCards();
-        //this.strongbox= new Strongbox();
-        //this.warehouse= new WarehouseDepots();
+        this.slotDevCards= new SlotDevCards();
+        this.strongbox= new Strongbox();
+        this.warehouse= new WarehouseDepots();
     }
 
     /**
@@ -86,6 +86,24 @@ public class Player {
     public int getVictoryPoints(){
         return victoryPoints;
     }
+
+    /**
+     * This method returns player's warehouse
+     * @return player's warehouse
+     */
+    public WarehouseDepots getWarehouse() { return warehouse;}
+
+    /**
+     * This method returns player's strongbox
+     * @return player's strongbox
+     */
+    public Strongbox getStrongbox() {return strongbox;}
+
+    /**
+     * This method returns player's slotDevCards
+     * @return player's slotDevCards
+     */
+    public SlotDevCards getSlotDevCards() {return slotDevCards;}
 
     /**
      * This method returns player's NickName

@@ -13,7 +13,7 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
     /**
      * this attribute is the level of the required card
      */
-    private int relevel;
+    private int level;
 
     /**
      * this is the costructor of RequestedResources
@@ -22,7 +22,7 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
      */
     public RequestedLevelDevelopmentCards(ColorCard reqColor, int relevel) {
         this.reqColor = reqColor;
-        this.relevel = relevel;
+        this.level = relevel;
     }
 
     /**
@@ -32,6 +32,8 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
      */
     @Override
     public  boolean checkResources(Player P){
-        return true; //momentaneo
+
+
+    return false;
     }
 }

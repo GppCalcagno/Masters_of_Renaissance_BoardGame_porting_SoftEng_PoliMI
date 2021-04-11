@@ -2,6 +2,8 @@ package it.polimi.ingsw.card;
 
 import it.polimi.ingsw.player.Player;
 
+import java.util.ArrayList;
+
 public class LeaderCardDeck {
     /**
      * This attribute is the total number of Leader Cards
@@ -11,14 +13,13 @@ public class LeaderCardDeck {
     /**
      * This attribute is a vector that contains the reference of all Leader Cards
      */
-    private LeaderAction leaderCardVet [];
+    private ArrayList<LeaderAction> leaderCardVet;
 
     /**
      * This is the constructor method
-     * @param leaderCardVet a vector of LeaderAction
      */
-    public LeaderCardDeck(LeaderAction[] leaderCardVet) {
-        this.leaderCardVet = new LeaderAction[size];
+    public LeaderCardDeck() {
+        leaderCardVet = new ArrayList<>();
     }
 
     /**
@@ -27,7 +28,7 @@ public class LeaderCardDeck {
      * @return the chosen Leader Action
      */
     public LeaderAction getLeaderCardVet(int i) {
-        return leaderCardVet[i];
+        return leaderCardVet.get(i);
     }
 
     /**
@@ -36,6 +37,11 @@ public class LeaderCardDeck {
      * @param player to which it is given the card
      */
     public void givetoPlayer (int i, Player player) {
-        // to implement
+        player.addLeaderAction(leaderCardVet.get(i));
+    }
+
+    public void addleaderAction(LeaderAction leaderAction){
+        if(leaderCardVet.size()<=size)
+            leaderCardVet.add(leaderAction);
     }
 }

@@ -9,4 +9,7 @@ public interface Producible {
      * @param p is the player who uses the Producible
      */
     public void effect(Player p);
+
+    public String tostring();
 }
+
