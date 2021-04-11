@@ -13,7 +13,7 @@ public class Stones extends Resources {
 
     /**
      * this method is used to  get the key of the maps
-     * @return the key used in game's map
+     * @return the key used in game's map.
      */
     public String toString(){
         return "Stones";
