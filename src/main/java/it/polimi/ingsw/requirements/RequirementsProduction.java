@@ -1,17 +1,20 @@
 package it.polimi.ingsw.requirements;
 
 import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.producible.Resources;
+import it.polimi.ingsw.producible.Coins;
+import it.polimi.ingsw.producible.Servants;
+import it.polimi.ingsw.producible.Shields;
+import it.polimi.ingsw.producible.Stones;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class RequirementsProduction implements Requirements{
-
     /**
      * this attribute is the Map of the required resources
      */
-    private Map<Resources, Integer> reqMap;
+    private Map<String, Integer> reqMap;
 
     /**
      * check if the card requirements are met,

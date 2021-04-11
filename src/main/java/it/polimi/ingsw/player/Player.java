@@ -1,6 +1,7 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.card.LeaderAction;
+import it.polimi.ingsw.producible.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ public class Player {
     /**
      * this attribute is the player Nickname
      */
-    private String nickname;
+    private final String nickname;
 
     /**
      * this attribute is the number of Victory Points of the player
@@ -17,7 +18,7 @@ public class Player {
     private int victoryPoints;
 
     /**
-     * this attribute is a list of the LeaderAction Card of the Player
+     * this attribute is a list of the LeaderAction Card of the Player!
      */
     private List<LeaderAction> leaderActionBox;
 
@@ -36,6 +37,16 @@ public class Player {
      * this attribute indicates the numbers of the popfavortiles
      */
     private static final int popfavortilessize=3;
+
+    /**
+     * This attribute indicates the discounted Resources when they buy a Development Card
+     */
+    private List<Resources> leaderCardEffectDiscount;
+
+    /**
+     * This attribute indicates the obtained Resources when they take a White Marbles from the Market
+     */
+    private List<Resources> leaderCardEffectWhiteMarble;
 
     /**
      * this attribute indicates whether the popsfavortiles are active or not
@@ -71,9 +82,8 @@ public class Player {
         this.connected = true ;
 
         this.popsfavortiles = new boolean[popfavortilessize];
-        this.popsfavortiles[0]=false;
-        this.popsfavortiles[1]=false;
-        this.popsfavortiles[2]=false;
+
+        for (int i = 0; i < 2; i++) { this.popsfavortiles[i]=false; }
 
         this.slotDevCards= new SlotDevCards();
         this.strongbox= new Strongbox();
@@ -168,7 +178,60 @@ public class Player {
         leaderActionBox.add(l);
     }
 
-    public SlotDevCards getSlotDevCards() {
+    /**
+     * This method returns the warehouse attribute
+     * @return WarehouseDepots object
+     */
+    public WarehouseDepots getWarehouse(){
+        return warehouse;
+    }
+
+    /**
+     * This method returns the slotDevCards attribute
+     * @return SlotDevCards object
+     */
+    public SlotDevCards getSlotDevCards(){
         return slotDevCards;
+    }
+
+    /**
+     * This method returns the strongbox attribute
+     * @return strongbox object
+     */
+    public Strongbox getStrongbox(){
+        return strongbox;
+    }
+
+
+    /**
+     * This method adds an object Resources to leaderCardEffectDiscount list
+     * @param resources is the discounted Resources from buying a Development Card
+     */
+    public void addleaderCardEffectDiscount (Resources resources){
+        this.leaderCardEffectDiscount.add(resources);
+    }
+
+    /**
+     * This method adds an object Resources to leaderCardEffectWhiteMarble list
+     * @param resources is the obtained Resources when they take a White Marble
+     */
+    public void addleaderCardEffectWhiteMarble (Resources resources){
+        this.leaderCardEffectWhiteMarble.add(resources);
+    }
+
+    /**
+     * This method returns the leaderCardEffectDiscount attribute
+     * @return a Resources list, that contains the resources that can be discounted when they buy a Development Card that requires that resource
+     */
+    public List<Resources> getLeaderCardEffectDiscount (){
+        return leaderCardEffectDiscount;
+    }
+
+    /**
+     * This method returns the leaderCardEffectWhiteMarble attribute
+     * @return a Resources list, that contains the resources that can be added to the Warehouse depot or to the Strongbox when they take a White Marble from the Market
+     */
+    public List<Resources> getLeaderCardEffectWhiteMarble (){
+        return leaderCardEffectWhiteMarble;
     }
 }

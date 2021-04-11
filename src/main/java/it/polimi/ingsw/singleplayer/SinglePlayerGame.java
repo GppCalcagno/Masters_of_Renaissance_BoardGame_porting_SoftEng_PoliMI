@@ -1,6 +1,5 @@
 package it.polimi.ingsw.singleplayer;
 
-import it.polimi.ingsw.card.leadereffect.DiscountEffect;
 import it.polimi.ingsw.game.Game;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.card.DevCardsDeck;
@@ -44,11 +43,6 @@ public class SinglePlayerGame extends Game {
      * This attribute is a list of the Leader card
      */
     private LeaderCardDeck leaderCardDeck;
-
-    /**
-     * This attribute is an optional for the Discount effect of Leader card
-     */
-    public List<Optional<DiscountEffect>> leaderCardEffect; // da controllare
 
     /**
      * This is the constructor method
@@ -103,5 +97,12 @@ public class SinglePlayerGame extends Game {
      */
     public void givefinalpoints () {
         //to implement (vedi ultima pag regole in "Fine della partita")
+    }
+
+    /**
+     * This method plays Lorenzo Il Magnifico's turn
+     */
+    public void playLorenzoTurn (){
+        //to implement
     }
 }
