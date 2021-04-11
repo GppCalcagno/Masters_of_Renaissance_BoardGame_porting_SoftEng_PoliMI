@@ -17,7 +17,7 @@ class GreyMarbleTest {
 
         grey.addtoWarehouse(player);
 
-        // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente una Stones
+        // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente una Stone
         assertEquals(stones.getClass(), player.getWarehouse().getResourcesWarehouse(0, 0).getClass());
     }
 }

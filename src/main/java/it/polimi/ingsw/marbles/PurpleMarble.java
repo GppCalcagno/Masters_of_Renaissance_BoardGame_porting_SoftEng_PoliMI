@@ -7,7 +7,7 @@ import it.polimi.ingsw.producible.Servants;
 public class PurpleMarble extends Marbles {
     /**
      * This method converts a purple marble into a servant
-     * @param p reference to the player's Warehouse depot
+     * @param p reference to the player's Warehouse depots
      */
     @Override
     public void addtoWarehouse(Player p) {

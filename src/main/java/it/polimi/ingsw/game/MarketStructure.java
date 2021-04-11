@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MarketStructure {
     /**
-     * These attributes are the sizes of rows and columns of the Market Tray, in which there are the Market Marbles
+     * These attributes are the sizes of rows and .columns of the Market Tray, in which there are the Market Marbles
      */
     private static final int sizex = 3;
     private static final int sizey = 4;

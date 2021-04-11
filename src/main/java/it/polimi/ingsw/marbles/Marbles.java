@@ -11,7 +11,7 @@ public abstract class Marbles {
 
     /**
      * This method converts the caught Marbles into resources and adds them to Warehouse depot
-     * @param p reference to the player's Warehouse depot
+     * @param p reference to the player's Warehouse depots
      */
     public void addtoWarehouse (Player p){
 

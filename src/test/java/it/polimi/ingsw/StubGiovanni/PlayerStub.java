@@ -58,3 +58,4 @@ public class PlayerStub extends Player {
     // faithMarker++;
     // }
 }
+

@@ -11,7 +11,7 @@ class YellowMarbleTest {
 
     @Test
     void addtoWarehouse() {
-        PlayerStubMarbles player = new PlayerStubMarbles("Giacomo");
+        PlayerStubMarbles player = new PlayerStubMarbles("Giaco");
         Marbles yellow = new YellowMarble();
         Resources coin = new Coins();
 

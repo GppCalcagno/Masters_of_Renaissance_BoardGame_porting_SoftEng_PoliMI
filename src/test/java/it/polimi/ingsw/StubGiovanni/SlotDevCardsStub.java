@@ -21,3 +21,4 @@ public class SlotDevCardsStub extends SlotDevCards {
         return leaderCardEffect;
     }
 }
+

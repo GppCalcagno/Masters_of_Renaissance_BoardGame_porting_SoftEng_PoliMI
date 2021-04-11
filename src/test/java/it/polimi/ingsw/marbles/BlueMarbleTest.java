@@ -18,7 +18,7 @@ class BlueMarbleTest {
 
         blue.addtoWarehouse(player);
 
-        // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente uno Shield
+        // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente uno Shields
         assertEquals(shield.getClass(), player.getWarehouse().getResourcesWarehouse(0, 0).getClass());
     }
 }
