@@ -1,5 +1,6 @@
 package it.polimi.ingsw.producible;
 
+import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.player.Player;
 
 public class Servants extends Resources {
@@ -9,7 +10,9 @@ public class Servants extends Resources {
      * @param p is the player who uses the resource
      */
     public void effect(Player p) {
-        p.getStrongbox().updateResources(this, 1);
+        try {
+            p.getStrongbox().updateResources(this, 1);
+        } catch (NegativeQuantityExceptions ignored){}
     }
 
     /**
