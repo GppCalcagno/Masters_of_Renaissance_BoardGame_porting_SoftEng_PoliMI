@@ -3,7 +3,6 @@ package it.polimi.ingsw.player;
 import it.polimi.ingsw.card.DevelopmentCard;
 import it.polimi.ingsw.card.leadereffect.ExtraProduction;
 import it.polimi.ingsw.producible.Producible;
-import it.polimi.ingsw.producible.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +10,8 @@ import java.util.Optional;
 
 public class SlotDevCards {
 
-    /**
-     * this is the matrix where the development cards are located
+
+    /** this is the matrix where the development cards are located
      */
     private DevelopmentCard[][] boardDevCards;
 
@@ -86,6 +85,4 @@ public class SlotDevCards {
     }
 
 
-    public void addleaderCardEffect(Resources resources) {
-    }
 }
