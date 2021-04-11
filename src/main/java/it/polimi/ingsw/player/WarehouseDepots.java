@@ -3,6 +3,7 @@ package it.polimi.ingsw.player;
 import it.polimi.ingsw.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.producible.Resources;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class WarehouseDepots {
      * in a diagonal matrix
      */
     public WarehouseDepots(){
+        leaderCardEffect= new ArrayList<>();
         warehouse = new Resources[sizex][sizey];
         warehouse[2][1] = null;
         warehouse[1][1] = null;
@@ -140,9 +142,9 @@ public class WarehouseDepots {
             }
         }
 
-        while(!warehouse[i][0].getClass().equals(res.getClass()) && i<3)i++;
+        while(warehouse[i][0]!=null && !warehouse[i][0].getClass().equals(res.getClass()) && i<3)i++;
 
-        if(i<3){ while(warehouse[i][0]!=null && j<3)j++; }
+        if(i<3){ while(warehouse[i][j]!=null && j<3)j++; }
 
         sum+=j;
         return sum;
