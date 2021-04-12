@@ -1,7 +1,9 @@
-package it.polimi.ingsw.card;
+package it.polimi.ingsw.game;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.card.ColorCard;
+import it.polimi.ingsw.card.DevelopmentCard;
 import it.polimi.ingsw.player.Player;
 
 import java.io.IOException;
@@ -12,6 +14,13 @@ import java.util.*;
 public class DevCardsDeck {
     /**
      * this is the cube where the development cards are allocated
+     * Row = Level
+     *      row 2 <-> level 1
+     *      row 1 <-> level 2
+     *      row 0 <-> level 3
+     *
+     * Column = Color
+     * See getColumnFromColor
      */
     private DevelopmentCard[][][] developmentCardDeck;
 
@@ -145,16 +154,16 @@ public class DevCardsDeck {
 
     /**
      * this method remove the card at the top of the cube
-     * @param x row
-     * @param y column
+     * @param row row
+     * @param column column
      */
-    public boolean removeDevCards(int x, int y){
+    public boolean removeDevCards(int row, int column){
         int i=0;
-        if(developmentCardDeck[x][y][0]==null) return false;
+        if(developmentCardDeck[row][column][0]==null) return false;
         else {
-            while (i != developmentCardDeck.length - 1 && developmentCardDeck[x][y][i + 1] != null) i++;
+            while (i != developmentCardDeck.length - 1 && developmentCardDeck[row][column][i + 1] != null) i++;
             for (int j = 0; j < i; j++) {
-                developmentCardDeck[x][y][j] = developmentCardDeck[x][y][j + 1];
+                developmentCardDeck[row][column][j] = developmentCardDeck[row][column][j + 1];
             }
             return true;
         }
@@ -162,15 +171,15 @@ public class DevCardsDeck {
 
     /**
      * this method assign the card at the top of the cube to the player who purchase it
-     * @param p player who calls
-     * @param column for SlotDevCards' insertCards
-     * @param x row
-     * @param y column
+     * @param player player who calls
+     * @param playercolumn for SlotDevCards' insertCards
+     * @param level level of the required card - equivalent to the row of the matrix
+     * @param color color of the required card - equivalent to the column of the matrix
      */
-    public boolean purchaseCards(Player p, int column, int x, int y){
-        if (developmentCardDeck[x][y][0]!=null){
-            if(p.getSlotDevCards().insertCards(column, developmentCardDeck[x][y][0])){
-                removeDevCards(x,y);
+    public boolean purchaseCards(Player player, int playercolumn, int level, int color){
+        if (developmentCardDeck[level][color][0]!=null){
+            if(player.getSlotDevCards().insertCards(playercolumn, developmentCardDeck[level][color][0])){
+                removeDevCards(level,color);
                 return true;
             }
             else return false;
