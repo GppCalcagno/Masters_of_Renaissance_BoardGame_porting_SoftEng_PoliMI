@@ -53,9 +53,9 @@ public class SlotDevCards {
      * @param card the card just bought
      */
     public boolean insertCards( int column, DevelopmentCard card){
-        if(card.getLevel()!=0 && boardDevCards[card.getLevel()-1][column]==null || column>boardDevCards.length || card.getLevel()>boardDevCards.length) return false;
+        if((card.getLevel()-1)!=0 && (boardDevCards[card.getLevel()-2][column]==null || column>boardDevCards.length || (card.getLevel()-1)>boardDevCards.length)) return false;
         else{
-            boardDevCards[card.getLevel()][column] = card;
+            boardDevCards[card.getLevel()-1][column] = card;
             return true;
         }
     }
