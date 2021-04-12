@@ -1,6 +1,6 @@
 package it.polimi.ingsw.card;
 
-import it.polimi.ingsw.StubGiovanni.PlayerStubDevCardsDeck;
+import it.polimi.ingsw.game.LeaderCardDeck;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Coins;
 import it.polimi.ingsw.requirements.RequestedResources;

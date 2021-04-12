@@ -1,7 +1,7 @@
 package it.polimi.ingsw.card.leadereffect;
 
-import it.polimi.ingsw.StubGiovanni.PlayerStub;
-import it.polimi.ingsw.StubGiovanni.RequestedResourcesStub;
+import StubGiovanni.PlayerStub;
+import StubGiovanni.RequestedResourcesStub;
 import it.polimi.ingsw.card.LeaderAction;
 import it.polimi.ingsw.producible.Coins;
 import it.polimi.ingsw.producible.Resources;

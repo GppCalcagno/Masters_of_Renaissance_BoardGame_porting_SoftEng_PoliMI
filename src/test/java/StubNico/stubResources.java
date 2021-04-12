@@ -1,7 +1,6 @@
-package stub;
+package StubNico;
 
 import it.polimi.ingsw.producible.Coins;
-import it.polimi.ingsw.producible.Resources;
 
 public class stubResources extends Coins {
 

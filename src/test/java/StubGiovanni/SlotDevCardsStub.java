@@ -1,4 +1,4 @@
-package it.polimi.ingsw.StubGiovanni;
+package StubGiovanni;
 
 import it.polimi.ingsw.player.SlotDevCards;
 import it.polimi.ingsw.producible.Resources;

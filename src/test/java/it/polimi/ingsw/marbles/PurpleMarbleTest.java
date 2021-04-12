@@ -1,6 +1,6 @@
 package it.polimi.ingsw.marbles;
 
-import it.polimi.ingsw.StubGiovanni.PlayerStubMarbles;
+import StubGiovanni.PlayerStubMarbles;
 import it.polimi.ingsw.producible.Resources;
 import it.polimi.ingsw.producible.Servants;
 import org.junit.jupiter.api.Test;

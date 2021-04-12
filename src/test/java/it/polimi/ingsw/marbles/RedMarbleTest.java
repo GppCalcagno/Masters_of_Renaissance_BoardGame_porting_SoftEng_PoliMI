@@ -1,6 +1,5 @@
 package it.polimi.ingsw.marbles;
 
-import it.polimi.ingsw.StubGiovanni.PlayerStub;
 import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.card;
 
-import it.polimi.ingsw.StubGiovanni.PlayerStubDevCardsDeck;
+import StubGiovanni.PlayerStubDevCardsDeck;
+import it.polimi.ingsw.game.DevCardsDeck;
 import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.Test;
 
