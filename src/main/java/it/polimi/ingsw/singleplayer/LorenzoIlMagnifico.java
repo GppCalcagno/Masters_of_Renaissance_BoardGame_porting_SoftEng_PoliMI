@@ -1,7 +1,7 @@
 package it.polimi.ingsw.singleplayer;
 
 import it.polimi.ingsw.card.ColorCard;
-import it.polimi.ingsw.card.DevCardsDeck;
+import it.polimi.ingsw.game.DevCardsDeck;
 import it.polimi.ingsw.singleplayer.token.DiscardDevCards;
 import it.polimi.ingsw.singleplayer.token.MoveOneAndMix;
 import it.polimi.ingsw.singleplayer.token.MoveTwo;

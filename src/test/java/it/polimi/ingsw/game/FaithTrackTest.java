@@ -125,4 +125,29 @@ class FaithTrackTest {
         assertTrue(playersVet.get(0).getPopsfavortiles(1));
         assertTrue(playersVet.get(0).getPopsfavortiles(2));
     }
+
+    @Test
+    void victorypoints(){
+        FaithTrack testtrack = new FaithTrack();
+        ArrayList<Player> playersVet = new ArrayList<>();
+        playersVet.add(new Player("Aldo"));
+
+        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}
+        testtrack.checkPopeSpace(playersVet,0);
+
+        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}
+        testtrack.checkPopeSpace(playersVet,0);
+
+        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}
+        testtrack.checkPopeSpace(playersVet,0);
+
+        assertEquals(testtrack.getPlayerPoint(playersVet.get(0)),79);
+
+
+
+
+
+
+
+    }
 }

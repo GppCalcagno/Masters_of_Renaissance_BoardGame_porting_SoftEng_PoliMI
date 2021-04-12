@@ -8,17 +8,17 @@ public class FaithTrack {
     /**
      * this attribute is a integer  indicating the faithtrack vector length
      */
-    private final static int faithtracksize= 25;
+    private final static int faithtracksize = 25;
 
     /**
      * this attribute is a integer  indicating the popsfavouritetilepoints vector length
      */
-    private final static int popsfavouritetilepointsize= 3;
+    private final static int popsfavouritetilepointsize = 3;
 
     /**
      * this attribute is a integer vector indicating the Victorypoints on the faith track
      */
-    private final int[]faithtrack;
+    private final int[] faithtrack;
 
     /**
      * this attribute is a integer vector indicating the Victorypoints on the popsfavouritetile
@@ -41,45 +41,45 @@ public class FaithTrack {
      * index 4 -> start of the third Vatican Report Section
      * index 5 -> end of the third Vatican Report Section
      */
-    private final static int []VaticanReportSection={5,8,12,16,19,24};
+    private final static int[] VaticanReportSection = {5, 8, 12, 16, 19, 24};
 
     /**
      * this is the costructor of the faithtrack
      */
-    FaithTrack(){
-        faithtrack= new int [faithtracksize];
-        faithtrack[0]=0;
-        faithtrack[1]=0;
-        faithtrack[2]=0;
-        faithtrack[3]=1;
-        faithtrack[4]=0;
-        faithtrack[5]=0;
-        faithtrack[6]=2;
-        faithtrack[7]=0;
-        faithtrack[8]=0;
-        faithtrack[9]=4;
-        faithtrack[10]=0;
-        faithtrack[11]=0;
-        faithtrack[12]=6;
-        faithtrack[13]=0;
-        faithtrack[14]=0;
-        faithtrack[15]=9;
-        faithtrack[16]=0;
-        faithtrack[17]=0;
-        faithtrack[18]=12;
-        faithtrack[19]=0;
-        faithtrack[20]=0;
-        faithtrack[21]=16;
-        faithtrack[22]=0;
-        faithtrack[23]=0;
-        faithtrack[24]=20;
+    FaithTrack() {
+        faithtrack = new int[faithtracksize];
+        faithtrack[0] = 0;
+        faithtrack[1] = 0;
+        faithtrack[2] = 0;
+        faithtrack[3] = 1;
+        faithtrack[4] = 0;
+        faithtrack[5] = 0;
+        faithtrack[6] = 2;
+        faithtrack[7] = 0;
+        faithtrack[8] = 0;
+        faithtrack[9] = 4;
+        faithtrack[10] = 0;
+        faithtrack[11] = 0;
+        faithtrack[12] = 6;
+        faithtrack[13] = 0;
+        faithtrack[14] = 0;
+        faithtrack[15] = 9;
+        faithtrack[16] = 0;
+        faithtrack[17] = 0;
+        faithtrack[18] = 12;
+        faithtrack[19] = 0;
+        faithtrack[20] = 0;
+        faithtrack[21] = 16;
+        faithtrack[22] = 0;
+        faithtrack[23] = 0;
+        faithtrack[24] = 20;
 
-        popsfavouritetilepoints= new int [popsfavouritetilepointsize];
-        popsfavouritetilepoints[0]=2;
-        popsfavouritetilepoints[1]=3;
-        popsfavouritetilepoints[2]=4;
-        
-        currentPopTile=0;
+        popsfavouritetilepoints = new int[popsfavouritetilepointsize];
+        popsfavouritetilepoints[0] = 2;
+        popsfavouritetilepoints[1] = 3;
+        popsfavouritetilepoints[2] = 4;
+
+        currentPopTile = 0;
     }
 
     /**
@@ -88,7 +88,7 @@ public class FaithTrack {
      * @param i is the index of the faithtrack space
      * @return the number VictoryPoints of the selected space
      */
-    public int getVictoryPoints(int i){
+    public int getVictoryPoints(int i) {
         return faithtrack[i];
     }
 
@@ -104,32 +104,35 @@ public class FaithTrack {
 
     /**
      * this method returns the current popTile
+     *
      * @return currentPopTile
      */
-    public int getCurrentPopTile() { return currentPopTile; }
+    public int getCurrentPopTile() {
+        return currentPopTile;
+    }
 
     /**
      * this method manages the Faithtrack.
      * Updates player VictoryPoints and
      * actives or discards Players'popfavortiles
      *
-     * @param p is the Players Vector
+     * @param p               is the Players Vector
      * @param blackCrossToken is LorenzoIlMagnifico's blackCrossToken (=O if Multiplayer Game)
      */
     public void checkPopeSpace(ArrayList<Player> p, int blackCrossToken) {
-        int actived=0;
-        int VaticanReportSectionindex= 1+ currentPopTile*2;
+        int actived = 0;
+        int VaticanReportSectionindex = 1 + currentPopTile * 2;
 
-        if(currentPopTile<3){
-            for (Player player:p) {
-                if(player.getFaithMarker()==VaticanReportSection[VaticanReportSectionindex] || blackCrossToken==VaticanReportSection[VaticanReportSectionindex])
-                    actived=1;
+        if (currentPopTile < 3) {
+            for (Player player : p) {
+                if (player.getFaithMarker() == VaticanReportSection[VaticanReportSectionindex] || blackCrossToken == VaticanReportSection[VaticanReportSectionindex])
+                    actived = 1;
             }
 
             VaticanReportSectionindex--;
 
-            if (actived==1){
-                for (Player player:p) {
+            if (actived == 1) {
+                for (Player player : p) {
                     player.setPopsfavortiles(currentPopTile, player.getFaithMarker() >= VaticanReportSection[VaticanReportSectionindex]);
                 }
                 currentPopTile++;
@@ -137,5 +140,30 @@ public class FaithTrack {
         }
     }
 
+    /**
+     * this method return the number of VictoryPoints of a player
+     * @param player is the selected player
+     * @return int indicating the number of VictoryPoints of a player
+     */
+    public int getPlayerPoint(Player player) {
+        int totale = 0;
+        for (int j = 0; j <= player.getFaithMarker(); j++) {
+            totale += faithtrack[j];
+        }
+
+        for (int j = 0; j < popsfavouritetilepointsize; j++) {
+            if (player.getPopsfavortiles(j))
+                totale += popsfavouritetilepoints[j];
+        }
+    return totale;
+    }
+
+    /**
+     * this is a getter of Faithtracksize
+     * @returnFaithtracksize
+     */
+    public static int getFaithtracksize() {
+        return faithtracksize;
+    }
 }
 

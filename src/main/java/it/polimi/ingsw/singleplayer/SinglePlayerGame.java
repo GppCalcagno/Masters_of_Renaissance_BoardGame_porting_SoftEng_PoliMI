@@ -2,12 +2,10 @@ package it.polimi.ingsw.singleplayer;
 
 import it.polimi.ingsw.game.Game;
 import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.card.DevCardsDeck;
-import it.polimi.ingsw.card.LeaderCardDeck;
+import it.polimi.ingsw.game.DevCardsDeck;
+import it.polimi.ingsw.game.LeaderCardDeck;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 public class SinglePlayerGame extends Game {
     /**
