@@ -1,18 +1,14 @@
 package it.polimi.ingsw.requirements;
 
 import it.polimi.ingsw.card.ColorCard;
-import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.game.DevCardsDeck;
 import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.producible.Coins;
-import it.polimi.ingsw.producible.Servants;
-import it.polimi.ingsw.producible.Shields;
-import it.polimi.ingsw.producible.Stones;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RequestedTypeDevelopmentCardsTest {
 
@@ -64,7 +60,6 @@ class RequestedTypeDevelopmentCardsTest {
         assertTrue(deck.purchaseCards(player,1,2, deck.getColumnFromColor(ColorCard.GREEN)));
 
         assertFalse(reqTest.checkResources(player));
-
     }
 
 }

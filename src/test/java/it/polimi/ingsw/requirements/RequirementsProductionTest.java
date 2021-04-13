@@ -4,7 +4,6 @@ import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Coins;
 import it.polimi.ingsw.producible.Shields;
-import it.polimi.ingsw.producible.Stones;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -3,12 +3,8 @@ package it.polimi.ingsw.requirements;
 import it.polimi.ingsw.card.ColorCard;
 import it.polimi.ingsw.card.DevelopmentCard;
 import it.polimi.ingsw.player.Player;
-import it.polimi.ingsw.requirements.RequirementsLeader;
 
-import java.util.Collection;
-import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.Map;
 
 public class RequestedTypeDevelopmentCards extends RequirementsLeader {
 
@@ -16,13 +12,13 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
      *  this attribute is the type of the required Cards.
      *  It contains the Color and the number of the required Cards
      */
-    private EnumMap<ColorCard, Integer> reqDevelopmentCards;
+    private HashMap<ColorCard, Integer> reqDevelopmentCards;
 
     /**
      * this is the costructor of requestedTypeDevelopmentCards
      */
     public RequestedTypeDevelopmentCards() {
-        reqDevelopmentCards = new EnumMap<ColorCard, Integer>(ColorCard.class);
+        reqDevelopmentCards = new HashMap<>();
     }
 
     /**
@@ -33,7 +29,7 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
     @Override
     public  boolean checkResources(Player player){
         DevelopmentCard card;
-        EnumMap<ColorCard, Integer> checkMap= reqDevelopmentCards.clone();
+        HashMap<ColorCard, Integer> checkMap= (HashMap<ColorCard, Integer>) reqDevelopmentCards.clone();
 
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){
