@@ -15,15 +15,16 @@ public class DiscountLeader extends LeaderAction {
      * @param player that uses the Leader Card
      */
     @Override
-    public void doSpecialAbility(Player player) {
+    public boolean doSpecialAbility(Player player) {
         if (getActivated())
-            System.out.println("This Leader Card has been already activated");
+            return false;
         else {
             if (!getCost().checkResources(player))
-                System.out.println("You don't have the requirements to buy this Leader Card");
+                return false;
             else {
                 player.addleaderCardEffectDiscount(getResources());
                 setActivated();
+                return true;
             }
         }
     }

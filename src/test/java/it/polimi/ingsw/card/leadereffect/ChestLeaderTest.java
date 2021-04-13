@@ -1,34 +1,54 @@
 package it.polimi.ingsw.card.leadereffect;
 
-import StubGiovanni.PlayerStub;
-import StubGiovanni.RequestedResourcesStub;
-import it.polimi.ingsw.card.LeaderAction;
+import StubGiovanni.LeaderCardDeckStub;
+import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
+import it.polimi.ingsw.game.LeaderCardDeck;
+import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Coins;
-import it.polimi.ingsw.producible.Resources;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ChestLeaderTest {
-    @Test
-    void doSpecialAbilityTestActivated() {
-        PlayerStub playerTest = new PlayerStub("Giocatore1");
-        Resources coin = new Coins();
-        RequestedResourcesStub requirementsLeader = new RequestedResourcesStub(coin, 1);
-        LeaderAction leaderActionTest = new ChestLeader();
+    //Ho usato uno stub LeaderCardDeck nel cui costruttore non faccio shuffle e per questo so le posizioni delle carte nella lista
 
-        leaderActionTest.doSpecialAbility(playerTest);
-        assertTrue(leaderActionTest.getActivated());
+    @Test
+    void doSpecialAbilityTestActivated() throws IOException, NegativeQuantityExceptions {
+        Player playerTest = new Player("Giocatore1");
+        LeaderCardDeck leaderCardDeck =  new LeaderCardDeckStub();
+        playerTest.getStrongbox().updateResources(new Coins(), 5);
+
+        assertTrue(leaderCardDeck.getLeaderCardList(4).doSpecialAbility(playerTest));
+        assertTrue(leaderCardDeck.getLeaderCardList(4).getActivated());
     }
 
     @Test
-    void doSpecialAbilityTestAdd() {
-        PlayerStub playerTest = new PlayerStub("Giocatore2");
-        Resources coin = new Coins();
-        RequestedResourcesStub requirementsLeader = new RequestedResourcesStub(coin, 1);
-        LeaderAction leaderActionTest = new ChestLeader();
+    void doSpecialAbilityTestAdd() throws IOException, NegativeQuantityExceptions {
+        Player playerTest = new Player("Giocatore1");
+        LeaderCardDeck leaderCardDeck =  new LeaderCardDeckStub();
+        playerTest.getStrongbox().updateResources(new Coins(), 5);
 
-        leaderActionTest.doSpecialAbility(playerTest);
-        assertTrue(playerTest.getWarehouse().getLeaderCardEffect().contains(coin));
+        assertTrue(leaderCardDeck.getLeaderCardList(4).doSpecialAbility(playerTest));
+        assertFalse(playerTest.getWarehouse().getLeaderCardEffect().isEmpty());
+    }
+
+    @Test
+    void doSpecialAbilityTestNotActivated() throws IOException {
+        Player playerTest = new Player("Giocatore2");
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
+        leaderCardDeck.getLeaderCardList(4).setActivated();
+
+        assertFalse(leaderCardDeck.getLeaderCardList(4).doSpecialAbility(playerTest));
+    }
+
+    @Test
+    void doSpecialAbilityTestNotRequirements() throws IOException {
+        Player playerTest = new Player("Giocatore2");
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
+
+        assertFalse(leaderCardDeck.getLeaderCardList(4).doSpecialAbility(playerTest));
     }
 }

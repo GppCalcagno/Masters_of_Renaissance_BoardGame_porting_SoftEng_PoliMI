@@ -1,5 +1,6 @@
 package StubGiovanni;
 
+import it.polimi.ingsw.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.player.WarehouseDepots;
 import it.polimi.ingsw.producible.Resources;
 
@@ -11,18 +12,15 @@ public class WarehouseDepotsStub extends WarehouseDepots {
     private final int sizey = 3;
     private Resources[][] warehouse;
 
-    private List<Resources> leaderCardEffect;
+    private List<ExtraChest> leaderCardEffect;
 
     public WarehouseDepotsStub(){
         warehouse = new Resources[sizex][sizey];
         this.leaderCardEffect = new ArrayList<>();
     }
 
-    public void addleaderCardEffect (Resources resources){
-        this.leaderCardEffect.add(resources);
-    }
 
-    public List<Resources> getLeaderCardEffect() {
+    public List<ExtraChest> getLeaderCardEffect() {
         return leaderCardEffect;
     }
 

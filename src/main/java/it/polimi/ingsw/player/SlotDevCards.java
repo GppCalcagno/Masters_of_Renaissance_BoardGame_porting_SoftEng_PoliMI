@@ -123,9 +123,6 @@ public class SlotDevCards {
         return  boardDevCards[x][y];
     }
 
-    public void addleaderCardEffect(Resources resources) {
-    }
-
     /**
      * This method counts the total number of victory points from all the Development cards in SlotDevCards
      * @return the total number of victory points from all Development cards
@@ -154,5 +151,9 @@ public class SlotDevCards {
             }
         }
         return totalNumberDevCards;
+    }
+
+    public List<ExtraProduction> getLeaderCardEffect(){
+        return leaderCardEffect;
     }
 }

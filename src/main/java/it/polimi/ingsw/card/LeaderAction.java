@@ -5,7 +5,7 @@ import it.polimi.ingsw.producible.Resources;
 import it.polimi.ingsw.requirements.Requirements;
 import it.polimi.ingsw.requirements.RequirementsLeader;
 
-public class LeaderAction extends Card {
+public abstract class LeaderAction extends Card {
     /**
      * This attribute indicates if this card is activated
      */
@@ -62,6 +62,5 @@ public class LeaderAction extends Card {
      * This method activates the Leader Card's special ability
      * @param player that uses the Leader Card
      */
-    public void doSpecialAbility (Player player) {
-    }
+    public abstract boolean doSpecialAbility (Player player);
 }

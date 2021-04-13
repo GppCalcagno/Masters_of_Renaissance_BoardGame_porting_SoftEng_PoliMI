@@ -1,34 +1,61 @@
 package it.polimi.ingsw.card.leadereffect;
 
-import StubGiovanni.PlayerStub;
-import StubGiovanni.RequestedResourcesStub;
-import it.polimi.ingsw.card.LeaderAction;
-import it.polimi.ingsw.producible.Coins;
-import it.polimi.ingsw.producible.Resources;
+import StubGiovanni.LeaderCardDeckStub;
+import it.polimi.ingsw.game.DevCardsDeck;
+import it.polimi.ingsw.game.LeaderCardDeck;
+import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TrasformationMarbleLeaderTest {
     @Test
-    void doSpecialAbilityTestActivated() {
-        PlayerStub playerTest = new PlayerStub("Giocatore1");
-        Resources coin = new Coins();
-        RequestedResourcesStub requirementsLeader = new RequestedResourcesStub(coin, 1);
-        LeaderAction leaderActionTest = new TrasformationMarbleLeader();
+    void doSpecialAbilityTestActivated() throws IOException {
+        Player player = new Player("Gigi");
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(2,2));
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(1,2));
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(0,1));
 
-        leaderActionTest.doSpecialAbility(playerTest);
-        assertTrue(leaderActionTest.getActivated());
+        assertTrue(leaderCardDeck.getLeaderCardList(12).doSpecialAbility(player));
+        assertTrue(leaderCardDeck.getLeaderCardList(12).getActivated());
     }
 
     @Test
-    void doSpecialAbilityTestAdd() {
-        PlayerStub playerTest = new PlayerStub("Giocatore2");
-        Resources coin = new Coins();
-        RequestedResourcesStub requirementsLeader = new RequestedResourcesStub(coin, 1);
-        LeaderAction leaderActionTest = new TrasformationMarbleLeader();
+    void doSpecialAbilityTestAdd() throws IOException {
+        Player player = new Player("Gigi");
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(2,2));
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(1,2));
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(0,1));
 
-        leaderActionTest.doSpecialAbility(playerTest);
-        assertTrue(playerTest.getSlotDevCards().getLeaderCardEffect().contains(coin));
+        assertTrue(leaderCardDeck.getLeaderCardList(12).doSpecialAbility(player));
+        assertFalse(player.getLeaderCardEffectWhiteMarble().isEmpty());
+    }
+
+    @Test
+    void doSpecialAbilityTestNotActivated() throws IOException {
+        Player player = new Player("Gigi");
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(2,2));
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(1,2));
+        player.getSlotDevCards().insertCards(0, devCardsDeck.getDevCards(0,1));
+        leaderCardDeck.getLeaderCardList(12).setActivated();
+
+        assertFalse(leaderCardDeck.getLeaderCardList(12).doSpecialAbility(player));
+    }
+
+    @Test
+    void doSpecialAbilityTestNotRequirements() throws IOException {
+        Player player = new Player("Gigi");
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
+
+        assertFalse(leaderCardDeck.getLeaderCardList(12).doSpecialAbility(player));
     }
 }
