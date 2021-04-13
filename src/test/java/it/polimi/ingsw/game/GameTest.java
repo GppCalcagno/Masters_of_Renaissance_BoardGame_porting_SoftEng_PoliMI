@@ -23,9 +23,13 @@ class GameTest {
         game.addPlayersList(player1);
         game.addPlayersList(player2);
         game.startgame();
+        player1 = game.getPlayersList().get(0);
+        player2 = game.getPlayersList().get(1);
         assertEquals(player1, game.getCurrentPlayer());
         game.setCurrentPlayer();
         assertEquals(player2, game.getCurrentPlayer());
+        game.setCurrentPlayer();
+        assertEquals(player1, game.getCurrentPlayer());
     }
 
     @Test

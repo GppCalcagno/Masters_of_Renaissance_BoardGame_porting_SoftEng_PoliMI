@@ -13,6 +13,5 @@ public class WhiteMarble extends Marbles {
             // Controlla se è possibile inserire la prima risorsa di leaderCardEffectWhiteMarble (da inserire solo nel magazzino)
             p.getWarehouse().checkInsertion(i , p.getLeaderCardEffectWhiteMarble().get(0));
         }
-        else System.out.println("Non è attivata l'abilità per convertire una WhiteMarble in una risorsa a scelta");
     }
 }

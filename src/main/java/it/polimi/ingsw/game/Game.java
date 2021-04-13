@@ -77,8 +77,9 @@ public class Game {
      */
     public void setCurrentPlayer () {
         int i = this.playersList.indexOf(this.currentPlayer);
-        if(i++ < this.playersList.size())
-            this.currentPlayer = this.playersList.get(i++);
+        i++;
+        if(i < this.playersList.size())
+            this.currentPlayer = this.playersList.get(i);
         else this.currentPlayer = this.playersList.get(0);
     }
 

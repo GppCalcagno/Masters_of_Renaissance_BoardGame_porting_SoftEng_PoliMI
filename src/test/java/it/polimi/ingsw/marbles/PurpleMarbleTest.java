@@ -1,7 +1,6 @@
 package it.polimi.ingsw.marbles;
 
-import StubGiovanni.PlayerStubMarbles;
-import it.polimi.ingsw.producible.Resources;
+import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Servants;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +10,13 @@ class PurpleMarbleTest {
 
     @Test
     void addtoWarehouse() {
-        PlayerStubMarbles player = new PlayerStubMarbles("Giacomo");
-        Marbles purple = new PurpleMarble();
-        Resources servants = new Servants();
+        Player player = new Player("Luca");
+        Marbles marbles = new PurpleMarble();
 
-        purple.addtoWarehouse(player, 1);
+        assertEquals(0, player.getWarehouse().getNumResources(new Servants()));
 
-        // Voglio verificare che la risorsa aggiunta al Warehouse sia veramente un Servants
-        assertEquals(servants.getClass(), player.getWarehouse().getResourcesWarehouse(0, 0).getClass());
+        marbles.addtoWarehouse(player, 0);
+
+        assertEquals(1, player.getWarehouse().getNumResources(new Servants()));
     }
 }
