@@ -25,7 +25,7 @@ public class SlotDevCards {
     /** this is a list of optional that if the player hasn't the leader card that allows to discount the price
      * of productions aren't initialized
      */
-    private ExtraProduction leaderCardEffect;
+    private List<ExtraProduction> leaderCardEffect;
 
     /** the constructor initialize the matrix as 3*3 as written in the rules even though the player can't
      * buy more than seven cards
@@ -33,6 +33,7 @@ public class SlotDevCards {
     public SlotDevCards() {
         boardDevCards = new DevelopmentCard[3][3];
         buffer = new ArrayList<Producible>();
+        leaderCardEffect= new ArrayList<>();
     }
 
     /** this method check if the player can buy a specific level card from the development card market
@@ -104,10 +105,10 @@ public class SlotDevCards {
 
     /**
      * this method active the card leader extra production
-     * @param r the resources wanted from the extra production.
+     * @param resources the resources wanted from the extra production.
      */
-    public void addLeaderCardEffect(Resources r){
-
+    public void addLeaderCardEffect(Resources resources){
+        leaderCardEffect.add(new ExtraProduction(resources));
     }
 
     /**

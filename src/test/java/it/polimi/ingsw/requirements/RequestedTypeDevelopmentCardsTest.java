@@ -37,10 +37,12 @@ class RequestedTypeDevelopmentCardsTest {
 
         RequestedTypeDevelopmentCards reqTest= new RequestedTypeDevelopmentCards();
         reqTest.addRequirements(ColorCard.YELLOW,2);
+        reqTest.addRequirements(ColorCard.GREEN,1);
 
         assertTrue(deck.purchaseCards(player,0,2, deck.getColumnFromColor(ColorCard.YELLOW)));
         assertTrue(deck.purchaseCards(player,0,1,deck.getColumnFromColor(ColorCard.YELLOW)));
         assertTrue(deck.purchaseCards(player,1,2, deck.getColumnFromColor(ColorCard.GREEN)));
+        assertTrue(deck.purchaseCards(player,2,2, deck.getColumnFromColor(ColorCard.BLUE)));
 
 
         assertTrue(reqTest.checkResources(player));
@@ -58,6 +60,8 @@ class RequestedTypeDevelopmentCardsTest {
         assertTrue(deck.purchaseCards(player,0,2, deck.getColumnFromColor(ColorCard.YELLOW)));
         assertTrue(deck.purchaseCards(player,0,1,deck.getColumnFromColor(ColorCard.YELLOW)));
         assertTrue(deck.purchaseCards(player,1,2, deck.getColumnFromColor(ColorCard.GREEN)));
+        assertTrue(deck.purchaseCards(player,2,2, deck.getColumnFromColor(ColorCard.BLUE)));
+
 
         assertFalse(reqTest.checkResources(player));
     }
