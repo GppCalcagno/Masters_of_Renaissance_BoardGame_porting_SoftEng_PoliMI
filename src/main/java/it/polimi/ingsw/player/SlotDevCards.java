@@ -124,4 +124,34 @@ public class SlotDevCards {
 
     public void addleaderCardEffect(Resources resources) {
     }
+
+    /**
+     * This method counts the total number of victory points from all the Development cards in SlotDevCards
+     * @return the total number of victory points from all Development cards
+     */
+    public int countVictoryPoints(){
+        int slotDevCardsVictoryPoints = 0;
+        for(DevelopmentCard[] rowCard : this.boardDevCards){
+            for(DevelopmentCard card : rowCard){
+                if(card != null)
+                    slotDevCardsVictoryPoints =+ card.getVictoryPoints();
+            }
+        }
+        return slotDevCardsVictoryPoints;
+    }
+
+    /**
+     * This method counts the total number of Development cards in SlotDevCards
+     * @return the number, as an int, of all Development cards in SlotDevCards
+     */
+    public int countTotalNumberDevCards(){
+        int totalNumberDevCards = 0;
+        for(DevelopmentCard[] rowCards : this.boardDevCards){
+            for (DevelopmentCard developmentCard : rowCards){
+                if(developmentCard != null)
+                    totalNumberDevCards++;
+            }
+        }
+        return totalNumberDevCards;
+    }
 }

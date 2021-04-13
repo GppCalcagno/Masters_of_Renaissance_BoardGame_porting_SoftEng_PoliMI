@@ -160,10 +160,9 @@ public class FaithTrack {
 
     /**
      * this is a getter of Faithtracksize
-     * @returnFaithtracksize
+     * @return the faithtracksize attribute
      */
     public int getFaithtracksize() {
         return faithtracksize;
     }
 }
-

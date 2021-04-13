@@ -1,8 +1,9 @@
-package it.polimi.ingsw.card;
+package it.polimi.ingsw.game;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.card.LeaderAction;
 import it.polimi.ingsw.card.leadereffect.ChestLeader;
 import it.polimi.ingsw.card.leadereffect.DiscountLeader;
 import it.polimi.ingsw.card.leadereffect.ProductionLeader;
@@ -20,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class LeaderCardDeck {
     /**
@@ -30,7 +32,7 @@ public class LeaderCardDeck {
     /**
      * This attribute is a vector that contains the reference of all Leader Cards
      */
-    private ArrayList<LeaderAction> leaderCardList;
+    private List<LeaderAction> leaderCardList;
 
     /**
      * This is the constructor method
@@ -87,7 +89,7 @@ public class LeaderCardDeck {
      * @param player to which it is given the card
      */
     public void givetoPlayer (int i, Player player) {
-        player.addLeaderAction(leaderCardList.get(i));
+        player.addLeaderAction(leaderCardList.remove(i));
     }
 
     public void addleaderAction(LeaderAction leaderAction){
@@ -102,4 +104,13 @@ public class LeaderCardDeck {
     public int getSize() {
         return this.leaderCardList.size();
     }
+
+    /**
+     * This method returns the leaderCardList attribute
+     * @return a List of LeaderAction
+     */
+    public List<LeaderAction> getLeaderCardList(){
+        return this.leaderCardList;
+    }
+
 }

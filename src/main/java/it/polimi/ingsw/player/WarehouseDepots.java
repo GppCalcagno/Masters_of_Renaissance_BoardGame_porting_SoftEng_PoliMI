@@ -154,4 +154,8 @@ public class WarehouseDepots {
         sum+=j;
         return sum;
     }
+
+    public List<ExtraChest> getLeaderCardEffect(){
+        return leaderCardEffect;
+    }
 }

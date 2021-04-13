@@ -1,7 +1,7 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.card.LeaderAction;
-import it.polimi.ingsw.producible.Resources;
+import it.polimi.ingsw.producible.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +88,8 @@ public class Player {
         this.slotDevCards= new SlotDevCards();
         this.strongbox= new Strongbox();
         this.warehouse= new WarehouseDepots();
+        this.leaderCardEffectDiscount = new ArrayList<>();
+        this.leaderCardEffectWhiteMarble = new ArrayList<>();
     }
 
     /**
@@ -241,5 +243,35 @@ public class Player {
      */
     public List<LeaderAction> getLeaderActionBox(){
         return this.leaderActionBox;
+    }
+
+    /**
+     * This method counts the total number of Victory points from the activated Leader cards
+     * @return the number of victory points
+     */
+    public int countLeaderActionVictoryPoints(){
+        int leaderActionVictoryPoints = 0;
+        for(LeaderAction leaderAction : leaderActionBox){
+            if(leaderAction.getActivated())
+                leaderActionVictoryPoints += leaderAction.getVictoryPoints();
+        }
+        return leaderActionVictoryPoints;
+    }
+
+    /**
+     * This method returns the total number of player's resources
+     * @return the number of player's resources
+     */
+    public int countTotalResources(){
+        int totalResources = 0;
+        List<Resources> resourcesList = new ArrayList<>();
+        resourcesList.add(new Coins());
+        resourcesList.add(new Servants());
+        resourcesList.add(new Stones());
+        resourcesList.add(new Shields());
+        for(Resources resources : resourcesList){
+            totalResources += this.strongbox.getNumResources(resources) + this.warehouse.getNumResources(resources);
+        }
+        return totalResources;
     }
 }
