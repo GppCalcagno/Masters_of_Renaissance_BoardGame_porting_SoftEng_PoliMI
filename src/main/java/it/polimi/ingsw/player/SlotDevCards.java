@@ -50,7 +50,7 @@ public class SlotDevCards {
 
     /** when player buy a development card this method insert the card in the boardCards
      * @param column the column where player wants put the card just bought in accord with the rules
-     * @param card the card just bought
+     * @param card the card just bought.
      */
     public boolean insertCards( int column, DevelopmentCard card){
         if((card.getLevel()-1)!=0 && (boardDevCards[card.getLevel()-2][column]==null || column>boardDevCards.length || (card.getLevel()-1)>boardDevCards.length)) return false;
