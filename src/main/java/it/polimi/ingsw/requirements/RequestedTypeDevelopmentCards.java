@@ -29,7 +29,7 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
     @Override
     public  boolean checkResources(Player player){
         DevelopmentCard card;
-        HashMap<ColorCard, Integer> checkMap= (HashMap<ColorCard, Integer>) reqDevelopmentCards.clone();
+        HashMap <ColorCard, Integer> checkMap= (HashMap<ColorCard, Integer>) reqDevelopmentCards.clone();
 
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){

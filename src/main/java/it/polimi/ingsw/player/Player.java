@@ -1,6 +1,7 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.card.LeaderAction;
+import it.polimi.ingsw.exceptions.NoSelectedLeaderActionExceptions;
 import it.polimi.ingsw.producible.*;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class Player {
         this.nickname = nickname;
         this.victoryPoints = 0;
         this.faithMarker=0;
-        this.leaderActionBox = new ArrayList<LeaderAction>(); //da inizializzare
+        this.leaderActionBox = new ArrayList<LeaderAction>();
         this.connected = true ;
 
         this.popsfavortiles = new boolean[popfavortilessize];
@@ -245,6 +246,8 @@ public class Player {
         return this.leaderActionBox;
     }
 
+
+
     /**
      * This method counts the total number of Victory points from the activated Leader cards
      * @return the number of victory points
@@ -274,4 +277,24 @@ public class Player {
         }
         return totalResources;
     }
+
+    /**
+     * this method sort the leaderCardEffectWhiteMarble
+     * @param resources is the resources to put on top
+     * @throws NoSelectedLeaderActionExceptions
+     */
+    public void selectedWhiteMarble(Resources resources) throws NoSelectedLeaderActionExceptions {
+        int index=-1;
+
+        for(Resources res: leaderCardEffectWhiteMarble){
+            if(res.getClass().equals(resources.getClass())){
+                index=leaderCardEffectWhiteMarble.indexOf(res);
+            }
+        }
+        if(index==-1) throw new NoSelectedLeaderActionExceptions();
+
+        if(index!=0)
+        leaderCardEffectWhiteMarble.add(0,leaderCardEffectWhiteMarble.remove(index));
+    }
+
 }
