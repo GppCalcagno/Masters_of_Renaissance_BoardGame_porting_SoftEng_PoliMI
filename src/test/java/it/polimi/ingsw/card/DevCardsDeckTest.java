@@ -1,6 +1,5 @@
 package it.polimi.ingsw.card;
 
-import StubGiovanni.PlayerStubDevCardsDeck;
 import it.polimi.ingsw.game.DevCardsDeck;
 import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.Test;
@@ -29,13 +28,22 @@ class DevCardsDeckTest {
     void removeDevCards() throws IOException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
 
-        assertTrue(devCardsDeck.removeDevCards(0,0));
+        devCardsDeck.removeDevCards(2,0);
+        devCardsDeck.removeDevCards(2,0);
+        devCardsDeck.removeDevCards(2,0);
+        devCardsDeck.removeDevCards(2,0);
+        devCardsDeck.removeDevCards(2,0);
+
+        assertEquals(null, devCardsDeck.getDevelopmentCardDeck()[2][0][3]);
+        assertEquals(null, devCardsDeck.getDevelopmentCardDeck()[2][0][2]);
+        assertEquals(null, devCardsDeck.getDevelopmentCardDeck()[2][0][1]);
+
     }
 
     @Test
     void purhcaseCards() throws IOException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
-        Player player = new PlayerStubDevCardsDeck("Seppietta");
+        Player player = new Player("Seppietta");
 
         assertTrue(devCardsDeck.purchaseCards(player, 0, 0, 0));
     }

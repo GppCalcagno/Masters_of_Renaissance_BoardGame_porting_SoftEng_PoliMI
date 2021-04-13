@@ -3,6 +3,8 @@ package it.polimi.ingsw.singleplayer.token;
 import it.polimi.ingsw.card.ColorCard;
 import it.polimi.ingsw.singleplayer.LorenzoIlMagnifico;
 
+import java.util.NoSuchElementException;
+
 public class DiscardDevCards extends Tokens {
 
     /**
@@ -18,15 +20,15 @@ public class DiscardDevCards extends Tokens {
      * this method active one particular token, that one where Lorenzo Discard 2 Developement card.
      */
     @Override
-    public void effectTokens(LorenzoIlMagnifico l){
-        int i=l.getDevelopmentDeck().getDevelopmentCardDeck().length;
-        for(int j=0; j<2; j++) {
-            while (l.getDevelopmentDeck().getDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color)) == null) {
+    public void effectTokens(LorenzoIlMagnifico l) throws  NoSuchElementException {
+        int i = l.getDevelopmentDeck().getDevelopmentCardDeck().length - 1;
+        for (int j = 0; j < 2; j++) {
+            while (i > 0 && l.getDevelopmentDeck().getDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color)) == null) {
                 i--;
             }
-            l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
+            if (i < 0) throw new NoSuchElementException();
+            else l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
         }
-        System.out.println("Discard dev cards" + color);
     }
 
 }

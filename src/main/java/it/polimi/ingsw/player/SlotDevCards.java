@@ -44,7 +44,7 @@ public class SlotDevCards {
         boolean b = false;
 
         for(int j=0; j<boardDevCards.length; j++){
-            if(boardDevCards[d.getLevel()][j]==null && (d.getLevel()==0 || boardDevCards[d.getLevel()-1][j]!=null)) b=true;
+            if(boardDevCards[d.getLevel()-1][j]==null && (d.getLevel()-1==0 || boardDevCards[d.getLevel()-2][j]!=null)) b=true;
         }
         return b;
     }
@@ -69,12 +69,11 @@ public class SlotDevCards {
      */
     public boolean checkUsage(DevelopmentCard card){
         int i=0;
-        boolean c = false;
-        if(card.getLevel() == boardDevCards.length-1) return true;
-        while (boardDevCards[card.getLevel()][i] != card){
+        if(card.getLevel()-1 == boardDevCards.length-1) return true;
+        while (boardDevCards[card.getLevel()-1][i] != card){
             i++;
         }
-        if(boardDevCards[card.getLevel()+1][i]==null) return true;
+        if(boardDevCards[card.getLevel()][i]==null) return true;
         else return false;
     }
 
@@ -95,10 +94,8 @@ public class SlotDevCards {
 
     /** this method empty the buffer into the strongbox
      */
-    //da vedere
     public ArrayList<Producible> emptyBuffer(){
-        ArrayList<Producible> t = new ArrayList<>();
-        Collections.copy(t,buffer);
+        ArrayList<Producible> t = new ArrayList<>(buffer);
         buffer.clear();
         return t;
     }
@@ -155,5 +152,9 @@ public class SlotDevCards {
 
     public List<ExtraProduction> getLeaderCardEffect(){
         return leaderCardEffect;
+    }
+
+    public List<Producible> getBuffer() {
+        return buffer;
     }
 }

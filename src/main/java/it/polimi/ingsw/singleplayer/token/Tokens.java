@@ -1,6 +1,9 @@
 package it.polimi.ingsw.singleplayer.token;
 
+import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.singleplayer.LorenzoIlMagnifico;
+
+import java.io.IOException;
 
 public abstract class Tokens {
 
@@ -13,7 +16,7 @@ public abstract class Tokens {
      * this method active the effect of the token
      * @param l is the computer that call it.
      */
-    public void effectTokens(LorenzoIlMagnifico l){
+    public void effectTokens(LorenzoIlMagnifico l) throws IOException, NegativeQuantityExceptions {
 
     }
 }

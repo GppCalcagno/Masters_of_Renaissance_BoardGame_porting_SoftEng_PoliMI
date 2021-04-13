@@ -1,12 +1,15 @@
 package it.polimi.ingsw.singleplayer;
 
 import it.polimi.ingsw.card.ColorCard;
+import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
+
 import it.polimi.ingsw.game.DevCardsDeck;
 import it.polimi.ingsw.singleplayer.token.DiscardDevCards;
 import it.polimi.ingsw.singleplayer.token.MoveOneAndMix;
 import it.polimi.ingsw.singleplayer.token.MoveTwo;
 import it.polimi.ingsw.singleplayer.token.Tokens;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -49,13 +52,11 @@ public class LorenzoIlMagnifico {
 
     }
 
-    /** this method active a tokens
-     * @return the tokens activated
+    /** this method active a tokens and increase the index i to the next time call an other token
      */
-    public void drawTokens(){
+    public void drawTokens() throws IOException, NegativeQuantityExceptions {
         tokensvet[i].effectTokens(this);
-        // i da controllare ?
-        i++;
+        if(i<tokensvet.length) i++;
     }
 
     /**
@@ -91,8 +92,9 @@ public class LorenzoIlMagnifico {
 
     /** this method increase the position of the blackcrosstoken
      */
-    public void increaseFaithMarker(int blackCrossToken){
-        this.blackCrossToken = blackCrossToken;
+    public void increaseFaithMarker(int blackCrossToken) throws NegativeQuantityExceptions {
+        if(blackCrossToken>0) this.blackCrossToken =+ blackCrossToken;
+        else throw new NegativeQuantityExceptions();
     }
 
     /**
@@ -102,11 +104,5 @@ public class LorenzoIlMagnifico {
     public DevCardsDeck getDevelopmentDeck() {
         return developmentDeck;
     }
-
-    /*public void showVector(){
-        for(int i=0; i<7; i++){
-            System.out.println(tokensvet[i]);
-        }
-    }*/
 
 }

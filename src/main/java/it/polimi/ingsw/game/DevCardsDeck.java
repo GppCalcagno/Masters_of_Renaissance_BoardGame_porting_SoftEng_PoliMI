@@ -161,10 +161,11 @@ public class DevCardsDeck {
         int i=0;
         if(developmentCardDeck[row][column][0]==null) return false;
         else {
-            while (i != developmentCardDeck.length - 1 && developmentCardDeck[row][column][i + 1] != null) i++;
+            while (i <= developmentCardDeck.length-1 && developmentCardDeck[row][column][i + 1] != null) i++;
             for (int j = 0; j < i; j++) {
                 developmentCardDeck[row][column][j] = developmentCardDeck[row][column][j + 1];
             }
+            developmentCardDeck[row][column][i]=null;
             return true;
         }
     }
