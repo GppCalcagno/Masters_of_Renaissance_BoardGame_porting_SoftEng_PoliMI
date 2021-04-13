@@ -124,7 +124,12 @@ public class WarehouseDepots {
         }
     }
 
+    /**
+     * this method add the effect of activeted LeaderCard
+     * @param resources type of resource stored
+     */
     public void addleaderCardEffect(Resources resources) {
+        leaderCardEffect.add(new ExtraChest(resources));
     }
 
     /**

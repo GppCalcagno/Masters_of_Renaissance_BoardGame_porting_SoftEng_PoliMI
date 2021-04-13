@@ -1,5 +1,6 @@
 package it.polimi.ingsw.card.leadereffect;
 
+import it.polimi.ingsw.exceptions.OverflowQuantityExcepions;
 import it.polimi.ingsw.producible.Resources;
 
 public class ExtraChest {
@@ -15,6 +16,15 @@ public class ExtraChest {
     private int num;
 
     /**
+     * this is the costuctor of the class
+     * @param resources type of resource stored in ExtraChest
+     */
+    public ExtraChest(Resources resources) {
+        this.resources = resources;
+        num=0;
+    }
+
+    /**
      * this is the constructor the initialized the number of resources inside the chestbox = 0
      */
     public  ExtraChest(){
@@ -25,8 +35,9 @@ public class ExtraChest {
      * this method update the amount of resources inside the chest
      * @param n the new amount of resources
      */
-    void updateResources(int n){
-
+    void updateResources(int n) throws OverflowQuantityExcepions {
+        num+= n;
+        if(num>2) throw new OverflowQuantityExcepions();
     }
 
     /**
@@ -42,6 +53,6 @@ public class ExtraChest {
      * @return the amount of resources
      */
     public int getnum(){
-        return 0;
+        return num;
     }
 }

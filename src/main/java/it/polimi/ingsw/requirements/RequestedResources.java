@@ -15,6 +15,7 @@ public class RequestedResources extends RequirementsLeader {
      */
     private int reqnumResources;
 
+
     /**
      * this is the costructor of RequestedResources
      * @param reqResources is the type of the resources
@@ -27,27 +28,15 @@ public class RequestedResources extends RequirementsLeader {
 
     /**
      * check if the card requirements are met
-     * @param P is the player who uses the Card
+     * @param player is the player who uses the Card
      * @return 1 if the requirements are met, 0 otherwise
      */
     @Override
-    public  boolean checkResources(Player P){
-        return true; //momentaneo
+    public  boolean checkResources(Player player){
+        int currentRes;
+        currentRes = player.getStrongbox().getNumResources(reqResources) + player.getWarehouse().getNumResources(reqResources);
+        return currentRes>=reqnumResources;
     }
 
-    /**
-     * This method returns the Resources type
-     * @return a Resources
-     */
-    public Resources getReqResources() {
-        return this.reqResources;
-    }
 
-    /**
-     * This method returns the Requested Resources' number
-     * @return an integer
-     */
-    public int getReqnumResources() {
-        return this.reqnumResources;
-    }
 }

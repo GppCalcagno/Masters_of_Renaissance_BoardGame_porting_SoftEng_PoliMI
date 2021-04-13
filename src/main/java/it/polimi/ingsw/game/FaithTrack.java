@@ -162,7 +162,7 @@ public class FaithTrack {
      * this is a getter of Faithtracksize
      * @returnFaithtracksize
      */
-    public static int getFaithtracksize() {
+    public int getFaithtracksize() {
         return faithtracksize;
     }
 }

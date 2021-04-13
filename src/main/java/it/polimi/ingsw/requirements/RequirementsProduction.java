@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class RequirementsProduction implements Requirements{
+public class RequirementsProduction implements Requirements {
     /**
      * this attribute is the Map of the required resources
      */
@@ -16,12 +16,29 @@ public class RequirementsProduction implements Requirements{
     /**
      * check if the card requirements are met,
      * it also takes away the resources from the player
-     * @param P is the player who uses the Card
+     * @param player is the player who uses the Card
      * @return 1 if the resources requirements are met, 0 otherwise
      */
     @Override
-    public boolean checkResources(Player P) {
-        return false;
+    public boolean checkResources(Player player) {
+        int currentRes;
+        //qui ho hardcodato le risorse (nel caso fosse possibile cambiare)
+        Resources[] type = new Resources[4];
+        type[0] = new Coins();
+        type[1] = new Servants();
+        type[2] = new Servants();
+        type[3] = new Shields();
+
+        for (Resources res : type) {
+            currentRes = 0;
+            if (reqMap.containsKey(res.toString())) {
+                currentRes = player.getStrongbox().getNumResources(res) + player.getWarehouse().getNumResources(res);
+
+                if (currentRes < reqMap.get(res.toString()))
+                    return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -32,8 +49,12 @@ public class RequirementsProduction implements Requirements{
         return reqMap;
     }
 
+    /**
+     * this methos adds a request to the card characteristics
+     * @param rec type of resource requested
+     * @param num num of resource requested
+     */
     public void addRequirementsProduction(Resources rec, int num){
-        if(reqMap.containsKey(rec.toString()));
-
+        reqMap.put(rec.toString(),num);
     }
 }
