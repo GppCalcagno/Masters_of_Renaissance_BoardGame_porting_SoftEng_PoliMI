@@ -2,6 +2,7 @@ package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.card.LeaderAction;
 import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
+import it.polimi.ingsw.exceptions.NoSelectedLeaderActionExceptions;
 import it.polimi.ingsw.game.LeaderCardDeck;
 import it.polimi.ingsw.producible.Coins;
 import it.polimi.ingsw.producible.Shields;
@@ -67,4 +68,45 @@ class PlayerTest {
 
         assertEquals(0, player.countTotalResources());
     }
+
+    @Test
+    void selectedWhiteMarble(){
+        Player player = new Player("Giuseppe");
+
+        try {
+            player.selectedWhiteMarble(new Coins());
+        } catch (NoSelectedLeaderActionExceptions noSelectedLeaderActionExceptions) {assertTrue(true);}
+
+    }
+
+    @Test
+    void AlreadyFirstMarble() throws NoSelectedLeaderActionExceptions {
+        Player player = new Player("Giuseppe");
+        player.addleaderCardEffectWhiteMarble(new Coins());
+
+        player.selectedWhiteMarble(new Coins());
+
+
+        assertEquals(player.getLeaderCardEffectWhiteMarble().get(0).getClass(), Coins.class);
+    }
+
+    @Test
+    void MovetoFirst() throws NoSelectedLeaderActionExceptions {
+        Player player = new Player("Giuseppe");
+
+        player.addleaderCardEffectWhiteMarble(new Shields());
+        player.addleaderCardEffectWhiteMarble(new Coins());
+
+        player.selectedWhiteMarble(new Coins());
+
+        assertEquals(player.getLeaderCardEffectWhiteMarble().get(0).getClass(), Coins.class);
+
+        assertEquals(player.getLeaderCardEffectWhiteMarble().size(),2);
+        assertEquals(player.getLeaderCardEffectWhiteMarble().get(1).getClass(), Shields.class);
+
+    }
+
+
+
+
 }

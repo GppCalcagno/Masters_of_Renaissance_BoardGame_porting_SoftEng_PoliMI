@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RequirementsProductionTest {
 
     @Test
-    void CheckEmpty() {
+    void ProductionCheckEmpty() {
         Player player= new Player("lillo");
 
         RequirementsProduction tested= new RequirementsProduction();
@@ -19,7 +19,7 @@ class RequirementsProductionTest {
     }
 
     @Test
-    void NoNeededResources1() throws NegativeQuantityExceptions {
+    void ProductionNoNeededResources1() throws NegativeQuantityExceptions {
         Player player= new Player("lillo");
         player.getStrongbox().updateResources(new Coins(),5);
 
@@ -31,7 +31,7 @@ class RequirementsProductionTest {
     }
 
     @Test
-    void NoNeededResources2() throws NegativeQuantityExceptions {
+    void ProductionNoNeededResources2() throws NegativeQuantityExceptions {
         Player player= new Player("lillo");
         player.getStrongbox().updateResources(new Coins(),5);
 
@@ -42,7 +42,7 @@ class RequirementsProductionTest {
     }
 
     @Test
-    void ReturnTrue() throws NegativeQuantityExceptions {
+    void ProductionReturnTrue() throws NegativeQuantityExceptions {
         Player player= new Player("lillo");
 
         player.getStrongbox().updateResources(new Coins(),5);
@@ -55,4 +55,42 @@ class RequirementsProductionTest {
 
         assertTrue(tested.checkResources(player));
     }
+
+    @Test
+    void PurchaseCheckEmpty() {
+        Player player= new Player("lillo");
+
+        RequirementsProduction tested= new RequirementsProduction();
+        assertTrue(tested.checkBuy(player));
+    }
+
+    @Test
+    void PurchaseNoNeededResources1() throws NegativeQuantityExceptions {
+        Player player= new Player("lillo");
+        player.getStrongbox().updateResources(new Coins(),5);
+
+        RequirementsProduction tested= new RequirementsProduction();
+
+        tested.addRequirementsProduction(new Coins(),3);
+        tested.addRequirementsProduction(new Shields(),1);
+
+        assertFalse(tested.checkBuy(player));
+    }
+
+    @Test
+    void PurchaseReturnTrue() throws NegativeQuantityExceptions {
+        Player player= new Player("lillo");
+
+        player.getStrongbox().updateResources(new Coins(),3);
+        player.addleaderCardEffectDiscount(new Coins());
+        player.addleaderCardEffectDiscount(new Shields());
+
+
+        RequirementsProduction tested= new RequirementsProduction();
+        tested.addRequirementsProduction(new Coins(),3);
+        tested.addRequirementsProduction(new Shields(),1);
+
+        assertTrue(tested.checkBuy(player));
+    }
+
 }
