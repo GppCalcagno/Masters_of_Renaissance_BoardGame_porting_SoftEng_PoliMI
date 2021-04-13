@@ -55,8 +55,11 @@ public class SlotDevCards {
     public boolean insertCards( int column, DevelopmentCard card){
         if((card.getLevel()-1)!=0 && (boardDevCards[card.getLevel()-2][column]==null || column>boardDevCards.length || (card.getLevel()-1)>boardDevCards.length)) return false;
         else{
-            boardDevCards[card.getLevel()-1][column] = card;
-            return true;
+            if(boardDevCards[card.getLevel()-1][column]!=null) return false;
+            else {
+                boardDevCards[card.getLevel() - 1][column] = card;
+                return true;
+            }
         }
     }
 
