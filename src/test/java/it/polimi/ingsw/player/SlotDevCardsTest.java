@@ -55,4 +55,47 @@ class SlotDevCardsTest {
         assertEquals(3, s.countTotalNumberDevCards());
 
     }
+
+    @Test
+    void countVictoryPointsZero() throws IOException{
+        SlotDevCards slotDevCards = new SlotDevCards();
+
+        assertEquals(0, slotDevCards.countVictoryPoints());
+    }
+
+    @Test
+    void countVictoryPointsOne() throws IOException{
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+        SlotDevCards slotDevCards = new SlotDevCards();
+        slotDevCards.insertCards(0, devCardsDeck.getDevCards(2, 0));
+
+        assertEquals(devCardsDeck.getDevCards(2, 0).getVictoryPoints(), slotDevCards.countVictoryPoints());
+    }
+
+    @Test
+    void countVictoryPointsTree() throws IOException {
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+        SlotDevCards slotDevCards = new SlotDevCards();
+        slotDevCards.insertCards(0, devCardsDeck.getDevCards(2,0));
+        slotDevCards.insertCards(1, devCardsDeck.getDevCards(2,1));
+        slotDevCards.insertCards(2, devCardsDeck.getDevCards(2,2));
+
+        int numvic = devCardsDeck.getDevCards(2,0).getVictoryPoints() + devCardsDeck.getDevCards(2,1).getVictoryPoints() + devCardsDeck.getDevCards(2,2).getVictoryPoints();
+        assertEquals(numvic, slotDevCards.countVictoryPoints());
+    }
+
+    @Test
+    void countVictoryPointsMany() throws IOException {
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+        SlotDevCards slotDevCards = new SlotDevCards();
+        slotDevCards.insertCards(0, devCardsDeck.getDevCards(2,0));
+        slotDevCards.insertCards(1, devCardsDeck.getDevCards(2,1));
+        slotDevCards.insertCards(2, devCardsDeck.getDevCards(2,2));
+        slotDevCards.insertCards(0, devCardsDeck.getDevCards(1,0));
+        slotDevCards.insertCards(1, devCardsDeck.getDevCards(1,1));
+        slotDevCards.insertCards(2, devCardsDeck.getDevCards(1,2));
+
+        int numvic = devCardsDeck.getDevCards(2,0).getVictoryPoints() + devCardsDeck.getDevCards(2,1).getVictoryPoints() + devCardsDeck.getDevCards(2,2).getVictoryPoints() + devCardsDeck.getDevCards(1,0).getVictoryPoints() + devCardsDeck.getDevCards(1,1).getVictoryPoints() + devCardsDeck.getDevCards(1,2).getVictoryPoints();
+        assertEquals(numvic, slotDevCards.countVictoryPoints());
+    }
 }

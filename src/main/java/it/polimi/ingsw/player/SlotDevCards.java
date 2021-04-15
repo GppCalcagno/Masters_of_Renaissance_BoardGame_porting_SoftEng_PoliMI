@@ -6,8 +6,6 @@ import it.polimi.ingsw.producible.Producible;
 import it.polimi.ingsw.producible.Resources;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class SlotDevCards {
@@ -126,10 +124,10 @@ public class SlotDevCards {
      */
     public int countVictoryPoints(){
         int slotDevCardsVictoryPoints = 0;
-        for(DevelopmentCard[] rowCard : this.boardDevCards){
+        for(DevelopmentCard[] rowCard : boardDevCards){
             for(DevelopmentCard card : rowCard){
                 if(card != null)
-                    slotDevCardsVictoryPoints =+ card.getVictoryPoints();
+                    slotDevCardsVictoryPoints += card.getVictoryPoints();
             }
         }
         return slotDevCardsVictoryPoints;

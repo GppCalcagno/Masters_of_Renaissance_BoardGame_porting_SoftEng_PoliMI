@@ -92,11 +92,6 @@ public class LeaderCardDeck {
         player.addLeaderAction(leaderCardList.remove(i));
     }
 
-    public void addleaderAction(LeaderAction leaderAction){
-        if(leaderCardList.size() <= size)
-            leaderCardList.add(leaderAction);
-    }
-
     /**
      * This method returns Leader Card's number
      * @return the number of Leader Cards
