@@ -75,7 +75,7 @@ public class MarketStructure {
      * @param direction indicates if the player want to extract a row or a column of Marbles
      * @param n indicates the number of the row or of the column chosen
      */
-    public void extractMarbles (char direction, int n) {
+    public boolean extractMarbles (char direction, int n) {
         // 'c' = colonna, 'r' = riga
 
         if( direction == 'c' ) {
@@ -84,9 +84,10 @@ public class MarketStructure {
                     this.buffer.add(this.marketTray[i][n]);
                 }
                 insertMarble(direction, n);
+                return true;
             }
             else {
-                System.out.println("Errore: num colonna inesistente");
+                return false;
             }
         }
         else if ( direction == 'r' ) {
@@ -95,13 +96,14 @@ public class MarketStructure {
                     this.buffer.add(this.marketTray[n][j]);
                 }
                 insertMarble(direction, n);
+                return true;
             }
             else {
-                System.out.println("Errore: num riga inesistente");
+                return false;
             }
         }
         else {
-            System.out.println("Errore: nessuna riga o colonna valida indicata");
+            return false;
         }
     }
 

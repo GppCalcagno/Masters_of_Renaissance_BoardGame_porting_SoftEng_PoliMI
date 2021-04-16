@@ -1,8 +1,7 @@
-package it.polimi.ingsw.card;
+package it.polimi.ingsw.game;
 
 import it.polimi.ingsw.game.LeaderCardDeck;
 import it.polimi.ingsw.player.Player;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -10,14 +9,6 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LeaderCardDeckTest {
-
-    @Test
-    void getLeaderCardList() throws IOException {
-        LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
-
-        assertFalse(leaderCardDeck.getLeaderCardList().isEmpty());
-        assertEquals(16, leaderCardDeck.getLeaderCardList().size());
-    }
 
     @Test
     void sizeTest() throws IOException {

@@ -30,21 +30,28 @@ class MarketStructureTest {
     @Test
     void extractMarblesColumn() throws IOException {
         MarketStructure marketTest = new MarketStructure();
-        marketTest.extractMarbles('c', 2);
+        assertTrue(marketTest.extractMarbles('c', 2));
 
         assertFalse(marketTest.getBuffer().isEmpty());
-
-        System.out.println("Il buffer è lungo: " + marketTest.getBuffer().size() + " = sizex");
     }
 
     @Test
     void extractMarblesRow() throws IOException {
         MarketStructure marketTest = new MarketStructure();
-        marketTest.extractMarbles('r', 2);
+        assertTrue(marketTest.extractMarbles('r', 2));
 
         assertFalse(marketTest.getBuffer().isEmpty());
+    }
 
-        System.out.println("Il buffer è lungo: " + marketTest.getBuffer().size() + " = sizey");
+    @Test
+    void extractMarblesRowError() throws IOException {
+        MarketStructure marketTest = new MarketStructure();
+        try{
+            assertFalse(marketTest.extractMarbles('r', 3));
+        }
+        catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){
+            System.out.println("Errore riga");
+        }
     }
 
     @Test
