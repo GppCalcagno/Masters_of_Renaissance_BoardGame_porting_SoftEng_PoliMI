@@ -51,6 +51,17 @@ class PlayerTest {
     }
 
     @Test
+    void countLeaderActionVictoryPointsNotActivated() throws IOException {
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
+        Player player = new Player("Francesco");
+
+        player.addLeaderAction(leaderCardDeck.getLeaderCardList(0));
+        player.addLeaderAction(leaderCardDeck.getLeaderCardList(1));
+
+        assertEquals(0, player.countLeaderActionVictoryPoints());
+    }
+
+    @Test
     void countTotalResources2() throws IOException, NegativeQuantityExceptions {
         LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
         Player player = new Player("Giuseppe");

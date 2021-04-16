@@ -151,7 +151,7 @@ public class Game {
      */
     public void givefinalpoints () {
         for(Player p : this.playersList){
-            p.addVictoryPoints(p.getSlotDevCards().countVictoryPoints() + p.countLeaderActionVictoryPoints() + p.countTotalResources()/5 + faithTrack.getPlayerPoint(p));
+            p.addVictoryPoints(p.getSlotDevCards().countVictoryPoints() + p.countLeaderActionVictoryPoints() + (p.countTotalResources())/5 + faithTrack.getPlayerPoint(p));
         }
     }
 

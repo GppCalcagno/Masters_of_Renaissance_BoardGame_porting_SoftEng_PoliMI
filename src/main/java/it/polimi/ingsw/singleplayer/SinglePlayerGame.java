@@ -148,6 +148,7 @@ public class SinglePlayerGame extends Game {
             if (leaderCardDeck.getLeaderCardList().isEmpty())
                 throw new EmptyLeaderCardException();
             else {
+                this.currentPlayer = this.playersList.get(0);
                 for (int x = 0; x < 4; x++) {
                     leaderCardDeck.givetoPlayer(0, currentPlayer);
                 }

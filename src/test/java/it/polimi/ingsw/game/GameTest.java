@@ -166,7 +166,7 @@ class GameTest {
     }
 
     @Test
-    void givefinalpoints() throws IOException, NegativeQuantityExceptions {
+    void givefinalpoints() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException {
         Game game = new Game();
         Player player = new Player("Caterina");
 
@@ -174,11 +174,22 @@ class GameTest {
         game.getLeaderCardDeck().getLeaderCardList(0).setActivated();
         player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardList(0));
         player.getStrongbox().updateResources(new Coins(),2);
+        int i = game.getDevelopmentCardDeck().getDevCards(2, 0).getVictoryPoints() + player.getLeaderActionBox().get(0).getVictoryPoints();
 
         game.addPlayersList(player);
-
         game.givefinalpoints();
-        assertEquals(game.getDevelopmentCardDeck().getDevCards(2, 0).getVictoryPoints() + player.getLeaderActionBox().get(0).getVictoryPoints(), game.getPlayersList().get(0).getVictoryPoints());
+        assertEquals(i, game.getPlayersList().get(0).getVictoryPoints());
+    }
+
+    @Test
+    void givefinalpoints0() throws IOException, EmptyLeaderCardException, NullPlayerListGameException {
+        Game game = new Game();
+        Player player = new Player("Caterina");
+
+        game.addPlayersList(player);
+        game.startgame();
+        game.givefinalpoints();
+        assertEquals(0, game.getPlayersList().get(0).getVictoryPoints());
     }
 
     @Test

@@ -66,15 +66,14 @@ class SinglePlayerGameTest {
     void givefinalpoints() throws IOException, NegativeQuantityExceptions, NullPlayerListGameException, EmptyLeaderCardException {
         SinglePlayerGame game = new SinglePlayerGame();
         Player player = new Player("Valentina");
-        game.addPlayersList(player);
-        game.setCurrentPlayer();
-        game.startgame();
 
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(2, 0));
         game.getLeaderCardDeck().getLeaderCardList(0).setActivated();
         player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardList(0));
         player.getStrongbox().updateResources(new Coins(),2);
 
+        game.addPlayersList(player);
+        game.setCurrentPlayer();
         game.givefinalpoints();
         assertEquals(game.getDevelopmentCardDeck().getDevCards(2, 0).getVictoryPoints() + player.getLeaderActionBox().get(0).getVictoryPoints(), game.getCurrentPlayer().getVictoryPoints());
     }
