@@ -24,7 +24,10 @@ class DevCardsDeckTest {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
 
         assertNotEquals(null, devCardsDeck.getDevCards(0,0));
+        assertNotEquals(null, devCardsDeck.getDevCards(1,2));
+        assertNotEquals(null, devCardsDeck.getDevCards(2,3));
     }
+
 
     @Test
     void removeDevCards() throws IOException {
@@ -43,11 +46,33 @@ class DevCardsDeckTest {
     }
 
     @Test
-    void purhcaseCards() throws IOException {
+    void removeOneCard() throws IOException {
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+
+        devCardsDeck.removeDevCards(2,0);
+        assertEquals(null, devCardsDeck.getDevelopmentCardDeck()[2][0][3]);
+
+    }
+
+    @Test
+    void purhcaseCardsofOneCard() throws IOException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
         Player player = new Player("Seppietta");
 
-        //assertTrue(devCardsDeck.purchaseCards(player, 0, 0, 0));
+        assertTrue(devCardsDeck.purchaseCards(player, 0, 2, 0));
+    }
+
+    @Test
+    void purchaseCardsofMultipleCards() throws IOException{
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+        Player player = new Player("Maccio");
+
+        assertTrue(devCardsDeck.purchaseCards(player, 0, 2, 0));
+        assertTrue(devCardsDeck.purchaseCards(player, 0, 1, 0));
+        assertTrue(devCardsDeck.purchaseCards(player, 1, 2, 0));
+        assertTrue(devCardsDeck.purchaseCards(player, 2, 2, 0));
+        assertTrue(devCardsDeck.purchaseCards(player, 2, 1, 0));
+        assertTrue(devCardsDeck.purchaseCards(player, 2, 0, 0));
     }
 
     @Test

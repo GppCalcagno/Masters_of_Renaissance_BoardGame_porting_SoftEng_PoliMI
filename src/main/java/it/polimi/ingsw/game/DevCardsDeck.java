@@ -174,7 +174,7 @@ public class DevCardsDeck {
      * this method assign the card at the top of the cube to the player who purchase it
      * @param player player who calls
      * @param playercolumn for SlotDevCards' insertCards
-     * @param level level of the required card - equivalent to the row of the matrix
+     * @param level level of the row of the matrix - reverse of the level of card. levelMatrix = 0 --> levelCard = 3
      * @param color color of the required card - equivalent to the column of the matrix
      */
     public boolean purchaseCards(Player player, int playercolumn, int level, int color){
