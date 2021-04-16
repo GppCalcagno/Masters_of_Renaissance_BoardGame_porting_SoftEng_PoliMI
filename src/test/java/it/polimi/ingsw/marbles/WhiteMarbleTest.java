@@ -18,7 +18,7 @@ class WhiteMarbleTest {
         player.addleaderCardEffectWhiteMarble(resources);
         Marbles marbles = new WhiteMarble();
 
-        marbles.addtoWarehouse(player, 0);
+        assertTrue(marbles.addtoWarehouse(player, 0));
         assertEquals(1, player.getWarehouse().getNumResources(resources));
     }
 
@@ -27,14 +27,17 @@ class WhiteMarbleTest {
         Player player = new Player("Filomena");
         Marbles marbles = new WhiteMarble();
 
-        marbles.addtoWarehouse(player, 0);
-        List<Resources> resourcesList = new ArrayList<>();
-        resourcesList.add(new Coins());
-        resourcesList.add(new Servants());
-        resourcesList.add(new Shields());
-        resourcesList.add(new Stones());
-        for(Resources resources : resourcesList){
-            assertEquals(0, player.getWarehouse().getNumResources(resources));
-        }
+        assertFalse(marbles.addtoWarehouse(player, 0));
+    }
+
+    @Test
+    void addToWarehouseFalse(){
+        Player player = new Player("Filomena");
+        Marbles marbles = new WhiteMarble();
+        Resources resources = new Coins();
+        player.addleaderCardEffectWhiteMarble(resources);
+        assertTrue(player.getWarehouse().checkInsertion(0, resources));
+
+        assertFalse(marbles.addtoWarehouse(player, 1));
     }
 }

@@ -9,14 +9,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class GreyMarbleTest {
 
     @Test
-    void addtoWarehouse() {
+    void addtoWarehouseTrue() {
         Player player = new Player("Luca");
         Marbles marbles = new GreyMarble();
 
         assertEquals(0, player.getWarehouse().getNumResources(new Stones()));
-
-        marbles.addtoWarehouse(player, 0);
-
+        assertTrue(marbles.addtoWarehouse(player, 0));
         assertEquals(1, player.getWarehouse().getNumResources(new Stones()));
+    }
+
+    @Test
+    void addtoWarehouseFalse() {
+        Player player = new Player("Luca");
+        Marbles marbles = new GreyMarble();
+
+        assertTrue(player.getWarehouse().checkInsertion(0, new Stones()));
+        assertFalse(marbles.addtoWarehouse(player, 1));
     }
 }

@@ -8,12 +8,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class RedMarbleTest {
 
     @Test
-    void addtoWarehouse() {
+    void addtoWarehouseTrue() {
         Player playerStub = new Player("Giova");
         Marbles marbles = new RedMarble();
 
         assertEquals(0, playerStub.getFaithMarker());
-        marbles.addtoWarehouse(playerStub, 1);
+        assertTrue(marbles.addtoWarehouse(playerStub, 0));
         assertEquals(1, playerStub.getFaithMarker());
+    }
+
+    @Test
+    void addtoWarehouseFalse() {
+        Player playerStub = new Player("Giova");
+        Marbles marbles = new RedMarble();
+
+        for (int i = 0; i < 25; i++){
+            playerStub.increasefaithMarker();
+        }
+        assertFalse(marbles.addtoWarehouse(playerStub, 0));
     }
 }

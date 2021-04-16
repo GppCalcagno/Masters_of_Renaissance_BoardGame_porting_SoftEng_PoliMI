@@ -1,6 +1,6 @@
 package it.polimi.ingsw.card.leadereffect;
 
-import StubGiovanni.LeaderCardDeckStub;
+import Stub.LeaderCardDeckStub;
 import it.polimi.ingsw.game.DevCardsDeck;
 import it.polimi.ingsw.game.LeaderCardDeck;
 import it.polimi.ingsw.player.Player;

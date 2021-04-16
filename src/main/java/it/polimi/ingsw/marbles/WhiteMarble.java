@@ -8,10 +8,10 @@ public class WhiteMarble extends Marbles {
      * @param p reference to the player's Warehouse depots
      */
     @Override
-    public void addtoWarehouse(Player p, int i) {
-        if(!p.getLeaderCardEffectWhiteMarble().isEmpty()){
+    public boolean addtoWarehouse(Player p, int i) {
+        if(!p.getLeaderCardEffectWhiteMarble().isEmpty())
             // Controlla se è possibile inserire la prima risorsa di leaderCardEffectWhiteMarble (da inserire solo nel magazzino)
-            p.getWarehouse().checkInsertion(i , p.getLeaderCardEffectWhiteMarble().get(0));
-        }
+            return p.getWarehouse().checkInsertion(i , p.getLeaderCardEffectWhiteMarble().get(0));
+        else return false;
     }
 }

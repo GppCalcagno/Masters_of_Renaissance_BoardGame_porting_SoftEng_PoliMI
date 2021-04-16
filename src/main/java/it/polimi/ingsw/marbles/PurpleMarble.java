@@ -10,7 +10,7 @@ public class PurpleMarble extends Marbles {
      * @param p reference to the player's Warehouse depots
      */
     @Override
-    public void addtoWarehouse(Player p, int i) {
-        p.getWarehouse().checkInsertion(i, new Servants());
+    public boolean addtoWarehouse(Player p, int i) {
+        return p.getWarehouse().checkInsertion(i, new Servants());
     }
 }
