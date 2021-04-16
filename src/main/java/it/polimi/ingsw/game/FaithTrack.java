@@ -46,7 +46,7 @@ public class FaithTrack {
     /**
      * this is the costructor of the faithtrack
      */
-    FaithTrack() {
+    public FaithTrack() {
         faithtrack = new int[faithtracksize];
         faithtrack[0] = 0;
         faithtrack[1] = 0;
