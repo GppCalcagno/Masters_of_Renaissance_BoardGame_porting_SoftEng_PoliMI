@@ -28,9 +28,9 @@ public class WarehouseDepots {
     public WarehouseDepots(){
         leaderCardEffect= new ArrayList<>();
         warehouse = new Resources[sizex][sizey];
-        warehouse[2][1] = null;
-        warehouse[1][1] = null;
-        warehouse[2][0] = null;
+        warehouse[0][1] = null;
+        warehouse[0][2] = null;
+        warehouse[1][2] = null;
 
     }
 
@@ -49,31 +49,41 @@ public class WarehouseDepots {
      * @param res the type of Resources i want insert
      */
     public boolean checkInsertion(int row, Resources res){
-        int i = 0;
+        boolean already = false;
         if(warehouse[row][0]!=null) {
             if (res.getClass().equals(warehouse[row][0].getClass())) {
-                insertResources(row, res);
-                return true;
+                if(insertResources(row, res)) return true;
+                else return  false;
             }
             else return false;
-
         }
         else{
-            insertResources(row, res);
-            return true;
+            for(int i=0; i<warehouse.length; i++){
+                if(warehouse[i][0]!=null && res.getClass().equals(warehouse[i][0].getClass())) already= true;
+            }
+            if(!already) {
+                if(insertResources(row, res)) return true;
+                else return false;
+            }
+            else return false;
         }
     }
 
     /** this method allow to insert a resource in the warehouse matrix
      * @param row where
      * @param res
+     * @return
      */
-    public void insertResources (int row, Resources res) {
+    public boolean insertResources (int row, Resources res) {
         int i = 0;
         while (warehouse[row][i]!=null){
             i++;
         }
-        if(i<=row) warehouse[row][i] = res;
+        if(i<row+1){
+            warehouse[row][i] = res;
+            return true;
+        }
+        else return false;
     }
 
     /** this method check if the player can do a change of depots in accord with the rules
@@ -87,8 +97,6 @@ public class WarehouseDepots {
             return true;
         }
         else return false;
-
-
     }
 
     /** this method does the exchange if checkExchange allows it
@@ -143,19 +151,23 @@ public class WarehouseDepots {
         int i=0;
         for (ExtraChest chest: leaderCardEffect){
             if(chest.getResources().getClass().equals(res.getClass())){
-                sum+=chest.getnum();
+                sum=+chest.getnum();
             }
         }
 
-        while(warehouse[i][0]!=null && !warehouse[i][0].getClass().equals(res.getClass()) && i<3)i++;
+        while(warehouse[i][0]== null || (warehouse[i][0]!=null && !warehouse[i][0].getClass().equals(res.getClass()) && i<warehouse.length)) i++;
 
-        if(i<3){ while(warehouse[i][j]!=null && j<3)j++; }
+        if(i<warehouse.length){ while(warehouse[i][j]!=null && j<warehouse.length)j++; }
 
-        sum+=j;
+        sum=+j;
         return sum;
     }
 
     public List<ExtraChest> getLeaderCardEffect(){
         return leaderCardEffect;
+    }
+
+    public Resources[][] getWarehouse() {
+        return warehouse;
     }
 }
