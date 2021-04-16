@@ -11,100 +11,134 @@ import javax.annotation.Resource;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WarehouseDepotsTest {
+    Resources coin = new Coins();
+    Resources shield = new Shields();
+    Resources stone = new Stones();
+    Resources servant = new Servants();
 
+    //-------------------------------------checkInsertiontest------------------------------------
     @Test
-    void getWarehouseNum() {
-    }
-
-    @Test
-    void checkInsertion() {
+    void Limit() {
         WarehouseDepots w = new WarehouseDepots();
-        Resources r1 = new Coins();
-        Resources r2 = new Shields();
-        Resources r3 = new Stones();
-        Resources r4 = new Servants();
 
-        assertTrue(w.checkInsertion(0,r1));
-        assertFalse(w.checkInsertion(0,r1));
-        assertTrue(w.checkInsertion(1,r2));
-        assertTrue(w.checkInsertion(1,r2));
-        assertFalse(w.checkInsertion(1,r3));
-        assertFalse(w.checkInsertion(2,r1));
+        assertTrue(w.checkInsertion(0,coin));
+        assertFalse(w.checkInsertion(0,coin));
+        assertFalse(w.checkInsertion(0,coin));
+        assertFalse(w.checkInsertion(0,coin));
 
-        assertTrue(w.checkInsertion(2,r4));
-        assertTrue(w.checkInsertion(2,r4));
-        assertTrue(w.checkInsertion(2,r4));
-    }
+        assertTrue(w.checkInsertion(1,shield));
+        assertTrue(w.checkInsertion(1,shield));
+        assertFalse(w.checkInsertion(1,shield));
+        assertFalse(w.checkInsertion(1,shield));
+        assertFalse(w.checkInsertion(1,shield));
 
-    @Test
-    void insertResources() {
-        WarehouseDepots w = new WarehouseDepots();
-        Resources r1 = new Coins();
-        Resources r2 = new Shields();
-        Resources r3 = new Stones();
-        Resources r4 = new Servants();
-
-        assertTrue(w.insertResources(0, r1));
-        assertFalse(w.insertResources(0, r1));
-        assertTrue(w.insertResources(1, r2));
-        assertTrue(w.insertResources(1, r2));
-        assertFalse(w.insertResources(1, r2));
-        assertFalse(w.insertResources(1, r2));
-
+        assertTrue(w.checkInsertion(2,stone));
+        assertTrue(w.checkInsertion(2,stone));
+        assertTrue(w.checkInsertion(2,stone));
+        assertFalse(w.checkInsertion(2,stone));
+        assertFalse(w.checkInsertion(2,stone));
 
     }
 
     @Test
-    void checkExchange() {
+    void RowTypeControl() {
         WarehouseDepots w = new WarehouseDepots();
-        Resources r1 = new Coins();
-        Resources r2 = new Shields();
-        Resources r3 = new Stones();
-        Resources r4 = new Servants();
 
-        w.checkInsertion(0,r1);
-        w.checkInsertion(1,r2);
+        assertTrue(w.checkInsertion(1,shield));
+        assertFalse(w.checkInsertion(1,stone));
+        assertFalse(w.checkInsertion(1,coin));
+        assertTrue(w.checkInsertion(1,shield));
+    }
+
+    @Test
+    void AlreadyThere(){
+        WarehouseDepots w = new WarehouseDepots();
+
+        assertTrue(w.checkInsertion(0,coin));
+
+        assertFalse(w.checkInsertion(1,coin));
+        assertFalse(w.checkInsertion(2,coin));
+
+
+    }
+    //insertCoin non viene testata perchè è un metodo chimato solo in condizioni "protette"
+
+    //-------------------------------------checkExchange------------------------------------
+
+    @Test
+    void Simply() {
+        WarehouseDepots w = new WarehouseDepots();
+
+        w.checkInsertion(1,shield);
+        w.checkInsertion(0,coin);
 
         assertTrue(w.checkExchange(0,1));
 
-        w.checkInsertion(2,r3);
-        w.checkInsertion(2,r3);
-        w.checkInsertion(2,r3);
-        assertFalse(w.checkExchange(2,0));
+        assertEquals(w.getWarehouse()[0][0],shield);
+        assertEquals(w.getWarehouse()[1][0],coin);
     }
 
     @Test
-    void exchange() {
+    void TooMuchResources() {
         WarehouseDepots w = new WarehouseDepots();
-        Resources r1 = new Coins();
-        Resources r2 = new Shields();
-        Resources r3 = new Stones();
-        Resources r4 = new Servants();
 
-        w.checkInsertion(0,r1);
-        w.checkInsertion(1,r2);
 
-        w.exchange(0,1);
+        w.checkInsertion(0,coin);
+        w.checkInsertion(1,stone);
+        w.checkInsertion(1,stone);
 
-        assertEquals(w.getWarehouse()[0][0],r2);
+
+        assertFalse(w.checkExchange(0,1));
+
+        assertEquals(w.getWarehouse()[0][0],coin);
+        assertEquals(w.getWarehouse()[1][0],stone);
+        assertEquals(w.getWarehouse()[1][1],stone);
+}
+
+    @Test
+    void bigger(){
+        WarehouseDepots w = new WarehouseDepots();
+
+        w.checkInsertion(1,stone);
+        w.checkInsertion(1,stone);
+
+        w.checkInsertion(2,coin);
+        w.checkInsertion(2,coin);
+
+        assertTrue(w.checkExchange(2,1));
+
+        assertEquals(w.getWarehouse()[2][0],stone);
+        assertEquals(w.getWarehouse()[2][1],stone);
+        assertEquals(w.getWarehouse()[1][0],coin);
+        assertEquals(w.getWarehouse()[1][1],coin);
+
+    }
+
+    //-------------------------------------delete------------------------------------
+
+    @Test
+    void simplydelete() {
+        WarehouseDepots w = new WarehouseDepots();
+
+        w.checkInsertion(1,stone);
+        w.checkInsertion(1,stone);
+
+        assertEquals(w.getWarehouse()[1][0],stone);
+        assertEquals(w.getWarehouse()[1][1],stone);
+
+        assertTrue(w.delete(stone));
+
+        assertEquals(w.getWarehouse()[1][0],stone);
+        assertNull(w.getWarehouse()[1][1]);
     }
 
     @Test
-    void delete() {
+    void Noelement(){
         WarehouseDepots w = new WarehouseDepots();
-        Resources r1 = new Coins();
-        Resources r2 = new Shields();
-        Resources r3 = new Stones();
-        Resources r4 = new Servants();
-
-        w.checkInsertion(2,r1);
-        w.checkInsertion(2,r1);
-        w.checkInsertion(2,r1);
-
-        assertTrue(w.delete(r1));
-
-       assertEquals(2, w.getNumResources(r1));
+        assertFalse(w.delete(stone));
     }
+
+    //-------------------------------------getNumResources------------------------------------
 
     @Test
     void SimplyCount(){
@@ -142,6 +176,7 @@ class WarehouseDepotsTest {
         assertEquals(3,w.getNumResources(new Coins()));
         assertEquals(1,w.getNumResources(new Shields()));
     }
+
 
     @Test
     void CountwithDelete(){
@@ -184,6 +219,5 @@ class WarehouseDepotsTest {
         w.getLeaderCardEffect().get(1).updateResources(1);
         assertEquals(2,w.getNumResources(new Coins()));
         assertEquals(1,w.getNumResources(new Stones()));
-
     }
 }

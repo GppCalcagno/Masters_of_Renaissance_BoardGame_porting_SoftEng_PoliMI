@@ -52,7 +52,7 @@ public class WarehouseDepots {
     public boolean checkInsertion(int row, Resources res){
         boolean already = false;
         if(warehouse[row][0]!=null) {
-            if (res.getClass().equals(warehouse[row][0].getClass())) {
+            if (res.getClass().equals(warehouse[row][0].getClass()) && warehouse[row][row]==null) {
                 if(insertResources(row, res)) return true;
                 else return  false;
             }
@@ -119,13 +119,11 @@ public class WarehouseDepots {
      * @param res the resources you want delete.
      */
     public boolean delete(Resources res){
-        int i = 0;
+        int i = -1;
         int j = warehouse.length-1;
 
-        while(warehouse[i][0]==null || !res.getClass().equals(warehouse[i][0].getClass()) || i>warehouse.length-1){
-            i++;
-        }
-        if(i>warehouse.length-1) return false;
+        for(int x=0;x<sizex;x++){ if(warehouse[x][0]!= null && warehouse[x][0].getClass().equals(res.getClass()))i=x;}
+        if(i==-1) return false;
         else{
             while (warehouse[i][j]==null) j--;
             warehouse[i][j]=null;
