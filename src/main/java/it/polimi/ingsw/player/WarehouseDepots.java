@@ -8,7 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class WarehouseDepots {
-    /** sizex and sizey represent the size of the warehouse
+    /**
+     * sizex and sizey represent the size of the warehouse
      */
     private final int sizex = 3;
     private final int sizey = 3;
@@ -151,15 +152,17 @@ public class WarehouseDepots {
         int i=0;
         for (ExtraChest chest: leaderCardEffect){
             if(chest.getResources().getClass().equals(res.getClass())){
-                sum=+chest.getnum();
+                sum+=chest.getnum();
             }
         }
 
-        while(warehouse[i][0]== null || (warehouse[i][0]!=null && !warehouse[i][0].getClass().equals(res.getClass()) && i<warehouse.length)) i++;
-
-        if(i<warehouse.length){ while(warehouse[i][j]!=null && j<warehouse.length)j++; }
-
-        sum=+j;
+        for(int x=0;x<sizex;x++){
+            if(warehouse[x][0]!= null && warehouse[x][0].getClass().equals(res.getClass())){
+                while(warehouse[x][j]!=null && j<sizey)j++;
+            }
+            sum+=j;
+            j=0;
+        }
         return sum;
     }
 

@@ -36,7 +36,7 @@ public class ExtraChest {
      * this method update the amount of resources inside the chest
      * @param n the new amount of resources
      */
-    void updateResources(int n) throws OverflowQuantityExcepions, NegativeQuantityExceptions {
+    public void updateResources(int n) throws OverflowQuantityExcepions, NegativeQuantityExceptions {
 
         if((num+ n)>2) throw new OverflowQuantityExcepions();
         if((num+ n)<0) throw new NegativeQuantityExceptions();
