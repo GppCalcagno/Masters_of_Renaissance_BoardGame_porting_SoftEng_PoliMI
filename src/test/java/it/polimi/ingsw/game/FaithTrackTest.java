@@ -134,22 +134,22 @@ class FaithTrackTest {
         playersVet.add(new Player("Giovanni"));
 
 
-        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}
-        for (int i = 0; i < 6; i++) { playersVet.get(1).increasefaithMarker();}
+        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}//si
+        for (int i = 0; i < 6; i++) { playersVet.get(1).increasefaithMarker();}//si
 
         testtrack.checkPopeSpace(playersVet,0);
 
-        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}
-        for (int i = 0; i < 5; i++) { playersVet.get(1).increasefaithMarker();}
+        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}//si
+        for (int i = 0; i < 5; i++) { playersVet.get(1).increasefaithMarker();}//no
 
         testtrack.checkPopeSpace(playersVet,0);
 
-        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}
-        for (int i = 0; i < 8; i++) { playersVet.get(1).increasefaithMarker();}
+        for (int i = 0; i < 8; i++) { playersVet.get(0).increasefaithMarker();}//si
+        for (int i = 0; i < 8; i++) { playersVet.get(1).increasefaithMarker();}//si
 
         testtrack.checkPopeSpace(playersVet,0);
 
-        assertEquals(testtrack.getPlayerPoint(playersVet.get(0)),79);
-        assertEquals(testtrack.getPlayerPoint(playersVet.get(1)),40);
+        assertEquals(testtrack.getPlayerPoint(playersVet.get(0)),29);
+        assertEquals(testtrack.getPlayerPoint(playersVet.get(1)),18);
     }
 }
