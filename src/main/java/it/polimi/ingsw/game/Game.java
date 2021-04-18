@@ -130,9 +130,9 @@ public class Game {
             if(this.leaderCardDeck.getLeaderCardList().isEmpty())
                 throw new EmptyLeaderCardException();
             else{
-                for(int i = 0; i < this.playersList.size(); i++){
-                    for(int x = 0; x < 4; x++){
-                        this.leaderCardDeck.givetoPlayer(0, this.playersList.get(i));
+                for (Player player : this.playersList) {
+                    for (int x = 0; x < 4; x++) {
+                        this.leaderCardDeck.givetoPlayer(0, player);
                     }
                 }
                 // Set the current Player

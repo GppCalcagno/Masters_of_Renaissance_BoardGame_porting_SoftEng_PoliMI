@@ -68,13 +68,17 @@ class SinglePlayerGameTest {
         Player player = new Player("Valentina");
 
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(2, 0));
-        game.getLeaderCardDeck().getLeaderCardList(0).setActivated();
-        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardList(0));
-        player.getStrongbox().updateResources(new Coins(),2);
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardList(10));
+        player.getLeaderActionBox().get(0).setActivated();
+        player.getStrongbox().updateResources(new Coins(),5);
+        for (int j = 0; j < 7; j++) {
+            player.increasefaithMarker();
+        }
+        int i = game.getDevelopmentCardDeck().getDevCards(2, 0).getVictoryPoints() + player.getLeaderActionBox().get(0).getVictoryPoints() + 1 + 2;
 
         game.addPlayersList(player);
-        game.setCurrentPlayer();
+        game.startgame();
         game.givefinalpoints();
-        assertEquals(game.getDevelopmentCardDeck().getDevCards(2, 0).getVictoryPoints() + player.getLeaderActionBox().get(0).getVictoryPoints(), game.getCurrentPlayer().getVictoryPoints());
+        assertEquals(i, game.getCurrentPlayer().getVictoryPoints());
     }
 }
