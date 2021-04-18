@@ -150,8 +150,8 @@ public class FaithTrack {
         int tracker= player.getFaithMarker();
 
         //adding Board Points
-        while (faithtrack[tracker]==0)tracker--;
-        totale += faithtrack[tracker];
+        while (faithtrack[tracker]==0 && tracker>0)tracker--;
+            totale += faithtrack[tracker];
 
         //adding popsfavouritetile points
         for (int j = 0; j < popsfavouritetilepointsize; j++) {
