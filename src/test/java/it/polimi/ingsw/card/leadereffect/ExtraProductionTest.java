@@ -1,5 +1,6 @@
 package it.polimi.ingsw.card.leadereffect;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Coins;
 import it.polimi.ingsw.producible.Stones;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExtraProductionTest {
 
     @Test
-    void activeExtraProduction() {
+    void activeExtraProduction() throws ActiveVaticanReportException {
         Player player= new Player("CrushTest");
         ExtraProduction test= new ExtraProduction(new Coins());
 

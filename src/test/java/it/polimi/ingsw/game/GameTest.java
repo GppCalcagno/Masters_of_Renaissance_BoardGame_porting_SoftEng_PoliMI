@@ -1,5 +1,6 @@
 package it.polimi.ingsw.game;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.exceptions.EmptyLeaderCardException;
 import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.exceptions.NullPlayerListGameException;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     @Test
-    void setCurrentPlayer() throws IOException, EmptyLeaderCardException, NullPlayerListGameException {
+    void setCurrentPlayer() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         Game game = new Game();
         Player player1 = new Player("Rene");
         Player player2 = new Player("Caterina");
@@ -73,11 +74,16 @@ class GameTest {
     }
 
     @Test
-    void isFinishedGame25() throws IOException {
+    void isFinishedGame25() throws IOException, ActiveVaticanReportException {
         Game game = new Game();
         Player player = new Player("Augusto");
         for(int i = 0; i < 25; i++){
-            player.increasefaithMarker();
+            try {
+                player.increasefaithMarker();
+            }
+            catch (ActiveVaticanReportException activeVaticanReportException) {
+
+            }
         }
         game.addPlayersList(player);
 
@@ -102,7 +108,7 @@ class GameTest {
     }
 
     @Test
-    void stargameEmpty() throws IOException {
+    void stargameEmpty() throws IOException, ActiveVaticanReportException {
         Game game = new Game();
         try {
             game.startgame();
@@ -115,7 +121,7 @@ class GameTest {
 
     }
     @Test
-    void startgameLeaderActionBox() throws IOException, EmptyLeaderCardException, NullPlayerListGameException {
+    void startgameLeaderActionBox() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         Game game = new Game();
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
@@ -134,7 +140,7 @@ class GameTest {
     }
 
     @Test
-    void startgameIncreaseFaithMarker4() throws IOException, EmptyLeaderCardException, NullPlayerListGameException {
+    void startgameIncreaseFaithMarker4() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         Game game = new Game();
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
@@ -152,7 +158,7 @@ class GameTest {
     }
 
     @Test
-    void startgameIncreaseFaithMarker2() throws IOException, EmptyLeaderCardException, NullPlayerListGameException {
+    void startgameIncreaseFaithMarker2() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         Game game = new Game();
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
@@ -166,7 +172,7 @@ class GameTest {
     }
 
     @Test
-    void givefinalpoints() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException {
+    void givefinalpoints() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         Game game = new Game();
         Player player = new Player("Caterina");
 
@@ -186,7 +192,7 @@ class GameTest {
     }
 
     @Test
-    void givefinalpoints0() throws IOException, EmptyLeaderCardException, NullPlayerListGameException {
+    void givefinalpoints0() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         Game game = new Game();
         Player player = new Player("Caterina");
 

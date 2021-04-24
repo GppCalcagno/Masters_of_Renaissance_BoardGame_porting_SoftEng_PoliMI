@@ -1,5 +1,6 @@
 package it.polimi.ingsw.producible;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ class ProducibleTest {
 
 
     @Test
-    public void FaithMarker(){
+    public void FaithMarker() throws ActiveVaticanReportException {
         Producible f= new FaithMarker();
         int old= player.getFaithMarker();
 

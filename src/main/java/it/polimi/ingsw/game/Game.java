@@ -1,5 +1,6 @@
 package it.polimi.ingsw.game;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.exceptions.EmptyLeaderCardException;
 import it.polimi.ingsw.exceptions.NullPlayerListGameException;
 import it.polimi.ingsw.player.Player;
@@ -122,7 +123,7 @@ public class Game {
     /**
      * This method initialized the game. It make draw four Leader Cards to each player, that discards two; it extracts the first player and gives to all players the initial resources and faith points
      */
-    public void startgame () throws NullPlayerListGameException, EmptyLeaderCardException {
+    public void startgame () throws NullPlayerListGameException, EmptyLeaderCardException, ActiveVaticanReportException {
         // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
         if(this.playersList.isEmpty())
             throw new NullPlayerListGameException();
@@ -193,5 +194,13 @@ public class Game {
      */
     public LeaderCardDeck getLeaderCardDeck() {
         return leaderCardDeck;
+    }
+
+    /**
+     * This method returns the faithTrack attribute
+     * @return a FaithTrack object
+     */
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
     }
 }

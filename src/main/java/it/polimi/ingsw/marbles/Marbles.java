@@ -1,5 +1,6 @@
 package it.polimi.ingsw.marbles;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Resources;
 
@@ -13,5 +14,5 @@ public abstract class Marbles {
      * This method converts the caught Marbles into resources and adds them to Warehouse depot
      * @param p reference to the player's Warehouse depots
      */
-    public abstract boolean addtoWarehouse (Player p, int i);
+    public abstract boolean addtoWarehouse (Player p, int i) throws ActiveVaticanReportException;
 }

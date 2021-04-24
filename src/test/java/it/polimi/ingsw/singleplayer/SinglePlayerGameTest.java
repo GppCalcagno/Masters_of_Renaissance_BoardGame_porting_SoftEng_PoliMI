@@ -1,5 +1,6 @@
 package it.polimi.ingsw.singleplayer;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.exceptions.EmptyLeaderCardException;
 import it.polimi.ingsw.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.exceptions.NullPlayerListGameException;
@@ -15,13 +16,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class SinglePlayerGameTest {
 
     @Test
-    void isFinishedGame25Player() throws IOException, NegativeQuantityExceptions {
+    void isFinishedGame25Player() throws IOException, NegativeQuantityExceptions, ActiveVaticanReportException {
         SinglePlayerGame s = new SinglePlayerGame();
         Player p = new Player("Giusè");
         s.addPlayersList(p);
         s.setCurrentPlayer();
 
-        for(int i=0; i<25; i++) s.getCurrentPlayer().increasefaithMarker();
+        for(int i=0; i<25; i++) {
+            try {
+                s.getCurrentPlayer().increasefaithMarker();
+            }
+            catch (ActiveVaticanReportException activeVaticanReportException) {
+
+            }
+        }
         assertTrue(s.isFinishedGame());
     }
 
@@ -31,7 +39,7 @@ class SinglePlayerGameTest {
         Player p = new Player("Giusè");
         s.addPlayersList(p);
         s.setCurrentPlayer();
-        s.getLorenzoIlMagnifico().increaseFaithMarker(25);
+        s.getLorenzoIlMagnifico().increaseFaithMarker(24);
         assertTrue(s.isFinishedGame());
     }
 
@@ -63,7 +71,7 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void givefinalpoints() throws IOException, NegativeQuantityExceptions, NullPlayerListGameException, EmptyLeaderCardException {
+    void givefinalpoints() throws IOException, NegativeQuantityExceptions, NullPlayerListGameException, EmptyLeaderCardException, ActiveVaticanReportException {
         SinglePlayerGame game = new SinglePlayerGame();
         Player player = new Player("Valentina");
 

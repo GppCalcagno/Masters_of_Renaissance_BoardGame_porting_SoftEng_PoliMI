@@ -1,5 +1,6 @@
 package it.polimi.ingsw.marbles;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.player.Player;
 import it.polimi.ingsw.producible.Coins;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class YellowMarbleTest {
 
     @Test
-    void addtoWarehouseTrue() {
+    void addtoWarehouseTrue() throws ActiveVaticanReportException {
         Player player = new Player("Luca");
         Marbles marbles = new YellowMarble();
 
@@ -19,7 +20,7 @@ class YellowMarbleTest {
     }
 
     @Test
-    void addtoWarehouseFalse() {
+    void addtoWarehouseFalse() throws ActiveVaticanReportException {
         Player player = new Player("Luca");
         Marbles marbles = new YellowMarble();
 

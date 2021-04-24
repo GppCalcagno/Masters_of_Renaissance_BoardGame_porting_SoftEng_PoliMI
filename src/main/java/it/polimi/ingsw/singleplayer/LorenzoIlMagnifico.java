@@ -93,7 +93,7 @@ public class LorenzoIlMagnifico {
     /** this method increase the position of the blackcrosstoken
      */
     public void increaseFaithMarker(int blackCrossToken) throws NegativeQuantityExceptions {
-        if(blackCrossToken>0) this.blackCrossToken =+ blackCrossToken;
+        if(blackCrossToken>0) this.blackCrossToken += blackCrossToken;
         else throw new NegativeQuantityExceptions();
     }
 

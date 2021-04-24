@@ -1,6 +1,7 @@
 package it.polimi.ingsw.player;
 
 import it.polimi.ingsw.card.LeaderAction;
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.exceptions.NoSelectedLeaderActionExceptions;
 import it.polimi.ingsw.producible.*;
 
@@ -161,8 +162,12 @@ public class Player {
     /**
      * this method increase player's faithmarker
      */
-    public void increasefaithMarker(){
+    public void increasefaithMarker() throws ActiveVaticanReportException {
         faithMarker++;
+        if (faithMarker == 8 || faithMarker == 16 || faithMarker == 24)
+            throw new ActiveVaticanReportException();
+        else if (faithMarker == 25)
+            faithMarker = 24;
     }
 
     /**

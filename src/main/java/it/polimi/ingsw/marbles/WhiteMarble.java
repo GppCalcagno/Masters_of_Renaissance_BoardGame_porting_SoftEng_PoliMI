@@ -12,6 +12,6 @@ public class WhiteMarble extends Marbles {
         if(!p.getLeaderCardEffectWhiteMarble().isEmpty())
             // Controlla se è possibile inserire la prima risorsa di leaderCardEffectWhiteMarble (da inserire solo nel magazzino)
             return p.getWarehouse().checkInsertion(i , p.getLeaderCardEffectWhiteMarble().get(0));
-        else return false;
+        else return true;
     }
 }

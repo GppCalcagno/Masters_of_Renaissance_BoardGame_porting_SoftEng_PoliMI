@@ -1,5 +1,6 @@
 package it.polimi.ingsw.game;
 
+import it.polimi.ingsw.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ class FaithTrackTest {
     //non posso avere un'avanzare disomogeneo perchè ogni volta che viene incrementato il marker viene attivato il controllo
 
     @Test
-    void standardincrement() {
+    void standardincrement() throws ActiveVaticanReportException {
         FaithTrack testtrack = new FaithTrack();
         ArrayList<Player> playersVet = new ArrayList<>();
         playersVet.add(new Player("Aldo"));
@@ -47,7 +48,7 @@ class FaithTrackTest {
     }
 
     @Test
-    void mix(){
+    void mix() throws ActiveVaticanReportException {
         FaithTrack testtrack = new FaithTrack();
         ArrayList<Player> playersVet = new ArrayList<>();
         playersVet.add(new Player("Aldo"));
@@ -99,7 +100,7 @@ class FaithTrackTest {
     }
 
     @Test
-    void SinglePlayer(){
+    void SinglePlayer() throws ActiveVaticanReportException {
         FaithTrack testtrack = new FaithTrack();
         ArrayList<Player> playersVet = new ArrayList<>();
         playersVet.add(new Player("Aldo"));
@@ -127,7 +128,7 @@ class FaithTrackTest {
     }
 
     @Test
-    void victorypoints(){
+    void victorypoints() throws ActiveVaticanReportException {
         FaithTrack testtrack = new FaithTrack();
         ArrayList<Player> playersVet = new ArrayList<>();
         playersVet.add(new Player("Aldo"));
