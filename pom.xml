@@ -9,8 +9,6 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>AM16</name>
-  <!-- FIXME change it to the project's website -->
-  <url>https://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -92,4 +90,5 @@
           </plugin>
       </plugins>
   </build>
+
 </project>
