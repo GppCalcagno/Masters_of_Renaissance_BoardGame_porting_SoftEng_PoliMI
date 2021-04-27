@@ -93,6 +93,38 @@ public class RequirementsProduction implements Requirements {
             }
         }
         return true;
-
     }
+
+    /**
+     * this methos check if list of resources are equals to requirements
+     * @param warehouseMap list of resoureces on WareHouse
+     * @param strongboxMap list of resources on StrongBox
+     * @return
+     */
+    public boolean checkResources(Map<String,Integer> warehouseMap, Map<String,Integer> strongboxMap) {
+        //qui ho hardcodato le risorse
+        Resources[] listResources = {new Coins(), new Servants(), new Shields(), new Stones()};
+
+        HashMap<String, Integer> tempMap = (HashMap<String, Integer>) reqMap.clone();
+
+        for (String x : tempMap.keySet()) {
+            if (warehouseMap.containsKey(x)) tempMap.put(x, tempMap.get(x) - warehouseMap.get(x));
+            if (strongboxMap.containsKey(x)) tempMap.put(x, tempMap.get(x) - strongboxMap.get(x));
+        }
+
+        for (String x : tempMap.keySet()) {
+            if (tempMap.get(x) != 0) return false;
+        }
+
+        for(String x: warehouseMap.keySet()){
+            if(!tempMap.containsKey(x))return false;
+        }
+
+        for(String x: strongboxMap.keySet()){
+            if(!tempMap.containsKey(x))return false;
+        }
+
+        return true;
+    }
+
 }

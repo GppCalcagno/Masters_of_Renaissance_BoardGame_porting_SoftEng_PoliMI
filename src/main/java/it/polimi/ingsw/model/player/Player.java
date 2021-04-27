@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.producible.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Player {
     /**
@@ -301,5 +302,37 @@ public class Player {
         if(index!=0)
         leaderCardEffectWhiteMarble.add(0,leaderCardEffectWhiteMarble.remove(index));
     }
+
+    /**
+     * this method is used by the controller to check if the client sent the right resources
+     * @param warehouseMap resources in Warehouse
+     * @param strongboxMap resources in StrongBox
+     * @return true if all the resources are owned by player
+     */
+    public boolean checkListResources(Map<String,Integer> warehouseMap,Map<String,Integer> strongboxMap){
+        //qui ho hardcodato le risorse
+        int i=0;
+        Resources[] listResources= {new Coins(),new Servants(), new Shields(), new Stones()};
+
+        for(String x:warehouseMap.keySet()){
+            i=0;
+            //searchResource
+            while(!(x.equals(listResources[i].toString())))i++;
+            //check quantity
+            if(warehouseMap.get(x) > warehouse.getNumResources(listResources[i]))return false;
+        }
+
+
+        for(String x:strongboxMap.keySet()) {
+            i = 0;
+
+            //searchResource
+            while (!x.equals(listResources[i].toString())) i++;
+            //check quantity
+            if (strongboxMap.get(x) > strongbox.getNumResources(listResources[i])) return false;
+        }
+        return true;
+    }
+
 
 }

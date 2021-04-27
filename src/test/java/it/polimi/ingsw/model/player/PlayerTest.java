@@ -4,17 +4,18 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.model.exceptions.NoSelectedLeaderActionExceptions;
 import it.polimi.ingsw.model.game.LeaderCardDeck;
 import it.polimi.ingsw.model.producible.Coins;
+import it.polimi.ingsw.model.producible.Servants;
 import it.polimi.ingsw.model.producible.Shields;
+import it.polimi.ingsw.model.producible.Stones;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    //siccome la classe player chiama fa solo dei get e al massimo un remove e un add di una lista,
-    //che sono cose abbastanza "standard" ha senso fare i test?d
-
     @Test
     void countLeaderActionVictoryPoints1() throws IOException {
         LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
@@ -115,6 +116,67 @@ class PlayerTest {
 
     }
 
+    @Test
+    void truecheckListResources() throws NegativeQuantityExceptions {
+        Player player = new Player("concetta");
+
+        player.getWarehouse().insertResources(2, new Coins());
+        player.getWarehouse().insertResources(2, new Coins());
+        player.getWarehouse().insertResources(1, new Stones());
+
+        player.getStrongbox().updateResources(new Servants(),10);
+        player.getStrongbox().updateResources(new Shields(),10);
+
+        Map<String,Integer> reqWareHouse= new HashMap<>();
+        Map<String,Integer> reqStrongbox= new HashMap<>();
+
+
+        reqWareHouse.put(new Coins().toString(),2);
+        reqStrongbox.put(new Shields().toString(),5);
+
+        assertTrue(player.checkListResources(reqWareHouse,reqStrongbox));
+    }
+
+    @Test
+    void faslsecheckListResources() throws NegativeQuantityExceptions {
+        Player player = new Player("concetta");
+
+        player.getWarehouse().insertResources(2, new Coins());
+        player.getWarehouse().insertResources(2, new Coins());
+        player.getWarehouse().insertResources(1, new Stones());
+
+        player.getStrongbox().updateResources(new Servants(),10);
+        player.getStrongbox().updateResources(new Shields(),10);
+
+        Map<String,Integer> reqWareHouse= new HashMap<>();
+        Map<String,Integer> reqStrongbox= new HashMap<>();
+
+
+        reqWareHouse.put(new Coins().toString(),4);
+        reqStrongbox.put(new Shields().toString(),5);
+
+        assertFalse(player.checkListResources(reqWareHouse,reqStrongbox));
+    }
+
+    @Test
+    void NoRescheckListResources() throws NegativeQuantityExceptions {
+        Player player = new Player("concetta");
+
+        player.getWarehouse().insertResources(2, new Coins());
+        player.getWarehouse().insertResources(2, new Coins());
+        player.getWarehouse().insertResources(1, new Stones());
+
+        player.getStrongbox().updateResources(new Servants(),10);
+        player.getStrongbox().updateResources(new Shields(),10);
+
+        Map<String,Integer> reqWareHouse= new HashMap<>();
+        Map<String,Integer> reqStrongbox= new HashMap<>();
+
+        reqWareHouse.put(new Servants().toString(),2);
+        reqStrongbox.put(new Shields().toString(),5);
+
+        assertFalse(player.checkListResources(reqWareHouse,reqStrongbox));
+    }
 
 
 
