@@ -2,8 +2,7 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.player.Player;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class FaithTrack {
     /**
@@ -120,7 +119,7 @@ public class FaithTrack {
      * @param p               is the Players Vector
      * @param blackCrossToken is LorenzoIlMagnifico's blackCrossToken (=O if Multiplayer Game)
      */
-    public void checkPopeSpace(ArrayList<Player> p, int blackCrossToken) throws GameFinishedException {
+    public void checkPopeSpace(List<Player> p, int blackCrossToken) throws GameFinishedException {
         int actived = 0;
         int VaticanReportSectionindex = 1 + currentPopTile * 2;
 
