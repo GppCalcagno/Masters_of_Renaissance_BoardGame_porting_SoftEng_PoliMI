@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.message;
+package it.polimi.ingsw.Network.message;
 
 public enum MessageType {
     NUMPLAYERS,

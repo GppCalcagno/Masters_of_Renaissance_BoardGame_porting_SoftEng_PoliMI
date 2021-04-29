@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.message;
+package it.polimi.ingsw.Network.message;
 
 public class MessageAddDiscardMarble extends Message {
     private boolean choice;

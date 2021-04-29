@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.message;
+package it.polimi.ingsw.Network.message;
 
 public class MessageExchangeWarehouse extends Message {
     private int row1;

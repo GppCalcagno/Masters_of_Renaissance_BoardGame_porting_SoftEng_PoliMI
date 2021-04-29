@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.message;
+package it.polimi.ingsw.Network.message;
 
 public class MessageNumPlayers extends Message {
     private int numPlayers;
