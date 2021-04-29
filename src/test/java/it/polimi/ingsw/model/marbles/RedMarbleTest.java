@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.marbles;
 
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
+import it.polimi.ingsw.model.exceptions.OverflowQuantityExcepions;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -32,5 +34,13 @@ class RedMarbleTest {
             }
         }
         assertFalse(marbles.addtoWarehouse(playerStub, 0));
+    }
+
+    @Test
+    void addToExtraChest() throws NegativeQuantityExceptions, OverflowQuantityExcepions {
+        Player playerStub = new Player("Giova");
+        Marbles marbles = new RedMarble();
+
+        assertFalse(marbles.addToExtraChest(playerStub));
     }
 }

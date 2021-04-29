@@ -180,6 +180,10 @@ public class Player {
         leaderActionBox.remove(i);
     }
 
+    public void discardLeaderAction(LeaderAction leaderAction){
+        leaderActionBox.remove(leaderAction);
+    }
+
     /**
      * add a leaderaction from leaderActionBox
      * @param l is the leaderAction to be removed

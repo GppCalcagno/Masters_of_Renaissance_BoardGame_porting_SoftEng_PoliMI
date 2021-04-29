@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.marbles;
 
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
+import it.polimi.ingsw.model.exceptions.OverflowQuantityExcepions;
 import it.polimi.ingsw.model.player.Player;
 
 public class RedMarble extends Marbles {
@@ -16,5 +18,15 @@ public class RedMarble extends Marbles {
             p.increasefaithMarker();
             return true;
         }
+    }
+
+    /**
+     * This method hasn't to be invoked from the Red Marble
+     * @param p reference to the player's Extra Chest
+     * @return always false
+     */
+    @Override
+    public boolean addToExtraChest(Player p) throws NegativeQuantityExceptions, OverflowQuantityExcepions {
+        return false;
     }
 }
