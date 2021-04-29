@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.LeaderAction;
+import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.exceptions.NoSelectedLeaderActionExceptions;
 import it.polimi.ingsw.model.producible.*;
@@ -309,7 +310,7 @@ public class Player {
      * @param strongboxMap resources in StrongBox
      * @return true if all the resources are owned by player
      */
-    public boolean checkListResources(Map<String,Integer> warehouseMap,Map<String,Integer> strongboxMap){
+    public boolean checkListResources(Map<String,Integer> warehouseMap,Map<String,Integer> strongboxMap, Map<String,Integer> extraChestMap){
         //qui ho hardcodato le risorse
         int i=0;
         Resources[] listResources= {new Coins(),new Servants(), new Shields(), new Stones()};
@@ -319,7 +320,7 @@ public class Player {
             //searchResource
             while(!(x.equals(listResources[i].toString())))i++;
             //check quantity
-            if(warehouseMap.get(x) > warehouse.getNumResources(listResources[i]))return false;
+            if(warehouseMap.get(x) > warehouse.getWarehouseNumResources(listResources[i]))return false;
         }
 
 
@@ -330,6 +331,23 @@ public class Player {
             while (!x.equals(listResources[i].toString())) i++;
             //check quantity
             if (strongboxMap.get(x) > strongbox.getNumResources(listResources[i])) return false;
+        }
+
+        for(String x:extraChestMap.keySet()) {
+            boolean check=false;
+            int index=0;
+            while(!check && index < warehouse.getLeaderCardEffect().size()){
+                if(warehouse.getLeaderCardEffect().get(index).getResources().toString().equals(x))
+                    check=true;
+                else
+                    index++;
+            }
+
+            if (!check)
+                return false;
+
+            if(check && warehouse.getLeaderCardEffect().get(index).getnum()<extraChestMap.get(x))
+                return false;
         }
         return true;
     }

@@ -106,11 +106,12 @@ class RequirementsProductionTest {
 
         Map<String,Integer> WareHouseList= new HashMap<>();
         Map<String,Integer> StronBoxList= new HashMap<>();
+        Map<String,Integer> extraChestList= new HashMap<>();
 
         WareHouseList.put(new Coins().toString(),3);
-        StronBoxList.put(new Shields().toString(),1);
+        extraChestList.put(new Shields().toString(),1);
 
-        assertTrue(tested.checkResources(WareHouseList,StronBoxList));
+        assertTrue(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
     }
 
     @Test
@@ -122,11 +123,12 @@ class RequirementsProductionTest {
 
         Map<String,Integer> WareHouseList= new HashMap<>();
         Map<String,Integer> StronBoxList= new HashMap<>();
+        Map<String,Integer> extraChestList= new HashMap<>();
 
         WareHouseList.put(new Coins().toString(),2);
         StronBoxList.put(new Shields().toString(),1);
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList));
+        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
     }
 
     @Test
@@ -138,11 +140,13 @@ class RequirementsProductionTest {
 
         Map<String,Integer> WareHouseList= new HashMap<>();
         Map<String,Integer> StronBoxList= new HashMap<>();
+        Map<String,Integer> extraChestList= new HashMap<>();
+
 
         WareHouseList.put(new Coins().toString(),4);
         StronBoxList.put(new Shields().toString(),1);
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList));
+        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
     }
 
     @Test
@@ -153,11 +157,14 @@ class RequirementsProductionTest {
 
         Map<String,Integer> WareHouseList= new HashMap<>();
         Map<String,Integer> StronBoxList= new HashMap<>();
+        Map<String,Integer> extraChestList= new HashMap<>();
 
         WareHouseList.put(new Coins().toString(),2);
         StronBoxList.put(new Shields().toString(),1);
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList));
+
+
+        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
     }
 
     @Test
@@ -169,10 +176,12 @@ class RequirementsProductionTest {
 
         Map<String,Integer> WareHouseList= new HashMap<>();
         Map<String,Integer> StronBoxList= new HashMap<>();
+        Map<String,Integer> extraChestList= new HashMap<>();
+
 
         StronBoxList.put(new Shields().toString(),1);
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList));
+        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
     }
 
 }

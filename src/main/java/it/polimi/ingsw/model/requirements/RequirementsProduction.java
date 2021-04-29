@@ -101,7 +101,7 @@ public class RequirementsProduction implements Requirements {
      * @param strongboxMap list of resources on StrongBox
      * @return
      */
-    public boolean checkResources(Map<String,Integer> warehouseMap, Map<String,Integer> strongboxMap) {
+    public boolean checkResources(Map<String,Integer> warehouseMap, Map<String,Integer> strongboxMap, Map<String,Integer> extraChestMap) {
         //qui ho hardcodato le risorse
         Resources[] listResources = {new Coins(), new Servants(), new Shields(), new Stones()};
 
@@ -110,6 +110,8 @@ public class RequirementsProduction implements Requirements {
         for (String x : tempMap.keySet()) {
             if (warehouseMap.containsKey(x)) tempMap.put(x, tempMap.get(x) - warehouseMap.get(x));
             if (strongboxMap.containsKey(x)) tempMap.put(x, tempMap.get(x) - strongboxMap.get(x));
+            if (extraChestMap.containsKey(x)) tempMap.put(x, tempMap.get(x) - extraChestMap.get(x));
+
         }
 
         for (String x : tempMap.keySet()) {
@@ -121,6 +123,10 @@ public class RequirementsProduction implements Requirements {
         }
 
         for(String x: strongboxMap.keySet()){
+            if(!tempMap.containsKey(x))return false;
+        }
+
+        for(String x: extraChestMap.keySet()){
             if(!tempMap.containsKey(x))return false;
         }
 

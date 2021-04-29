@@ -140,7 +140,7 @@ public class WarehouseDepots {
     }
 
     /**
-     * this method is a getter of the number of a resource in the warehouse
+     * this method is a getter of the number of a resource in the warehouse and ExtraChest
      * @param res type of resource
      * @return the number of the selected resouce
      */
@@ -155,6 +155,25 @@ public class WarehouseDepots {
         }
 
         for(int x=0;x<sizex;x++){
+            if(warehouse[x][0]!= null && warehouse[x][0].getClass().equals(res.getClass())){
+                while(warehouse[x][j]!=null && j<sizey)j++;
+            }
+            sum+=j;
+            j=0;
+        }
+        return sum;
+    }
+
+    /**
+     * this method is a getter of the number of a resource in the warehouse
+     * @param res type of resource
+     * @return the number of the selected resouce
+     */
+    public int getWarehouseNumResources(Resources res){
+        int sum=0;
+        int j=0;
+
+        for(int x=0; x<sizex; x++){
             if(warehouse[x][0]!= null && warehouse[x][0].getClass().equals(res.getClass())){
                 while(warehouse[x][j]!=null && j<sizey)j++;
             }
