@@ -11,10 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Game {
-    /**
-     * This attribute is the number of the players
-     */
-    private int numPlayers;
 
     /**
      * This attribute is the vector that contains the players' references
@@ -55,7 +51,6 @@ public class Game {
      * This is the constructor method
      */
     public Game() throws IOException {
-        this.numPlayers = 0;
         this.currentPlayer = null;
         this.playersList = new ArrayList<>();
         this.leaderCardDeck = new LeaderCardDeck();

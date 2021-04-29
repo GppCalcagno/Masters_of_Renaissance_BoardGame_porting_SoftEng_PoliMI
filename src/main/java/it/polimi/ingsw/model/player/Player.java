@@ -173,10 +173,10 @@ public class Player {
 
     /**
      * Remove a leaderaction from leaderActionBox
-     * @param l is the leaderAction to be removed
+     * @param i is the leaderAction's index to be removed
      */
-    public void discardLeaderAction(LeaderAction l){
-        leaderActionBox.remove(l);
+    public void discardLeaderAction(int i){
+        leaderActionBox.remove(i);
     }
 
     /**

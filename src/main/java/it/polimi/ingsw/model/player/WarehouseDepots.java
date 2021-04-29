@@ -46,7 +46,7 @@ public class WarehouseDepots {
 
     /** this method check if an insertion from the market into the warehouse
      * is legal in accord with the rules of the game
-     * @param row the column where i want put my resources
+     * @param row the row where i want put my resources
      * @param res the type of Resources i want insert
      */
     public boolean checkInsertion(int row, Resources res){
@@ -88,8 +88,8 @@ public class WarehouseDepots {
     }
 
     /** this method check if the player can do a change of depots in accord with the rules
-     * @param row1 the first column that player want change
-     * @param row2 the second column that player want to change
+     * @param row1 the first row that player want change
+     * @param row2 the second row that player want to change
      */
     public boolean checkExchange( int row1, int row2){
         if(getWarehouseNum(row1)<=row2+1 && getWarehouseNum(row2)<=row1+1){
@@ -101,8 +101,8 @@ public class WarehouseDepots {
     }
 
     /** this method does the exchange if checkExchange allows it
-     * @param row1 the first column that player want change
-     * @param row2 the second column that player want to change
+     * @param row1 the first row that player want change
+     * @param row2 the second row that player want to change
      */
     public void exchange(int row1, int row2){
         Resources[] vet = new Resources[warehouse[row1].length];
