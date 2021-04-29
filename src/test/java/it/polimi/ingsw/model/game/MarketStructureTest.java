@@ -49,9 +49,7 @@ class MarketStructureTest {
         try{
             assertFalse(marketTest.extractMarbles('r', 3));
         }
-        catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){
-            System.out.println("Errore riga");
-        }
+        catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
     }
 
     @Test

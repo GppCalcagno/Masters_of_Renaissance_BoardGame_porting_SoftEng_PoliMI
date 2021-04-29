@@ -71,8 +71,7 @@ public class SlotDevCards {
         while (boardDevCards[card.getLevel()-1][i] != card){
             i++;
         }
-        if(boardDevCards[card.getLevel()][i]==null) return true;
-        else return false;
+        return boardDevCards[card.getLevel()][i] == null;
     }
 
     /** constant for each board, is the base production
@@ -118,6 +117,13 @@ public class SlotDevCards {
         return  boardDevCards[x][y];
     }
 
+    public DevelopmentCard getDevCards(int col)throws NullPointerException {
+        int i=2;
+        while(i>-1 && boardDevCards[i][col]==null)i--;
+        if(i<0) throw new NullPointerException();
+        return boardDevCards[i][col];
+    }
+
     /**
      * This method counts the total number of victory points from all the Development cards in SlotDevCards
      * @return the total number of victory points from all Development cards
@@ -152,7 +158,5 @@ public class SlotDevCards {
         return leaderCardEffect;
     }
 
-    public List<Producible> getBuffer() {
-        return buffer;
-    }
+    public List<Producible> getBuffer() { return buffer; }
 }

@@ -45,4 +45,10 @@ public class Strongbox {
         chest.put(res.toString(),oldQuantity+quantity);
 
     }
+
+    public void updateResources(String res, int quantity) throws NegativeQuantityExceptions {
+            int oldQuantity= chest.get(res);
+            if(oldQuantity+quantity<0) throw new NegativeQuantityExceptions();
+            chest.put(res,oldQuantity+quantity);
+    }
 }

@@ -72,4 +72,10 @@ public class DevelopmentCard extends Card {
     public RequirementsProduction getCost() {
         return cost;
     }
+
+    /**
+     * This method returns costProduction attribute
+     * @return a map of number and type of Resource to active  the Development Card production
+     */
+    public RequirementsProduction getCostProduction(){return costProduction;}
 }
