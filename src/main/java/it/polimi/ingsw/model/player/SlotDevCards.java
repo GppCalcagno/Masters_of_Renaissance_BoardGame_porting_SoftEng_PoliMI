@@ -6,7 +6,9 @@ import it.polimi.ingsw.model.producible.Producible;
 import it.polimi.ingsw.model.producible.Resources;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SlotDevCards {
 
@@ -18,7 +20,7 @@ public class SlotDevCards {
     /** this buffer is for avoid the possibility that resources just producted can be used as resources needed
      * for the production
      */
-    private List<Producible> buffer;
+    private Map<String,Integer> buffer;
 
     /** this is a list of optional that if the player hasn't the leader card that allows to discount the price
      * of productions aren't initialized
@@ -30,7 +32,7 @@ public class SlotDevCards {
      */
     public SlotDevCards() {
         boardDevCards = new DevelopmentCard[3][3];
-        buffer = new ArrayList<Producible>();
+        buffer = new HashMap<>();
         leaderCardEffect= new ArrayList<>();
     }
 
@@ -79,23 +81,42 @@ public class SlotDevCards {
      */
     //le risorse da eliminare le elimina il controller
     public void baseProduction(Resources wanted){
-        buffer.add(wanted);
+        if(buffer.containsKey(wanted.toString())){
+            buffer.put(wanted.toString(),buffer.get(wanted.toString())+1);
+        }
+        else{
+            buffer.put(wanted.toString(),1);
+        }
+
+    }
+
+    /** constant for each board, is the base production
+     * @param wanted the resources wanted, it is added to the buffer
+     */
+    //le risorse da eliminare le elimina il controller
+    public void baseProduction(String wanted){
+        if(buffer.containsKey(wanted)){
+            buffer.put(wanted,buffer.get(wanted)+1);
+        }
+        else{
+            buffer.put(wanted.toString(),1);
+        }
     }
 
     /** this method call the card and start the production
      * @param card the card whose production player want to start
      */
     public void cardProduction(DevelopmentCard card){
-        buffer.add((Producible) card.getProductedResources());
+        for(String Res: card.getProductedResources().keySet()){
+            if(buffer.containsKey(Res)){
+                buffer.put(Res,buffer.get(Res)+card.getProductedResources().get(Res));
+            }
+            else{
+                buffer.put(Res,card.getProductedResources().get(Res));
+            }
+        }
     }
 
-    /** this method empty the buffer into the strongbox
-     */
-    public ArrayList<Producible> emptyBuffer(){
-        ArrayList<Producible> t = new ArrayList<>(buffer);
-        buffer.clear();
-        return t;
-    }
 
     /**
      * this method active the card leader extra production
@@ -158,5 +179,9 @@ public class SlotDevCards {
         return leaderCardEffect;
     }
 
-    public List<Producible> getBuffer() { return buffer; }
+    /**
+     * Getter of buffer;
+     * @return product of the effect of the cards
+     */
+    public Map<String, Integer> getBuffer() { return buffer; }
 }

@@ -33,6 +33,15 @@ public class Strongbox {
         return chest.get(res.toString());
     }
 
+    /**
+     * this method is a getter of the number of a type of resources in Strongbox
+     * @param res is the selected Resources
+     * @return the number of the seleceted Resources
+     */
+    public int getNumResources(String res){
+        return chest.get(res);
+    }
+
     /** this  method update the resources in the strongbox, it can add o delete depending which other method
      * call this.
      * throws an QuantityExceptions if negative quantity
@@ -46,6 +55,12 @@ public class Strongbox {
 
     }
 
+    /** this  method update the resources in the strongbox, it can add o delete depending which other method
+     * call this.
+     * throws an QuantityExceptions if negative quantity
+     * @param res the type of the resources that amount have to change
+     * @param quantity how many resources you want to add (int can be negative for the delete function).
+     */
     public void updateResources(String res, int quantity) throws NegativeQuantityExceptions {
             int oldQuantity= chest.get(res);
             if(oldQuantity+quantity<0) throw new NegativeQuantityExceptions();
