@@ -41,25 +41,17 @@ public class TurnController {
      * @return true if numPlayers is < 5
      */
     public boolean VerifyNumPlayers (int numPlayers) throws IOException {
-        switch(numPlayers) {
-            case 1 :
-                numPlayersCount = 1;
-                game = new SinglePlayerGame();
-                return true;
-            case 2 :
-                numPlayersCount = 2;
-                game = new Game();
-                return true;
-            case 3 :
-                numPlayersCount = 3;
-                game = new Game();
-                return true;
-            case 4 :
-                numPlayersCount = 4;
-                game = new Game();
-                return true;
-            default:
-                return false;
+        if (numPlayers < 1 || numPlayers > 4)
+            return false;
+        else if (numPlayers == 1) {
+            numPlayersCount = numPlayers;
+            game = new SinglePlayerGame();
+            return true;
+        }
+        else {
+            numPlayersCount = numPlayers;
+            game = new Game();
+            return true;
         }
     }
 

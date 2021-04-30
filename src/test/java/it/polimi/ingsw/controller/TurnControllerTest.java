@@ -223,20 +223,4 @@ class TurnControllerTest {
         assertEquals(1, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(coin));
         assertEquals(1, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(servant));
     }
-
-    @Test
-    void chooseResources() throws IOException, NegativeQuantityExceptions {
-        TurnController t = new TurnController();
-
-        Player p = new Player("Casseruola");
-        assertTrue(t.VerifyNumPlayers(1));
-        t.getGame().addPlayersList(p);
-        t.getGame().setCurrentPlayer();
-        t.getGame().getCurrentPlayer().getStrongbox().updateResources(new Coins(), 100);
-        t.getGame().getCurrentPlayer().getStrongbox().updateResources(new Servants(), 100);
-        t.getGame().getCurrentPlayer().getStrongbox().updateResources(new Shields(), 100);
-        t.getGame().getCurrentPlayer().getStrongbox().updateResources(new Stones(), 100);
-
-        assertTrue(t.chooseResourcesForProduction(null, (Map<String, Integer>) t.getGame().getCurrentPlayer().getStrongbox(), null));
-    }
 }
