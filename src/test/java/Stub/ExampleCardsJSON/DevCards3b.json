@@ -1,0 +1,20 @@
+{
+  "cost" : {
+    "reqMap" : {
+      "Coins" : 4,
+      "Stones" : 4
+    }
+  },
+  "colorCard" : "BLUE",
+  "level" : 3,
+  "costProduction" : {
+    "reqMap" : {
+      "Servants" : 1
+    }
+  },
+  "productedResources" : {
+    "Coins" : 1,
+    "Shields" : 3
+  },
+  "victoryPoints" : 12
+}

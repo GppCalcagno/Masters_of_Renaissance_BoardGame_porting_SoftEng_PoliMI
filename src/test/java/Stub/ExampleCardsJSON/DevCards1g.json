@@ -1,0 +1,18 @@
+{
+  "cost" : {
+    "reqMap": {
+      "Shields" : 2
+    }
+  },
+  "colorCard" : "GREEN",
+  "level" : 1,
+  "costProduction" : {
+    "reqMap": {
+      "Coins" : 1
+    }
+  },
+  "productedResources" : {
+    "FaithMarker" : 1
+  },
+  "victoryPoints" : 1
+}

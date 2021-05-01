@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import Stub.LeaderCardDeckStub;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,15 +60,36 @@ class TurnControllerTest {
         assertTrue(t.insertCard(2));
     }
 
-   /* @Test
-    void activeLeaderCard() throws IOException {
+    @Test
+    void activeLeaderCardNotActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         TurnController t = new TurnController();
+        LeaderCardDeckStub leaderCardDeckStub = new LeaderCardDeckStub();
 
-        Player p = new Player("Casseruola");
+        Player p = new Player("Cassandra");
+        assertTrue(t.VerifyNumPlayers(1));
+        p.getStrongbox().updateResources(new Coins(), 5);
+        p.addLeaderAction(leaderCardDeckStub.getLeaderCardList(4));
         t.getGame().addPlayersList(p);
         t.getGame().setCurrentPlayer();
 
-    }*/
+        assertTrue(t.activeLeaderAction(0));
+    }
+
+    @Test
+    void activeLeaderCardActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+        TurnController t = new TurnController();
+        LeaderCardDeckStub leaderCardDeckStub = new LeaderCardDeckStub();
+
+        Player p = new Player("Cassandra");
+        assertTrue(t.VerifyNumPlayers(1));
+        //p.getStrongbox().updateResources(new Coins(), 5);
+        leaderCardDeckStub.getLeaderCardList(4).setActivated();
+        p.addLeaderAction(leaderCardDeckStub.getLeaderCardList(4));
+        t.getGame().addPlayersList(p);
+        t.getGame().setCurrentPlayer();
+
+        assertTrue(t.activeLeaderAction(0));
+    }
 
     @Test
     void takeResourcesMarketRight() throws IOException {
@@ -171,7 +194,7 @@ class TurnControllerTest {
         resourcesList.add(coin);
         resourcesList.add(servant);
 
-        assertFalse(giovanniController.ChooseResources(resourcesList));
+        assertFalse(giovanniController.ChooseResourcesFirstTurn(resourcesList));
         assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(coin));
         assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(servant));
     }
@@ -192,7 +215,7 @@ class TurnControllerTest {
         resourcesList.add(coin);
         resourcesList.add(servant);
 
-        assertTrue(giovanniController.ChooseResources(resourcesList));
+        assertTrue(giovanniController.ChooseResourcesFirstTurn(resourcesList));
         assertEquals(1, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(coin));
         assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(servant));
     }
@@ -219,8 +242,89 @@ class TurnControllerTest {
 
         Resources coin = new Coins();
         Resources servant = new Servants();
-        assertTrue(giovanniController.ChooseResources(resourcesList));
+        assertTrue(giovanniController.ChooseResourcesFirstTurn(resourcesList));
         assertEquals(1, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(coin));
         assertEquals(1, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(servant));
+    }
+
+    @Test
+    void deleteResRight() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+        TurnController controller = new TurnController();
+
+        Player player = new Player("Angelo");
+        player.getWarehouse().checkInsertion(0, new Coins());
+        player.getStrongbox().updateResources(new Coins(), 1);
+        player.getWarehouse().addleaderCardEffect(new Coins());
+        player.getWarehouse().getLeaderCardEffect().get(0).updateResources(1);
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        WarehouseRes.put("Coins", 1);
+        StrongboxRes.put("Coins", 1);
+        ExtrachestMap.put("Coins", 1);
+
+        assertTrue(controller.VerifyNumPlayers(2));
+
+        controller.getGame().addPlayersList(player);
+        controller.startGame();
+
+        assertTrue(controller.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
+        assertEquals(0, controller.getGame().getCurrentPlayer().countTotalResources());
+    }
+
+    @Test
+    void deleteResWrongChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+        TurnController controller = new TurnController();
+
+        Player player = new Player("Angelo");
+        player.getWarehouse().checkInsertion(0, new Coins());
+        player.getStrongbox().updateResources(new Coins(), 1);
+        player.getWarehouse().addleaderCardEffect(new Coins());
+        player.getWarehouse().getLeaderCardEffect().get(0).updateResources(1);
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        WarehouseRes.put("Coins", 1);
+        StrongboxRes.put("Coins", 1);
+        ExtrachestMap.put("Coins", 2);
+
+        assertTrue(controller.VerifyNumPlayers(2));
+
+        controller.getGame().addPlayersList(player);
+        controller.startGame();
+
+        assertFalse(controller.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
+        assertEquals(0, controller.getGame().getCurrentPlayer().countTotalResources());
+    }
+
+    @Test
+    void deleteResRightWithSecondChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+        TurnController controller = new TurnController();
+
+        Player player = new Player("Angelo");
+        player.getWarehouse().checkInsertion(0, new Coins());
+        player.getStrongbox().updateResources(new Coins(), 1);
+        player.getStrongbox().updateResources(new Coins(), 3);
+        player.getWarehouse().addleaderCardEffect(new Servants());
+        player.getWarehouse().getLeaderCardEffect().get(0).updateResources(1);
+        player.getWarehouse().addleaderCardEffect(new Coins());
+        player.getWarehouse().getLeaderCardEffect().get(1).updateResources(2);
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        WarehouseRes.put("Coins", 1);
+        StrongboxRes.put("Coins", 4);
+        ExtrachestMap.put("Coins", 2);
+
+        assertTrue(controller.VerifyNumPlayers(2));
+
+        controller.getGame().addPlayersList(player);
+        controller.startGame();
+
+        assertTrue(controller.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
+        assertEquals(1, controller.getGame().getCurrentPlayer().countTotalResources());
     }
 }

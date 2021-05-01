@@ -1,10 +1,7 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
-import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
-import it.polimi.ingsw.model.exceptions.GameFinishedException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
-import it.polimi.ingsw.model.exceptions.OverflowQuantityExcepions;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Coins;
@@ -105,14 +102,18 @@ public class TurnController {
      */
     public boolean activeLeaderAction(int pos){
         //controllo se posizione valida
-        if(pos>1)return false;
+        if(pos < 0 || pos>1)
+            return false;
+
         LeaderAction card= game.getCurrentPlayer().getLeaderActionBox().get(pos);
 
         //carta già attivata
-        if(card.getActivated())return true;
+        if(card.getActivated())
+            return true;
 
         //controllo risorse
-        if(!card.getCost().checkResources(game.getCurrentPlayer()))return false;
+        if(!card.getCost().checkResources(game.getCurrentPlayer()))
+            return false;
         //attivo carta
         card.setActivated();
 
@@ -222,12 +223,11 @@ public class TurnController {
             while(!ResList[Resindex].toString().equals(res))Resindex++;
 
             int ChestIndex=0;
-            while(game.getCurrentPlayer().getWarehouse().getLeaderCardEffect().get(ChestIndex).getResources().toString().equals(res))ChestIndex++;
+            while(!game.getCurrentPlayer().getWarehouse().getLeaderCardEffect().get(ChestIndex).getResources().toString().equals(res))ChestIndex++;
             //so che l'indice c'è perchè faccio controllo prima
 
-            int old= game.getCurrentPlayer().getWarehouse().getLeaderCardEffect().get(ChestIndex).getnum();
             try {
-                game.getCurrentPlayer().getWarehouse().getLeaderCardEffect().get(ChestIndex).updateResources(old -ExtrachestMap.get(res));
+                game.getCurrentPlayer().getWarehouse().getLeaderCardEffect().get(ChestIndex).updateResources( -ExtrachestMap.get(res));
             } catch (OverflowQuantityExcepions | NegativeQuantityExceptions ignored) {}//non uso i catch perchè controllo prima le risorse
         }
         return true;
@@ -315,7 +315,7 @@ public class TurnController {
      * @param resourcesList chosen resource(s)'s list
      * @return false if there is only one player
      */
-    public boolean ChooseResources (List<Resources> resourcesList){
+    public boolean ChooseResourcesFirstTurn (List<Resources> resourcesList){
         if (game.getPlayersList().indexOf(game.getCurrentPlayer()) == 1 || game.getPlayersList().indexOf(game.getCurrentPlayer()) == 2) {
             game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesList.get(0));
             return true;
@@ -342,6 +342,23 @@ public class TurnController {
         buffer.clear();
     }
 
+    /**
+     * This method empties the StrongBox buffer and sets the new current player.
+     */
+    public void endTurn () {
+        emptyBuffer();
+        game.setCurrentPlayer();
+    }
+
+    /**
+     * This method calls the Game's startgame method.
+     * @throws EmptyLeaderCardException
+     * @throws NullPlayerListGameException
+     * @throws ActiveVaticanReportException
+     */
+    public void startGame () throws EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+        game.startgame();
+    }
 
     /**
      * getter of game

@@ -1,0 +1,18 @@
+{
+  "cost" : {
+    "reqMap" : {
+      "Servants" : 4
+    }
+  },
+  "colorCard" : "PURPLE",
+  "level" : 2,
+  "costProduction" : {
+    "reqMap" : {
+      "Coins" : 1
+    }
+  },
+  "productedResources" : {
+    "FaithMarker" : 2
+  },
+  "victoryPoints" : 5
+}
