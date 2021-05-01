@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Network.message;
 
 public class MessageExtractionMarbles extends Message {
+    private static final long serialVersionUID = 8042579921096981359L;
+
     private char colrowextract;
 
     private int numextract;

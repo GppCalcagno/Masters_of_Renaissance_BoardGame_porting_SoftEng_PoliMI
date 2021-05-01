@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Network.message;
 
 public abstract class Message {
+    private static final long serialVersionUID = -7212814926393631108L;
+
     private String nickname;
 
     private MessageType messageType;

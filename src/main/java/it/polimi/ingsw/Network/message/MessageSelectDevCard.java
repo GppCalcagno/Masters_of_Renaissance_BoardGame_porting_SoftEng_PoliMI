@@ -1,21 +1,22 @@
 package it.polimi.ingsw.Network.message;
 
 public class MessageSelectDevCard extends Message{
+    private static final long serialVersionUID = -634200199040721658L;
 
-    private int x;
-    private int y;
+    private int rowDevCardDeck;
+    private int columnDevCardDeck;
 
-    public MessageSelectDevCard(String nickname, MessageType messageType, int x, int y){
+    public MessageSelectDevCard(String nickname, MessageType messageType, int rowDevCardDeck, int columnDevCardDeck){
         super(nickname, messageType);
-        this.x = x;
-        this.y = y;
+        this.rowDevCardDeck = rowDevCardDeck;
+        this.columnDevCardDeck = columnDevCardDeck;
     }
 
-    public int getX() {
-        return x;
+    public int getRowDevCardDeck() {
+        return rowDevCardDeck;
     }
 
-    public int getY() {
-        return y;
+    public int getColumnDevCardDeck() {
+        return columnDevCardDeck;
     }
 }

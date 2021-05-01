@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Network.message;
 
 public class MessageChooseLeaderCards extends Message{
+    private static final long serialVersionUID = -7664166014343608100L;
+
     private int i1;
     private int i2;
 

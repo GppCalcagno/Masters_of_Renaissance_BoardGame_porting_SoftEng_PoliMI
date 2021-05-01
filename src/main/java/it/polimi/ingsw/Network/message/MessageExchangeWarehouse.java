@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Network.message;
 
 public class MessageExchangeWarehouse extends Message {
+    private static final long serialVersionUID = -6846180864378519974L;
+
     private int row1;
 
     private int row2;
