@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
+import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class TurnController {
     private Game game;
     private boolean[] AlreadyActivedDevCard;
+    private boolean[] ProductionPowers;
     private DevelopmentCard CurrentDevCardPurchase;
     private int currentDevCardProduction;
     private int numPlayersCount;
@@ -26,8 +28,10 @@ public class TurnController {
      * @throws IOException
      */
     public TurnController() throws IOException {
-        game = new Game();
-        AlreadyActivedDevCard= new boolean[3];
+        AlreadyActivedDevCard = new boolean[3];
+        ProductionPowers = new boolean[3];
+        resetAlreadyActivedDevCard();
+        resetProductionPowers();
         numPlayersCount = 0;
     }
 
@@ -52,6 +56,14 @@ public class TurnController {
         }
     }
 
+    public boolean addNewPlayer (String name) {
+        for (Player player : game.getPlayersList()) {
+            if (name.equals(player.getNickname()))
+                return false;
+        }
+        game.addPlayersList(new Player(name));
+        return true;
+    }
 
     /**
      * this method called by the player allow to select from the DevCardDeck the card the player wants to buy
@@ -64,7 +76,7 @@ public class TurnController {
             CurrentDevCardPurchase =game.getDevelopmentCardDeck().getDevCards(row,column);
         } catch (NullPointerException e){ return false;}
 
-        //controllo che il giocare abbia spazione nello SlotDevCard e che abbia le risorse necessarie
+        //controllo che il giocatore abbia spazio nello SlotDevCard e che abbia le risorse necessarie
         return (game.getCurrentPlayer().getSlotDevCards().maxLevelPurchase(CurrentDevCardPurchase) && CurrentDevCardPurchase.getCost().checkResources(game.getCurrentPlayer()));
     }
 
@@ -75,7 +87,11 @@ public class TurnController {
      */
     public boolean insertCard(int col) {
         if (col >= 0 && col <= 2) {
-            return game.getCurrentPlayer().getSlotDevCards().insertCards(col, CurrentDevCardPurchase);
+            try {
+                return game.getCurrentPlayer().getSlotDevCards().insertCards(col, CurrentDevCardPurchase);
+            } catch (GameFinishedException e) {
+
+            }
         }
         return false;
     }
@@ -142,6 +158,34 @@ public class TurnController {
         return true;
     }
 
+    public boolean chooseResourcesBaseProduction(Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
+        if (!ProductionPowers[1]) {
+            int countResources = 0;
+            for (int i : WarehouseRes.values()) {
+                countResources += i;
+            }
+            for (int i : StrongboxRes.values()) {
+                countResources += i;
+            }
+            for (int i : ExtrachestMap.values()) {
+                countResources += i;
+            }
+            if (countResources == 2) {
+                return deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap);
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public boolean activeBaseProduction (Resources resources) {
+        if (!ProductionPowers[1]) {
+            game.getCurrentPlayer().getSlotDevCards().baseProduction(resources);
+            ProductionPowers[1] = true;
+            return true;
+        }
+        return false;
+    }
 
     /**
      * this method is called by client to active a DevCardProduction
@@ -149,18 +193,20 @@ public class TurnController {
      * @return true if the player could active DevCardProduction
      */
     public boolean activeProductionDevCard(int col){
-        if (AlreadyActivedDevCard[col])return false;
+        if (!ProductionPowers[0]) {
+            if (AlreadyActivedDevCard[col])
+                return false;
 
-        DevelopmentCard card= game.getCurrentPlayer().getSlotDevCards().getDevCards(col);
+            DevelopmentCard card = game.getCurrentPlayer().getSlotDevCards().getDevCards(col);
 
-        if( card.getCostProduction().checkResources(game.getCurrentPlayer()) && game.getCurrentPlayer().getSlotDevCards().checkUsage(card)){
-            currentDevCardProduction=col;
-            return true;
+            if (card.getCostProduction().checkResources(game.getCurrentPlayer()) && game.getCurrentPlayer().getSlotDevCards().checkUsage(card)) {
+                currentDevCardProduction=col;
+                return true;
+            }
+            return false;
         }
         return false;
-
     }
-
 
     /**
      * this method is used to pay DevCardProduction: remove resources from the player and fill SlotDevCard_buffer
@@ -169,7 +215,7 @@ public class TurnController {
      * @param ExtrachestMap resources from ExtrachestMap
      * @return true if the resources are correct for  DevCardProduction
      */
-    public boolean chooseResourcesForProduction(Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap){
+    public boolean chooseResourcesDevCardProduction(Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap){
         DevelopmentCard card= game.getCurrentPlayer().getSlotDevCards().getDevCards(currentDevCardProduction);
 
         //controlla se risorse corrispondono a costo carta
@@ -182,7 +228,90 @@ public class TurnController {
         game.getCurrentPlayer().getSlotDevCards().cardProduction(card);
 
         AlreadyActivedDevCard[currentDevCardProduction]=true;
+
+        if (ProductionDevCardisAlreadyActivated())
+            ProductionPowers[0] = true;
+
         return true;
+    }
+
+    public boolean ProductionDevCardisAlreadyActivated() {
+        for (boolean b : AlreadyActivedDevCard) {
+            if (!b)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean ActiveLeaderCardProduction (int indexExtraProduction, int WareStrongChest, Resources resource) {
+        if (!ProductionPowers[2]) {
+            if (game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().isEmpty())
+                return false;
+            else {
+                if (game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction) == null)
+                    return false;
+                else {
+                    switch (WareStrongChest) {
+                        case 0 :
+                            if (game.getCurrentPlayer().getWarehouse().delete(game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).getResources())) {
+                                try {
+                                    game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resource);
+                                } catch (ActiveVaticanReportException e) {
+                                    try {
+                                        game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
+                                    } catch (GameFinishedException gameFinishedException) {
+                                        endTurn();
+                                        return true;
+                                    }
+                                    return true;
+                                }
+                                return true;
+                            }
+                        case 1 :
+                            try {
+                                game.getCurrentPlayer().getStrongbox().updateResources(game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).getResources(), -1);
+                            } catch (NegativeQuantityExceptions negativeQuantityExceptions) {
+                                return false;
+                            }
+                            try {
+                                game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resource);
+                            } catch (ActiveVaticanReportException e) {
+                                try {
+                                    game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
+                                } catch (GameFinishedException gameFinishedException) {
+                                    endTurn();
+                                    return true;
+                                }
+                            }
+                            return true;
+                        case 2 :
+                            for (ExtraChest chest : game.getCurrentPlayer().getWarehouse().getLeaderCardEffect()) {
+                                if (chest.getResources().equals(game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).getResources())) {
+                                    try {
+                                        chest.updateResources(-1);
+                                    } catch (OverflowQuantityExcepions ignored) {}
+                                    catch (NegativeQuantityExceptions negativeQuantityExceptions) {
+                                        return false;
+                                    }
+                                    try {
+                                        game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resource);
+                                    } catch (ActiveVaticanReportException e) {
+                                        try {
+                                            game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
+                                        } catch (GameFinishedException gameFinishedException) {
+                                            endTurn();
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        default:
+                            return false;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -254,7 +383,7 @@ public class TurnController {
      * @param indexwarehouse row's index in which the client want to add the marble
      * @return true if the add is right
      */
-    public boolean AddDiscardMarble(boolean choice, int indexwarehouse) throws GameFinishedException {
+    public boolean AddDiscardMarble(boolean choice, int indexwarehouse) {
         if (choice) {
             try {
                 if (game.getMarketStructure().getBuffer().get(0).addtoWarehouse(game.getCurrentPlayer(), indexwarehouse)) {
@@ -264,7 +393,13 @@ public class TurnController {
                 else return false;
             } catch (ActiveVaticanReportException activeVaticanReportException) {
                 game.getMarketStructure().getBuffer().remove(0);
-                game.getFaithTrack().checkPopeSpace(game.getPlayersList(), 0);
+                try {
+                    game.getFaithTrack().checkPopeSpace(game.getPlayersList(), 0);
+                } catch (GameFinishedException e) {
+                    if (game.isFinishedGame()) {
+                        return true;
+                    }
+                }
                 return true;
             }
         } else {
@@ -274,7 +409,11 @@ public class TurnController {
                     try {
                         p.increasefaithMarker();
                     } catch (ActiveVaticanReportException e) {
-                        game.getFaithTrack().checkPopeSpace(game.getPlayersList(), 0);
+                        try {
+                            game.getFaithTrack().checkPopeSpace(game.getPlayersList(), 0);
+                        } catch (GameFinishedException gameFinishedException) {
+                            gameFinishedException.printStackTrace();
+                        }
                     }
                 }
             }
@@ -318,11 +457,13 @@ public class TurnController {
     public boolean ChooseResourcesFirstTurn (List<Resources> resourcesList){
         if (game.getPlayersList().indexOf(game.getCurrentPlayer()) == 1 || game.getPlayersList().indexOf(game.getCurrentPlayer()) == 2) {
             game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesList.get(0));
+            //chiamato al primo turno = warehouse vuoto = inserimento consentito
             return true;
         }
         else if (game.getPlayersList().indexOf(game.getCurrentPlayer()) == 3){
             game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesList.get(0));
             game.getCurrentPlayer().getWarehouse().checkInsertion(1, resourcesList.get(1));
+            //chiamato al primo turno = warehouse vuoto = inserimento consentito
             return true;
         }
         return false;
@@ -342,21 +483,34 @@ public class TurnController {
         buffer.clear();
     }
 
+    public void resetAlreadyActivedDevCard() {
+        for (boolean b : AlreadyActivedDevCard) {
+            b = false;
+        }
+    }
+
+    public void resetProductionPowers() {
+        for (boolean b : ProductionPowers) {
+            b = false;
+        }
+    }
+
     /**
      * This method empties the StrongBox buffer and sets the new current player.
      */
     public void endTurn () {
         emptyBuffer();
-        game.setCurrentPlayer();
+        try {
+            game.setCurrentPlayer();
+        } catch (EndGameException e) {
+
+        }
     }
 
     /**
      * This method calls the Game's startgame method.
-     * @throws EmptyLeaderCardException
-     * @throws NullPlayerListGameException
-     * @throws ActiveVaticanReportException
      */
-    public void startGame () throws EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    public void startGame (){
         game.startgame();
     }
 
