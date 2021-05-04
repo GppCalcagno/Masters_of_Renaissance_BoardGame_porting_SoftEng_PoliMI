@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.card.ColorCard;
+import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ class DevCardsDeckTest {
     }
 
     @Test
-    void purhcaseCardsofOneCard() throws IOException {
+    void purhcaseCardsofOneCard() throws IOException, GameFinishedException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
         Player player = new Player("Seppietta");
 
@@ -62,7 +63,7 @@ class DevCardsDeckTest {
     }
 
     @Test
-    void purchaseCardsofMultipleCards() throws IOException{
+    void purchaseCardsofMultipleCards() throws IOException, GameFinishedException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
         Player player = new Player("Maccio");
 

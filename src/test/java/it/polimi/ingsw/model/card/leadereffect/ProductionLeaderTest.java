@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.card.leadereffect;
 
 import Stub.LeaderCardDeckStub;
+import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.game.LeaderCardDeck;
 import it.polimi.ingsw.model.player.Player;
@@ -14,7 +15,7 @@ class ProductionLeaderTest {
     //Ho usato uno stub LeaderCardDeck nel cui costruttore non faccio shuffle e per questo so le posizioni delle carte nella lista
 
     @Test
-    void doSpecialAbilityTestActivated() throws IOException {
+    void doSpecialAbilityTestActivated() throws IOException, GameFinishedException {
         Player playerTest = new Player("Giocatore1");
         LeaderCardDeck leaderCardDeck =  new LeaderCardDeckStub();
         DevCardsDeck devCardsDeck = new DevCardsDeck();
@@ -28,7 +29,7 @@ class ProductionLeaderTest {
     }
 
     @Test
-    void doSpecialAbilityTestAdd() throws IOException {
+    void doSpecialAbilityTestAdd() throws IOException, GameFinishedException {
         Player playerTest = new Player("Giocatore1");
         LeaderCardDeck leaderCardDeck =  new LeaderCardDeckStub();
         DevCardsDeck devCardsDeck = new DevCardsDeck();

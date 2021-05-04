@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.leadereffect.ExtraProduction;
-import it.polimi.ingsw.model.producible.Producible;
+import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.producible.Resources;
 
 import java.util.ArrayList;
@@ -53,12 +53,14 @@ public class SlotDevCards {
      * @param column the column where player wants put the card just bought in accord with the rules
      * @param card the card just bought.
      */
-    public boolean insertCards( int column, DevelopmentCard card){
+    public boolean insertCards( int column, DevelopmentCard card) throws GameFinishedException {
         if((card.getLevel()-1)!=0 && (boardDevCards[card.getLevel()-2][column]==null || column>boardDevCards.length || (card.getLevel()-1)>boardDevCards.length)) return false;
         else{
             if(boardDevCards[card.getLevel()-1][column]!=null) return false;
             else {
                 boardDevCards[card.getLevel() - 1][column] = card;
+                if (countTotalNumberDevCards() == 7)
+                    throw new GameFinishedException();
                 return true;
             }
         }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
@@ -177,7 +178,7 @@ public class DevCardsDeck {
      * @param level level of the row of the matrix - reverse of the level of card. levelMatrix = 0 --> levelCard = 3
      * @param color color of the required card - equivalent to the column of the matrix
      */
-    public boolean purchaseCards(Player player, int playercolumn, int level, int color){
+    public boolean purchaseCards(Player player, int playercolumn, int level, int color) throws GameFinishedException {
         if (developmentCardDeck[level][color][0]!=null){
             if(player.getSlotDevCards().insertCards(playercolumn, developmentCardDeck[level][color][0])){
                 removeDevCards(level,color);

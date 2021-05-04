@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.exceptions.EmptyLeaderCardException;
+import it.polimi.ingsw.model.exceptions.EndGameException;
 import it.polimi.ingsw.model.exceptions.NullPlayerListGameException;
 import it.polimi.ingsw.model.player.Player;
 
@@ -47,6 +48,8 @@ public class Game {
      */
     private FaithTrack faithTrack;
 
+    private int lastPlayer;
+
     /**
      * This is the constructor method
      */
@@ -58,6 +61,7 @@ public class Game {
         this.marketStructure = new MarketStructure();
         this.faithTrack = new FaithTrack();
         this.finishedGame = false;
+        this.lastPlayer = -1;
     }
 
     /**
@@ -71,12 +75,16 @@ public class Game {
     /**
      * This method takes from playersList the current turn's player.
      */
-    public void setCurrentPlayer () {
+    public void setCurrentPlayer () throws EndGameException {
         int i = this.playersList.indexOf(this.currentPlayer);
+        if (finishedGame && lastPlayer == -1)
+            lastPlayer = i;
         i++;
         if(i < this.playersList.size())
             this.currentPlayer = this.playersList.get(i);
         else this.currentPlayer = this.playersList.get(0);
+        if (finishedGame && i == lastPlayer)
+            throw new EndGameException();
     }
 
     /**
@@ -109,8 +117,10 @@ public class Game {
      */
     public boolean isFinishedGame() {
         for(Player player : this.playersList){
-            if(player.getFaithMarker() == this.faithTrack.getFaithtracksize() || player.getSlotDevCards().countTotalNumberDevCards() >= 7)
+            if(player.getFaithMarker() == this.faithTrack.getFaithtracksize() || player.getSlotDevCards().countTotalNumberDevCards() >= 7) {
+                finishedGame = true;
                 return true;
+            }
         }
         return false;
     }
@@ -118,29 +128,25 @@ public class Game {
     /**
      * This method initialized the game. It make draw four Leader Cards to each player, that discards two; it extracts the first player and gives to all players the initial resources and faith points
      */
-    public void startgame () throws NullPlayerListGameException, EmptyLeaderCardException, ActiveVaticanReportException {
+    public void startgame () {
         // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
-        if(this.playersList.isEmpty())
-            throw new NullPlayerListGameException();
-        else {
-            if(this.leaderCardDeck.getLeaderCardList().isEmpty())
-                throw new EmptyLeaderCardException();
-            else{
-                for (Player player : this.playersList) {
-                    for (int x = 0; x < 4; x++) {
-                        this.leaderCardDeck.givetoPlayer(0, player);
-                    }
-                }
-                // Set the current Player
-                Collections.shuffle(this.playersList);
-                this.currentPlayer = this.playersList.get(0);
-                // Assegno solo i punti fede agli altri giocatori. Le Risorse a scelta vengono selezionate tramite il controller
-                for(int i = 2; i < this.playersList.size(); i++){
-                    this.playersList.get(i).increasefaithMarker();
-                }
+        for (Player player : this.playersList) {
+            for (int x = 0; x < 4; x++) {
+                this.leaderCardDeck.givetoPlayer(0, player);
             }
         }
+        // Set the current Player
+        Collections.shuffle(this.playersList);
+        this.currentPlayer = this.playersList.get(0);
+        // Assegno solo i punti fede agli altri giocatori. Le Risorse a scelta vengono selezionate tramite il controller
+        for(int i = 2; i < this.playersList.size(); i++){
+            try {
+                this.playersList.get(i).increasefaithMarker();
+            }
+            catch (ActiveVaticanReportException ignored) {}
+        }
     }
+
 
     /**
      * This method counts victory points of each player at the end of the game according to the rules
@@ -197,5 +203,9 @@ public class Game {
      */
     public FaithTrack getFaithTrack() {
         return faithTrack;
+    }
+
+    public int getBlackCrossToken () {
+        return 0;
     }
 }

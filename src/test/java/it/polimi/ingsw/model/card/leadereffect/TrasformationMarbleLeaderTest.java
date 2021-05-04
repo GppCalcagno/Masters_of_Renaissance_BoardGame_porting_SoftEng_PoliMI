@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.card.leadereffect;
 
 import Stub.LeaderCardDeckStub;
+import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.game.LeaderCardDeck;
 import it.polimi.ingsw.model.player.Player;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TrasformationMarbleLeaderTest {
     @Test
-    void doSpecialAbilityTestActivated() throws IOException {
+    void doSpecialAbilityTestActivated() throws IOException, GameFinishedException {
         Player player = new Player("Gigi");
         LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
         DevCardsDeck devCardsDeck = new DevCardsDeck();
@@ -26,7 +27,7 @@ class TrasformationMarbleLeaderTest {
     }
 
     @Test
-    void doSpecialAbilityTestAdd() throws IOException {
+    void doSpecialAbilityTestAdd() throws IOException, GameFinishedException {
         Player player = new Player("Gigi");
         LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
         DevCardsDeck devCardsDeck = new DevCardsDeck();
@@ -39,7 +40,7 @@ class TrasformationMarbleLeaderTest {
     }
 
     @Test
-    void doSpecialAbilityTestNotActivated() throws IOException {
+    void doSpecialAbilityTestNotActivated() throws IOException, GameFinishedException {
         Player player = new Player("Gigi");
         LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
         DevCardsDeck devCardsDeck = new DevCardsDeck();

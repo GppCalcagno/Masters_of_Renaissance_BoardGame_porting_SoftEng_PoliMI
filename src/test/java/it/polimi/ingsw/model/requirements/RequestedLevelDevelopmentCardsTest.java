@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.requirements;
 
 import it.polimi.ingsw.model.card.ColorCard;
+import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class RequestedLevelDevelopmentCardsTest {
     }
 
     @Test
-    public void ReturnTrueSimple() throws IOException {
+    public void ReturnTrueSimple() throws IOException, GameFinishedException {
         DevCardsDeck deck= new DevCardsDeck();
         Player player= new Player("Ok");
 
@@ -31,7 +32,7 @@ class RequestedLevelDevelopmentCardsTest {
     }
 
     @Test
-    public void ReturnTrueLevel2() throws IOException {
+    public void ReturnTrueLevel2() throws IOException, GameFinishedException {
         DevCardsDeck deck= new DevCardsDeck();
         Player player= new Player("Ok");
 
@@ -43,7 +44,7 @@ class RequestedLevelDevelopmentCardsTest {
     }
 
     @Test
-    public void ReturnFalseBecauseNoRequiredCard() throws IOException {
+    public void ReturnFalseBecauseNoRequiredCard() throws IOException, GameFinishedException {
         DevCardsDeck deck= new DevCardsDeck();
         Player player= new Player("Ok");
 
@@ -54,7 +55,7 @@ class RequestedLevelDevelopmentCardsTest {
     }
 
     @Test
-    public void ReturnFalseBecauseNoRequiredLevel() throws IOException {
+    public void ReturnFalseBecauseNoRequiredLevel() throws IOException, GameFinishedException {
         DevCardsDeck deck= new DevCardsDeck();
         Player player= new Player("Ok");
 

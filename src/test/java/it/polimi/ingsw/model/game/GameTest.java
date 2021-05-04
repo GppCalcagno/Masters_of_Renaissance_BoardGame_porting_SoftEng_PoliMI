@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.game;
 
-import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
-import it.polimi.ingsw.model.exceptions.EmptyLeaderCardException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
-import it.polimi.ingsw.model.exceptions.NullPlayerListGameException;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Coins;
 import it.polimi.ingsw.model.producible.Shields;
@@ -16,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     @Test
-    void setCurrentPlayer() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void setCurrentPlayer() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
         Game game = new Game();
         Player player1 = new Player("Rene");
         Player player2 = new Player("Caterina");
@@ -91,7 +88,7 @@ class GameTest {
     }
 
     @Test
-    void isFinishedGame7() throws IOException {
+    void isFinishedGame7() throws IOException, GameFinishedException {
         Game game = new Game();
         Player player = new Player("Ottaviano");
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(2, 0));
@@ -107,19 +104,6 @@ class GameTest {
         assertTrue(game.isFinishedGame());
     }
 
-    @Test
-    void stargameEmpty() throws IOException, ActiveVaticanReportException {
-        Game game = new Game();
-        try {
-            game.startgame();
-            fail();
-        } catch (NullPlayerListGameException e) {
-            assertTrue(true);
-        } catch (EmptyLeaderCardException e) {
-            fail();
-        }
-
-    }
     @Test
     void startgameLeaderActionBox() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
         Game game = new Game();
@@ -172,7 +156,7 @@ class GameTest {
     }
 
     @Test
-    void givefinalpoints() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void givefinalpoints() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, GameFinishedException {
         Game game = new Game();
         Player player = new Player("Caterina");
 

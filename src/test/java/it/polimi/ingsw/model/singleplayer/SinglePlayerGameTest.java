@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.singleplayer;
 
-import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
-import it.polimi.ingsw.model.exceptions.EmptyLeaderCardException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
-import it.polimi.ingsw.model.exceptions.NullPlayerListGameException;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Coins;
 import org.junit.jupiter.api.Test;
@@ -68,7 +65,7 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void givefinalpoints() throws IOException, NegativeQuantityExceptions, NullPlayerListGameException, EmptyLeaderCardException, ActiveVaticanReportException {
+    void givefinalpoints() throws IOException, NegativeQuantityExceptions, NullPlayerListGameException, EmptyLeaderCardException, ActiveVaticanReportException, GameFinishedException {
         SinglePlayerGame game = new SinglePlayerGame();
         Player player = new Player("Valentina");
 

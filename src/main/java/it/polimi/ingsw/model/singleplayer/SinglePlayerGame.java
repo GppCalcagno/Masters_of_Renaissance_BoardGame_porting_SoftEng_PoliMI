@@ -141,21 +141,14 @@ public class SinglePlayerGame extends Game {
     /**
      * This method initialized the game. It make draw four Leader Cards to each player, that discards two; it extracts the first player and gives to all players the initial resources and faith points
      */
-    public void startgame () throws NullPlayerListGameException, EmptyLeaderCardException {
+    public void startgame () {
         // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
-        if (playersList.isEmpty())
-            throw new NullPlayerListGameException();
-        else {
-            if (leaderCardDeck.getLeaderCardList().isEmpty())
-                throw new EmptyLeaderCardException();
-            else {
-                this.currentPlayer = this.playersList.get(0);
-                for (int x = 0; x < 4; x++) {
-                    leaderCardDeck.givetoPlayer(0, currentPlayer);
-                }
-            }
+        this.currentPlayer = this.playersList.get(0);
+        for (int x = 0; x < 4; x++) {
+            leaderCardDeck.givetoPlayer(0, currentPlayer);
         }
     }
+
     /**
      * This method counts victory points of each player at the end of the game according to the rules
      */
@@ -200,5 +193,9 @@ public class SinglePlayerGame extends Game {
      */
     public LorenzoIlMagnifico getLorenzoIlMagnifico() {
         return lorenzoIlMagnifico;
+    }
+
+    public int getBlackCrossToken () {
+        return lorenzoIlMagnifico.getFaithMarker();
     }
 }

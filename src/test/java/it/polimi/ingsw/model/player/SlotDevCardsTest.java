@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.game.DevCardsDeck;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SlotDevCardsTest {
 
     @Test
-    void maxLevelPurchase() throws IOException {
+    void maxLevelPurchase() throws IOException, GameFinishedException {
         SlotDevCards s = new SlotDevCards();
         DevCardsDeck d = new DevCardsDeck();
         s.insertCards(0, d.getDevCards(2,0));
@@ -19,7 +20,7 @@ class SlotDevCardsTest {
     }
 
     @Test
-    void insertCards() throws IOException {
+    void insertCards() throws IOException, GameFinishedException {
         SlotDevCards s = new SlotDevCards();
         DevCardsDeck d = new DevCardsDeck();
         assertTrue(s.insertCards(0, d.getDevCards(2,0)));
@@ -29,7 +30,7 @@ class SlotDevCardsTest {
     }
 
     @Test
-    void checkUsage() throws IOException {
+    void checkUsage() throws IOException, GameFinishedException {
         SlotDevCards s = new SlotDevCards();
         DevCardsDeck d = new DevCardsDeck();
         s.insertCards(0, d.getDevCards(2,0));
@@ -43,7 +44,7 @@ class SlotDevCardsTest {
     }
 
     @Test
-    void countTotalNumberDevCards() throws IOException {
+    void countTotalNumberDevCards() throws IOException, GameFinishedException {
         SlotDevCards s = new SlotDevCards();
         DevCardsDeck d = new DevCardsDeck();
         s.insertCards(0, d.getDevCards(2,0));
@@ -62,7 +63,7 @@ class SlotDevCardsTest {
     }
 
     @Test
-    void countVictoryPointsOne() throws IOException{
+    void countVictoryPointsOne() throws IOException, GameFinishedException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
         SlotDevCards slotDevCards = new SlotDevCards();
         slotDevCards.insertCards(0, devCardsDeck.getDevCards(2, 0));
@@ -71,7 +72,7 @@ class SlotDevCardsTest {
     }
 
     @Test
-    void countVictoryPointsTree() throws IOException {
+    void countVictoryPointsTree() throws IOException, GameFinishedException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
         SlotDevCards slotDevCards = new SlotDevCards();
         slotDevCards.insertCards(0, devCardsDeck.getDevCards(2,0));
@@ -83,7 +84,7 @@ class SlotDevCardsTest {
     }
 
     @Test
-    void countVictoryPointsMany() throws IOException {
+    void countVictoryPointsMany() throws IOException, GameFinishedException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
         SlotDevCards slotDevCards = new SlotDevCards();
         slotDevCards.insertCards(0, devCardsDeck.getDevCards(2,0));

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TurnControllerTest {
 
     @Test
-    void selectDevCard() throws IOException, NegativeQuantityExceptions {
+    void selectDevCard() throws IOException, NegativeQuantityExceptions, EndGameException {
        TurnController t = new TurnController();
 
         Player p = new Player("Casseruola");
@@ -37,7 +37,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void insertCard() throws IOException, NegativeQuantityExceptions {
+    void insertCard() throws IOException, NegativeQuantityExceptions, GameFinishedException, EndGameException {
         TurnController t = new TurnController();
 
         Player p = new Player("Casseruola");
@@ -61,7 +61,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void activeLeaderCardNotActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void activeLeaderCardNotActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
         TurnController t = new TurnController();
         LeaderCardDeckStub leaderCardDeckStub = new LeaderCardDeckStub();
 
@@ -76,7 +76,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void activeLeaderCardActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void activeLeaderCardActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
         TurnController t = new TurnController();
         LeaderCardDeckStub leaderCardDeckStub = new LeaderCardDeckStub();
 
@@ -200,7 +200,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void chooseResourcesTwo() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void chooseResourcesTwo() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         Player player2 = new Player("Fini");
@@ -221,7 +221,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void chooseResourcesFour() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void chooseResourcesFour() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         Player player2 = new Player("Fini");
