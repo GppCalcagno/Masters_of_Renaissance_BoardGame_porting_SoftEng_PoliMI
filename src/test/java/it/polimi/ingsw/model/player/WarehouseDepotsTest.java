@@ -34,7 +34,6 @@ class WarehouseDepotsTest {
         assertTrue(w.checkInsertion(2,stone));
         assertFalse(w.checkInsertion(2,stone));
         assertFalse(w.checkInsertion(2,stone));
-
     }
 
     @Test
