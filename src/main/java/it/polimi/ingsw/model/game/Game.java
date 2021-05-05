@@ -163,6 +163,7 @@ public class Game {
      */
     public void addPlayersList(Player player){
         this.playersList.add(player);
+        System.out.println(playersList.size()+ " "+ playersList.get(0).getNickname());
     }
 
     /**
