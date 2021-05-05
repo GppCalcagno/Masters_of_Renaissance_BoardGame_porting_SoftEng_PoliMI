@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.Network.message.*;
-import it.polimi.ingsw.model.exceptions.GameFinishedException;
+import it.polimi.ingsw.model.exceptions.EndGameException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,14 +12,11 @@ public class GameController {
 
     private TurnController turnController;
 
-    private InputController inputController;
-
     private List<MessageType> nextState;
 
     public GameController () throws IOException {
         this.turnController = new TurnController();
         gameState = GameState.LOGIN;
-        this.inputController = new InputController(turnController);
         this.nextState = new ArrayList<>();
         nextState.add(MessageType.LOGIN);
     }
@@ -45,12 +42,14 @@ public class GameController {
         }
     }
 
-    public void loginPhase (Message message) throws IOException {
+    public void loginPhase (Message message) {
         switch (message.getMessageType()) {
             case LOGIN:
                 loginMethod((MessageLogin) message);
+                break;
             case NUMPLAYERS:
                 numPlayersMethod((MessageNumPlayers) message);
+                break;
             default:
                 break;
         }
@@ -68,7 +67,7 @@ public class GameController {
                 }
             case ENDTURN:
                 if (verifyCurrentPlayer(message.getNickname())) {
-
+                    endTurnMethod();
                 }
             default:
                 break;
@@ -122,7 +121,13 @@ public class GameController {
                     activeLeaderCardProductionMethod((MessageActiveLeaderCardProduction) message);
                 }
             case UPDATESTATELEADERACTION:
+                if (verifyCurrentPlayer(message.getNickname())) {
+                    updateStateLeaderActionMethod((MessageAddDiscardLeaderCard) message);
+                }
             case ENDTURN:
+                if (verifyCurrentPlayer(message.getNickname())) {
+                    endTurnMethod();
+                }
             default:
                 break;
         }
@@ -173,10 +178,9 @@ public class GameController {
     }
 
     public void chooseResourcesFirstTurnMethod (MessageChooseResourcesFirstTurn messageChooseResourcesFirstTurn) {
-        if (turnController.ChooseResourcesFirstTurn(messageChooseResourcesFirstTurn.getResourcesList())) {
-            nextState.clear();
-            nextState.add(MessageType.ENDTURN);
-        }
+        turnController.ChooseResourcesFirstTurn(messageChooseResourcesFirstTurn.getResourcesList());
+        nextState.clear();
+        nextState.add(MessageType.ENDTURN);
     }
 
     public void extractionMarblesMethod (MessageExtractionMarbles messageExtractionMarbles) {
@@ -193,6 +197,12 @@ public class GameController {
                 if (turnController.getGame().getMarketStructure().getBuffer().isEmpty()) {
                     nextState.clear();
                     nextState.add(MessageType.UPDATESTATELEADERACTION);
+                    nextState.add(MessageType.ENDTURN);
+                }
+                else {
+                    nextState.clear();
+                    nextState.add(MessageType.ADDDISCARDMARBLES);
+                    nextState.add(MessageType.EXCHANGEWAREHOUSE);
                 }
             }
         }
@@ -265,13 +275,79 @@ public class GameController {
         }
     }
 
-    public boolean isFirstPlayer (String nickname) {
-        //verifico prima se il currentplayer sia il primo della lista di giocatori
-        if (turnController.getGame().getCurrentPlayer().equals(turnController.getGame().getPlayersList().get(0))) {
-            //verifico se il nickname del client sia uguale a quello del current player
-            return turnController.getGame().getCurrentPlayer().getNickname().equals(nickname);
+    public void updateStateLeaderActionMethod (MessageAddDiscardLeaderCard message) {
+        if (message.isAddOrDiscard()) {
+            if (turnController.activeLeaderAction(message.getPos())) {
+                nextState.clear();
+                nextState.add(MessageType.ENDTURN);
+                nextState.add(MessageType.EXTRACTIONMARBLES);
+                nextState.add(MessageType.SELECTDEVCARD);
+                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
+                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+            }
         }
-        return false;
+        else {
+            if (turnController.discardLeaderAction(message.getPos())) {
+                nextState.clear();
+                nextState.add(MessageType.ENDTURN);
+                nextState.add(MessageType.EXTRACTIONMARBLES);
+                nextState.add(MessageType.SELECTDEVCARD);
+                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
+                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+            }
+        }
+    }
+
+    public void endTurnMethod () {
+        if (gameState == GameState.INITGAME) {
+            if (turnController.getGame().getPlayersList().indexOf(turnController.getGame().getCurrentPlayer()) == turnController.getNumPlayersCount() - 1) {
+                gameState = GameState.INGAME;
+                nextState.clear();
+                nextState.add(MessageType.EXTRACTIONMARBLES);
+                nextState.add(MessageType.SELECTDEVCARD);
+                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
+                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+                nextState.add(MessageType.UPDATESTATELEADERACTION);
+                try {
+                    turnController.endTurn();
+                } catch (EndGameException e) {
+                    turnController.getGame().givefinalpoints();
+                    //notifica il vincitore
+                    turnController.getGame().getWinner();
+                }
+            }
+            else {
+                nextState.clear();
+                nextState.add(MessageType.CHOOSELEADERCARDS);
+                nextState.add(MessageType.CHOOSERESOURCESFIRSTTURN);
+                try {
+                    turnController.endTurn();
+                } catch (EndGameException e) {
+                    turnController.getGame().givefinalpoints();
+                    //notifica il vincitore
+                    turnController.getGame().getWinner();
+                }
+            }
+        }
+        else if (gameState == GameState.INGAME) {
+            nextState.clear();
+            nextState.add(MessageType.EXTRACTIONMARBLES);
+            nextState.add(MessageType.SELECTDEVCARD);
+            nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+            nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
+            nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+            nextState.add(MessageType.UPDATESTATELEADERACTION);
+            try {
+                turnController.endTurn();
+            } catch (EndGameException e) {
+                turnController.getGame().givefinalpoints();
+                //notifica il vincitore
+                turnController.getGame().getWinner();
+            }
+        }
     }
 
     public boolean verifyCurrentPlayer (String nickname) {

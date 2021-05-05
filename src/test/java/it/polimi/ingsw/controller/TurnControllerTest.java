@@ -76,7 +76,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void activeLeaderCardActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
+    void activeLeaderCardActivated() throws IOException, EndGameException {
         TurnController t = new TurnController();
         LeaderCardDeckStub leaderCardDeckStub = new LeaderCardDeckStub();
 
@@ -116,7 +116,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void AddMarble() throws IOException, GameFinishedException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void AddMarble() throws IOException {
         TurnController giovanniController = new TurnController();
         Player player = new Player("Stanis");
         assertTrue(giovanniController.VerifyNumPlayers(1));
@@ -128,7 +128,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void DiscardMarble() throws IOException, GameFinishedException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void DiscardMarble() throws IOException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         Player player2 = new Player("Fini");
@@ -142,7 +142,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void exchangeWarehouse() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, GameFinishedException {
+    void exchangeWarehouse() throws IOException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         assertTrue(giovanniController.VerifyNumPlayers(1));
@@ -169,7 +169,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void chooseLeaderCards() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void chooseLeaderCards() throws IOException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         assertTrue(giovanniController.VerifyNumPlayers(2));
@@ -182,7 +182,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void chooseResourcesOne() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void chooseResourcesOne() throws IOException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         assertTrue(giovanniController.VerifyNumPlayers(1));
@@ -200,7 +200,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void chooseResourcesTwo() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
+    void chooseResourcesTwo() throws IOException, EndGameException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         Player player2 = new Player("Fini");
@@ -221,7 +221,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void chooseResourcesFour() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
+    void chooseResourcesFour() throws IOException, EndGameException {
         TurnController giovanniController = new TurnController();
         Player player1 = new Player("Gianfranco");
         Player player2 = new Player("Fini");
@@ -248,7 +248,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void deleteResRight() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void deleteResRight() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
         TurnController controller = new TurnController();
 
         Player player = new Player("Angelo");
@@ -274,7 +274,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void deleteResWrongChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void deleteResWrongChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
         TurnController controller = new TurnController();
 
         Player player = new Player("Angelo");
@@ -296,11 +296,11 @@ class TurnControllerTest {
         controller.startGame();
 
         assertFalse(controller.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
-        assertEquals(0, controller.getGame().getCurrentPlayer().countTotalResources());
+        assertEquals(3, controller.getGame().getCurrentPlayer().countTotalResources());
     }
 
     @Test
-    void deleteResRightWithSecondChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void deleteResRightWithSecondChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
         TurnController controller = new TurnController();
 
         Player player = new Player("Angelo");

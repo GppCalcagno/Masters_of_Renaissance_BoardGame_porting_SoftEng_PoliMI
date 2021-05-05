@@ -90,7 +90,7 @@ public class TurnController {
             try {
                 return game.getCurrentPlayer().getSlotDevCards().insertCards(col, CurrentDevCardPurchase);
             } catch (GameFinishedException e) {
-
+                return game.isFinishedGame();
             }
         }
         return false;
@@ -142,18 +142,22 @@ public class TurnController {
      * @param pos which leader action card must to be discarded: 0 for the first, 1 for the second
      * @return true if the card is discarded
      */
-    public boolean discardLeaderAction(int pos) throws GameFinishedException {
+    public boolean discardLeaderAction(int pos) {
         int size = game.getCurrentPlayer().getLeaderActionBox().size();
         //verifico se indice corretto
-        if(pos<size) return false;
-
-            game.getCurrentPlayer().discardLeaderAction(pos);
-
+        if (pos > size)
+            return false;
+        //verifico che non sia già stata attivata
+        if (game.getCurrentPlayer().getLeaderActionBox().get(pos).getActivated())
+            return false;
         try {
             game.getCurrentPlayer().increasefaithMarker();
         } catch (ActiveVaticanReportException e) {
-            //vedere il singleplayer
-            game.getFaithTrack().checkPopeSpace(game.getPlayersList(),0);
+            try {
+                game.getFaithTrack().checkPopeSpace(game.getPlayersList(),game.getBlackCrossToken());
+            } catch (GameFinishedException gameFinishedException) {
+                return game.isFinishedGame();
+            }
         }
         return true;
     }
@@ -260,8 +264,7 @@ public class TurnController {
                                     try {
                                         game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
                                     } catch (GameFinishedException gameFinishedException) {
-                                        endTurn();
-                                        return true;
+                                        return game.isFinishedGame();
                                     }
                                     return true;
                                 }
@@ -279,8 +282,7 @@ public class TurnController {
                                 try {
                                     game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
                                 } catch (GameFinishedException gameFinishedException) {
-                                    endTurn();
-                                    return true;
+                                    return game.isFinishedGame();
                                 }
                             }
                             return true;
@@ -299,8 +301,7 @@ public class TurnController {
                                         try {
                                             game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
                                         } catch (GameFinishedException gameFinishedException) {
-                                            endTurn();
-                                            return true;
+                                            return game.isFinishedGame();
                                         }
                                     }
                                 }
@@ -396,9 +397,7 @@ public class TurnController {
                 try {
                     game.getFaithTrack().checkPopeSpace(game.getPlayersList(), 0);
                 } catch (GameFinishedException e) {
-                    if (game.isFinishedGame()) {
-                        return true;
-                    }
+                    return game.isFinishedGame();
                 }
                 return true;
             }
@@ -412,7 +411,7 @@ public class TurnController {
                         try {
                             game.getFaithTrack().checkPopeSpace(game.getPlayersList(), 0);
                         } catch (GameFinishedException gameFinishedException) {
-                            gameFinishedException.printStackTrace();
+                            return game.isFinishedGame();
                         }
                     }
                 }
@@ -498,13 +497,9 @@ public class TurnController {
     /**
      * This method empties the StrongBox buffer and sets the new current player.
      */
-    public void endTurn () {
+    public void endTurn () throws EndGameException {
         emptyBuffer();
-        try {
-            game.setCurrentPlayer();
-        } catch (EndGameException e) {
-
-        }
+        game.setCurrentPlayer();
     }
 
     /**

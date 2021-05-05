@@ -88,20 +88,21 @@ class GameTest {
     }
 
     @Test
-    void isFinishedGame7() throws IOException, GameFinishedException {
+    void isFinishedGame7() throws IOException {
         Game game = new Game();
         Player player = new Player("Ottaviano");
-        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(2, 0));
-        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(1, 0));
-        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(0, 0));
-        player.getSlotDevCards().insertCards(1, game.getDevelopmentCardDeck().getDevCards(2, 0));
-        player.getSlotDevCards().insertCards(1, game.getDevelopmentCardDeck().getDevCards(1, 0));
-        player.getSlotDevCards().insertCards(1, game.getDevelopmentCardDeck().getDevCards(0, 0));
-        player.getSlotDevCards().insertCards(2, game.getDevelopmentCardDeck().getDevCards(2, 0));
-
         game.addPlayersList(player);
-
-        assertTrue(game.isFinishedGame());
+        try {
+            player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(2, 0));
+            player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(1, 0));
+            player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(0, 0));
+            player.getSlotDevCards().insertCards(1, game.getDevelopmentCardDeck().getDevCards(2, 0));
+            player.getSlotDevCards().insertCards(1, game.getDevelopmentCardDeck().getDevCards(1, 0));
+            player.getSlotDevCards().insertCards(1, game.getDevelopmentCardDeck().getDevCards(0, 0));
+            player.getSlotDevCards().insertCards(2, game.getDevelopmentCardDeck().getDevCards(2, 0));
+        } catch (GameFinishedException g) {
+            assertTrue(game.isFinishedGame());
+        }
     }
 
     @Test
