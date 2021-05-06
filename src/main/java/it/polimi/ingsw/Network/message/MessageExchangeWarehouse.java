@@ -7,8 +7,8 @@ public class MessageExchangeWarehouse extends Message {
 
     private int row2;
 
-    public MessageExchangeWarehouse(String nickname, MessageType messageType, int row1, int row2) {
-        super(nickname, messageType);
+    public MessageExchangeWarehouse(String nickname, int row1, int row2) {
+        super(nickname, MessageType.EXCHANGEWAREHOUSE);
         this.row1 = row1;
         this.row2 = row2;
     }

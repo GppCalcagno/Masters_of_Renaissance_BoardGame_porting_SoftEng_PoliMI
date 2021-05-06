@@ -9,8 +9,8 @@ public class MessageChooseResourcesFirstTurn extends Message{
 
     private List<Resources> resourcesList;
 
-    public MessageChooseResourcesFirstTurn(String nickname, MessageType messageType, List<Resources> resourcesList) {
-        super(nickname, messageType);
+    public MessageChooseResourcesFirstTurn(String nickname, List<Resources> resourcesList) {
+        super(nickname, MessageType.CHOOSERESOURCESFIRSTTURN);
         this.resourcesList = resourcesList;
     }
 

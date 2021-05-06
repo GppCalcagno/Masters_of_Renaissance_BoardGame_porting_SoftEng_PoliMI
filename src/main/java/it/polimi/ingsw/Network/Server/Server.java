@@ -26,7 +26,7 @@ public class Server extends Observable {
      */
     public Server(int port){
         try {
-            this.gameController= new GameController();
+            this.gameController= new GameController(this);
         } catch (IOException e) {
             LOGGER.severe("ERROR: CAN'T LOAD GAME CARD");
         }

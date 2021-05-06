@@ -19,8 +19,6 @@ public enum MessageType {
     UPDATESTATELEADERACTION,
     ENDTURN,
     PING,
-    DISCONNECT
-
-
-
+    DISCONNECT,
+    EXTRACTEDMARBLESLIST,
 }

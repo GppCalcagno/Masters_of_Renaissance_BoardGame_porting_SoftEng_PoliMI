@@ -37,7 +37,7 @@ public class test {
         System.out.println("manda 1o messaggio");
         in.next();
 
-        Message message= new MessageNumPlayers("cosa", MessageType.NUMPLAYERS,2);
+        Message message= new MessageNumPlayers("cosa",2);
 
         try {
             outputStm.writeObject(message);
@@ -50,7 +50,7 @@ public class test {
         System.out.println("manda 2o messaggio");
         in.next();
 
-        Message message1= new MessageLogin("cosa", MessageType.LOGIN);
+        Message message1= new MessageLogin("cosa");
         try {
             outputStm.writeObject(message1);
         } catch (IOException e) {
@@ -61,7 +61,7 @@ public class test {
         in.next();
 
 
-        Message message2= new MessageLogin("cosa", MessageType.LOGIN);
+        Message message2= new MessageLogin("cosa");
         try {
             outputStm.writeObject(message2);
         } catch (IOException e) {

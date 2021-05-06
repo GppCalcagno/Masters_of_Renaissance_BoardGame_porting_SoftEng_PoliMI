@@ -5,8 +5,8 @@ public class MessageNumPlayers extends Message {
 
     private int numPlayers;
 
-    public MessageNumPlayers(String nickname, MessageType messageType, int numPlayers) {
-        super(nickname, messageType);
+    public MessageNumPlayers(String nickname, int numPlayers) {
+        super(nickname, MessageType.NUMPLAYERS);
         this.numPlayers = numPlayers;
     }
 

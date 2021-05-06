@@ -5,8 +5,8 @@ public class MessageActiveProductionDevCard extends Message{
 
     private int column;
 
-    public MessageActiveProductionDevCard(String nickname, MessageType messageType, int column) {
-        super(nickname, messageType);
+    public MessageActiveProductionDevCard(String nickname, int column) {
+        super(nickname, MessageType.ACTIVEPRODUCTIONDEVCARD);
         this.column = column;
     }
 

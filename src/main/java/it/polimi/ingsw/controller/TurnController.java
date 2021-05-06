@@ -56,6 +56,11 @@ public class TurnController {
         }
     }
 
+    /**
+     * This method adds a new player to the Game if there is not already the same nickname
+     * @param name nickname of the new player
+     * @return true
+     */
     public boolean addNewPlayer (String name) {
         for (Player player : game.getPlayersList()) {
             if (name.equals(player.getNickname()))

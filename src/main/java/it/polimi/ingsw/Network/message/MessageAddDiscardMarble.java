@@ -7,8 +7,8 @@ public class MessageAddDiscardMarble extends Message {
 
     private int indexwarehouse;
 
-    public MessageAddDiscardMarble(String nickname, MessageType messageType, boolean choice, int indexwarehouse) {
-        super(nickname, messageType);
+    public MessageAddDiscardMarble(String nickname, boolean choice, int indexwarehouse) {
+        super(nickname, MessageType.ADDDISCARDMARBLES);
         this.choice = choice;
         this.indexwarehouse = indexwarehouse;
     }

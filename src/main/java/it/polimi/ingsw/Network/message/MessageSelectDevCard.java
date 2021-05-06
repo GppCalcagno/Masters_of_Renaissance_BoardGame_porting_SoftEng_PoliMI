@@ -6,8 +6,8 @@ public class MessageSelectDevCard extends Message{
     private int rowDevCardDeck;
     private int columnDevCardDeck;
 
-    public MessageSelectDevCard(String nickname, MessageType messageType, int rowDevCardDeck, int columnDevCardDeck){
-        super(nickname, messageType);
+    public MessageSelectDevCard(String nickname, int rowDevCardDeck, int columnDevCardDeck){
+        super(nickname, MessageType.SELECTDEVCARD);
         this.rowDevCardDeck = rowDevCardDeck;
         this.columnDevCardDeck = columnDevCardDeck;
     }

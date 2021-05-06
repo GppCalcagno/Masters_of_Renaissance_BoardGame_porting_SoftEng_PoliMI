@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.model.player.Player;
 
 public abstract class Resources implements Producible {
+        private static final long serialVersionUID = 7072915502239427238L;
+
         /**
          * this method activates the effect of the resource: add Servants to player's StrongBox
          * @param p is the player who uses the resource

@@ -9,8 +9,8 @@ public class MessageChooseResourcesDevCardProduction extends Message {
     private Map<String,Integer> StrongboxRes;
     private Map<String,Integer> ExtrachestMap;
 
-    public MessageChooseResourcesDevCardProduction(String nickname, MessageType messageType, Map<String, Integer> warehouseRes, Map<String, Integer> strongboxRes, Map<String, Integer> extrachestMap) {
-        super(nickname, messageType);
+    public MessageChooseResourcesDevCardProduction(String nickname, Map<String, Integer> warehouseRes, Map<String, Integer> strongboxRes, Map<String, Integer> extrachestMap) {
+        super(nickname, MessageType.ACTIVEPRODUCTIONDEVCARD);
         WarehouseRes = warehouseRes;
         StrongboxRes = strongboxRes;
         ExtrachestMap = extrachestMap;

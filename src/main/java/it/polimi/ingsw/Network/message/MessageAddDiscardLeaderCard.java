@@ -10,8 +10,8 @@ public class MessageAddDiscardLeaderCard extends Message {
 
     private int pos;
 
-    public MessageAddDiscardLeaderCard(String nickname, MessageType messageType, boolean addOrDiscard, int pos) {
-        super(nickname, messageType);
+    public MessageAddDiscardLeaderCard(String nickname, boolean addOrDiscard, int pos) {
+        super(nickname, MessageType.UPDATESTATELEADERACTION);
         this.addOrDiscard = addOrDiscard;
         this.pos = pos;
     }

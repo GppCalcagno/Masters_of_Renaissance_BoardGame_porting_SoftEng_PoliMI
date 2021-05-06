@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.producible;
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.player.Player;
 
-public interface Producible {
+import java.io.Serializable;
+
+public interface Producible extends Serializable {
     /**
      * this method activates the effect of the Producible
      * @param p is the player who uses the Producible

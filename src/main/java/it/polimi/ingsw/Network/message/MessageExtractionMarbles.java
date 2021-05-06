@@ -8,8 +8,8 @@ public class MessageExtractionMarbles extends Message {
     private int numextract;
 
 
-    public MessageExtractionMarbles(String nickname, MessageType messageType, char colrowextract, int numextract) {
-        super(nickname, messageType);
+    public MessageExtractionMarbles(String nickname, char colrowextract, int numextract) {
+        super(nickname, MessageType.EXTRACTIONMARBLES);
         this.colrowextract = colrowextract;
         this.numextract = numextract;
     }

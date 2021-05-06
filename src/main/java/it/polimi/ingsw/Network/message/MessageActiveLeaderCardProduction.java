@@ -11,8 +11,8 @@ public class MessageActiveLeaderCardProduction extends Message{
 
     private Resources resource;
 
-    public MessageActiveLeaderCardProduction(String nickname, MessageType messageType, int indexExtraProduction, int wareStrongChest, Resources resource) {
-        super(nickname, messageType);
+    public MessageActiveLeaderCardProduction(String nickname, int indexExtraProduction, int wareStrongChest, Resources resource) {
+        super(nickname, MessageType.ACTIVELEADERCARDPRODUCTION);
         this.indexExtraProduction = indexExtraProduction;
         WareStrongChest = wareStrongChest;
         this.resource = resource;

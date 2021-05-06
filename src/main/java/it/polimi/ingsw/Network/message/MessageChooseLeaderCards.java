@@ -6,8 +6,8 @@ public class MessageChooseLeaderCards extends Message{
     private int i1;
     private int i2;
 
-    public MessageChooseLeaderCards(String nickname, MessageType messageType, int i1, int i2) {
-        super(nickname, messageType);
+    public MessageChooseLeaderCards(String nickname, int i1, int i2) {
+        super(nickname, MessageType.CHOOSELEADERCARDS);
         this.i1 = i1;
         this.i2 = i2;
     }

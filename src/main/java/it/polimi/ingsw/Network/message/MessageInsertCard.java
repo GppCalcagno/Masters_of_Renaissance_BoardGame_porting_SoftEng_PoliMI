@@ -5,8 +5,8 @@ public class MessageInsertCard extends  Message{
 
     private int columnSlotDev;
 
-    public MessageInsertCard(String nickname, MessageType messageType, int columnSlotDev) {
-        super(nickname, messageType);
+    public MessageInsertCard(String nickname, int columnSlotDev) {
+        super(nickname, MessageType.INSERTCARD);
         this.columnSlotDev = columnSlotDev;
     }
 

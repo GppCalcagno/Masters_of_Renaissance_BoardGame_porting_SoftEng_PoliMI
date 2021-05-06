@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.message.*;
 import it.polimi.ingsw.model.exceptions.EndGameException;
 
@@ -14,30 +15,31 @@ public class GameController {
 
     private List<MessageType> nextState;
 
-    public GameController () throws IOException {
+    private Server server;
+
+    public GameController (Server server) throws IOException {
         this.turnController = new TurnController();
         gameState = GameState.LOGIN;
         this.nextState = new ArrayList<>();
         nextState.add(MessageType.LOGIN);
+        this.server = server;
     }
 
-    public void actionGame (Message receivedMessage) throws IOException {
-        for (MessageType type : nextState) {
-            if (type.equals(receivedMessage.getMessageType())) {
-                switch (gameState) {
-                    case LOGIN:
-                        loginPhase(receivedMessage);
-                        break;
-                    case INITGAME:
-                        initGamePhase(receivedMessage);
-                        break;
-                    case INGAME:
-                        inGame(receivedMessage);
-                        break;
-                    default:
-                        //stato non valido
-                        break;
-                }
+    public void actionGame (Message receivedMessage) {
+        if (nextState.contains(receivedMessage.getMessageType())) {
+            switch (gameState) {
+                case LOGIN:
+                    loginPhase(receivedMessage);
+                    break;
+                case INITGAME:
+                    initGamePhase(receivedMessage);
+                    break;
+                case INGAME:
+                    inGame(receivedMessage);
+                    break;
+                default:
+                    //stato non valido
+                    break;
             }
         }
     }
@@ -188,6 +190,7 @@ public class GameController {
             nextState.clear();
             nextState.add(MessageType.ADDDISCARDMARBLES);
             nextState.add(MessageType.EXCHANGEWAREHOUSE);
+            server.sendBroadcastMessage(new MessageExtractedMarbles("server", turnController.getGame().getMarketStructure().getBuffer()));
         }
     }
 
