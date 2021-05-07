@@ -21,4 +21,5 @@ public enum MessageType {
     PING,
     DISCONNECT,
     EXTRACTEDMARBLESLIST,
+    CHECKOK
 }
