@@ -526,6 +526,10 @@ public class TurnController {
         return false;
     }
 
+    public Map<String,Integer> updateStrogbox () {
+        return game.getCurrentPlayer().getStrongbox().getChest();
+    }
+
     /**
      * this method is used to put buffer resources in Player Strongbox
      */
@@ -556,7 +560,6 @@ public class TurnController {
      * This method empties the StrongBox buffer and sets the new current player.
      */
     public void endTurn () throws EndGameException {
-        emptyBuffer();
         game.setCurrentPlayer();
     }
 
@@ -581,5 +584,9 @@ public class TurnController {
      */
     public int getNumPlayersCount() {
         return numPlayersCount;
+    }
+
+    public DevelopmentCard getCurrentDevCardPurchase() {
+        return CurrentDevCardPurchase;
     }
 }

@@ -140,6 +140,11 @@ public class GameController {
                     activeLeaderCardProductionMethod((MessageActiveLeaderCardProduction) message);
                 }
                 break;
+            case ENDPRODUCTION:
+                if (verifyCurrentPlayer(message.getNickname())) {
+                    endProductionMethod((MessageGeneric) message);
+                }
+                break;
             case UPDATESTATELEADERACTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     updateStateLeaderActionMethod((MessageAddDiscardLeaderCard) message);
@@ -224,7 +229,13 @@ public class GameController {
         turnController.ChooseResourcesFirstTurn(messageChooseResourcesFirstTurn.getResourcesList());
         nextState.clear();
         nextState.add(MessageType.ENDTURN);
-        server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageChooseResourcesFirstTurn.getNickname(), turnController.getGame().getCurrentPlayer().getFaithMarker()));
+        server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageChooseResourcesFirstTurn.getNickname(), giveFaithPoints(messageChooseResourcesFirstTurn.getNickname())));
+    }
+
+    public int giveFaithPoints(String name) {
+        if (playersNames.indexOf(name) > 2)
+            return 1;
+        else return 0;
     }
 
     public void extractionMarblesMethod (MessageExtractionMarbles messageExtractionMarbles) {
@@ -232,7 +243,8 @@ public class GameController {
             nextState.clear();
             nextState.add(MessageType.ADDDISCARDMARBLES);
             nextState.add(MessageType.EXCHANGEWAREHOUSE);
-            server.sendBroadcastMessage(new MessageExtractedMarbles("server", turnController.getGame().getMarketStructure().getBuffer()));
+            server.sendtoPlayer(messageExtractionMarbles.getNickname(), new MessageExtractedMarbles(messageExtractionMarbles.getNickname(), turnController.getGame().getMarketStructure().getBuffer()));
+            server.sendBroadcastMessage(new MessageChangeMarketTray(messageExtractionMarbles.getNickname(), messageExtractionMarbles.getColrowextract(), messageExtractionMarbles.getNumextract()));
         }
     }
 
@@ -243,47 +255,63 @@ public class GameController {
                     nextState.clear();
                     nextState.add(MessageType.UPDATESTATELEADERACTION);
                     nextState.add(MessageType.ENDTURN);
+                    server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), true));
                 }
                 else {
                     nextState.clear();
                     nextState.add(MessageType.ADDDISCARDMARBLES);
                     nextState.add(MessageType.EXCHANGEWAREHOUSE);
+                    server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), true));
                 }
             }
+            else server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), false));
         }
+        else server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), false));
     }
 
     public void exchangeWarehouseMethod (MessageExchangeWarehouse messageExchangeWarehouse) {
-        if (!turnController.getGame().getMarketStructure().getBuffer().isEmpty())
+        if (!turnController.getGame().getMarketStructure().getBuffer().isEmpty()) {
             turnController.ExchangeWarehouse(messageExchangeWarehouse.getRow1(), messageExchangeWarehouse.getRow2());
+            server.sendtoPlayer(messageExchangeWarehouse.getNickname(), new MessageChechOk(messageExchangeWarehouse.getNickname(), true));
+        }
+        else server.sendtoPlayer(messageExchangeWarehouse.getNickname(), new MessageChechOk(messageExchangeWarehouse.getNickname(), false));
     }
 
     public void selectDevCardMethod (MessageSelectDevCard messageSelectDevCard) {
         if (turnController.selectDevCard(messageSelectDevCard.getRowDevCardDeck(), messageSelectDevCard.getColumnDevCardDeck())) {
             nextState.clear();
             nextState.add(MessageType.CHOOSERESOURCESPURCHASEDEVCARD);
+            server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), true));
         }
+        server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), false));
     }
 
     public void chooseResourcesForPurchase (MessageChooseResourcesPurchaseDevCard messageChooseResourcesPurchaseDevCard) {
         if (turnController.chooseResourcesForPurchase(messageChooseResourcesPurchaseDevCard.getWarehouseRes(), messageChooseResourcesPurchaseDevCard.getStrongboxRes(), messageChooseResourcesPurchaseDevCard.getExtrachestMap())) {
             nextState.clear();
             nextState.add(MessageType.INSERTCARD);
+            server.sendtoPlayer(messageChooseResourcesPurchaseDevCard.getNickname(), new MessageChechOk(messageChooseResourcesPurchaseDevCard.getNickname(), true));
         }
+        else server.sendtoPlayer(messageChooseResourcesPurchaseDevCard.getNickname(), new MessageChechOk(messageChooseResourcesPurchaseDevCard.getNickname(), false));
     }
 
     public void insertCardMethod (MessageInsertCard messageInsertCard) {
         if (turnController.insertCard(messageInsertCard.getColumnSlotDev())) {
             nextState.clear();
+            nextState.add(MessageType.UPDATESTATELEADERACTION);
             nextState.add(MessageType.ENDTURN);
+            server.sendBroadcastMessage(new MessageDeleteDevCard(messageInsertCard.getNickname(), turnController.getCurrentDevCardPurchase().getID()));
         }
+        else server.sendtoPlayer(messageInsertCard.getNickname(), new MessageChechOk(messageInsertCard.getNickname(), false));
     }
 
     public void chooseResourcesBaseProductionMethod (MessageChooseResourcesBaseProduction message) {
         if (turnController.chooseResourcesBaseProduction(message.getWarehouseRes(), message.getStrongboxRes(), message.getExtrachestMap())) {
             nextState.clear();
             nextState.add(MessageType.CHOSENRESOURCEBASEPRODUCTION);
+            server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
         }
+        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
     }
 
     public void chosenResourceBaseProductionMethod (MessageChosenResourceBaseProduction message) {
@@ -291,15 +319,19 @@ public class GameController {
             nextState.clear();
             nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
             nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-            nextState.add(MessageType.ENDTURN);
+            nextState.add(MessageType.ENDPRODUCTION);
+            server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
         }
+        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
     }
 
     public void activeProductionDevCard (MessageActiveProductionDevCard message) {
         if (turnController.activeProductionDevCard(message.getColumn())) {
             nextState.clear();
             nextState.add(MessageType.CHOOSERESOURCESDEVCARDPRODUCTION);
+            server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
         }
+        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
     }
 
     public void chooseResourcesDevCardProductionMethod (MessageChooseResourcesDevCardProduction message) {
@@ -307,17 +339,32 @@ public class GameController {
             nextState.clear();
             nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
             nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-            nextState.add(MessageType.ENDTURN);
+            nextState.add(MessageType.ENDPRODUCTION);
+            server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
         }
+        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
     }
 
     public void activeLeaderCardProductionMethod (MessageActiveLeaderCardProduction message) {
         if (turnController.ActiveLeaderCardProduction(message.getIndexExtraProduction(), message.getWareStrongChest(), message.getResource())) {
             nextState.clear();
-            nextState.add(MessageType.ENDTURN);
             nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
             nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
+            nextState.add(MessageType.ENDPRODUCTION);
+            server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
         }
+        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
+    }
+
+    public void endProductionMethod (MessageGeneric message) {
+        if (message.getMessageType() == MessageType.ENDPRODUCTION) {
+            server.sendtoPlayer(message.getNickname(), new MessageUpdateStrongbox(message.getNickname(), turnController.updateStrogbox()));
+            turnController.emptyBuffer();
+            nextState.clear();
+            nextState.add(MessageType.UPDATESTATELEADERACTION);
+            nextState.add(MessageType.ENDTURN);
+        }
+        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
     }
 
     public void updateStateLeaderActionMethod (MessageAddDiscardLeaderCard message) {
@@ -330,7 +377,9 @@ public class GameController {
                 nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+                server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
             }
+            else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
         }
         else {
             if (turnController.discardLeaderAction(message.getPos())) {
@@ -341,7 +390,9 @@ public class GameController {
                 nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+                server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
             }
+            else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
         }
     }
 

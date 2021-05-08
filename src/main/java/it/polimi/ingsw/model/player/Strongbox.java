@@ -66,4 +66,8 @@ public class Strongbox {
             if(oldQuantity+quantity<0) throw new NegativeQuantityExceptions();
             chest.put(res,oldQuantity+quantity);
     }
+
+    public Map<String, Integer> getChest() {
+        return chest;
+    }
 }
