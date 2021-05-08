@@ -455,14 +455,57 @@ public class TurnController {
         return false;
     }
 
-    public List<List<Card>> ChosenLeaderCardsFromPlayers () {
-        List<List<Card>> Cardslist = new ArrayList<>();
+    //lista id carte leader di ogni giocatore
+    public List<List<String>> leaderCardsToChoose() {
+        List<List<String>> Cardslist = new ArrayList<>();
         for (Player p : game.getPlayersList()) {
-            List<Card> cardsPlayerList = new ArrayList<>(p.getLeaderActionBox());
+            List<String> cardsPlayerList = new ArrayList<>();
+            for (Card c : p.getLeaderActionBox()) {
+                cardsPlayerList.add(c.getID());
+            }
             Cardslist.add(cardsPlayerList);
         }
         return Cardslist;
     }
+
+    //lista nomi giocatori in ordine
+    public List<String> playersNameList() {
+        List<String> playersNameList = new ArrayList<>();
+        for (Player p : game.getPlayersList()) {
+            playersNameList.add(p.getNickname());
+        }
+        return playersNameList;
+    }
+
+    //SuperMatrice con gli id delle carte sviluppo
+    public String[][][] devCardDeckMethod () {
+        String[][][] devCardDeckString = new String[3][4][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                for (int k = 0; k < 4; k++) {
+                    devCardDeckString[i][j][k] = game.getDevelopmentCardDeck().getDevelopmentCardDeck()[i][j][k].getID();
+                }
+            }
+        }
+        return devCardDeckString;
+    }
+
+    //vista delle biglie
+    public String[][] marketTrayMethod() {
+        String [][] marketTrayView = new String[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                marketTrayView[i][j] = game.getMarketStructure().getMarketTray()[i][j].toString();
+            }
+        }
+        return marketTrayView;
+    }
+
+    //marbles rimanente
+    public String remainingMarbleMethod() {
+        return game.getMarketStructure().getRemainingMarble().toString();
+    }
+
     /**
      * This method lets the potential second, third and fourth players choose the given resource(s)
      * @param resourcesList chosen resource(s)'s list

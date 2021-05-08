@@ -67,14 +67,17 @@ public class GameController {
                 if (verifyCurrentPlayer(message.getNickname())) {
                     chooseLeaderCardsMethod((MessageChooseLeaderCards) message);
                 }
+                break;
             case CHOOSERESOURCESFIRSTTURN:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     chooseResourcesFirstTurnMethod((MessageChooseResourcesFirstTurn) message);
                 }
+                break;
             case ENDTURN:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     endTurnMethod();
                 }
+                break;
             default:
                 break;
         }
@@ -86,54 +89,67 @@ public class GameController {
                 if (verifyCurrentPlayer(message.getNickname())) {
                     extractionMarblesMethod((MessageExtractionMarbles) message);
                 }
+                break;
             case ADDDISCARDMARBLES:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     addDiscardMarblesMethod((MessageAddDiscardMarble) message);
                 }
+                break;
             case EXCHANGEWAREHOUSE:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     exchangeWarehouseMethod((MessageExchangeWarehouse) message);
                 }
+                break;
             case SELECTDEVCARD:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     selectDevCardMethod((MessageSelectDevCard) message);
                 }
+                break;
             case CHOOSERESOURCESPURCHASEDEVCARD:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     chooseResourcesForPurchase((MessageChooseResourcesPurchaseDevCard) message);
                 }
+                break;
             case INSERTCARD:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     insertCardMethod((MessageInsertCard) message);
                 }
+                break;
             case CHOOSERESOURCESBASEPRODUCTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     chooseResourcesBaseProductionMethod((MessageChooseResourcesBaseProduction) message);
                 }
+                break;
             case CHOSENRESOURCEBASEPRODUCTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     chosenResourceBaseProductionMethod((MessageChosenResourceBaseProduction) message);
                 }
+                break;
             case ACTIVEPRODUCTIONDEVCARD:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     activeProductionDevCard((MessageActiveProductionDevCard) message);
                 }
+                break;
             case CHOOSERESOURCESDEVCARDPRODUCTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     chooseResourcesDevCardProductionMethod((MessageChooseResourcesDevCardProduction) message);
                 }
+                break;
             case ACTIVELEADERCARDPRODUCTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     activeLeaderCardProductionMethod((MessageActiveLeaderCardProduction) message);
                 }
+                break;
             case UPDATESTATELEADERACTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     updateStateLeaderActionMethod((MessageAddDiscardLeaderCard) message);
                 }
+                break;
             case ENDTURN:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     endTurnMethod();
                 }
+                break;
             default:
                 break;
         }
@@ -165,6 +181,7 @@ public class GameController {
                     gameState = GameState.INITGAME;
                     turnController.startGame();
                     server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), true));
+                    server.sendBroadcastMessage(new MessageInizialization(messageLogin.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
                 }
                 else server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), false));
             }
@@ -178,8 +195,10 @@ public class GameController {
                 if (turnController.getNumPlayersCount() == 1) {
                     nextState.add(MessageType.CHOOSELEADERCARDS);
                     gameState = GameState.INITGAME;
+                    turnController.getGame().addPlayersList(new Player(messageNumPlayers.getNickname()));
                     turnController.startGame();
                     server.sendtoPlayer(messageNumPlayers.getNickname(), new MessageChechOk(messageNumPlayers.getNickname(), true));
+                    server.sendBroadcastMessage(new MessageInizialization(messageNumPlayers.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
                 }
                 else {
                     nextState.add(MessageType.LOGIN);
@@ -196,13 +215,16 @@ public class GameController {
         if (turnController.ChooseLeaderCards(messageChooseLeaderCards.getI1(), messageChooseLeaderCards.getI2())) {
             nextState.clear();
             nextState.add(MessageType.CHOOSERESOURCESFIRSTTURN);
+            server.sendtoPlayer(messageChooseLeaderCards.getNickname(), new MessageChechOk(messageChooseLeaderCards.getNickname(), true));
         }
+        server.sendtoPlayer(messageChooseLeaderCards.getNickname(), new MessageChechOk(messageChooseLeaderCards.getNickname(), false));
     }
 
     public void chooseResourcesFirstTurnMethod (MessageChooseResourcesFirstTurn messageChooseResourcesFirstTurn) {
         turnController.ChooseResourcesFirstTurn(messageChooseResourcesFirstTurn.getResourcesList());
         nextState.clear();
         nextState.add(MessageType.ENDTURN);
+        server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageChooseResourcesFirstTurn.getNickname(), turnController.getGame().getCurrentPlayer().getFaithMarker()));
     }
 
     public void extractionMarblesMethod (MessageExtractionMarbles messageExtractionMarbles) {
