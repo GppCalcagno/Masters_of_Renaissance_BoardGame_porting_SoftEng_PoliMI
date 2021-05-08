@@ -8,6 +8,12 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LeaderCardDeckTest {
+    @Test
+    void idTest() throws IOException {
+        LeaderCardDeck leaderCardDeck = new LeaderCardDeck();
+
+        assertNotEquals(null, leaderCardDeck.getLeaderCardList(0).getID());
+    }
 
     @Test
     void sizeTest() throws IOException {

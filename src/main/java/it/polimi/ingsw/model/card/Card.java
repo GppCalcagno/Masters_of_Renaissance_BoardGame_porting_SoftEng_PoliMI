@@ -1,10 +1,17 @@
 package it.polimi.ingsw.model.card;
 
-public abstract class Card {
+import java.io.Serializable;
+
+public abstract class Card implements Serializable {
     /**
      * This attribute indicates the number of victory points
      */
     private int victoryPoints;
+
+    /**
+     * This attribute identifies the card with an unique identifier
+     */
+    private String ID;
 
     /**
      * This method returns the number of victory points
@@ -14,4 +21,11 @@ public abstract class Card {
         return this.victoryPoints;
     }
 
+    /**
+     * This method returns the card's ID
+     * @return a String
+     */
+    public String getID() {
+        return ID;
+    }
 }

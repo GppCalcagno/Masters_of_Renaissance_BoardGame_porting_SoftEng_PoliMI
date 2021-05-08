@@ -1,5 +1,6 @@
 [
 {
+	"ID" : "LCPL1",
 	"cost" : 
 	{
 		"type" : "RequestedLevelDevelopmentCards",
@@ -13,6 +14,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCPL2",
 	"cost" : 
 	{
 		"type" : "RequestedLevelDevelopmentCards",
@@ -26,6 +28,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCPL3",
 	"cost" : 
 	{
 		"type" : "RequestedLevelDevelopmentCards",
@@ -39,6 +42,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCPL4",
 	"cost" : 
 	{
 		"type" : "RequestedLevelDevelopmentCards",

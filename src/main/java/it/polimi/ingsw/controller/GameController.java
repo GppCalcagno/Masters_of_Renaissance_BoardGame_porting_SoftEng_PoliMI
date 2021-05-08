@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.message.*;
 import it.polimi.ingsw.model.exceptions.EndGameException;
+import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,12 +18,15 @@ public class GameController {
 
     private Server server;
 
+    private List<String> playersNames;
+
     public GameController (Server server) throws IOException {
         this.turnController = new TurnController();
         gameState = GameState.LOGIN;
         this.nextState = new ArrayList<>();
         nextState.add(MessageType.LOGIN);
         this.server = server;
+        this.playersNames = new ArrayList<>();
     }
 
     public void actionGame (Message receivedMessage) {
@@ -136,21 +140,33 @@ public class GameController {
     }
 
     public void loginMethod(MessageLogin messageLogin) {
-        if (turnController.getGame().getPlayersList().isEmpty()) {
-            turnController.addNewPlayer(messageLogin.getNickname());
+        if (turnController.getNumPlayersCount() == 0) {
+            playersNames.add(messageLogin.getNickname());
             nextState.clear();
             nextState.add(MessageType.NUMPLAYERS);
-        }
-        else {
-            if (turnController.getGame().getPlayersList().size() < turnController.getNumPlayersCount()) {
-                if (turnController.addNewPlayer(messageLogin.getNickname())) {
-                    if (turnController.getGame().getPlayersList().size() == turnController.getNumPlayersCount()) {
-                        nextState.clear();
-                        nextState.add(MessageType.CHOOSELEADERCARDS);
-                        gameState = GameState.INITGAME;
-                        turnController.startGame();
-                    }
+            server.sendtoPlayer(messageLogin.getNickname(), new MessageRequestNumPlayers(messageLogin.getNickname()));
+        } else {
+            if (playersNames.size() < turnController.getNumPlayersCount() - 1) {
+                if (!playersNames.contains(messageLogin.getNickname())) {
+                    playersNames.add(messageLogin.getNickname());
+                    nextState.clear();
+                    nextState.add(MessageType.LOGIN);
+                    server.sendtoPlayer(messageLogin.getNickname(), new MessageGeneric(messageLogin.getNickname(), MessageType.WAITINGOTHERPLAYERS));
                 }
+                else server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), false));
+            } else {
+                if (!playersNames.contains(messageLogin.getNickname())) {
+                    playersNames.add(messageLogin.getNickname());
+                    for (String name : playersNames) {
+                        turnController.getGame().addPlayersList(new Player(name));
+                    }
+                    nextState.clear();
+                    nextState.add(MessageType.CHOOSELEADERCARDS);
+                    gameState = GameState.INITGAME;
+                    turnController.startGame();
+                    server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), true));
+                }
+                else server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), false));
             }
         }
     }
@@ -163,10 +179,14 @@ public class GameController {
                     nextState.add(MessageType.CHOOSELEADERCARDS);
                     gameState = GameState.INITGAME;
                     turnController.startGame();
+                    server.sendtoPlayer(messageNumPlayers.getNickname(), new MessageChechOk(messageNumPlayers.getNickname(), true));
                 }
-                else
+                else {
                     nextState.add(MessageType.LOGIN);
+                    server.sendtoPlayer(messageNumPlayers.getNickname(), new MessageGeneric(messageNumPlayers.getNickname(), MessageType.WAITINGOTHERPLAYERS));
+                }
             }
+            else server.sendtoPlayer(messageNumPlayers.getNickname(), new MessageChechOk(messageNumPlayers.getNickname(), false));
         } catch (IOException e) {
             //se capita questo errore non ci sono le carte
         }

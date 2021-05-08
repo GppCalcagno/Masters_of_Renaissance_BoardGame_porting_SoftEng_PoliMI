@@ -1,5 +1,6 @@
 [
 {
+	"ID" : "LCTL1",
 	"cost" : 
 	{
 		"type" : "RequestedTypeDevelopmentCards",
@@ -15,6 +16,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCTL2",
 	"cost" : 
 	{
 		"type" : "RequestedTypeDevelopmentCards",
@@ -30,6 +32,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCTL3",
 	"cost" : 
 	{
 		"type" : "RequestedTypeDevelopmentCards",
@@ -45,6 +48,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCTL4",
 	"cost" : 
 	{
 		"type" : "RequestedTypeDevelopmentCards",

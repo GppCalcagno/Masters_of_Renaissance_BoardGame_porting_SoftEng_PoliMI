@@ -5,7 +5,9 @@ import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.model.exceptions.OverflowQuantityExcepions;
 import it.polimi.ingsw.model.player.Player;
 
-public abstract class Marbles {
+import java.io.Serializable;
+
+public abstract class Marbles implements Serializable {
     /**
      * This is the constructor method
      */

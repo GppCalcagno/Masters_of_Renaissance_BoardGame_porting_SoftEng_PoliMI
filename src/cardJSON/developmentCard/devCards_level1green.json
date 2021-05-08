@@ -1,5 +1,6 @@
 [
   {
+    "ID" : "DCL1G1",
     "cost" : {
       "reqMap" : {
         "Shields" : 2,
@@ -21,6 +22,7 @@
     "victoryPoints" : 4
   },
   {
+    "ID" : "DCL1G2",
     "cost" : {
       "reqMap" : {
         "Shields" : 3
@@ -41,6 +43,7 @@
     "victoryPoints" : 3
   },
   {
+    "ID" : "DCL1G3",
     "cost" : {
       "reqMap" : {
         "Shields" : 1,
@@ -61,6 +64,7 @@
     "victoryPoints" : 2
   },
   {
+    "ID" : "DCL1G4",
     "cost" : {
       "reqMap": {
         "Shields" : 2

@@ -1,5 +1,6 @@
 [
 {
+	"ID" : "LCCL1",
 	"cost" : 
 	{
 		"type" : "RequestedResources",
@@ -15,6 +16,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCCL2",
 	"cost" : 
 	{
 		"type" : "RequestedResources",
@@ -30,6 +32,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCCL3",
 	"cost" : 
 	{
 		"type" : "RequestedResources",
@@ -45,6 +48,7 @@
 	"activated" : false
 },
 {
+	"ID" : "LCCL4",
 	"cost" : 
 	{
 		"type" : "RequestedResources",

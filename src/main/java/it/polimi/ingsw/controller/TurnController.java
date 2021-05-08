@@ -1,4 +1,5 @@
 package it.polimi.ingsw.controller;
+import it.polimi.ingsw.model.card.Card;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.model.producible.Shields;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -453,6 +455,14 @@ public class TurnController {
         return false;
     }
 
+    public List<List<Card>> ChosenLeaderCardsFromPlayers () {
+        List<List<Card>> Cardslist = new ArrayList<>();
+        for (Player p : game.getPlayersList()) {
+            List<Card> cardsPlayerList = new ArrayList<>(p.getLeaderActionBox());
+            Cardslist.add(cardsPlayerList);
+        }
+        return Cardslist;
+    }
     /**
      * This method lets the potential second, third and fourth players choose the given resource(s)
      * @param resourcesList chosen resource(s)'s list
