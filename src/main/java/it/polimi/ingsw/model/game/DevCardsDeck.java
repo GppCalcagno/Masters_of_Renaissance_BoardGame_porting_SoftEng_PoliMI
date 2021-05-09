@@ -210,4 +210,21 @@ public class DevCardsDeck {
     public DevelopmentCard[][][] getDevelopmentCardDeck() {
         return developmentCardDeck;
     }
+
+    /**
+     * This method searches a Development card from its ID
+     * @param ID is the identifier
+     * @return a DevelopmentCard object
+     */
+    public DevelopmentCard getDevCardFromID (String ID) {
+        for (DevelopmentCard[][] decks : developmentCardDeck) {
+            for (DevelopmentCard[] deckrow : decks) {
+                for (DevelopmentCard card : deckrow) {
+                    if (card.getID().equals(ID))
+                        return card;
+                }
+            }
+        }
+        return null;
+    }
 }

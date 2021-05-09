@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.game;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
+import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ChestLeader;
 import it.polimi.ingsw.model.card.leadereffect.DiscountLeader;
@@ -108,4 +109,16 @@ public class LeaderCardDeck {
         return this.leaderCardList;
     }
 
+    /**
+     * This method searches a Leader card from its ID
+     * @param ID is the identifier
+     * @return a LeaderAction object
+     */
+    public LeaderAction getLeaderCardFromID (String ID) {
+        for (LeaderAction card : leaderCardList) {
+            if (card.getID().equals(ID))
+                return card;
+        }
+        return null;
+    }
 }

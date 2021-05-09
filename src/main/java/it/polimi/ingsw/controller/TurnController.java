@@ -612,6 +612,16 @@ public class TurnController {
         game.setCurrentPlayer();
     }
 
+    public Map<String, Integer> updateFinalPoints () {
+        Map<String, Integer> playersFinalPoints = new HashMap<>();
+
+        for (Player p : game.getPlayersList()) {
+            playersFinalPoints.put(p.getNickname(), p.getVictoryPoints());
+        }
+
+        return playersFinalPoints;
+    }
+
     /**
      * This method calls the Game's startgame method.
      */

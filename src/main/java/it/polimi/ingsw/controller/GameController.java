@@ -254,12 +254,14 @@ public class GameController {
                     nextState.add(MessageType.UPDATESTATELEADERACTION);
                     nextState.add(MessageType.ENDTURN);
                     server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
+                    server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker()));
                 }
                 else {
                     nextState.clear();
                     nextState.add(MessageType.ADDDISCARDMARBLES);
                     nextState.add(MessageType.EXCHANGEWAREHOUSE);
                     server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
+                    server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker()));
                 }
             }
             else server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), false));
@@ -408,8 +410,9 @@ public class GameController {
                     turnController.endTurn();
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
+                    server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
                     //notifica il vincitore
-                    turnController.getGame().getWinner();
+                    server.sendBroadcastMessage(new MessageUpdateWinner("server", turnController.getGame().getWinner()));
                 }
             }
             else {
@@ -420,8 +423,9 @@ public class GameController {
                     turnController.endTurn();
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
+                    server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
                     //notifica il vincitore
-                    turnController.getGame().getWinner();
+                    server.sendBroadcastMessage(new MessageUpdateWinner("server", turnController.getGame().getWinner()));
                 }
             }
         }
@@ -437,8 +441,9 @@ public class GameController {
                 turnController.endTurn();
             } catch (EndGameException e) {
                 turnController.getGame().givefinalpoints();
+                server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
                 //notifica il vincitore
-                turnController.getGame().getWinner();
+                server.sendBroadcastMessage(new MessageUpdateWinner("server", turnController.getGame().getWinner()));
             }
         }
     }
