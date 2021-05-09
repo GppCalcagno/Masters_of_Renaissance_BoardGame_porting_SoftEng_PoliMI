@@ -188,15 +188,13 @@ class TurnControllerTest {
         assertTrue(giovanniController.VerifyNumPlayers(1));
         giovanniController.getGame().addPlayersList(player1);
         giovanniController.getGame().startgame();
-        List<Resources> resourcesList = new ArrayList<>();
-        Resources coin = new Coins();
-        Resources servant = new Servants();
-        resourcesList.add(coin);
-        resourcesList.add(servant);
+        List<String> resourcesList = new ArrayList<>();
+        resourcesList.add("Coins");
+        resourcesList.add("Servants");
 
         assertFalse(giovanniController.ChooseResourcesFirstTurn(resourcesList));
-        assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(coin));
-        assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(servant));
+        assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(new Coins()));
+        assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(new Servants()));
     }
 
     @Test
@@ -209,15 +207,13 @@ class TurnControllerTest {
         giovanniController.getGame().addPlayersList(player2);
         giovanniController.getGame().startgame();
         giovanniController.getGame().setCurrentPlayer();
-        List<Resources> resourcesList = new ArrayList<>();
-        Resources coin = new Coins();
-        Resources servant = new Servants();
-        resourcesList.add(coin);
-        resourcesList.add(servant);
+        List<String> resourcesList = new ArrayList<>();
+        resourcesList.add("Coins");
+        resourcesList.add("Servants");
 
         assertTrue(giovanniController.ChooseResourcesFirstTurn(resourcesList));
-        assertEquals(1, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(coin));
-        assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(servant));
+        assertEquals(1, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(new Coins()));
+        assertEquals(0, giovanniController.getGame().getCurrentPlayer().getWarehouse().getNumResources(new Servants()));
     }
 
     @Test
@@ -236,9 +232,9 @@ class TurnControllerTest {
         for (int i = 0; i < 3; i++) {
             giovanniController.getGame().setCurrentPlayer();
         }
-        List<Resources> resourcesList = new ArrayList<>();
-        resourcesList.add(new Coins());
-        resourcesList.add(new Servants());
+        List<String> resourcesList = new ArrayList<>();
+        resourcesList.add("Coins");
+        resourcesList.add("Servants");
 
         Resources coin = new Coins();
         Resources servant = new Servants();

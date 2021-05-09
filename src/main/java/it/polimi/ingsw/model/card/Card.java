@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.card;
 
 import java.io.Serializable;
 
-public abstract class Card implements Serializable {
+public abstract class Card {
     /**
      * This attribute indicates the number of victory points
      */

@@ -9,9 +9,9 @@ public class MessageActiveLeaderCardProduction extends Message{
 
     private int WareStrongChest;
 
-    private Resources resource;
+    private String resource;
 
-    public MessageActiveLeaderCardProduction(String nickname, int indexExtraProduction, int wareStrongChest, Resources resource) {
+    public MessageActiveLeaderCardProduction(String nickname, int indexExtraProduction, int wareStrongChest, String resource) {
         super(nickname, MessageType.ACTIVELEADERCARDPRODUCTION);
         this.indexExtraProduction = indexExtraProduction;
         WareStrongChest = wareStrongChest;
@@ -26,7 +26,7 @@ public class MessageActiveLeaderCardProduction extends Message{
         return WareStrongChest;
     }
 
-    public Resources getResource() {
+    public String getResource() {
         return resource;
     }
 }

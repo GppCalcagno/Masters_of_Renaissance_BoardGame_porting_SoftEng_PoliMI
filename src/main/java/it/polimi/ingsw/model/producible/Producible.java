@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serializable;
 
-public interface Producible extends Serializable {
+public interface Producible {
     /**
      * this method activates the effect of the Producible
      * @param p is the player who uses the Producible

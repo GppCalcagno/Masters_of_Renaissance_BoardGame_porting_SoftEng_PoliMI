@@ -5,14 +5,14 @@ import it.polimi.ingsw.model.producible.Resources;
 public class MessageChosenResourceBaseProduction extends Message{
     private static final long serialVersionUID = -5229293564538828139L;
 
-    private Resources resources;
+    private String resource;
 
-    public MessageChosenResourceBaseProduction(String nickname, Resources resources) {
+    public MessageChosenResourceBaseProduction(String nickname, String resources) {
         super(nickname, MessageType.CHOOSERESOURCESBASEPRODUCTION);
-        this.resources = resources;
+        this.resource = resources;
     }
 
-    public Resources getResources() {
-        return resources;
+    public String getResource() {
+        return resource;
     }
 }

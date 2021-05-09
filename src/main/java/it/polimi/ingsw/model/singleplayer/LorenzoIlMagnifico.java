@@ -36,6 +36,7 @@ public class LorenzoIlMagnifico {
      * and tokensvet are 7 in accord whit the rules and shuffle them
      */
     public LorenzoIlMagnifico(DevCardsDeck developmentDeck){
+        this.i = 0;
         this.developmentDeck = developmentDeck;
         blackCrossToken=0;
         tokensvet = new Tokens[7];
@@ -55,7 +56,7 @@ public class LorenzoIlMagnifico {
 
     /** this method active a tokens and increase the index i to the next time call an other token
      */
-    public void drawTokens() throws IOException, NegativeQuantityExceptions, ActiveVaticanReportException {
+    public void drawTokens() throws ActiveVaticanReportException {
         tokensvet[i].effectTokens(this);
         if(i<tokensvet.length) i++;
     }
@@ -94,7 +95,7 @@ public class LorenzoIlMagnifico {
     /** this method increase the position of the blackcrosstoken
      */
     public void increaseFaithMarker(int quantity) throws ActiveVaticanReportException{
-            this.blackCrossToken += quantity;
+        this.blackCrossToken += quantity;
         if (blackCrossToken == 8 || blackCrossToken == 16 || blackCrossToken == 24)  throw new ActiveVaticanReportException();
 
     }

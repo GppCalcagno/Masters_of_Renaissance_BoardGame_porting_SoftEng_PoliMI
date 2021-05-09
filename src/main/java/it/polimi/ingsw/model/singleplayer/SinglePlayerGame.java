@@ -121,6 +121,7 @@ public class SinglePlayerGame extends Game {
         while(i< ColorCard.values().length){
             if(null == developmentCardDeck.getDevelopmentCardDeck()[0][i][0]){
                 playerWin = false;
+                finishedGame = true;
                 return true;
             }
             else i++;
@@ -128,11 +129,14 @@ public class SinglePlayerGame extends Game {
 
         if(lorenzoIlMagnifico.getFaithMarker()==faithTrack.getFaithtracksize()){
             playerWin = false;
+            finishedGame = true;
             return true;
         }
 
         if(currentPlayer.getSlotDevCards().countTotalNumberDevCards()>=7 || currentPlayer.getFaithMarker() == faithTrack.getFaithtracksize()){
+            givefinalpoints();
             playerWin = true;
+            finishedGame = true;
             return true;
         }
         return false;
@@ -159,7 +163,7 @@ public class SinglePlayerGame extends Game {
     /**
      * This method plays Lorenzo Il Magnifico's turn
      */
-    public void playLorenzoTurn () throws IOException, ActiveVaticanReportException, NegativeQuantityExceptions {
+    public void playLorenzoTurn () throws ActiveVaticanReportException {
         lorenzoIlMagnifico.drawTokens();
     }
 

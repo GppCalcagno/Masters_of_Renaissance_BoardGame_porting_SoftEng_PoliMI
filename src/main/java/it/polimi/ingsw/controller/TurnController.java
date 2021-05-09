@@ -6,10 +6,7 @@ import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.producible.Coins;
-import it.polimi.ingsw.model.producible.Resources;
-import it.polimi.ingsw.model.producible.Servants;
-import it.polimi.ingsw.model.producible.Shields;
+import it.polimi.ingsw.model.producible.*;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.IOException;
@@ -206,9 +203,9 @@ public class TurnController {
         return false;
     }
 
-    public boolean activeBaseProduction (Resources resources) {
+    public boolean activeBaseProduction (String resource) {
         if (!ProductionPowers[1]) {
-            game.getCurrentPlayer().getSlotDevCards().baseProduction(resources);
+            game.getCurrentPlayer().getSlotDevCards().baseProduction(resource);
             ProductionPowers[1] = true;
             return true;
         }
@@ -271,7 +268,21 @@ public class TurnController {
         return true;
     }
 
-    public boolean ActiveLeaderCardProduction (int indexExtraProduction, int WareStrongChest, Resources resource) {
+    public boolean ActiveLeaderCardProduction (int indexExtraProduction, int WareStrongChest, String resource) {
+        Resources resourceConverted = null;
+        Resources[] resourcesVet = {
+                new Coins(),
+                new Servants(),
+                new Shields(),
+                new Stones()
+        };
+        for (Resources r : resourcesVet) {
+            if (resource.equals(r.toString()))
+                resourceConverted = r;
+        }
+        if (resourceConverted == null)
+            return false;
+
         if (!ProductionPowers[2]) {
             if (game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().isEmpty())
                 return false;
@@ -283,7 +294,7 @@ public class TurnController {
                         case 0 :
                             if (game.getCurrentPlayer().getWarehouse().delete(game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).getResources())) {
                                 try {
-                                    game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resource);
+                                    game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resourceConverted);
                                 } catch (ActiveVaticanReportException e) {
                                     try {
                                         game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
@@ -301,7 +312,7 @@ public class TurnController {
                                 return false;
                             }
                             try {
-                                game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resource);
+                                game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resourceConverted);
                             } catch (ActiveVaticanReportException e) {
                                 try {
                                     game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
@@ -320,7 +331,7 @@ public class TurnController {
                                         return false;
                                     }
                                     try {
-                                        game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resource);
+                                        game.getCurrentPlayer().getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(game.getCurrentPlayer(), resourceConverted);
                                     } catch (ActiveVaticanReportException e) {
                                         try {
                                             game.getFaithTrack().checkPopeSpace(game.getPlayersList(), game.getBlackCrossToken());
@@ -560,15 +571,31 @@ public class TurnController {
      * @param resourcesList chosen resource(s)'s list
      * @return false if there is only one player
      */
-    public boolean ChooseResourcesFirstTurn (List<Resources> resourcesList){
+    public boolean ChooseResourcesFirstTurn (List<String> resourcesList){
+        Resources[] resourcesVet = {
+                new Coins(),
+                new Servants(),
+                new Shields(),
+                new Stones()
+        };
+        List<Resources> resourcesListStub = new ArrayList<>();
+
+        for (String resourceString : resourcesList) {
+            for (Resources resourcesInVet : resourcesVet) {
+                if (resourceString.equals(resourcesInVet.toString())) {
+                    resourcesListStub.add(resourcesInVet);
+                }
+            }
+        }
+
         if (game.getPlayersList().indexOf(game.getCurrentPlayer()) == 1 || game.getPlayersList().indexOf(game.getCurrentPlayer()) == 2) {
-            game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesList.get(0));
+            game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesListStub.get(0));
             //chiamato al primo turno = warehouse vuoto = inserimento consentito
             return true;
         }
         else if (game.getPlayersList().indexOf(game.getCurrentPlayer()) == 3){
-            game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesList.get(0));
-            game.getCurrentPlayer().getWarehouse().checkInsertion(1, resourcesList.get(1));
+            game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesListStub.get(0));
+            game.getCurrentPlayer().getWarehouse().checkInsertion(1, resourcesListStub.get(1));
             //chiamato al primo turno = warehouse vuoto = inserimento consentito
             return true;
         }
@@ -610,6 +637,19 @@ public class TurnController {
      */
     public void endTurn () throws EndGameException {
         game.setCurrentPlayer();
+    }
+
+    public void endTurnSinglePlayer () throws EndGameException {
+        try {
+            game.playLorenzoTurn();
+        } catch (ActiveVaticanReportException e) {
+            try {
+                game.getFaithTrack().checkPopeSpace(game.getPlayersList(),game.getBlackCrossToken());
+            } catch (GameFinishedException gameFinishedException) {
+                if (game.isFinishedGame())
+                    throw new EndGameException();
+            }
+        }
     }
 
     public Map<String, Integer> updateFinalPoints () {

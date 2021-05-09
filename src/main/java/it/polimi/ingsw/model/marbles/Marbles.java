@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serializable;
 
-public abstract class Marbles implements Serializable {
+public abstract class Marbles {
     /**
      * This is the constructor method
      */

@@ -208,4 +208,7 @@ public class Game {
     public int getBlackCrossToken () {
         return 0;
     }
+
+    public void playLorenzoTurn () throws ActiveVaticanReportException {
+    }
 }
