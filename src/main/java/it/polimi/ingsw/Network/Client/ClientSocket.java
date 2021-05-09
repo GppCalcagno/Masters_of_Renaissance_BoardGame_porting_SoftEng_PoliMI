@@ -14,8 +14,6 @@ import java.util.Timer;
 import java.util.logging.Logger;
 
 public class ClientSocket extends Observable {
-    //todo CLient Controller
-
     /** this is the Client Socket */
     private Socket clientSocket;
 
@@ -34,7 +32,7 @@ public class ClientSocket extends Observable {
      * it is used to manage concurrent delivery of messages to the server
      * is used for Ping and Sending from the controller
      */
-    private Object LockSending;
+    private final Object LockSending;
 
     /**
      * this is the costuctor of the class
@@ -44,6 +42,7 @@ public class ClientSocket extends Observable {
     public ClientSocket(String address, int port) {
         //connection to the server
         clientSocket = new Socket();
+        LockSending=new Object();
 
         try { clientSocket.connect(new InetSocketAddress(address,port)); }
             catch (IOException e) {
@@ -86,7 +85,7 @@ public class ClientSocket extends Observable {
      * This method is used to send message to the server
      * @param message is the message to send
      */
-    public void SendMessage(Message message) {
+    public void sendMessage(Message message) {
         synchronized (LockSending) {
             try {
                 sendMessage.writeObject(message);

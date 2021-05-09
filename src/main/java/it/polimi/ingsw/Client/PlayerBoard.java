@@ -12,20 +12,19 @@ import java.util.Map;
  */
 public class PlayerBoard {
 
-
     private List<String> playerList;
     private String currentPlayer;
 
     private String[][] warehouse;
-
+    private Map<String,Integer> extrachest;
     private Map<String,Integer> strongbox;
+    private int faithMarker;
 
     private List<String> leaderCard;
     private String [][] slotDevCard;
 
     private String [][][] devCardDeck;
     private String [][] marketTray;
-
     private String remainingMarble;
 
 
@@ -33,12 +32,14 @@ public class PlayerBoard {
         playerList= new ArrayList<>();
         warehouse= new String[3][3];
         strongbox= new HashMap<>();
+        extrachest= new HashMap<>();
+        faithMarker=0;
 
         leaderCard= new ArrayList<>();
         slotDevCard= new String[3][3];
 
         devCardDeck= new String[3][4][4];
-        marketTray= new String[3][3];
+        marketTray= new String[3][4];
     }
 
     public void setPlayerList(List<String> playerList) {
@@ -49,8 +50,14 @@ public class PlayerBoard {
         this.currentPlayer = currentPlayer;
     }
 
-    public void setWarehouse(String[][] warehouse) {
+    public void setFaithMarker(int faithMarker) {
+        this.faithMarker = faithMarker;
+    }
+
+    public void setWarehouse(String[][] warehouse, Map<String,Integer> extrachest) {
         this.warehouse = warehouse;
+        this.extrachest= extrachest;
+
     }
 
     public void setStrongbox(Map<String, Integer> strongbox) {
@@ -102,6 +109,16 @@ public class PlayerBoard {
             devCardDeck[row][col][j] = devCardDeck[row][col][j + 1];
         }
         devCardDeck[row][col][i]=null;
+    }
+
+    public void initialization(List<String> playerList, List<String> leaderCard, String [][][] devCardDeck,  String[][] marketTray, String remainingMarble){
+        this.playerList=playerList;
+        currentPlayer=playerList.get(0);
+
+        this.leaderCard=leaderCard;
+        this.devCardDeck=devCardDeck;
+        this.marketTray=marketTray;
+        this.remainingMarble= remainingMarble;
     }
 
 

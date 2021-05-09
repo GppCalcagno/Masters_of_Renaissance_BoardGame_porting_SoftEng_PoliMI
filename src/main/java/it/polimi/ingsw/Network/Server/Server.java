@@ -117,7 +117,7 @@ public class Server extends Observable {
      * this method is a linker between GameController and Server
      * @param message is the message given to GameController
      */
-    public synchronized void recivedMessage(Message message){
+    public void recivedMessage(Message message){
         //manda il messaggio al controller che lo smista, è l'unico punto di accesso al Model. Viene
         //sincronizzato cosi da non avere accessi concorrenti al model
         gameController.actionGame(message);
