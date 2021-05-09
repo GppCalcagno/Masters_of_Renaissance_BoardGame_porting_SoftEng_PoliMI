@@ -408,6 +408,7 @@ public class GameController {
                 nextState.add(MessageType.UPDATESTATELEADERACTION);
                 try {
                     turnController.endTurn();
+                    server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
@@ -421,6 +422,7 @@ public class GameController {
                 nextState.add(MessageType.CHOOSERESOURCESFIRSTTURN);
                 try {
                     turnController.endTurn();
+                    server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
@@ -439,6 +441,7 @@ public class GameController {
             nextState.add(MessageType.UPDATESTATELEADERACTION);
             try {
                 turnController.endTurn();
+                server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
             } catch (EndGameException e) {
                 turnController.getGame().givefinalpoints();
                 server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
