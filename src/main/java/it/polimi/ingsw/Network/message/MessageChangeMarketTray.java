@@ -9,7 +9,7 @@ public class MessageChangeMarketTray extends Message{
 
 
     public MessageChangeMarketTray(String nickname, char colrowextract, int numextract) {
-        super(nickname, MessageType.CHANGEMARKETTRAY);
+        super(nickname, MessageType.UPDATEMARKETTRAY);
         this.colrowextract = colrowextract;
         this.numextract = numextract;
     }

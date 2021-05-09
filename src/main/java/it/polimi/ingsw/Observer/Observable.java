@@ -15,6 +15,7 @@ public class Observable {
 
     public void removeObserver(Observer observer){
         observerList.remove(observer);
+
     }
 
     public void notifyAllObserver(Message message){

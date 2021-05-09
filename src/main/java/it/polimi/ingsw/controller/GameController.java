@@ -202,6 +202,7 @@ public class GameController {
                     gameState = GameState.INITGAME;
                     turnController.getGame().addPlayersList(new Player(messageNumPlayers.getNickname()));
                     turnController.startGame();
+
                     server.sendtoPlayer(messageNumPlayers.getNickname(), new MessageChechOk(messageNumPlayers.getNickname(), true));
                     server.sendBroadcastMessage(new MessageInizialization(messageNumPlayers.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
                 }

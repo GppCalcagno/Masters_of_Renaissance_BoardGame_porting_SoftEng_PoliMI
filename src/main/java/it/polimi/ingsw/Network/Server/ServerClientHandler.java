@@ -62,7 +62,7 @@ public class ServerClientHandler implements Runnable, Observer {
             input = new ObjectInputStream(clientSocket.getInputStream());
         } catch (IOException e) {
             SERVERLOGGER.severe("ERROR: THREAD INITIALIZATION ");
-            return;
+            disconnect();
         }
 
     }
@@ -72,22 +72,23 @@ public class ServerClientHandler implements Runnable, Observer {
      */
     @Override
     public void run() {
-        handleClientConnection();
+        ReciveMessage();
     }
 
     /**
      * this method is used to listen for new messages
      */
-    private void handleClientConnection() {
+    private void ReciveMessage() {
         try {
+
             while(connected){
-                //qua mettere possibile lock
+
+                //possibile lock (non necessario per ora)
                 SERVERLOGGER.info("Server in attesa di messaggio");
                 Message message= (Message) input.readObject();
                 SERVERLOGGER.info("messagge recived");
 
                 if(message!=null && !message.getMessageType().equals(MessageType.PING)){
-                    System.out.println(message.getMessageType());
 
                     if(message.getMessageType().equals(MessageType.LOGIN)){
                         server.addPlayer(message.getNickname(),this);
@@ -98,12 +99,15 @@ public class ServerClientHandler implements Runnable, Observer {
                         disconnect();
                     }
                     else
-                    server.recivedMessage(message);
-
+                        server.recivedMessage(message);
                 }
 
-            }
+            }//finewhile
+
             SERVERLOGGER.info("end lecture while");
+            disconnect();
+
+
         }catch (IOException | ClassNotFoundException e) {
                 SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
                 disconnect();
@@ -114,7 +118,6 @@ public class ServerClientHandler implements Runnable, Observer {
      * this method is used to send update to Client
      * @param message information about Update
      */
-
     @Override
     public void update(Message message) {
         sendMessage(message);
@@ -122,11 +125,10 @@ public class ServerClientHandler implements Runnable, Observer {
 
 
     /**
-     * this method is used to send message
+     * this method is used to send message,
      * @param message is the message to send to the player
      */
-    public void sendMessage(Message message){
-        //altra sincronizzazione
+    private void sendMessage(Message message){
         try {
             output.writeObject(message);
             output.reset();
@@ -142,13 +144,11 @@ public class ServerClientHandler implements Runnable, Observer {
      */
     public void disconnect(){
         try {
-            System.out.println("Disconnetto");
             if(connected) {
-                input.close();
-                clientSocket.close();
+
                 connected = false;
                 server. removePlayer(clientName);
-                server.print();
+                clientSocket.close();
             }
 
         } catch (IOException e) {
@@ -156,5 +156,4 @@ public class ServerClientHandler implements Runnable, Observer {
         }
 
     }
-
 }

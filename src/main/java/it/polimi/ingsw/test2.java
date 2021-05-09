@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.security.SignatureSpi;
 import java.util.Scanner;
 
-public class test {
+public class test2 {
 
     public static void main(String[] args) {
         Socket socket;
@@ -35,7 +35,7 @@ public class test {
         System.out.println("manda 1o messaggio: LOGIN");
         in.next();
 
-        Message message1= new MessageLogin("franco");
+        Message message1= new MessageLogin("cosa");
         try {
             outputStm.writeObject(message1);
         } catch (IOException e) {
@@ -43,22 +43,10 @@ public class test {
         }
 
 
-        System.out.println("manda 2o messaggio: NUM");
-        in.next();
-
-        Message message= new MessageNumPlayers("franco",2);
-
-        try {
-            outputStm.writeObject(message);
-            outputStm.reset();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         System.out.println("manda 3o messaggio: comando a caso");
         in.next();
 
-        Message message3= new MessageChooseLeaderCards("franco",2,3);
+        Message message3= new MessageChooseLeaderCards("cosa",2,3);
 
         try {
             outputStm.writeObject(message3);
@@ -72,7 +60,7 @@ public class test {
         in.next();
 
         try {
-            outputStm.writeObject(new MessageDisconnect("franco"));
+            outputStm.writeObject(new MessageDisconnect("cosa"));
         } catch (IOException e) {
             System.out.println("ERRORE");
         }

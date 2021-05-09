@@ -2,19 +2,27 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Network.Server.Server;
 
+import java.util.logging.Logger;
+
 public class ServerAPP {
 
     public static void main(String[] args) {
         int ServerPort=1234; //default
+        Logger LOGGER= Logger.getLogger(Server.class.getName());
 
-        if(args.length>1){
+        if(args.length>1) {
             int i=0;
-            while(!args[i].equals("-port") && i<args.length)i++;
+            while(i<args.length-1 && !args[i].equals("--port"))i++;
 
-            if((i+1)<args.length){
-                ServerPort= Integer.parseInt(args[i+1]);
-            }
+                try {
+                    ServerPort = Integer.parseInt(args[i + 1]);
+                } catch (NumberFormatException e) {
+                    LOGGER.severe("ERROR: WRONG PORT PARAMETER");
+                    System.exit(2);
+                }
+
         }
+
         Server server= new Server(ServerPort);
         server.startServer();
     }

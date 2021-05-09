@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Network.message;
 
-public abstract class Message {
-    private static final long serialVersionUID = -7212814926393631108L;
+import java.io.Serializable;
+
+public abstract class Message implements Serializable {
+    private static final long serialVersionUID= -898685728584201368L;
 
     private String nickname;
 

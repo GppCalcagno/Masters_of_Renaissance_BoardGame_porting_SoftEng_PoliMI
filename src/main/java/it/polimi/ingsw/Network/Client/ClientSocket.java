@@ -31,7 +31,13 @@ public class ClientSocket extends Observable {
     private Timer pinger;
 
     /**
-     * this is the costructor of the Claa
+     * it is used to manage concurrent delivery of messages to the server
+     * is used for Ping and Sending from the controller
+     */
+    private Object LockSending;
+
+    /**
+     * this is the costuctor of the class
      * @param address is the address of the server
      * @param port is the server connection port
      */
@@ -56,7 +62,6 @@ public class ClientSocket extends Observable {
 
         //pinger
         pinger=new Timer();
-
         EnablePing(true);
     }
 
@@ -81,12 +86,13 @@ public class ClientSocket extends Observable {
      * This method is used to send message to the server
      * @param message is the message to send
      */
-    public void SendMessage(Message message){
-        try {
-            sendMessage.writeObject(message);
-        } catch (IOException e) {
-            CLOGGER.severe("EROOR: CAN'T SEND MESSAGE TO THE CONTROLLER");
-
+    public void SendMessage(Message message) {
+        synchronized (LockSending) {
+            try {
+                sendMessage.writeObject(message);
+            } catch (IOException e) {
+                CLOGGER.severe("EROOR: CAN'T SEND MESSAGE TO THE CONTROLLER");
+            }
         }
     }
 
@@ -96,7 +102,7 @@ public class ClientSocket extends Observable {
      */
     public void EnablePing(boolean state){
         if(state){
-            pinger.schedule(new PingerTimerTask(sendMessage),0,5000);
+            pinger.schedule(new PingerTimerTask(sendMessage, LockSending),0,5000);
         }
         else
             pinger.cancel();

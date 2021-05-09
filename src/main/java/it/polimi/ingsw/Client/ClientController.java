@@ -7,6 +7,8 @@ public class ClientController implements Observer {
 
     @Override
     public void update(Message message) {
-
+        //todo switch con vari messaggi
     }
+
+
 }
