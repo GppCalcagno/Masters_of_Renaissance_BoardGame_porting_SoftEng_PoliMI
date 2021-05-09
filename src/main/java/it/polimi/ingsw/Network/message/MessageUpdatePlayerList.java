@@ -9,4 +9,8 @@ public class MessageUpdatePlayerList extends Message{
         super(nickname, messageType);
 
     }
+
+    public List<String> getPlayerList() {
+        return playerList;
+    }
 }

@@ -2,33 +2,37 @@ package it.polimi.ingsw.View;
 
 public interface view {
 
-    /* ************************************ LOGIN PHASE ******************************** */
-    void askNickname();
+    void askServerInfo();
 
-    void askNumPlayer();
+    /* ************************************ LOGIN PHASE ******************************** */
+    void askNickname(); //chiede nome
+
+    void askNumPlayer(); //chiede numero
 
     /* ************************************ INITGAME PHASE ******************************** */
 
-    void askChooseLeaderCards();
+    void askChooseLeaderCards(); //chiede quale delle 4 carte tenere
 
-    void askChooseResourcesFirstTurn();
+    void askChooseResourcesFirstTurn(); //chiede quale risorse prendere
 
     /* ************************************ INGAME PHASE ******************************** */
 
 
-    void askChooseAction(); //comprende i 3 turni più le LeaderAction
-    void askActiveLeaderAction();
+    void askChooseAction(); //chiede quale delle 4 cose fare
+    void askActiveLeaderAction(); //ask 1 turno
 
     /* *** Market Turn *** */
-    void askTakeMarble();
+    void askTakeMarble(); //ask 2 turno
+    void askAfterTakeMarble();// chiede se vuole fare exchange o fare gestire biglie
     void askExchange();
     void askAddDiscardMarble();
 
     /* *** Producion and Purchase Turn *** */
-    void askSelectDevCard();
+    void askSelectDevCard();//ask 3 turno
     void askActiveProducition();
     void askChooseResources();
     void askInsertCard();
+    void askEndProduction();
 
 
 

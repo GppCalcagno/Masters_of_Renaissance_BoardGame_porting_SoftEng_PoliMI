@@ -11,4 +11,8 @@ public class MessageUpdateStrongbox extends Message{
         super(nickname, MessageType.UPDATESTRONGBOX);
         this.strongbox = strongbox;
     }
+
+    public Map<String, Integer> getStrongbox() {
+        return strongbox;
+    }
 }
