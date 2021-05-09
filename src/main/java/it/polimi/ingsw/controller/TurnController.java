@@ -119,6 +119,22 @@ public class TurnController {
     }
 
     /**
+     * This method returns the current player's SlotDevCards with String objects instead of Development card objects
+     * @return a matrix of String objects
+     */
+    public String[][] updateSlotDevCards () {
+        String[][] slotDevCards = new String[3][3];
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                slotDevCards[i][j] = game.getCurrentPlayer().getSlotDevCards().getBoardDevCards()[i][j].getID();
+            }
+        }
+
+        return slotDevCards;
+    }
+
+    /**
      * this method called by the player allow to activate a leaderActionCard
      * @param pos refer which card must to be activated, 0 for the first, 1 for the second
      * @return true if the card is activated
@@ -435,6 +451,24 @@ public class TurnController {
      */
     public boolean ExchangeWarehouse (int row1, int row2) {
         return game.getCurrentPlayer().getWarehouse().checkExchange(row1, row2);
+    }
+
+    /**
+     * This method returns a copy of the current player's warehouse with Resources coverted to String
+     * @return a matrix of String
+     */
+    public String[][] updateWarehouse () {
+        String[][] warehouse = new String[3][3];
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (game.getCurrentPlayer().getWarehouse().getWarehouse()[i][j] == null)
+                    warehouse[i][j] = null;
+                else warehouse[i][j] = game.getCurrentPlayer().getWarehouse().getWarehouse()[i][j].toString();
+            }
+        }
+
+        return warehouse;
     }
 
     /**

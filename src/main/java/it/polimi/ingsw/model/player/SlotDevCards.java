@@ -186,4 +186,8 @@ public class SlotDevCards {
      * @return product of the effect of the cards
      */
     public Map<String, Integer> getBuffer() { return buffer; }
+
+    public DevelopmentCard[][] getBoardDevCards() {
+        return boardDevCards;
+    }
 }
