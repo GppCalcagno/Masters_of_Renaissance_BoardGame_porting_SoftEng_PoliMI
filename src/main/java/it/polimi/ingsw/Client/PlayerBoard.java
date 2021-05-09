@@ -13,6 +13,7 @@ import java.util.Map;
 public class PlayerBoard {
 
     private List<String> playerList;
+    private String nickname;
     private String currentPlayer;
 
     private String[][] warehouse;
@@ -34,12 +35,17 @@ public class PlayerBoard {
         strongbox= new HashMap<>();
         extrachest= new HashMap<>();
         faithMarker=0;
+        currentPlayer=null;
 
         leaderCard= new ArrayList<>();
         slotDevCard= new String[3][3];
 
         devCardDeck= new String[3][4][4];
         marketTray= new String[3][4];
+    }
+
+    public void setNickname(String name){
+        this.nickname=name;
     }
 
     public void setPlayerList(List<String> playerList) {
@@ -121,6 +127,16 @@ public class PlayerBoard {
         this.remainingMarble= remainingMarble;
     }
 
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public List<String> getPlayerList() {
+        return playerList;
+    }
 
 }

@@ -15,7 +15,4 @@ public class MessageUpdatePlayerList extends Message{
         return playerList;
     }
 
-    public List<String> getPlayerList() {
-        return playerList;
-    }
 }

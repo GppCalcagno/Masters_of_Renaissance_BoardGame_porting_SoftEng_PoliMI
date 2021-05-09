@@ -404,42 +404,33 @@ public class GameController {
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
                 nextState.add(MessageType.UPDATESTATELEADERACTION);
-                try {
-                    turnController.endTurn();
-                } catch (EndGameException e) {
-                    turnController.getGame().givefinalpoints();
-                    //notifica il vincitore
-                    turnController.getGame().getWinner();
-                }
             }
             else {
                 nextState.clear();
                 nextState.add(MessageType.CHOOSELEADERCARDS);
                 nextState.add(MessageType.CHOOSERESOURCESFIRSTTURN);
-                try {
-                    turnController.endTurn();
-                } catch (EndGameException e) {
-                    turnController.getGame().givefinalpoints();
-                    //notifica il vincitore
-                    turnController.getGame().getWinner();
-                }
             }
         }
-        else if (gameState == GameState.INGAME) {
-            nextState.clear();
-            nextState.add(MessageType.EXTRACTIONMARBLES);
-            nextState.add(MessageType.SELECTDEVCARD);
-            nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
-            nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-            nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-            nextState.add(MessageType.UPDATESTATELEADERACTION);
-            try {
-                turnController.endTurn();
-            } catch (EndGameException e) {
-                turnController.getGame().givefinalpoints();
-                //notifica il vincitore
-                turnController.getGame().getWinner();
+        else{
+            if (gameState == GameState.INGAME) {
+                nextState.clear();
+                nextState.add(MessageType.EXTRACTIONMARBLES);
+                nextState.add(MessageType.SELECTDEVCARD);
+                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
+                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+                nextState.add(MessageType.UPDATESTATELEADERACTION);
             }
+        }
+
+        try {
+            turnController.endTurn();
+            server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
+
+        } catch (EndGameException e) {
+            turnController.getGame().givefinalpoints();
+            //notifica il vincitore
+            turnController.getGame().getWinner();
         }
     }
 

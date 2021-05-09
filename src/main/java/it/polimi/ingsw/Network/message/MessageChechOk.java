@@ -9,7 +9,7 @@ public class MessageChechOk extends Message{
         this.check=check;
     }
 
-    public boolean isCheck() {
+    public boolean getCheck() {
         return check;
     }
 }

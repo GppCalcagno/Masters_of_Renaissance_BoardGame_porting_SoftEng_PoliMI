@@ -4,6 +4,7 @@ public interface view {
 
     void askServerInfo();
 
+    void endturn(); //fai apparire a schermo che il turno finisce e manda il messaggio
     /* ************************************ LOGIN PHASE ******************************** */
     void askNickname(); //chiede nome
 
@@ -13,12 +14,12 @@ public interface view {
 
     void askChooseLeaderCards(); //chiede quale delle 4 carte tenere
 
-    void askChooseResourcesFirstTurn(); //chiede quale risorse prendere
+    void askChooseResourcesFirstTurn(int num); //chiede quale risorse prendere
 
     /* ************************************ INGAME PHASE ******************************** */
 
 
-    void askChooseAction(); //chiede quale delle 4 cose fare
+    void askChooseTurn(); //chiede quale delle 4 cose fare
     void askActiveLeaderAction(); //ask 1 turno
 
     /* *** Market Turn *** */
@@ -48,6 +49,7 @@ public interface view {
 
     void showMarketTray();
     void showDevCardDeck();
+
 
     void showDevCard(String ID);
     void showLeaderAction(String ID);

@@ -40,4 +40,5 @@ public enum MessageType {
 
 
     CONNECT,
+    CHOOSETURN
 }
