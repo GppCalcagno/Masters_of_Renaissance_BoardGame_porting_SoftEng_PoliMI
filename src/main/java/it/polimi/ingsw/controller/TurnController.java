@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -338,6 +339,10 @@ public class TurnController {
         return false;
     }
 
+    public int updateFaithMarker () {
+        return game.getCurrentPlayer().getFaithMarker();
+    }
+
     /**
      * remove Resources from Player
      * @param WarehouseRes  warehouse selected resources
@@ -469,6 +474,16 @@ public class TurnController {
         }
 
         return warehouse;
+    }
+
+    public Map<String, Integer> updateExtraChest () {
+        Map<String, Integer> extraChest = new HashMap<>();
+
+        for (ExtraChest chest : game.getCurrentPlayer().getWarehouse().getLeaderCardEffect()) {
+            extraChest.put(chest.getResources().toString(), chest.getnum());
+        }
+
+        return extraChest;
     }
 
     /**

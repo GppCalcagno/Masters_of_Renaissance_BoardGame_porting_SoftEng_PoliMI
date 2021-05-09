@@ -28,10 +28,13 @@ public class ExtraProduction {
         //non tolgo la risorsa qui perchè non so quale togliere(da Warehouse o Stronbox), controllo risorsa ed
         //eliminazione prima di chiamare metodo
         player.increasefaithMarker();
-        try {
-            player.getStrongbox().updateResources(reqResources,1);
-        } catch (NegativeQuantityExceptions I) {}
 
+        if (player.getSlotDevCards().getBuffer().containsKey(reqResources.toString())) {
+            player.getSlotDevCards().getBuffer().put(reqResources.toString(),player.getSlotDevCards().getBuffer().get(reqResources.toString())+1);
+        }
+        else {
+            player.getSlotDevCards().getBuffer().put(reqResources.toString(),1);
+        }
     }
 
     /**
