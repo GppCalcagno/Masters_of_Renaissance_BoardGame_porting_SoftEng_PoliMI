@@ -45,6 +45,7 @@ public class ServerClientHandler implements Runnable, Observer {
     /** this attribute is used to recive message */
     private ObjectInputStream input;
 
+    private  final Object SenderLock;
 
     /**
      * this is the costructor of the class
@@ -56,6 +57,7 @@ public class ServerClientHandler implements Runnable, Observer {
         this.clientSocket = clientSocket;
         this.server=server;
         connected=true;
+        SenderLock= new Object();
 
         try {
             output = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -129,15 +131,17 @@ public class ServerClientHandler implements Runnable, Observer {
      * @param message is the message to send to the player
      */
     private void sendMessage(Message message){
-        try {
-            output.writeObject(message);
-            output.reset();
 
-        } catch (IOException e) {
-            SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE TO:"+ clientName);
-            disconnect();
+            try {
+                output.writeObject(message);
+                output.reset();
+
+            } catch (IOException e) {
+                SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE TO:"+ clientName);
+                disconnect();
+            }
+
         }
-    }
 
     /**
      * this method is used to disconnect a plauer from the game

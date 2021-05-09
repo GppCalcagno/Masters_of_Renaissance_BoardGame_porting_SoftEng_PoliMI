@@ -9,4 +9,8 @@ public class MessageUpdateFaithMarker extends Message{
         super(nickname, MessageType.UPDATEFAITHPOINTS);
         this.faithPoints = faithPoints;
     }
+
+    public int getFaithPoints() {
+        return faithPoints;
+    }
 }
