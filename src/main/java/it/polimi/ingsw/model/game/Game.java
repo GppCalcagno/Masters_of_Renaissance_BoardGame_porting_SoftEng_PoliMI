@@ -211,4 +211,8 @@ public class Game {
 
     public void playLorenzoTurn () throws ActiveVaticanReportException {
     }
+
+    public String getCurrentToken () {
+        return null;
+    }
 }

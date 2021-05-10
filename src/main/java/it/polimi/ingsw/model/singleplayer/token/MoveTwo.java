@@ -4,11 +4,21 @@ import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.singleplayer.LorenzoIlMagnifico;
 
 public class MoveTwo extends Tokens {
+    private String ID;
+
+    public MoveTwo() {
+        this.ID = "T1";
+    }
 
     /**
      *this method increase the faith marker of lorenzo by two.
      */
     public void effectTokens(LorenzoIlMagnifico l) throws  ActiveVaticanReportException {
         l.increaseFaithMarker(2);
+    }
+
+    @Override
+    public String getID() {
+        return ID;
     }
 }

@@ -8,6 +8,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class MoveOneAndMix extends Tokens{
+    private String ID;
+
+    public MoveOneAndMix() {
+        this.ID = "T2";
+    }
 
     /**
      *this method increase the faith marker of lorenzo by one and shuffle all the tokens in a new vector
@@ -22,4 +27,8 @@ public class MoveOneAndMix extends Tokens{
         l.setI(-1);
     }
 
+    @Override
+    public String getID() {
+        return ID;
+    }
 }

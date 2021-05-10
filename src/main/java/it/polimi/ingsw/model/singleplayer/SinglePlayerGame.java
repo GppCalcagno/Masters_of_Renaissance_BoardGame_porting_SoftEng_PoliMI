@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model.singleplayer;
 
 import it.polimi.ingsw.model.card.ColorCard;
-import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
-import it.polimi.ingsw.model.exceptions.EmptyLeaderCardException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
-import it.polimi.ingsw.model.exceptions.NullPlayerListGameException;
+import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.player.Player;
 
@@ -74,6 +71,7 @@ public class SinglePlayerGame extends Game {
         leaderCardDeck = new LeaderCardDeck();
         faithTrack = new FaithTrack();
         lorenzoIlMagnifico = new LorenzoIlMagnifico(developmentCardDeck);
+        playerWin = false;
     }
 
     /**
@@ -87,8 +85,10 @@ public class SinglePlayerGame extends Game {
     /**
      * This method takes from playersvet the current turn's player.
      */
-    public void setCurrentPlayer () {
+    public void setCurrentPlayer () throws EndGameException {
         currentPlayer = playersList.get(0);
+        if (isFinishedGame())
+            throw new EndGameException();
     }
 
     /**
@@ -103,14 +103,13 @@ public class SinglePlayerGame extends Game {
      * This method returns the winner of the game between Lorenzo Il Magnifico and the single Player
      * @return 0 if Single Player wins, 1 if Lorenzo Il Magnifico wins
      */
-    public int getWinner () throws NoSuchElementException{
+    public int getWinner () {
         if(isFinishedGame()){
             if(playerWin) return 0;
-            else return 1;
+            else return -1;
         }
-        else throw new NoSuchElementException();
+        return -2;
     }
-
 
     /**
      * This method checks if the game is finished
@@ -134,7 +133,6 @@ public class SinglePlayerGame extends Game {
         }
 
         if(currentPlayer.getSlotDevCards().countTotalNumberDevCards()>=7 || currentPlayer.getFaithMarker() == faithTrack.getFaithtracksize()){
-            givefinalpoints();
             playerWin = true;
             finishedGame = true;
             return true;
@@ -201,5 +199,9 @@ public class SinglePlayerGame extends Game {
 
     public int getBlackCrossToken () {
         return lorenzoIlMagnifico.getFaithMarker();
+    }
+
+    public String getCurrentToken () {
+        return lorenzoIlMagnifico.getCurrentToken();
     }
 }

@@ -7,10 +7,13 @@ public class MessageUpdateSinglePlayerGame extends Message{
 
     private int blackCrossToken;
 
-    public MessageUpdateSinglePlayerGame(String nickname, String[][][] devCardDeck, int blackCrossToken) {
+    private String ID;
+
+    public MessageUpdateSinglePlayerGame(String nickname, String[][][] devCardDeck, int blackCrossToken, String id) {
         super(nickname, MessageType.UPDATEDEVCARDDECK);
         this.devCardDeck = devCardDeck;
         this.blackCrossToken = blackCrossToken;
+        ID = id;
     }
 
     public String[][][] getDevCardDeck() {
@@ -19,5 +22,9 @@ public class MessageUpdateSinglePlayerGame extends Message{
 
     public int getBlackCrossToken() {
         return blackCrossToken;
+    }
+
+    public String getID() {
+        return ID;
     }
 }

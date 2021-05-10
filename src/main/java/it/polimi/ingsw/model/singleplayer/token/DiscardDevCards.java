@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.singleplayer.LorenzoIlMagnifico;
 import java.util.NoSuchElementException;
 
 public class DiscardDevCards extends Tokens {
+    private String ID;
 
     /**
      * every discardDevCards token has a color, that is the color of the cards that have to be deleted
@@ -14,6 +15,7 @@ public class DiscardDevCards extends Tokens {
 
     public DiscardDevCards(ColorCard color){
         this.color = color;
+        this.ID = "T3";
     }
 
     /**
@@ -31,4 +33,12 @@ public class DiscardDevCards extends Tokens {
         }
     }
 
+    @Override
+    public String getID() {
+        return ID;
+    }
+
+    public ColorCard getColor() {
+        return color;
+    }
 }

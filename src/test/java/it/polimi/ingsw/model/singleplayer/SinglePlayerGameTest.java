@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SinglePlayerGameTest {
 
     @Test
-    void isFinishedGame25Player() throws IOException {
+    void isFinishedGame25Player() throws IOException, EndGameException {
         SinglePlayerGame s = new SinglePlayerGame();
         Player p = new Player("Giusè");
         s.addPlayersList(p);
@@ -26,7 +26,7 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void isFinishedGame25Lorenzo() throws IOException {
+    void isFinishedGame25Lorenzo() throws IOException, EndGameException {
         SinglePlayerGame s = new SinglePlayerGame();
         Player p = new Player("Giusè");
         s.addPlayersList(p);
@@ -38,7 +38,7 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void isFinishedGameEmptyColumn() throws IOException {
+    void isFinishedGameEmptyColumn() throws IOException, EndGameException {
         SinglePlayerGame s = new SinglePlayerGame();
         Player p = new Player("Giusè");
         s.addPlayersList(p);
@@ -53,7 +53,7 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void startgame() throws IOException, NullPlayerListGameException, EmptyLeaderCardException {
+    void startgame() throws IOException, NullPlayerListGameException, EmptyLeaderCardException, EndGameException {
 
         SinglePlayerGame game = new SinglePlayerGame();
         Player player1 = new Player("Qui");

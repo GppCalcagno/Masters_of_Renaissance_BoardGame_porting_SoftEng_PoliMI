@@ -636,20 +636,20 @@ public class TurnController {
      * This method empties the StrongBox buffer and sets the new current player.
      */
     public void endTurn () throws EndGameException {
-        game.setCurrentPlayer();
-    }
-
-    public void endTurnSinglePlayer () throws EndGameException {
         try {
             game.playLorenzoTurn();
         } catch (ActiveVaticanReportException e) {
             try {
                 game.getFaithTrack().checkPopeSpace(game.getPlayersList(),game.getBlackCrossToken());
             } catch (GameFinishedException gameFinishedException) {
-                if (game.isFinishedGame())
-                    throw new EndGameException();
+                game.isFinishedGame();
             }
         }
+        game.setCurrentPlayer();
+    }
+
+    public String getCurrentToken() {
+        return game.getCurrentToken();
     }
 
     public Map<String, Integer> updateFinalPoints () {

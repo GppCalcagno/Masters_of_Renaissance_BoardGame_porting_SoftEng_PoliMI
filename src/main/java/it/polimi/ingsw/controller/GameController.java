@@ -283,7 +283,7 @@ public class GameController {
             nextState.add(MessageType.CHOOSERESOURCESPURCHASEDEVCARD);
             server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), true));
         }
-        server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), false));
+        else server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), false));
     }
 
     public void chooseResourcesForPurchase (MessageChooseResourcesPurchaseDevCard messageChooseResourcesPurchaseDevCard) {
@@ -409,6 +409,7 @@ public class GameController {
                 try {
                     turnController.endTurn();
                     server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
+                    server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
@@ -432,25 +433,6 @@ public class GameController {
             }
         }
         else if (gameState == GameState.INGAME) {
-            if (turnController.getNumPlayersCount() == 1) {
-                try {
-                    turnController.endTurnSinglePlayer();
-                } catch (EndGameException e) {
-                    if (turnController.getGame().getWinner() == 0)
-                        server.sendtoPlayer(turnController.getGame().getCurrentPlayer().getNickname(), new MessageUpdateWinnerSinglePlayer("server", turnController.getGame().getCurrentPlayer().getNickname()));
-                    else server.sendtoPlayer(turnController.getGame().getCurrentPlayer().getNickname(), new MessageUpdateWinnerSinglePlayer("server", "Lorenzo il Magnifico"));
-                    server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
-                }
-                nextState.clear();
-                nextState.add(MessageType.EXTRACTIONMARBLES);
-                nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
-                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-                nextState.add(MessageType.UPDATESTATELEADERACTION);
-                server.sendtoPlayer(turnController.getGame().getCurrentPlayer().getNickname(), new MessageUpdateSinglePlayerGame(turnController.getGame().getCurrentPlayer().getNickname(), turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken()));
-            }
-            else {
                 nextState.clear();
                 nextState.add(MessageType.EXTRACTIONMARBLES);
                 nextState.add(MessageType.SELECTDEVCARD);
@@ -461,15 +443,15 @@ public class GameController {
                 try {
                     turnController.endTurn();
                     server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
+                    server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
-                    //notifica il vincitore
+                    //notifica il vincitore. se getwinner() = -1 -> vincitore = Lorenzo
                     server.sendBroadcastMessage(new MessageUpdateWinner("server", turnController.getGame().getWinner()));
                 }
             }
         }
-    }
 
     public boolean verifyCurrentPlayer (String nickname) {
         return turnController.getGame().getCurrentPlayer().getNickname().equals(nickname);
