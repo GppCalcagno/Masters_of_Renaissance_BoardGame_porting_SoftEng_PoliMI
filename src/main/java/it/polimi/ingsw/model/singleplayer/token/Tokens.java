@@ -4,6 +4,12 @@ import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.singleplayer.LorenzoIlMagnifico;
 
 public abstract class Tokens {
+    /**
+     * MoveTwo=T1
+     * MoveOneAndMix=T2
+     * DiscardDevCards=T3
+     */
+    private String ID;
 
     /**
      * this is the constructor
@@ -16,5 +22,9 @@ public abstract class Tokens {
      */
     public void effectTokens(LorenzoIlMagnifico l) throws ActiveVaticanReportException {
 
+    }
+
+    public String getID() {
+        return ID;
     }
 }
