@@ -470,6 +470,35 @@ public class TurnController {
     }
 
     /**
+     * This method set as first Resource the one chosen from the current player to convert a White marble with this
+     * @param i is the resource's index in the leaderCardEffectWhiteMarble list in Player
+     * @return true if the action is allowed
+     */
+    public boolean selectTransformationWhiteMarble(int i) {
+        if (game.getCurrentPlayer().getLeaderCardEffectWhiteMarble().isEmpty())
+            return true;
+
+        if (game.getCurrentPlayer().getLeaderCardEffectWhiteMarble().get(i) == null)
+            return false;
+
+        if (i == 1) {
+            Resources r = game.getCurrentPlayer().getLeaderCardEffectWhiteMarble().get(0);
+            game.getCurrentPlayer().getLeaderCardEffectWhiteMarble().add(0, game.getCurrentPlayer().getLeaderCardEffectWhiteMarble().get(1));
+            game.getCurrentPlayer().getLeaderCardEffectWhiteMarble().add(1, r);
+            return true;
+        }
+        return true;
+    }
+
+    public List<String> updateLeaderCardEffectWhiteMarble(){
+        List<String> list = new ArrayList<>();
+        for (Resources r : game.getCurrentPlayer().getLeaderCardEffectWhiteMarble()) {
+            list.add(r.toString());
+        }
+        return list;
+    }
+
+    /**
      * This method returns a copy of the current player's warehouse with Resources coverted to String
      * @return a matrix of String
      */

@@ -100,6 +100,11 @@ public class GameController {
                     exchangeWarehouseMethod((MessageExchangeWarehouse) message);
                 }
                 break;
+            case SELECTTRANSFORMATIONWHITEMARBLE:
+                if (verifyCurrentPlayer(message.getNickname())) {
+                    selectTransfomationWhiteMarbleMethod((MessageSelectTransformationWhiteMarble) message);
+                }
+                break;
             case SELECTDEVCARD:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     selectDevCardMethod((MessageSelectDevCard) message);
@@ -241,6 +246,7 @@ public class GameController {
             nextState.clear();
             nextState.add(MessageType.ADDDISCARDMARBLES);
             nextState.add(MessageType.EXCHANGEWAREHOUSE);
+            nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
             server.sendtoPlayer(messageExtractionMarbles.getNickname(), new MessageExtractedMarbles(messageExtractionMarbles.getNickname(), turnController.getGame().getMarketStructure().getBuffer()));
             server.sendBroadcastMessage(new MessageUpdateMarketTray(messageExtractionMarbles.getNickname(), messageExtractionMarbles.getColrowextract(), messageExtractionMarbles.getNumextract()));
         }
@@ -260,6 +266,7 @@ public class GameController {
                     nextState.clear();
                     nextState.add(MessageType.ADDDISCARDMARBLES);
                     nextState.add(MessageType.EXCHANGEWAREHOUSE);
+                    nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
                     server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
                     server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker()));
                 }
@@ -275,6 +282,17 @@ public class GameController {
             server.sendtoPlayer(messageExchangeWarehouse.getNickname(), new MessageUpdateWarehouse(messageExchangeWarehouse.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
         }
         else server.sendtoPlayer(messageExchangeWarehouse.getNickname(), new MessageChechOk(messageExchangeWarehouse.getNickname(), false));
+    }
+
+    public void selectTransfomationWhiteMarbleMethod (MessageSelectTransformationWhiteMarble message) {
+        if (turnController.selectTransformationWhiteMarble(message.getI())) {
+            nextState.clear();
+            nextState.add(MessageType.ADDDISCARDMARBLES);
+            nextState.add(MessageType.EXCHANGEWAREHOUSE);
+            nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
+            server.sendtoPlayer(message.getNickname(), new MessageUpdateWhiteMarbleEffect(message.getNickname(), turnController.updateLeaderCardEffectWhiteMarble()));
+        }
+        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
     }
 
     public void selectDevCardMethod (MessageSelectDevCard messageSelectDevCard) {
