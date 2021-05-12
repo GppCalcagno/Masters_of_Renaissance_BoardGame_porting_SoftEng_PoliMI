@@ -60,16 +60,16 @@ public class ViewExtraChest {
 
         String color;
 
-        if ("Servants".equals(pb.getExtrachest())) {
+        if (pb.getExtrachest().get("Servants")!=null) {
             color = Color.ANSI_BRIGHTPURPLE.escape();
         }
-        else if("Shields".equals(pb.getExtrachest())){
+        else if(pb.getExtrachest().get("Shields")!=null){
             color = Color.ANSI_BRIGHTBLUE.escape();
         }
-        else if("Coins".equals(pb.getExtrachest())){
+        else if(pb.getExtrachest().get("Coins")!=null){
             color = Color.ANSI_BRIGHTYELLOW.escape();
         }
-        else if("Stones".equals(pb.getExtrachest())){
+        else if(pb.getExtrachest().get("Stones")!=null){
             color = Color.ANSI_BRIGHDARK.escape();
         }
         else color = Color.ANSI_BRIGHTWHITE.escape();

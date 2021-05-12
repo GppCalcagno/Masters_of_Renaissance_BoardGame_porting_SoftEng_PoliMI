@@ -12,7 +12,7 @@ public class ViewSlotDevCard {
     PlayerBoard pb;
 
     private static final int MAX_VERT_TILES = 7; //rows.
-    private static final int MAX_HORIZ_TILES = 16; //cols.
+    private static final int MAX_HORIZ_TILES = 22; //cols.
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
@@ -78,6 +78,18 @@ public class ViewSlotDevCard {
     }
 
     private void updateObject(){
+        for(int i=1; i<6; i=i+2){
+            for(int j=1; j<16; j=j+7){
+                if(pb.getSlotDevCard()[i/2][j/7]!=null) {
+                    tiles[i][j] = String.valueOf(pb.getSlotDevCard()[i / 2][j / 7].charAt(0));
+                    tiles[i][j + 1] = String.valueOf(pb.getSlotDevCard()[i / 2][j / 7].charAt(1));
+                    tiles[i][j + 2] = String.valueOf(pb.getSlotDevCard()[i / 2][j / 7].charAt(2));
+                    tiles[i][j + 3] = String.valueOf(pb.getSlotDevCard()[i / 2][j / 7].charAt(3));
+                    tiles[i][j + 4] = String.valueOf(pb.getSlotDevCard()[i / 2][j / 7].charAt(4));
+                    tiles[i][j + 5] = String.valueOf(pb.getSlotDevCard()[i / 2][j / 7].charAt(5));
+                }
+            }
+        }
 
     }
 

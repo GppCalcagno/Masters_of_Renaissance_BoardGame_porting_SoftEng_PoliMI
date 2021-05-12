@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SlotDevCardsTest {
+class ViewSlotDevCardsTest {
 
     @Test
     void maxLevelPurchase() throws IOException, GameFinishedException {

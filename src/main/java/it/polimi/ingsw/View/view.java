@@ -1,5 +1,7 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Client.PlayerBoard;
+
 public interface view {
 
     void askServerInfo();
@@ -29,11 +31,17 @@ public interface view {
             5->Update stateLeadercard
         */
 
+    void askChooseResourcesFirstTurn();
+
+    void askChooseAction();
+
     void askActiveLeaderAction(); //ask 1 turno
 
     /* *** Market Turn *** */
     void askExtractMarble(); //ask 2 turno
 
+
+    void askTakeMarble();
 
     void askAfterTakeMarble();// chiede se vuole fare exchange o fare gestire biglie o impostare biglia
         /*  seleziona una tra le seguenti mosse:
@@ -60,14 +68,15 @@ public interface view {
 
     void showMessage(String message);
 
-    void showLeaderActionBox();
-    void showSlotDevCard();
-    void showWarehouse();
-    void showStrongbox();
-    void showFaithTrack();
+    void showLeaderActionBox(PlayerBoard playerBoard);
+    void showSlotDevCard(PlayerBoard playerBoard);
+    void showWarehouse(PlayerBoard playerBoard);
+    void showStrongbox(PlayerBoard playerBoard);
+    void showFaithTrack(PlayerBoard playerBoard);
+    void showExtraChest(PlayerBoard playerBoard);
 
-    void showMarketTray();
-    void showDevCardDeck();
+    void showMarketTray(PlayerBoard playerBoard);
+    void showDevCardDeck(PlayerBoard playerBoard);
 
 
     void showDevCard(String ID);

@@ -1,11 +1,15 @@
 package it.polimi.ingsw.View.Cli.Structure;
 
+import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.View.Cli.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewWarehouse {
+
+    PlayerBoard pb;
+
     private static final int MAX_VERT_TILES = 7; //rows.
     private static final int MAX_HORIZ_TILES = 13; //cols.
 
@@ -13,9 +17,9 @@ public class ViewWarehouse {
 
     List<String > weapons = new ArrayList<>();
 
-    public ViewWarehouse(){
+    public ViewWarehouse(PlayerBoard playerBoard){
+        pb = playerBoard;
         fillTiles();
-        loadObject();
         updateObject();
     }
 
@@ -87,21 +91,22 @@ public class ViewWarehouse {
         tiles[5][12] = "║";
     }
 
-    private void loadObject(){
-        for(int i=0; i<6; i++) weapons.add("●");
-    }
-
     private void updateObject(){
-        //todo collegamenti a oggetti esistenti
-        int k=1;
 
-        tiles[1][2] = Color.ANSI_BRIGHTYELLOW.escape() + weapons.get(k) + Color.ANSI_BRIGHTWHITE.escape();
-        tiles[3][2] = Color.ANSI_BRIGHTPURPLE.escape() + weapons.get(k) + Color.ANSI_BRIGHTWHITE.escape();
-        tiles[3][6] = Color.ANSI_BRIGHTPURPLE.escape() + weapons.get(k) + Color.ANSI_BRIGHTWHITE.escape();
-        tiles[5][2] = Color.ANSI_BRIGHDARK.escape() + weapons.get(k) + Color.ANSI_BRIGHTWHITE.escape();
-        tiles[5][6] = Color.ANSI_BRIGHDARK.escape() + weapons.get(k) + Color.ANSI_BRIGHTWHITE.escape();
-        tiles[5][10] = Color.ANSI_BRIGHDARK.escape() + weapons.get(k) + Color.ANSI_BRIGHTWHITE.escape();
-
+        for(int i=1; i<6; i=i+2){
+            for(int j=2; j<=i+2;j=j+4){
+                if(pb.getWarehouse()[i/2][j/4]!=null) {
+                    if (pb.getWarehouse()[i / 2][j / 4].equals("Servants"))
+                        tiles[i][j] = Color.ANSI_BRIGHTPURPLE.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    else if (pb.getWarehouse()[i / 2][j / 4].equals("Shields"))
+                        tiles[i][j] = Color.ANSI_BRIGHTBLUE.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    else if (pb.getWarehouse()[i / 2][j / 4].equals("Coins"))
+                        tiles[i][j] = Color.ANSI_BRIGHTYELLOW.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    else if (pb.getWarehouse()[i / 2][j / 4].equals("Stones"))
+                        tiles[i][j] = Color.ANSI_BRIGHDARK.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
+                }
+            }
+        }
     }
 
     public void plot() {

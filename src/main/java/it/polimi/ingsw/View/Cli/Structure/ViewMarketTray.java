@@ -165,9 +165,12 @@ public class ViewMarketTray {
         else if("Stones".equals(pb.getRemainingMarble())){
             color = Color.ANSI_BRIGHDARK.escape();
         }
+        else if("FaithMarker".equals(pb.getRemainingMarble())){
+            color = Color.ANSI_BRIGHTRED.escape();
+        }
         else color = Color.ANSI_BRIGHTWHITE.escape();
 
-        tiles[1][19] = color + "●" + Color.ANSI_BRIGHTWHITE;
+        tiles[1][19] = color + "●" + Color.ANSI_BRIGHTWHITE.escape();
 
 
         //market tray
@@ -185,9 +188,12 @@ public class ViewMarketTray {
                 else if("Stones".equals(pb.getMarketTray()[(i-4)/2][(j-2)/4])){
                     color = Color.ANSI_BRIGHDARK.escape();
                 }
+                else if("FaithMarker".equals(pb.getMarketTray()[(i-4)/2][(j-2)/4])){
+                    color = Color.ANSI_BRIGHTRED.escape();
+                }
                 else color = Color.ANSI_BRIGHTWHITE.escape();
 
-                tiles[i][j] = color + "●" + Color.ANSI_BRIGHTWHITE;;
+                tiles[i][j] = color + "●" + Color.ANSI_BRIGHTWHITE.escape();
             }
         }
     }

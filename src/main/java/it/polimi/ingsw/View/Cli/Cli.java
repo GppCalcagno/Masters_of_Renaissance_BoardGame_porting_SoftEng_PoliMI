@@ -1,12 +1,20 @@
 package it.polimi.ingsw.View.Cli;
 
+import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.view;
 
 public class Cli implements view {
 
+
+
     @Override
     public void askServerInfo() {
+
+    }
+
+    @Override
+    public void endturn() {
 
     }
 
@@ -26,6 +34,16 @@ public class Cli implements view {
     }
 
     @Override
+    public void askChooseResourcesFirstTurn(int num) {
+
+    }
+
+    @Override
+    public void askChooseTurn() {
+
+    }
+
+    @Override
     public void askChooseResourcesFirstTurn() {
 
     }
@@ -37,6 +55,11 @@ public class Cli implements view {
 
     @Override
     public void askActiveLeaderAction() {
+
+    }
+
+    @Override
+    public void askExtractMarble() {
 
     }
 
@@ -57,6 +80,11 @@ public class Cli implements view {
 
     @Override
     public void askAddDiscardMarble() {
+
+    }
+
+    @Override
+    public void askSetDefaulMarbleLeaderEffect() {
 
     }
 
@@ -92,49 +120,50 @@ public class Cli implements view {
     }
 
     @Override
-    public void showLeaderActionBox() {
-        ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox();
+    public void showLeaderActionBox(PlayerBoard playerBoard) {
+        ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox(playerBoard);
+        viewLeaderActionBox.plot();
     }
 
     @Override
-    public void showSlotDevCard() {
-        ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard();
+    public void showSlotDevCard(PlayerBoard playerBoard) {
+        ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(playerBoard);
         viewSlotDevCard.plot();
     }
 
     @Override
-    public void showWarehouse() {
-        ViewWarehouse viewWarehouse = new ViewWarehouse();
+    public void showWarehouse(PlayerBoard playerBoard) {
+        ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard);
         viewWarehouse.plot();
     }
 
     @Override
-    public void showStrongbox() {
-        ViewStrongbox viewStrongbox = new ViewStrongbox();
+    public void showStrongbox(PlayerBoard playerBoard) {
+        ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard);
         viewStrongbox.plot();
     }
 
     @Override
-    public void showFaithTrack() {
-        ViewFaithTrack viewFaithTrack = new ViewFaithTrack();
+    public void showFaithTrack(PlayerBoard playerBoard) {
+        ViewFaithTrack viewFaithTrack = new ViewFaithTrack(playerBoard);
         viewFaithTrack.plot();
     }
 
     @Override
-    public void showMarketTray() {
-        ViewMarketTray viewMarketTray = new ViewMarketTray();
+    public void showMarketTray(PlayerBoard playerBoard) {
+        ViewMarketTray viewMarketTray = new ViewMarketTray(playerBoard);
         viewMarketTray.plot();
     }
 
     @Override
-    public void showDevCardDeck() {
-        ViewDevCardDeck viewDevCardDeck = new ViewDevCardDeck();
+    public void showDevCardDeck(PlayerBoard playerBoard) {
+        ViewDevCardDeck viewDevCardDeck = new ViewDevCardDeck(playerBoard);
         viewDevCardDeck.plot();
     }
 
     @Override
-    public void showExtraChest(){
-        ViewExtraChest viewExtraChest = new ViewExtraChest();
+    public void showExtraChest(PlayerBoard playerBoard){
+        ViewExtraChest viewExtraChest = new ViewExtraChest(playerBoard);
         viewExtraChest.plot();
     }
 

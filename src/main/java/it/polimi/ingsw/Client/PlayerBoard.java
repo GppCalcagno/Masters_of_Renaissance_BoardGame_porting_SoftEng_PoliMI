@@ -121,6 +121,13 @@ public class PlayerBoard {
         }
     }
 
+    public List<String> getPlayerList() {
+        return playerList;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     public void initialization(List<String> playerList, List<String> leaderCard, String [][][] devCardDeck,  String[][] marketTray, String remainingMarble){
         this.playerList=playerList;
@@ -132,16 +139,45 @@ public class PlayerBoard {
         this.remainingMarble= remainingMarble;
     }
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
+
 
     public String getNickname() {
         return nickname;
     }
 
-    public List<String> getPlayerList() {
-        return playerList;
+    public String[][] getWarehouse() {
+        return warehouse;
     }
 
+    public Map<String, Integer> getStrongbox() {
+        return strongbox;
+    }
+
+    public List<String> getLeaderCard() {
+        return leaderCard;
+    }
+
+    public String[][] getSlotDevCard() {
+        return slotDevCard;
+    }
+
+    public String[][][] getDevCardDeck() {
+        return devCardDeck;
+    }
+
+    public String[][] getMarketTray() {
+        return marketTray;
+    }
+
+    public String getRemainingMarble() {
+        return remainingMarble;
+    }
+
+    public Map<String, Integer> getExtrachest() {
+        return extrachest;
+    }
+
+    public int getFaithMarker() {
+        return faithMarker;
+    }
 }

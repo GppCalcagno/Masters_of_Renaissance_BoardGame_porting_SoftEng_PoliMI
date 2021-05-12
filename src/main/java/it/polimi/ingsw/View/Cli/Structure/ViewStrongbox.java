@@ -1,19 +1,24 @@
 package it.polimi.ingsw.View.Cli.Structure;
 
+import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.View.Cli.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewStrongbox {
+
+    PlayerBoard pb;
+
     private static final int MAX_VERT_TILES = 9; //rows.
-    private static final int MAX_HORIZ_TILES = 8; //cols.
+    private static final int MAX_HORIZ_TILES = 9; //cols.
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
     List<String > weapons = new ArrayList<>();
 
-    public ViewStrongbox(){
+    public ViewStrongbox(PlayerBoard playerBoard){
+        pb = playerBoard;
         fillTiles();
         loadObject();
         updateObject();
@@ -39,19 +44,19 @@ public class ViewStrongbox {
         tiles[8][0] = "╚";
 
         //second column
-        tiles[0][7] = "╗";
-        tiles[1][7] = "║";
-        tiles[2][7] = "╣";
-        tiles[3][7] = "║";
-        tiles[4][7] = "╣";
-        tiles[5][7] = "║";
-        tiles[6][7] = "╣";
-        tiles[7][7] = "║";
-        tiles[8][7] = "╝";
+        tiles[0][8] = "╗";
+        tiles[1][8] = "║";
+        tiles[2][8] = "╣";
+        tiles[3][8] = "║";
+        tiles[4][8] = "╣";
+        tiles[5][8] = "║";
+        tiles[6][8] = "╣";
+        tiles[7][8] = "║";
+        tiles[8][8] = "╝";
 
         //horizontal separators
         for(int i=0; i<9; i=i+2){
-            for(int j=1; j<7; j++){
+            for(int j=1; j<8; j++){
                 tiles[i][j] = "═";
             }
         }
@@ -71,15 +76,21 @@ public class ViewStrongbox {
     }
 
     private void updateObject(){
-        //todo
-        int k=0;
 
-        for(int i=1; i<8; i=i+2){
-            tiles[i][2] = weapons.get(k);
-            k++;
-        }
+        tiles[1][2] = weapons.get(0);
+        tiles[3][2] = weapons.get(1);
+        tiles[5][2] = weapons.get(2);
+        tiles[7][2] = weapons.get(3);
 
-        for(int i=1; i<8; i=i+2) tiles[i][5] = String.valueOf(i);
+        if(pb.getStrongbox().get("Servants")!=null) tiles[1][5] = String.valueOf(pb.getStrongbox().get("Servants"));
+        else tiles[1][5] = "0";
+        if(pb.getStrongbox().get("Shields")!=null) tiles[3][5] = String.valueOf(pb.getStrongbox().get("Shields"));
+        else tiles[3][5] = "0";
+        if(pb.getStrongbox().get("Coins")!=null) tiles[5][5] = String.valueOf(pb.getStrongbox().get("Coins"));
+        else tiles[5][5] = "0";
+        if(pb.getStrongbox().get("Stones")!=null) tiles[7][5] = String.valueOf(pb.getStrongbox().get("Stones"));
+        else tiles[7][5] = "0";
+
     }
 
     public void plot() {
