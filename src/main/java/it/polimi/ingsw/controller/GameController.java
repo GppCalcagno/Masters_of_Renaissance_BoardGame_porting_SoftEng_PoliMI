@@ -260,17 +260,16 @@ public class GameController {
                     nextState.clear();
                     nextState.add(MessageType.UPDATESTATELEADERACTION);
                     nextState.add(MessageType.ENDTURN);
-                    server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
-                    server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker()));
                 }
                 else {
                     nextState.clear();
                     nextState.add(MessageType.ADDDISCARDMARBLES);
                     nextState.add(MessageType.EXCHANGEWAREHOUSE);
                     nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
-                    server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
-                    server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker()));
                 }
+
+                server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
+                server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker()));
             }
             else server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), false));
         }

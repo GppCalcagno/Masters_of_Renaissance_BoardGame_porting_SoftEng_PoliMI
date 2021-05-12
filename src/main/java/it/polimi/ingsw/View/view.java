@@ -49,14 +49,30 @@ public interface view {
 
     void askExchange();
     void askAddDiscardMarble();
-    void askSetDefaulMarbleLeaderEffect();
+    void askSelectTrasformationWhiteMarble();
 
-    /* *** Producion and Purchase Turn *** */
+    /* *** Purchase Card Turn *** */
     void askSelectDevCard();//ask 3 turno
     void askChooseResourcesPurchaseDevCard();
     void askInsertCard();
-    void askActiveProducition();
-    void askEndProduction();
+
+
+    /* *** Producion  Turn *** */
+    void askProductionType();
+    /*  0 -> askChooseResourcesBaseProduction
+        1 -> askActiveProductionDevCard
+        2 -> ActiveLeaderCardProduction
+        3 -> End Production
+     */
+
+    void askChooseResourcesBaseProduction();
+    void askActiveProductionDevCard();
+    void askActiveLeaderCardProduction();
+
+    void askResourcesToDelete();
+
+
+    void askEndTurnActiveLeaderCard();//chiede se finire il turno o attivare carta leader
 
 
     void askUpdateStateLeaderAction();
@@ -67,8 +83,11 @@ public interface view {
 
     void showLeaderActionBox(PlayerBoard playerBoard);
     void showSlotDevCard(PlayerBoard playerBoard);
+
     void showWarehouse(PlayerBoard playerBoard);
     void showStrongbox(PlayerBoard playerBoard);
+    void showProductionBuffer();
+
     void showFaithTrack(PlayerBoard playerBoard);
     void showExtraChest(PlayerBoard playerBoard);
 
@@ -78,7 +97,6 @@ public interface view {
 
     void showDevCard(String ID);
     void showLeaderAction(String ID);
-
     void showPlayerState(String name);
 
     //WIP

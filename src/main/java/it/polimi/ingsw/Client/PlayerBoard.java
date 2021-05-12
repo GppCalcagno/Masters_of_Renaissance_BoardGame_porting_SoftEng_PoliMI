@@ -22,6 +22,7 @@ public class PlayerBoard {
     private int faithMarker;
 
     private List<String> leaderCard;
+    private List<String> whiteMarbleEffectList;
     private String [][] slotDevCard;
 
     private String [][][] devCardDeck;
@@ -67,6 +68,10 @@ public class PlayerBoard {
 
     }
 
+    public void setWhiteMarbleEffectList(List<String> whiteMarbleEffectList) {
+        this.whiteMarbleEffectList = whiteMarbleEffectList;
+    }
+
     public void setStrongbox(Map<String, Integer> strongbox) {
         this.strongbox = strongbox;
     }
@@ -110,7 +115,7 @@ public class PlayerBoard {
         }
     }
 
-    public void updateDevCardDeck (String ID) {
+    public void removeCardfromDevCardDeck (String ID) {
         for(int i=0;i<3;i++){
             for (int j=0;j<4;j++){
                 for(int k=0;k<devCardDeck[i][j].length;k++){
@@ -121,13 +126,6 @@ public class PlayerBoard {
         }
     }
 
-    public List<String> getPlayerList() {
-        return playerList;
-    }
-
-    public String getCurrentPlayer() {
-        return currentPlayer;
-    }
 
     public void initialization(List<String> playerList, List<String> leaderCard, String [][][] devCardDeck,  String[][] marketTray, String remainingMarble){
         this.playerList=playerList;
@@ -139,22 +137,40 @@ public class PlayerBoard {
         this.remainingMarble= remainingMarble;
     }
 
-
+    public List<String> getPlayerList() {
+        return playerList;
+    }
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public String[][] getWarehouse() {
         return warehouse;
     }
 
+    public Map<String, Integer> getExtrachest() {
+        return extrachest;
+    }
+
     public Map<String, Integer> getStrongbox() {
         return strongbox;
     }
 
+    public int getFaithMarker() {
+        return faithMarker;
+    }
+
     public List<String> getLeaderCard() {
         return leaderCard;
+    }
+
+    public List<String> getWhiteMarbleEffectList() {
+        return whiteMarbleEffectList;
     }
 
     public String[][] getSlotDevCard() {
@@ -169,15 +185,11 @@ public class PlayerBoard {
         return marketTray;
     }
 
+    public List<String> getMarbleBuffer() {
+        return marbleBuffer;
+    }
+
     public String getRemainingMarble() {
         return remainingMarble;
-    }
-
-    public Map<String, Integer> getExtrachest() {
-        return extrachest;
-    }
-
-    public int getFaithMarker() {
-        return faithMarker;
     }
 }
