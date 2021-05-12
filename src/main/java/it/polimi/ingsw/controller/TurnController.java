@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.*;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
@@ -415,6 +416,14 @@ public class TurnController {
         catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
             return false;
         }
+    }
+
+    public List<String> updateExtractedMarbles () {
+        List<String> bufferStringList = new ArrayList<>();
+        for (Marbles m : game.getMarketStructure().getBuffer()) {
+            bufferStringList.add(m.toString());
+        }
+        return bufferStringList;
     }
 
     /**

@@ -247,9 +247,10 @@ public class GameController {
             nextState.add(MessageType.ADDDISCARDMARBLES);
             nextState.add(MessageType.EXCHANGEWAREHOUSE);
             nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
-            server.sendtoPlayer(messageExtractionMarbles.getNickname(), new MessageExtractedMarbles(messageExtractionMarbles.getNickname(), turnController.getGame().getMarketStructure().getBuffer()));
+            server.sendtoPlayer(messageExtractionMarbles.getNickname(), new MessageExtractedMarbles(messageExtractionMarbles.getNickname(), turnController.updateExtractedMarbles()));
             server.sendBroadcastMessage(new MessageUpdateMarketTray(messageExtractionMarbles.getNickname(), messageExtractionMarbles.getColrowextract(), messageExtractionMarbles.getNumextract()));
         }
+        else server.sendtoPlayer(messageExtractionMarbles.getNickname(), new MessageChechOk(messageExtractionMarbles.getNickname(), false));
     }
 
     public void addDiscardMarblesMethod (MessageAddDiscardMarble messageAddDiscardMarble) {

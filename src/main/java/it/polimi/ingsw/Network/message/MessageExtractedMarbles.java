@@ -7,14 +7,14 @@ import java.util.List;
 public class MessageExtractedMarbles extends Message{
     private static final long serialVersionUID = -3848730508677921232L;
 
-    private List<Marbles> marblesList;
+    private List<String> marblesList;
 
-    public MessageExtractedMarbles(String nickname, List<Marbles> marblesList) {
+    public MessageExtractedMarbles(String nickname, List<String> marblesList) {
         super(nickname, MessageType.EXTRACTEDMARBLESLIST);
         this.marblesList = marblesList;
     }
 
-    public List<Marbles> getMarblesList() {
+    public List<String> getMarblesList() {
         return marblesList;
     }
 }
