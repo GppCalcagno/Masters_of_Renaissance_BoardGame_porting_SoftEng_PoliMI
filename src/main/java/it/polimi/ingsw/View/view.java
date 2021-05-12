@@ -12,21 +12,39 @@ public interface view {
 
     /* ************************************ INITGAME PHASE ******************************** */
 
-    void askChooseLeaderCards(); //chiede quale delle 4 carte tenere
+    void askChooseLeaderCards(); //mostrra le carte e chie quale delle 4 carte tenere
 
-    void askChooseResourcesFirstTurn(int num); //chiede quale risorse prendere
+    void askChooseResourcesFirstTurn(int num); //chiede quale risorse prendere in base al numero
+    //todo controllare che il metodo sia giusto
 
     /* ************************************ INGAME PHASE ******************************** */
 
 
-    void askChooseTurn(); //chiede quale delle 4 cose fare
+    void askChooseTurn(); //chiede quale delle 5 cose fare
+        /*  0->extractMarble
+             1-> selectDevCard
+            2->chooseResForBaseprod
+            3->ActiveProdDevCard
+            4->activeprodLeaderCard
+            5->Update stateLeadercard
+        */
+
     void askActiveLeaderAction(); //ask 1 turno
 
     /* *** Market Turn *** */
-    void askTakeMarble(); //ask 2 turno
-    void askAfterTakeMarble();// chiede se vuole fare exchange o fare gestire biglie
+    void askExtractMarble(); //ask 2 turno
+
+
+    void askAfterTakeMarble();// chiede se vuole fare exchange o fare gestire biglie o impostare biglia
+        /*  seleziona una tra le seguenti mosse:
+           0->askExchange;
+           1->askAddDiscardMarble;
+           2-> askSetDefaulMarbleLeaderEffect;
+        */
+
     void askExchange();
     void askAddDiscardMarble();
+    void askSetDefaulMarbleLeaderEffect();
 
     /* *** Producion and Purchase Turn *** */
     void askSelectDevCard();//ask 3 turno
@@ -34,6 +52,7 @@ public interface view {
     void askChooseResources();
     void askInsertCard();
     void askEndProduction();
+
 
 
 

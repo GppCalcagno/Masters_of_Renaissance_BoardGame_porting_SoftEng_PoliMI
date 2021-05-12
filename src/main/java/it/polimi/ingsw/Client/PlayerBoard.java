@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.model.marbles.Marbles;
+import it.polimi.ingsw.model.card.DevelopmentCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +26,7 @@ public class PlayerBoard {
 
     private String [][][] devCardDeck;
     private String [][] marketTray;
+    private List<String> marbleBuffer;
     private String remainingMarble;
 
 
@@ -87,6 +88,9 @@ public class PlayerBoard {
         this.remainingMarble = remainingMarble;
     }
 
+    public void setMarbleBuffer(List<String> marbleBuffer) {
+        this.marbleBuffer = marbleBuffer;
+    }
 
     public void updateMarketTray(char direction, int n){
         String temp = remainingMarble;
@@ -106,16 +110,17 @@ public class PlayerBoard {
         }
     }
 
-    //todo cambiare con id
-    public void updateDevCardDeck(int row, int col){
-        int i=0;
-
-        while (i <= devCardDeck.length-1 && devCardDeck[row][col][i + 1] != null) i++;
-        for (int j = 0; j < i; j++) {
-            devCardDeck[row][col][j] = devCardDeck[row][col][j + 1];
+    public void updateDevCardDeck (String ID) {
+        for(int i=0;i<3;i++){
+            for (int j=0;j<4;j++){
+                for(int k=0;k<devCardDeck[i][j].length;k++){
+                    if(devCardDeck[i][j][k].equals(ID))
+                        devCardDeck[i][j][k]=null;
+                }
+            }
         }
-        devCardDeck[row][col][i]=null;
     }
+
 
     public void initialization(List<String> playerList, List<String> leaderCard, String [][][] devCardDeck,  String[][] marketTray, String remainingMarble){
         this.playerList=playerList;
