@@ -356,5 +356,7 @@ public class Player {
         return true;
     }
 
-
+    public boolean[] getPopsfavortiles() {
+        return popsfavortiles;
+    }
 }

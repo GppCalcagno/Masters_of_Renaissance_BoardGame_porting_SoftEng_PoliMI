@@ -232,7 +232,7 @@ public class GameController {
         turnController.ChooseResourcesFirstTurn(messageChooseResourcesFirstTurn.getResourcesList());
         nextState.clear();
         nextState.add(MessageType.ENDTURN);
-        server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageChooseResourcesFirstTurn.getNickname(), giveFaithPoints(messageChooseResourcesFirstTurn.getNickname())));
+        server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageChooseResourcesFirstTurn.getNickname(), giveFaithPoints(messageChooseResourcesFirstTurn.getNickname()), turnController.updatePlayersPopFavoriteTiles()));
     }
 
     public int giveFaithPoints(String name) {
@@ -269,7 +269,7 @@ public class GameController {
                 }
 
                 server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
-                server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker()));
+                server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
             }
             else server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), false));
         }
@@ -371,7 +371,7 @@ public class GameController {
             nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
             nextState.add(MessageType.ENDPRODUCTION);
             server.sendtoPlayer(message.getNickname(), new MessageUpdateResources(message.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest(), turnController.updateStrogbox()));
-            server.sendBroadcastMessage(new MessageUpdateFaithMarker(message.getNickname(), turnController.updateFaithMarker()));
+            server.sendBroadcastMessage(new MessageUpdateFaithMarker(message.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
         }
         else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
     }
@@ -407,7 +407,7 @@ public class GameController {
                 nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-                server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
+                server.sendBroadcastMessage(new MessageUpdateFaithMarker(message.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
             }
             else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
         }
@@ -427,7 +427,8 @@ public class GameController {
                 try {
                     turnController.endTurn();
                     server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
-                    server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
+                    if (turnController.getNumPlayersCount() == 1)
+                        server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
@@ -461,7 +462,8 @@ public class GameController {
                 try {
                     turnController.endTurn();
                     server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
-                    server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
+                    if (turnController.getNumPlayersCount() == 1)
+                        server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));

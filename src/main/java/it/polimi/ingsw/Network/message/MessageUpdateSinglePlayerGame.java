@@ -7,6 +7,9 @@ public class MessageUpdateSinglePlayerGame extends Message{
 
     private int blackCrossToken;
 
+    /**
+     * This attribute indicates the extracted token's ID
+     */
     private String ID;
 
     public MessageUpdateSinglePlayerGame(String nickname, String[][][] devCardDeck, int blackCrossToken, String id) {

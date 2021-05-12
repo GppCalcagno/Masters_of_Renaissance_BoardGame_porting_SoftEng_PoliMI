@@ -355,6 +355,16 @@ public class TurnController {
         return game.getCurrentPlayer().getFaithMarker();
     }
 
+    public Map<String, boolean[]> updatePlayersPopFavoriteTiles() {
+        Map<String, boolean[]> playersPopFavoriteTiles = new HashMap<>();
+
+        for (Player p : game.getPlayersList()) {
+            playersPopFavoriteTiles.put(p.getNickname(), p.getPopsfavortiles());
+        }
+
+        return playersPopFavoriteTiles;
+    }
+
     /**
      * remove Resources from Player
      * @param WarehouseRes  warehouse selected resources
