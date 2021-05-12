@@ -66,11 +66,12 @@ public interface view {
      */
 
     void askChooseResourcesBaseProduction();
+    void askChosenResourceBaseProduction();
+
     void askActiveProductionDevCard();
+    void askChooseResourcesDevCardProduction();
+
     void askActiveLeaderCardProduction();
-
-    void askResourcesToDelete();
-
 
     void askEndTurnActiveLeaderCard();//chiede se finire il turno o attivare carta leader
 

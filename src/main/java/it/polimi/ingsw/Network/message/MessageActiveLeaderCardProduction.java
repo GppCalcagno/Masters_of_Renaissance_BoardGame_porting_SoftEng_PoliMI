@@ -1,12 +1,16 @@
 package it.polimi.ingsw.Network.message;
 
-import it.polimi.ingsw.model.producible.Resources;
-
 public class MessageActiveLeaderCardProduction extends Message{
     private static final long serialVersionUID = 8021603830645282467L;
 
     private int indexExtraProduction;
 
+    /**
+     * This attribute indicates from where the player want to take the resource:
+     * 0 Warehouse
+     * 1 Strongbox
+     * 2 ExtraChest
+     */
     private int WareStrongChest;
 
     private String resource;
