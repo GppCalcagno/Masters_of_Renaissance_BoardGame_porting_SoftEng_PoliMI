@@ -431,9 +431,7 @@ public class GameController {
                         server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
-                    server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
-                    //notifica il vincitore
-                    server.sendBroadcastMessage(new MessageUpdateWinner("server", turnController.getGame().getWinner()));
+                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));
                 }
             }
             else {
@@ -445,9 +443,7 @@ public class GameController {
                     server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
-                    server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
-                    //notifica il vincitore
-                    server.sendBroadcastMessage(new MessageUpdateWinner("server", turnController.getGame().getWinner()));
+                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));
                 }
             }
         }
@@ -466,10 +462,8 @@ public class GameController {
                         server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
-                    server.sendBroadcastMessage(new MessageUpdateFinalPoints("server", turnController.updateFinalPoints()));
                     //notifica il vincitore. se getwinner() = -1 -> vincitore = Lorenzo
-                    server.sendBroadcastMessage(new MessageUpdateWinner("server", turnController.getGame().getWinner()));
-                }
+                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));                }
             }
         }
 
