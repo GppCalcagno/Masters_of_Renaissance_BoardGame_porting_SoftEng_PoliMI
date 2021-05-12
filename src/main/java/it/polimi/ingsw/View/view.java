@@ -81,18 +81,18 @@ public interface view {
 
     void showMessage(String message);
 
-    void showLeaderActionBox(PlayerBoard playerBoard);
-    void showSlotDevCard(PlayerBoard playerBoard);
+    void showLeaderActionBox();
+    void showSlotDevCard();
 
-    void showWarehouse(PlayerBoard playerBoard);
-    void showStrongbox(PlayerBoard playerBoard);
+    void showWarehouse();
+    void showStrongbox();
     void showProductionBuffer();
 
-    void showFaithTrack(PlayerBoard playerBoard);
-    void showExtraChest(PlayerBoard playerBoard);
+    void showFaithTrack();
+    void showExtraChest();
 
-    void showMarketTray(PlayerBoard playerBoard);
-    void showDevCardDeck(PlayerBoard playerBoard);
+    void showMarketTray();
+    void showDevCardDeck();
 
 
     void showDevCard(String ID);

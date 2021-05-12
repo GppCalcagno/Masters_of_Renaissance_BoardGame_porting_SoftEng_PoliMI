@@ -10,7 +10,7 @@ public class MessageUpdateSinglePlayerGame extends Message{
     private String ID;
 
     public MessageUpdateSinglePlayerGame(String nickname, String[][][] devCardDeck, int blackCrossToken, String id) {
-        super(nickname, MessageType.UPDATEDEVCARDDECK);
+        super(nickname, MessageType.UPDATESINGLEPLAYER);
         this.devCardDeck = devCardDeck;
         this.blackCrossToken = blackCrossToken;
         ID = id;

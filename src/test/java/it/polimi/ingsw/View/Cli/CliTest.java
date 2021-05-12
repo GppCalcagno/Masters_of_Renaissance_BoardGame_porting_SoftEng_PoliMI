@@ -19,9 +19,9 @@ class CliTest {
     @Test
     void showLeaderActionBox() {
        PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
 
-        cli.showLeaderActionBox(playerBoard);
+        cli.showLeaderActionBox();
 
         ArrayList<String> card = new ArrayList<>();
 
@@ -30,16 +30,16 @@ class CliTest {
 
         playerBoard.setLeaderCard(card);
 
-        cli.showLeaderActionBox(playerBoard);
+        cli.showLeaderActionBox();
     }
 
     @Test
     void showSlotDevCard() {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
 
         //mostra vuota
-        cli.showSlotDevCard(playerBoard);
+        cli.showSlotDevCard();
 
         //riempi
         String[][] slot = new String[3][3];
@@ -49,15 +49,15 @@ class CliTest {
 
         playerBoard.setSlotDevCard(slot);
         //mostra piena
-        cli.showSlotDevCard(playerBoard);
+        cli.showSlotDevCard();
     }
 
     @Test
     void showWarehouse() {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
         //mostra vuota
-        cli.showWarehouse(playerBoard);
+        cli.showWarehouse();
 
         String[][] warehouse = new String[3][3];
         //riempi
@@ -67,16 +67,16 @@ class CliTest {
 
         playerBoard.setWarehouse(warehouse, null);
         //mostra piena
-        cli.showWarehouse(playerBoard);
+        cli.showWarehouse();
 
     }
 
     @Test
     void showStrongbox() {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
 
-        cli.showStrongbox(playerBoard);
+        cli.showStrongbox();
 
         Map<String, Integer> strongbox = new HashMap<>();
 
@@ -85,28 +85,28 @@ class CliTest {
 
         playerBoard.setStrongbox(strongbox);
 
-        cli.showStrongbox(playerBoard);
+        cli.showStrongbox();
     }
 
     @Test
     void showFaithTrack() {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
 
-        cli.showFaithTrack(playerBoard);
+        cli.showFaithTrack();
 
         playerBoard.setFaithMarker(20);
 
-        cli.showFaithTrack(playerBoard);
+        cli.showFaithTrack();
 
     }
 
     @Test
     void showMarketTray() {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
 
-        cli.showMarketTray(playerBoard);
+        cli.showMarketTray();
 
         String[][] markettray = new String[3][4];
         markettray[0][0] = "Servants";
@@ -116,15 +116,15 @@ class CliTest {
 
         playerBoard.setMarketTray(markettray, remaining);
 
-        cli.showMarketTray(playerBoard);
+        cli.showMarketTray();
     }
 
     @Test
     void showDevCardDeck() {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
 
-        cli.showDevCardDeck(playerBoard);
+        cli.showDevCardDeck();
 
         String[][][] deck = new String[3][4][4];
         deck[0][0][0] = "QWERTY";
@@ -132,15 +132,15 @@ class CliTest {
 
         playerBoard.setDevCardDeck(deck);
 
-        cli.showDevCardDeck(playerBoard);
+        cli.showDevCardDeck();
     }
 
     @Test
     void showExtraChest() {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli();
+        Cli cli = new Cli(playerBoard);
 
-        cli.showExtraChest(playerBoard);
+        cli.showExtraChest();
 
         Map<String, Integer> chest = new HashMap<>();
 
@@ -148,7 +148,7 @@ class CliTest {
 
         playerBoard.setWarehouse(null, chest);
 
-        cli.showExtraChest(playerBoard);
+        cli.showExtraChest();
 
     }
 }
