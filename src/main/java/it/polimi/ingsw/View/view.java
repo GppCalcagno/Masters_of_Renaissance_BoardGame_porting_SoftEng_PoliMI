@@ -24,7 +24,7 @@ public interface view {
 
     void askChooseTurn(); //chiede quale delle 5 cose fare
         /*  0->extractMarble
-             1-> selectDevCard
+            1-> selectDevCard
             2->chooseResForBaseprod
             3->ActiveProdDevCard
             4->activeprodLeaderCard
@@ -40,9 +40,6 @@ public interface view {
     /* *** Market Turn *** */
     void askExtractMarble(); //ask 2 turno
 
-
-    void askTakeMarble();
-
     void askAfterTakeMarble();// chiede se vuole fare exchange o fare gestire biglie o impostare biglia
         /*  seleziona una tra le seguenti mosse:
            0->askExchange;
@@ -56,13 +53,13 @@ public interface view {
 
     /* *** Producion and Purchase Turn *** */
     void askSelectDevCard();//ask 3 turno
-    void askActiveProducition();
-    void askChooseResources();
+    void askChooseResourcesPurchaseDevCard();
     void askInsertCard();
+    void askActiveProducition();
     void askEndProduction();
 
 
-
+    void askUpdateStateLeaderAction();
 
     /* ************************************ SHOW PHASE ******************************** */
 

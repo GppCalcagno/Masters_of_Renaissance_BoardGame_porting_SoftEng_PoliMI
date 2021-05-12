@@ -6,7 +6,6 @@ import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.View.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -229,7 +228,7 @@ public class ClientController implements Observer {
                 break;
 
             case CHOOSERESOURCESPURCHASEDEVCARD:
-               view.askChooseResources();
+               view.askChooseResourcesPurchaseDevCard();
 
         }
 
