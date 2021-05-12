@@ -88,11 +88,13 @@ public interface view {
     void showWarehouse();
     void showStrongbox();
     void showProductionBuffer();
+    void showWhiteMarbleEffectList();
 
     void showFaithTrack();
     void showExtraChest();
 
     void showMarketTray();
+    void showMarbleBuffer();
     void showDevCardDeck();
 
 
