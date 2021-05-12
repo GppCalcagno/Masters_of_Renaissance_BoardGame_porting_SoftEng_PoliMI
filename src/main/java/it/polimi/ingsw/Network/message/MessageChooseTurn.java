@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Network.message;
 
 public class MessageChooseTurn extends Message{
+    private static final long serialVersionUID = 15105009568303139L;
+
     int turnID;
     /*  0->extractMarble
         1-> selectDevCard

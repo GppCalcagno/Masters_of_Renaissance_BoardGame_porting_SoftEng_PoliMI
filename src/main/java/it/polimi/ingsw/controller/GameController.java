@@ -102,7 +102,7 @@ public class GameController {
                 break;
             case SELECTTRANSFORMATIONWHITEMARBLE:
                 if (verifyCurrentPlayer(message.getNickname())) {
-                    selectTransfomationWhiteMarbleMethod((MessageSelectTransformationWhiteMarble) message);
+                    selectTransformationWhiteMarbleMethod((MessageSelectTransformationWhiteMarble) message);
                 }
                 break;
             case SELECTDEVCARD:
@@ -285,7 +285,7 @@ public class GameController {
         else server.sendtoPlayer(messageExchangeWarehouse.getNickname(), new MessageChechOk(messageExchangeWarehouse.getNickname(), false));
     }
 
-    public void selectTransfomationWhiteMarbleMethod (MessageSelectTransformationWhiteMarble message) {
+    public void selectTransformationWhiteMarbleMethod(MessageSelectTransformationWhiteMarble message) {
         if (turnController.selectTransformationWhiteMarble(message.getI())) {
             nextState.clear();
             nextState.add(MessageType.ADDDISCARDMARBLES);

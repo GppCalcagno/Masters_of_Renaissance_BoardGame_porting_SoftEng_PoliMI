@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Network.message;
 
-import it.polimi.ingsw.model.marbles.Marbles;
-
 import java.util.List;
 
 public class MessageExtractedMarbles extends Message{
