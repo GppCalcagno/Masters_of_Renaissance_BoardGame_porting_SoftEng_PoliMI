@@ -50,7 +50,8 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
 
     @Override
     public void showReq() {
-
+        System.out.println(reqColor);
+        System.out.println(reqLevel);
     }
 
     public ColorCard getReqColor() {

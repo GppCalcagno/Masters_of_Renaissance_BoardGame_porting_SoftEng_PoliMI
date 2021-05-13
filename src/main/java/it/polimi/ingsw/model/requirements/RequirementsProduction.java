@@ -43,7 +43,7 @@ public class RequirementsProduction implements Requirements {
 
     @Override
     public void showReq() {
-
+        System.out.println(reqMap);
     }
 
     /**

@@ -37,9 +37,18 @@ public class RequestedResources extends RequirementsLeader {
         return currentRes>=reqnumResources;
     }
 
+    public Resources getReqResources() {
+        return reqResources;
+    }
+
+    public int getReqnumResources() {
+        return reqnumResources;
+    }
+
     @Override
     public void showReq() {
-
+        System.out.println(getReqnumResources());
+        System.out.println(getReqResources());
     }
 
 

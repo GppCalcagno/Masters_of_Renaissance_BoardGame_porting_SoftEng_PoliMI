@@ -51,4 +51,13 @@ class ChestLeaderTest {
 
         assertFalse(leaderCardDeck.getLeaderCardList(4).doSpecialAbility(playerTest));
     }
+
+    @Test
+    void showCli() throws IOException, NegativeQuantityExceptions {
+        LeaderCardDeck leaderCardDeck =  new LeaderCardDeckStub();
+
+        leaderCardDeck.getLeaderCardList(5).showCli();
+
+    }
+
 }

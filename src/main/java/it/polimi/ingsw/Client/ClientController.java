@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 
 public class ClientController implements Observer {
@@ -58,7 +59,7 @@ public class ClientController implements Observer {
         action();
     }
 
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message){
         //divido i messaggi che devono essere spediti al server da quelli che vanno gestiti nel client
         switch (message.getMessageType()){
             case CONNECT: connect(message); break;

@@ -31,6 +31,16 @@ public class ChestLeader extends LeaderAction {
 
     @Override
     public void showCli() {
+        System.out.println("EXTRACHEST!");
+        //requisiti
+        System.out.println("Cost : ");
+        this.getCost().showReq();
+        //punti vittoria
+        System.out.println("Victory points : ");
+        System.out.println(getVictoryPoints());
+        // risorse
+        System.out.println("Resources : ");
+        System.out.println(getResources());
 
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.card.leadereffect;
 
 import Stub.LeaderCardDeckStub;
 import it.polimi.ingsw.model.exceptions.GameFinishedException;
+import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
 import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.game.LeaderCardDeck;
 import it.polimi.ingsw.model.player.Player;
@@ -57,5 +58,12 @@ class ProductionLeaderTest {
         LeaderCardDeck leaderCardDeck = new LeaderCardDeckStub();
 
         assertFalse(leaderCardDeck.getLeaderCardList(0).doSpecialAbility(playerTest));
+    }
+    @Test
+    void showCli() throws IOException, NegativeQuantityExceptions {
+        LeaderCardDeck leaderCardDeck =  new LeaderCardDeckStub();
+
+        leaderCardDeck.getLeaderCardList(8).showCli();
+
     }
 }

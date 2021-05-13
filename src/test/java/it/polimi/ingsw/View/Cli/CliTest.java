@@ -4,20 +4,18 @@ import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.View.Cli.Structure.ViewLeaderActionBox;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CliTest {
 
     @Test
-    void showMessage() {
-    }
-
-    @Test
-    void showLeaderActionBox() {
+    void showLeaderActionBox() throws IOException {
        PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
 
@@ -34,7 +32,7 @@ class CliTest {
     }
 
     @Test
-    void showSlotDevCard() {
+    void showSlotDevCard() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
 
@@ -53,7 +51,7 @@ class CliTest {
     }
 
     @Test
-    void showWarehouse() {
+    void showWarehouse() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
         //mostra vuota
@@ -72,7 +70,7 @@ class CliTest {
     }
 
     @Test
-    void showStrongbox() {
+    void showStrongbox() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
 
@@ -89,7 +87,7 @@ class CliTest {
     }
 
     @Test
-    void showFaithTrack() {
+    void showFaithTrack() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
 
@@ -102,7 +100,7 @@ class CliTest {
     }
 
     @Test
-    void showMarketTray() {
+    void showMarketTray() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
 
@@ -120,7 +118,7 @@ class CliTest {
     }
 
     @Test
-    void showDevCardDeck() {
+    void showDevCardDeck() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
 
@@ -136,7 +134,7 @@ class CliTest {
     }
 
     @Test
-    void showExtraChest() {
+    void showExtraChest() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard);
 
@@ -149,6 +147,17 @@ class CliTest {
         playerBoard.setWarehouse(null, chest);
 
         cli.showExtraChest();
+
+    }
+
+    @Test
+    void askNickname() throws IOException {
+        PlayerBoard playerBoard = new PlayerBoard();
+        Cli cli = new Cli(playerBoard);
+
+        cli.askNickname();
+
+        System.out.println(playerBoard.getNickname());
 
     }
 }

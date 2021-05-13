@@ -78,4 +78,24 @@ public class DevelopmentCard extends Card {
      * @return a map of number and type of Resource to active  the Development Card production
      */
     public RequirementsProduction getCostProduction(){return costProduction;}
+
+    public void showCli(){
+        System.out.println("DEVELOPMENT CARD");
+        System.out.println("ID : " + getID());
+        //costo
+        System.out.println("Cost : ");
+        this.getCost().showReq();
+        //colore
+        System.out.println("Color : " + colorCard);
+        //livello
+        System.out.println("Level : " + level);
+        //produzione
+        //richieste
+        System.out.println("Resources for the production : ");
+        this.getCostProduction().showReq();
+        //prodotte
+        System.out.println("Resources producted : " + productedResources);
+        //punti vittoria
+        System.out.println("Victory points : " + getVictoryPoints());
+    }
 }

@@ -13,6 +13,9 @@ class ClientControllerTest {
     PlayerBoard playerBoard = new PlayerBoard();
     view cli = new Cli(playerBoard);
 
+    ClientControllerTest() throws IOException {
+    }
+
     @Test
     void searchDevCard() throws IOException {
         ClientController controller = new ClientController(cli);

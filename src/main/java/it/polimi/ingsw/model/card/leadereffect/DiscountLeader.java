@@ -31,6 +31,16 @@ public class DiscountLeader extends LeaderAction {
 
     @Override
     public void showCli() {
+        System.out.println("DISCOUNT LEADER");
+        //costo
+        System.out.println("Cost : ");
+        this.getCost().showReq();
+        //victory points
+        System.out.println("Victory points : ");
+        System.out.println(getVictoryPoints());
+        //risorsa che disconta
+        System.out.println("Discount what : ");
+        System.out.println(getResources());
 
     }
 }

@@ -3,16 +3,21 @@ package Stub;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DevCardsStub {
     private List<DevelopmentCard> cardList;
 
     public DevCardsStub() throws IOException {
+
+        cardList = new ArrayList<>();
+
         Gson gson = new GsonBuilder().create();
 
         String devCards1gin = Files.readString(Paths.get("src/test/java/Stub/ExampleCardsJSON/DevCards1g.json"));

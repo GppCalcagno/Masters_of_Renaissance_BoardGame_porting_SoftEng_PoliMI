@@ -55,6 +55,7 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
 
     @Override
     public void showReq() {
+        System.out.println(reqDevelopmentCards);
 
     }
 

@@ -46,7 +46,7 @@ public abstract class LeaderAction extends Card {
      * @return a Resources object
      */
     public Resources getResources(){
-        return this.resources;
+        return resources;
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class LeaderAction extends Card {
      * @return a RequiremententsLeader object
      */
     public Requirements getCost (){
-        return this.cost;
+        return cost;
     }
 
     /**
