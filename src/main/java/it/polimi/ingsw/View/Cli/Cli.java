@@ -1,43 +1,19 @@
 package it.polimi.ingsw.View.Cli;
 
-import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.message.MessageChooseResourcesFirstTurn;
-import it.polimi.ingsw.Network.message.MessageChooseTurn;
-import it.polimi.ingsw.Network.message.MessageLogin;
-import it.polimi.ingsw.Network.message.MessageNumPlayers;
 import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.view;
 
-import java.io.IOException;
 import java.io.PrintStream;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-
 public class Cli implements view {
-
-    private ClientController clientController;
-
-    private final Scanner input;
-    //private Thread input;
-
-    private PlayerBoard playerBoard;
-
+    PlayerBoard playerBoard;
     private final PrintStream out;
 
-    private  String nickname;
 
-    public Cli(PlayerBoard playerBoard) throws IOException {
-        clientController = new ClientController(this);
+    public Cli(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
         out = System.out;
-        input = new Scanner(System.in);
     }
 
     @Override
@@ -52,74 +28,43 @@ public class Cli implements view {
 
     @Override
     public void askNickname() {
-
-        do {
-            out.println("Enter your nickname: ");
-            nickname =input.nextLine();
-        }while(nickname == null);
-
-        clientController.sendMessage(new MessageLogin(nickname));
+        out.println("Enter your nickname: ");
     }
 
     @Override
     public void askNumPlayer() {
-
-        int num;
-        do {
-            out.println("Enter the number of players: ");
-            num = input.nextInt();
-        }while (num<1 || num>4);
-        clientController.sendMessage(new MessageNumPlayers(nickname, num));
+        out.println("Enter the number of players: ");
     }
 
     @Override
     public void askChooseLeaderCards() {
-        int num =-1;
         showLeaderActionBox();
-        do {
-            out.println("Enter the first Leader card: [0-3] ");
-            num = input.nextInt();
-        }while(num<0 || num>3);
-
+        out.println("Enter the first Leader card: ");
 
         out.println("Enter the second Leader card: ");
     }
 
     @Override
     public void askChooseResourcesFirstTurn(int num) {
-
-        List<String> firstResources = null;
-
         if (num == 2 || num == 3) {
-            do {
-                out.println("Enter a resource: ");
-                firstResources.add(input.nextLine());
-            }while(firstResources==null);
+            out.println("Enter a resource: ");
         }
         else {
             if (num == 4) {
-                do {
-                    out.println("Enter the first resource: ");
-                    firstResources.add(input.nextLine());
-                    out.println("Enter the second resource: ");
-                    firstResources.add(input.nextLine());
-                }while(firstResources.get(0)== null || firstResources.get(1)==null);
+                out.println("Enter the first resource: ");
+
+                out.println("Enter the second resource: ");
             }
         }
-        clientController.sendMessage(new MessageChooseResourcesFirstTurn(nickname, firstResources));
     }
 
     @Override
     public void askChooseTurn() {
-        int id = -1;
-
-        do {
-            out.println("Actions: \n0: Extract marbles from Market tray\n1: Buy a Development card\n2: Choose resources to activate a base production\n3: Activate production of a Development card\n4: Active production of the Leader card\n5: Activate or discard a Leader card");
-            out.println("Enter the relative number: ");
-            id = input.nextInt();
-        }while(id<0 || id>5);
-        clientController.sendMessage(new MessageChooseTurn(nickname, id));
+        out.println("Actions: \n0: Extract marbles from Market tray\n1: Buy a Development card\n2: Choose resources to activate a base production\n3: Activate production of a Development card\n4: Active production of the Leader card\n5: Activate or discard a Leader card");
+        out.println("Enter the relative number: ");
     }
+
+
 
     @Override
     public void askActiveLeaderAction() {
@@ -128,7 +73,6 @@ public class Cli implements view {
 
     @Override
     public void askExtractMarble() {
-        //String
         showMarketTray();
         out.println("Do you want to extract a column or a row? [c/r]: ");
 
