@@ -2,14 +2,14 @@ package it.polimi.ingsw.Network.message;
 
 import java.util.Map;
 
-public class MessageChooseResourcesBaseProduction extends Message{
+public class MessageActiveBaseProduction extends Message{
     private static final long serialVersionUID = 7072915502239427238L;
 
     private Map<String,Integer> WarehouseRes;
     private Map<String,Integer> StrongboxRes;
     private Map<String,Integer> ExtrachestMap;
 
-    public MessageChooseResourcesBaseProduction(String nickname, Map<String, Integer> warehouseRes, Map<String, Integer> strongboxRes, Map<String, Integer> extrachestMap) {
+    public MessageActiveBaseProduction(String nickname, Map<String, Integer> warehouseRes, Map<String, Integer> strongboxRes, Map<String, Integer> extrachestMap) {
         super(nickname, MessageType.CHOOSERESOURCESBASEPRODUCTION);
         WarehouseRes = warehouseRes;
         StrongboxRes = strongboxRes;

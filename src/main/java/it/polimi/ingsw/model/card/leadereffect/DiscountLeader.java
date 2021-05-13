@@ -28,4 +28,9 @@ public class DiscountLeader extends LeaderAction {
             }
         }
     }
+
+    @Override
+    public void showCli() {
+
+    }
 }

@@ -28,4 +28,9 @@ public class ProductionLeader extends LeaderAction {
             }
         }
     }
+
+    @Override
+    public void showCli() {
+
+    }
 }

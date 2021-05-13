@@ -122,7 +122,7 @@ public class GameController {
                 break;
             case CHOOSERESOURCESBASEPRODUCTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
-                    chooseResourcesBaseProductionMethod((MessageChooseResourcesBaseProduction) message);
+                    ActiveBaseProductionMethod((MessageActiveBaseProduction) message);
                 }
                 break;
             case CHOSENRESOURCEBASEPRODUCTION:
@@ -324,7 +324,7 @@ public class GameController {
         else server.sendtoPlayer(messageInsertCard.getNickname(), new MessageChechOk(messageInsertCard.getNickname(), false));
     }
 
-    public void chooseResourcesBaseProductionMethod (MessageChooseResourcesBaseProduction message) {
+    public void ActiveBaseProductionMethod(MessageActiveBaseProduction message) {
         if (turnController.chooseResourcesBaseProduction(message.getWarehouseRes(), message.getStrongboxRes(), message.getExtrachestMap())) {
             nextState.clear();
             nextState.add(MessageType.CHOSENRESOURCEBASEPRODUCTION);

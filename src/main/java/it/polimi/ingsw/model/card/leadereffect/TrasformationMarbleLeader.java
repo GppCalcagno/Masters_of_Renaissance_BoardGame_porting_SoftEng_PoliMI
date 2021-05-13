@@ -28,4 +28,9 @@ public class TrasformationMarbleLeader extends LeaderAction {
             }
         }
     }
+
+    @Override
+    public void showCli() {
+
+    }
 }

@@ -84,16 +84,25 @@ public class Cli implements view {
         showMarketTray();
         out.println("Do you want to extract a column or a row? [c/r]: ");
 
+        /*
         //se scrive 'r'
-        out.println("Which number of row do you want to extract? [0-2]: ");
+        if (input.equals('r')) {
+            out.println("Which number of row do you want to extract? [0-2]: ");
+        }
 
         //se scrive 'c'
-        out.println("Which number of column do you want to extract? [0-3]: ");
+        if (input.equals('r')) {
+            out.println("Which number of column do you want to extract? [0-3]: ");
+        }
+
+         */
     }
 
     @Override
     public void askAfterTakeMarble() {
-        //show buffer di marbles
+        showMarbleBuffer();
+        showWarehouse();
+
         out.println("Actions:\n0: Exchange two rows of the Warehouse depots\n1: Add or discard an extracted marble (if you discard a marble, you'll give a faith point to each other player)\n2: Choose with which resource you'll convert an extracted white marble (if yuo have the special effect of the relative Leader card)");
         out.println("Enter the relative action's number: ");
     }
@@ -108,35 +117,56 @@ public class Cli implements view {
 
     @Override
     public void askAddDiscardMarble() {
+        showMarbleBuffer();
         showWarehouse();
+
         out.println("0: Discard this marble\n1: Add this marble to the Warehouse depots");
         out.println("Enter your choice: ");
     }
 
     @Override
     public void askSelectTrasformationWhiteMarble() {
-        //show della lista di risorse delle white marble
+        showWhiteMarbleEffectList();
         out.println("Enter the resource with which do you want to convert the White marble [0-1]: ");
     }
 
     @Override
     public void askSelectDevCard() {
+        boolean wantToWatch = true;
+
         showDevCardDeck();
+
+        /*
+        while (wantToWatch) {
+            out.println("Do you want to see a Development card? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                out.println("Enter the Development card's ID: ");
+                showDevCard(input);
+            }
+        }
+
+         */
+
         out.println("Enter the Development card's ID to buy: ");
     }
-
 
     @Override
     public void askChooseResourcesPurchaseDevCard() {
         showWarehouse();
-        out.println("Enter the type of resources from the Warehouse depots: ");
+        out.println("Enter the type of resources from the Warehouse depots [Coins, Servants, Shields, Stones]: ");
+
+        out.println("Enter the number of resources: ");
 
         showStrongbox();
-        out.println("Enter the type of resources from the Strongbox: ");
+        out.println("Enter the type of resources from the Strongbox [Coins, Servants, Shields, Stones]: ");
+
+        out.println("Enter the number of resources: ");
 
         if (!playerBoard.getExtrachest().isEmpty()) {
             showExtraChest();
-            out.println("Enter the type of resources from the Extra Chest: ");
+            out.println("Enter the type of resources from the Extra Chest [Coins, Servants, Shields, Stones]: ");
 
             out.println("Enter the number of resources: ");
         }
@@ -144,43 +174,226 @@ public class Cli implements view {
 
     @Override
     public void askInsertCard() {
+        boolean wantToWatch = true;
+
         showSlotDevCard();
+
+        /*
+        while (wantToWatch) {
+            out.println("Do you want to see a Development card? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                out.println("Enter the Development card's ID: ");
+                showDevCard(input);
+            }
+        }
+
+         */
+
         out.println("Enter the slot in which do you want to insert the card [0-2]: ");
     }
 
     @Override
     public void askProductionType() {
-        out.println("Productions:\n0: Activate base production\n1: Activate the production power of a Development card\n2: Activate the production power of the relative Leader card\3: End production");
+        boolean wantToWatch = true;
+
+        /*
+        while (wantToWatch) {
+            out.println("Do you want to see the Warehouse depots? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                showWarehouse();
+                wantToWatch = false;
+            }
+        }
+
+        wantToWatch = true;
+
+        while (wantToWatch) {
+            out.println("Do you want to see the Strongbox? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                showStrongbox();
+                wantToWatch = false;
+            }
+        }
+
+        if (!playerBoard.getExtrachest().isEmpty()) {
+            wantToWatch = true;
+
+            while (wantToWatch) {
+                out.println("Do you want to see the Extra chest? [0-1]: ");
+                if (!input)
+                    wantToWatch = false;
+                else {
+                    showExtraChest();
+                    wantToWatch = false;
+                }
+            }
+        }
+
+        showSlotDevCard();
+
+        wantToWatch = true;
+
+        while (wantToWatch) {
+            out.println("Do you want to see a Development card? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                out.println("Enter the Development card's ID: ");
+                showDevCard(input);
+            }
+        }
+
+         */
+
+        out.println("Productions:\n0: Activate base production\n1: Activate the production power of a Development card\n2: Activate the production power of the relative Leader card\n3: End production");
     }
 
     @Override
     public void askChooseResourcesBaseProduction() {
+        showWarehouse();
+        out.println("Enter the type of resources from the Warehouse depots [Coins, Servants, Shields, Stones]: ");
 
+        out.println("Enter the number of resources: ");
+
+        showStrongbox();
+        out.println("Enter the type of resources from the Strongbox [Coins, Servants, Shields, Stones]: ");
+
+        out.println("Enter the number of resources: ");
+
+        if (!playerBoard.getExtrachest().isEmpty()) {
+            showExtraChest();
+            out.println("Enter the type of resources from the Extra Chest [Coins, Servants, Shields, Stones]: ");
+
+            out.println("Enter the number of resources: ");
+        }
+    }
+
+    @Override
+    public void askChosenResourceBaseProduction() {
+        out.println("Enter the type of the chosen resource [Coins, Servants, Shields, Stones]: ");
     }
 
     @Override
     public void askActiveProductionDevCard() {
+        boolean wantToWatch = true;
 
+        showSlotDevCard();
+
+        /*
+        while (wantToWatch) {
+            out.println("Do you want to see a Development card? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                out.println("Enter the Development card's ID: ");
+                showDevCard(input);
+            }
+        }
+
+         */
+
+        out.println("Enter the number of the Slot Development cards' column [0-2]: ");
+    }
+
+    @Override
+    public void askChooseResourcesDevCardProduction() {
+        showWarehouse();
+        out.println("Enter the type of resources from the Warehouse depots [Coins, Servants, Shields, Stones]: ");
+
+        out.println("Enter the number of resources: ");
+
+        showStrongbox();
+        out.println("Enter the type of resources from the Strongbox [Coins, Servants, Shields, Stones]: ");
+
+        out.println("Enter the number of resources: ");
+
+        if (!playerBoard.getExtrachest().isEmpty()) {
+            showExtraChest();
+            out.println("Enter the type of resources from the Extra Chest [Coins, Servants, Shields, Stones]: ");
+
+            out.println("Enter the number of resources: ");
+        }
     }
 
     @Override
     public void askActiveLeaderCardProduction() {
+        boolean wantToWatch = true;
 
-    }
+        showLeaderActionBox();
 
-    @Override
-    public void askResourcesToDelete() {
+        /*
+        while (wantToWatch) {
+            out.println("Do you want to see a Leader card? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                out.println("Enter the Leader card's ID: ");
+                showLeaderAction(input);
+            }
+        }
 
+         */
+
+        out.println("Enter the index of the Leader card [0-1]: ");
+
+        showWarehouse();
+        showStrongbox();
+        if (!playerBoard.getExtrachest().isEmpty())
+            showExtraChest();
+
+        out.println("Depots:\n0: Warehouse depots\n1: Strongbox\n2: ExtraChest(if you have)");
+        out.println("Enter the relative number from where you want to take the resource: ");
+
+        out.println("Enter the type of the given resource [Coins, Servants, Shields, Stones]: ");
     }
 
     @Override
     public void askEndTurnActiveLeaderCard() {
+        boolean wantToWatch = true;
 
+        showLeaderActionBox();
+
+        /*
+        while (wantToWatch) {
+            out.println("Do you want to see a Leader card? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                out.println("Enter the Leader card's ID: ");
+                showLeaderAction(input);
+            }
+        }
+
+         */
+
+        out.println("Do you want to activate or discard a Leader card or do you want to end your turn? [0-1]: ");
     }
 
     @Override
     public void askUpdateStateLeaderAction() {
+        boolean wantToWatch = true;
+
         showLeaderActionBox();
+
+        /*
+        while (wantToWatch) {
+            out.println("Do you want to see a Leader card? [0-1]: ");
+            if (!input)
+                wantToWatch = false;
+            else {
+                out.println("Enter the Leader card's ID: ");
+                showLeaderAction(input);
+            }
+        }
+
+         */
+
         out.println("Which card do you want to activate or discard [0-1]: ");
 
         out.println("Do you want to activate or discard this card? [0-1]: ");
@@ -189,7 +402,7 @@ public class Cli implements view {
     //show
     @Override
     public void showMessage(String message) {
-
+        out.println(message);
     }
 
     @Override
@@ -222,6 +435,11 @@ public class Cli implements view {
     }
 
     @Override
+    public void showWhiteMarbleEffectList() {
+
+    }
+
+    @Override
     public void showFaithTrack() {
         ViewFaithTrack viewFaithTrack = new ViewFaithTrack(playerBoard);
         viewFaithTrack.plot();
@@ -231,6 +449,11 @@ public class Cli implements view {
     public void showMarketTray() {
         ViewMarketTray viewMarketTray = new ViewMarketTray(playerBoard);
         viewMarketTray.plot();
+    }
+
+    @Override
+    public void showMarbleBuffer() {
+
     }
 
     @Override

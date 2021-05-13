@@ -28,4 +28,9 @@ public class ChestLeader extends LeaderAction {
             }
         }
     }
+
+    @Override
+    public void showCli() {
+
+    }
 }
