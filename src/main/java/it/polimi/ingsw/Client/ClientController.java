@@ -44,12 +44,14 @@ public class ClientController implements Observer {
     public ClientController(view view) throws IOException {
         this.view = view;
         this.board= new PlayerBoard();
-        currState=MessageType.CONNECT;
-        action();
+        activatedProduction=false;
+
         developmentCardMap = new HashMap<>();
         initializeDevCardMap();
         leaderActionMap = new HashMap<>();
         initializeLeaderCardMap();
+        action();
+        currState=MessageType.CONNECT;
     }
 
     public void connect(Message message){
@@ -118,22 +120,46 @@ public class ClientController implements Observer {
                 }
                 break;
 
-            case CHOSENRESOURCEBASEPRODUCTION:
+            case CHOOSERESOURCESFIRSTTURN:
                 currState= MessageType.ENDTURN;
                 break;
 
+/* *** fine turno\partita *** */
             case ENDTURN:
-                //todo da vedere in caso di fine partita
-                currState= MessageType.CHOOSETURN;
+                //aspetto il mio turno-non esiste in singleplayer
+                switch(message.getMessageType()){
+                    case UPDATECURRENTPLAYER:
+                        if(board.getCurrentPlayer().equals(board.getNickname())){
+                            view.showMessage("Start Your Turn!");
+                            currState=MessageType.CHOOSETURN;
+                        }
+                        else
+                            view.showMessage("Start "+ board.getCurrentPlayer()+ " turn!");
+                        break;
+                    case UPDATEWINNER:
+                        currState=MessageType.ENDGAME;
+
+                }
+
                 break;
 
-/* *** fine turno\partita *** */
+
             case ENDTURNACTIVELEADERCARD:
                 switch (message.getMessageType()){
-                    case CHECKOK: currState=MessageType.ENDTURNACTIVELEADERCARD;    break;
-                    case UPDATECURRENTPLAYER: currState=MessageType.ENDTURN;        break;
-                    case UPDATESINGLEPLAYER: currState=MessageType.CHOOSETURN;      break;
-                    //case fine partita;
+                    case CHECKOK:
+                        view.showMessage("can't Active this LeaderCard");
+                        currState=MessageType.ENDTURNACTIVELEADERCARD;
+                        break;
+                    case UPDATECURRENTPLAYER:
+                        view.showMessage("Your Turn is ended. Start "+ board.getCurrentPlayer()+ " turn!");
+                        currState=MessageType.ENDTURN;
+                        break;
+                    case UPDATESINGLEPLAYER:
+                        view.showLorenzoTrun();
+                        currState=MessageType.CHOOSETURN;
+                        break;
+                    case UPDATEWINNER: //per giocatore corrente o singleplyaer
+                        currState=MessageType.ENDGAME;
                 }
                 break;
 
@@ -198,6 +224,7 @@ public class ClientController implements Observer {
 
 
 
+
 /* *** compro carta ***/
             case SELECTDEVCARD:
                 MessageChechOk mess= (MessageChechOk) message;
@@ -221,12 +248,12 @@ public class ClientController implements Observer {
                     case UPDATERESOURCES: currState= MessageType.ENDTURNACTIVELEADERCARD; break;
                 }
                 break;
-/* *** Attivo produzione ** */
 
+/* *** Attivo produzione ** */
             case CHOOSEPRODUCTIONTYPE:
                 MessageChooseProductionType messageChooseProductionType= (MessageChooseProductionType) message;
                 switch (messageChooseProductionType.getChoice()){
-                    case 0: currState= MessageType.ACTIVESBASEPRODUCTION;   break;
+                    case 0: currState= MessageType.ACTIVESBASEPRODUCTION;           break;
                     case 1: currState= MessageType.ACTIVEPRODUCTIONDEVCARD;         break;
                     case 2: currState= MessageType.ACTIVELEADERCARDPRODUCTION;      break;
                     case 3:
@@ -235,31 +262,83 @@ public class ClientController implements Observer {
                         else
                             currState= MessageType.CHOOSETURN;
                     break;
+
                     default: view.showMessage("Choice Not Allowed");
                 }
                 break;
 
             case ENDPRODUCTION:
                 if(message.getMessageType().equals(MessageType.UPDATESTRONGBOX))
-                    currState=MessageType.ENDPRODUCTION;
+                    currState=MessageType.ENDTURNACTIVELEADERCARD;
+                    activatedProduction=false;
                 break;
 
             case ACTIVEPRODUCTIONDEVCARD:
                 MessageChechOk messageChechOk= (MessageChechOk) message;
                 if(messageChechOk.getCheck()){
-
+                    currState=MessageType.CHOOSERESOURCESDEVCARDPRODUCTION;
+                    activatedProduction=true;
                 }
 
+            case CHOOSERESOURCESDEVCARDPRODUCTION:
+                switch (message.getMessageType()){
+                    case UPDATERESOURCES:
+                        view.showMessage("Production started!");
+                        currState=MessageType.CHOOSEPRODUCTIONTYPE;
+                        break;
+                    case CHECKOK: view.showMessage("Incorrect Requested Resources!"); break;
+                }
+                break;
 
+            case ACTIVESBASEPRODUCTION:
+                switch(message.getMessageType()){
+                    case UPDATERESOURCES:
+                        currState=MessageType.CHOSENRESOURCEBASEPRODUCTION;
+                        activatedProduction=true;
+                        break;
+                    case CHECKOK:
+                        view.showMessage("can't active Base Production!");
+                        if(activatedProduction)
+                            currState=MessageType.CHOOSEPRODUCTIONTYPE;
+                        else
+                            currState=MessageType.CHOOSETURN;
+                }
+                break;
 
+            case CHOSENRESOURCEBASEPRODUCTION:
+                MessageChechOk messageChechOk1 = (MessageChechOk) message;
+                if(messageChechOk1.getCheck()){
+                    view.showMessage("Production started!");
+                    currState=MessageType.CHOOSEPRODUCTIONTYPE;
+                }
+                else{
+                    view.showMessage("Incorrect Requested Resources!");
+                }
+                break;
 
+            case ACTIVELEADERCARDPRODUCTION:
+                switch (message.getMessageType()){
+                    case UPDATERESOURCES:
+                        view.showMessage("Production started!");
+                        activatedProduction=true;
+                        break;
+                    case CHECKOK:
+                        view.showMessage("Can't Active LeaderProduction");
+                        if(activatedProduction)
+                            currState=MessageType.CHOOSEPRODUCTIONTYPE;
+                        else
+                            currState=MessageType.CHOOSETURN;
+                }
+                break;
 
-
+/* ** UpdateStateLeaderCard ** */
+            case UPDATESTATELEADERACTION:
+                //todo
 
 
         }
-        //azioni solo se siamo in fase iniziale oppure se  il suo turno
-        if(board.getCurrentPlayer()==null || board.getCurrentPlayer().equals(board.getNickname()))
+        //azioni solo se siamo in fase iniziale, se è il suo turno o se la partita è finita
+        if(board.getCurrentPlayer()==null || board.getCurrentPlayer().equals(board.getNickname()) || currState==MessageType.ENDGAME)
             action();
     }
 
@@ -272,8 +351,6 @@ public class ClientController implements Observer {
 
             case CHOOSELEADERCARDS: view.askChooseLeaderCards(); break;
             case CHOOSERESOURCESFIRSTTURN: askChooseFirstResurces(); break;
-
-            case ENDTURN:  view.endturn(); break;
 
             case CHOOSETURN: view.askChooseTurn(); break;
 
@@ -288,18 +365,20 @@ public class ClientController implements Observer {
             case INSERTCARD: view.askInsertCard(); break;
 
             case CHOOSEPRODUCTIONTYPE: view.askProductionType(); break;
-            case CHOSENRESOURCEBASEPRODUCTION: view.askActiveBaseProduction(); break;
+            case ACTIVESBASEPRODUCTION: view.askActiveBaseProduction(); break;
+            case CHOSENRESOURCEBASEPRODUCTION: view.askChosenResourceBaseProduction(); break;
             case ACTIVEPRODUCTIONDEVCARD: view.askActiveProductionDevCard(); break;
+            case CHOOSERESOURCESDEVCARDPRODUCTION: view.askChooseResourcesDevCardProduction(); break;
             case ACTIVELEADERCARDPRODUCTION: view.askActiveLeaderCardProduction(); break;
             case ENDPRODUCTION: sendMessage(new MessageGeneric(board.getNickname(),MessageType.ENDPRODUCTION));
 
-
-
-
+            case UPDATESTATELEADERACTION: view.askUpdateStateLeaderAction(); break;
 
 
             case ENDTURNACTIVELEADERCARD: view.askEndTurnActiveLeaderCard();  break;
+            case ENDTURN:  view.endturn(); break;
 
+            case UPDATEWINNER: view.showWinnerandVictoryPoint(); break;
         }
 
     }
@@ -324,13 +403,6 @@ public class ClientController implements Observer {
     }
 
 
-
-
-
-
-
-
-
     /* ************************** UPDATE INFORMAZIONI DA SERVER ********************* */
 
     /**
@@ -352,6 +424,8 @@ public class ClientController implements Observer {
             case UPDATESINGLEPLAYER: updateSinglePlyaer((MessageUpdateSinglePlayerGame) message); break;
             case UPDATERESOURCES: updateResources((MessageUpdateResources) message); break;
         }
+        //questi update non triggerano il client
+        if(!message.getMessageType().equals(MessageType.UPDATEFAITHPOINTS) && !message.getMessageType().equals(MessageType.UPDATESLOTDEVCARDS))
         nextState(message);
 
     }
