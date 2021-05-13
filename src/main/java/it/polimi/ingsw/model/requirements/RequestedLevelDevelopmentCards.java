@@ -48,6 +48,11 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
     return false;
     }
 
+    @Override
+    public void showReq() {
+
+    }
+
     public ColorCard getReqColor() {
         return reqColor;
     }

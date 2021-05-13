@@ -41,6 +41,11 @@ public class RequirementsProduction implements Requirements {
         return true;
     }
 
+    @Override
+    public void showReq() {
+
+    }
+
     /**
      * this method is a getter of the RequirementsProduction Map of the card
      * @return the RequirementsProductionMap

@@ -53,6 +53,11 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
         return true;
     }
 
+    @Override
+    public void showReq() {
+
+    }
+
 
     /**
      * this methos adds a request to the card characteristics

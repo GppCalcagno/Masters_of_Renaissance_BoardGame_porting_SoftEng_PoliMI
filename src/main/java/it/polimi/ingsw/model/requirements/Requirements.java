@@ -9,4 +9,6 @@ public interface Requirements {
      * @return 1 if the requirements are met, 0 otherwise
      */
     public boolean checkResources(Player player);
+
+    public void showReq();
 }

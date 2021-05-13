@@ -37,5 +37,10 @@ public class RequestedResources extends RequirementsLeader {
         return currentRes>=reqnumResources;
     }
 
+    @Override
+    public void showReq() {
+
+    }
+
 
 }
