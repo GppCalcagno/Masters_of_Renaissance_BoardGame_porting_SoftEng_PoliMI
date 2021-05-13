@@ -10,7 +10,7 @@ public class MessageActiveBaseProduction extends Message{
     private Map<String,Integer> ExtrachestMap;
 
     public MessageActiveBaseProduction(String nickname, Map<String, Integer> warehouseRes, Map<String, Integer> strongboxRes, Map<String, Integer> extrachestMap) {
-        super(nickname, MessageType.CHOOSERESOURCESBASEPRODUCTION);
+        super(nickname, MessageType.ACTIVESBASEPRODUCTION);
         WarehouseRes = warehouseRes;
         StrongboxRes = strongboxRes;
         ExtrachestMap = extrachestMap;

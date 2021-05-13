@@ -54,13 +54,13 @@ public interface view {
 
     /* *** Producion  Turn *** */
     void askProductionType();
-    /*  0 -> askChooseResourcesBaseProduction
+    /*  0 -> askActiveBaseProduction
         1 -> askActiveProductionDevCard
         2 -> ActiveLeaderCardProduction
         3 -> End Production
      */
 
-    void askChooseResourcesBaseProduction();
+    void askActiveBaseProduction();
     void askChosenResourceBaseProduction();
 
     void askActiveProductionDevCard();
@@ -98,9 +98,9 @@ public interface view {
     void showPlayerState(String name);
 
     //WIP
-    void showWinner();
-    void showVictoryPoint();
+    void showWinnerandVictoryPoint();
 
 
 
+    void showLorenzoTrun();
 }

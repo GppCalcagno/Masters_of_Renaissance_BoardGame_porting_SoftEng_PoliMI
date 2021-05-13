@@ -120,7 +120,7 @@ public class GameController {
                     insertCardMethod((MessageInsertCard) message);
                 }
                 break;
-            case CHOOSERESOURCESBASEPRODUCTION:
+            case ACTIVESBASEPRODUCTION:
                 if (verifyCurrentPlayer(message.getNickname())) {
                     ActiveBaseProductionMethod((MessageActiveBaseProduction) message);
                 }
@@ -337,6 +337,7 @@ public class GameController {
         if (turnController.activeBaseProduction(message.getResource())) {
             nextState.clear();
             nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
+            nextState.add(MessageType.ACTIVESBASEPRODUCTION);
             nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
             nextState.add(MessageType.ENDPRODUCTION);
             server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
@@ -356,7 +357,8 @@ public class GameController {
     public void chooseResourcesDevCardProductionMethod (MessageChooseResourcesDevCardProduction message) {
         if (turnController.chooseResourcesDevCardProduction(message.getWarehouseRes(), message.getStrongboxRes(), message.getExtrachestMap())) {
             nextState.clear();
-            nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+            nextState.add(MessageType.ACTIVESBASEPRODUCTION);
+            nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
             nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
             nextState.add(MessageType.ENDPRODUCTION);
             server.sendtoPlayer(message.getNickname(), new MessageUpdateResources(message.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest(), turnController.updateStrogbox()));
@@ -367,7 +369,8 @@ public class GameController {
     public void activeLeaderCardProductionMethod (MessageActiveLeaderCardProduction message) {
         if (turnController.ActiveLeaderCardProduction(message.getIndexExtraProduction(), message.getWareStrongChest(), message.getResource())) {
             nextState.clear();
-            nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+            nextState.add(MessageType.ACTIVESBASEPRODUCTION);
+            nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
             nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
             nextState.add(MessageType.ENDPRODUCTION);
             server.sendtoPlayer(message.getNickname(), new MessageUpdateResources(message.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest(), turnController.updateStrogbox()));
@@ -391,7 +394,7 @@ public class GameController {
                 nextState.add(MessageType.ENDTURN);
                 nextState.add(MessageType.EXTRACTIONMARBLES);
                 nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
                 server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
@@ -404,7 +407,7 @@ public class GameController {
                 nextState.add(MessageType.ENDTURN);
                 nextState.add(MessageType.EXTRACTIONMARBLES);
                 nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
                 server.sendBroadcastMessage(new MessageUpdateFaithMarker(message.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
@@ -420,15 +423,18 @@ public class GameController {
                 nextState.clear();
                 nextState.add(MessageType.EXTRACTIONMARBLES);
                 nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
                 nextState.add(MessageType.UPDATESTATELEADERACTION);
+
                 try {
                     turnController.endTurn();
-                    server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
                     if (turnController.getNumPlayersCount() == 1)
                         server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
+                    else
+                        server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
+
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));
@@ -451,19 +457,22 @@ public class GameController {
                 nextState.clear();
                 nextState.add(MessageType.EXTRACTIONMARBLES);
                 nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.CHOOSERESOURCESBASEPRODUCTION);
+                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
                 nextState.add(MessageType.UPDATESTATELEADERACTION);
                 try {
                     turnController.endTurn();
-                    server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
                     if (turnController.getNumPlayersCount() == 1)
                         server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
+                    else
+                        server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
+
                 } catch (EndGameException e) {
                     turnController.getGame().givefinalpoints();
                     //notifica il vincitore. se getwinner() = -1 -> vincitore = Lorenzo
-                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));                }
+                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));
+                }
             }
         }
 

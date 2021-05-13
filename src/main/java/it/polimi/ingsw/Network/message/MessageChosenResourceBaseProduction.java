@@ -6,7 +6,7 @@ public class MessageChosenResourceBaseProduction extends Message{
     private String resource;
 
     public MessageChosenResourceBaseProduction(String nickname, String resources) {
-        super(nickname, MessageType.CHOOSERESOURCESBASEPRODUCTION);
+        super(nickname, MessageType.ACTIVESBASEPRODUCTION);
         this.resource = resources;
     }
 
