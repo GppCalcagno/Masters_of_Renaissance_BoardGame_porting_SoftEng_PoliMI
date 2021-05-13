@@ -22,7 +22,10 @@ import it.polimi.ingsw.model.requirements.Requirements;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ClientController implements Observer {
@@ -30,6 +33,7 @@ public class ClientController implements Observer {
     PlayerBoard board;
     ClientSocket clientSocket;
     view view;
+    boolean activatedProduction;
     Map<String, DevelopmentCard> developmentCardMap;
     Map<String, LeaderAction> leaderActionMap;
 
@@ -57,68 +61,52 @@ public class ClientController implements Observer {
     public void sendMessage(Message message) {
         //divido i messaggi che devono essere spediti al server da quelli che vanno gestiti nel client
         switch (message.getMessageType()){
-            case CONNECT:
-                connect(message);
-                break;
-            case CHOOSETURN:
-                nextState(message);
-                break;
-            case CHOOSEAFTERTAKEMARBLE:
-                nextState(message);
-
+            case CONNECT: connect(message); break;
+            case CHOOSETURN: nextState(message); break;
+            case CHOOSEAFTERTAKEMARBLE: nextState(message); break;
+            case CHOOSEPRODUCTIONTYPE: nextState(message); break;
             case LOGIN:
                 board.setNickname(message.getNickname());
                 clientSocket.sendMessage(message);
                 break;
-            default:
-                clientSocket.sendMessage(message);
+            default: clientSocket.sendMessage(message);
         }
     }
 
     public void nextState(Message message){
         switch (currState){
+/* *** LOGINPHASE *** */
             case LOGIN:
                 switch (message.getMessageType()){
-                    case CHECKOK:
-                        view.showMessage("Nickname already in use!");
-                        break;
+                    case CHECKOK: view.showMessage("Nickname already in use!"); break;
+                    case REQUESTNUMPLAYERS:  currState=MessageType.NUMPLAYERS; break;
+                    case INITIALSITUATIONGAME:  currState=MessageType.CHOOSELEADERCARDS; break;
                     case WAITINGOTHERPLAYERS:
                         view.showMessage("Wait for other Player");
                         currState=MessageType.WAITINGOTHERPLAYERS;
                         break;
-                    case REQUESTNUMPLAYERS:
-                        currState=MessageType.NUMPLAYERS;
-                    case INITIALSITUATIONGAME:
-                        currState=MessageType.CHOOSELEADERCARDS;
-                    break;
-                    default:
-                        view.showMessage("SERVER ERROR");
+                    default:  view.showMessage("SERVER ERROR");
                 }
             break;
 
             case NUMPLAYERS:
                 switch (message.getMessageType()){
-                    case CHECKOK:
-                        view.showMessage("Number of player not allowed");
-                        break;
+                    case CHECKOK: view.showMessage("Number of player not allowed"); break;
+                    case INITIALSITUATIONGAME:  currState=MessageType.CHOOSELEADERCARDS; break;
                     case WAITINGOTHERPLAYERS:
                         currState=MessageType.WAITINGOTHERPLAYERS;
                         view.showMessage("Wait for other Player");
                         break;
-                    case INITIALSITUATIONGAME:
-                        currState=MessageType.CHOOSELEADERCARDS;
-                        break;
                 }
             break;
 
+/* *** FIRST TURN *** */
             case WAITINGOTHERPLAYERS:
                 if(message.getMessageType().equals(MessageType.INITIALSITUATIONGAME))
                     currState=MessageType.CHOOSELEADERCARDS;
                 break;
 
-            case UPDATECURRENTPLAYER:
-                //fa l'azione settata prima se il giocatore è lui
-                break;
+            case UPDATECURRENTPLAYER: break;
 
             case CHOOSELEADERCARDS:
                 if(message.getMessageType().equals(MessageType.CHECKOK)){
@@ -134,34 +122,42 @@ public class ClientController implements Observer {
                 break;
 
             case ENDTURN:
-                //da vedere in caso di fine partita
+                //todo da vedere in caso di fine partita
                 currState= MessageType.CHOOSETURN;
                 break;
 
+/* *** fine turno\partita *** */
+            case ENDTURNACTIVELEADERCARD:
+                switch (message.getMessageType()){
+                    case CHECKOK: currState=MessageType.ENDTURNACTIVELEADERCARD;    break;
+                    case UPDATECURRENTPLAYER: currState=MessageType.ENDTURN;        break;
+                    case UPDATESINGLEPLAYER: currState=MessageType.CHOOSETURN;      break;
+                    //case fine partita;
+                }
+                break;
+
+
+/* *** SCELTA TURNI *** */
             case CHOOSETURN:
                 if(message.getMessageType().equals(MessageType.CHOOSETURN)) {
                     MessageChooseTurn mess = (MessageChooseTurn) message;
                     switch (mess.getTurnID()){
                         case 0: currState=MessageType.EXTRACTIONMARBLES;            break;
                         case 1: currState=MessageType.SELECTDEVCARD;                break;
-                        case 2: currState=MessageType.CHOSENRESOURCEBASEPRODUCTION; break;
-                        case 3: currState=MessageType.ACTIVEPRODUCTIONDEVCARD;      break;
-                        case 4: currState=MessageType.ACTIVELEADERCARDPRODUCTION;   break;
-                        case 5: currState=MessageType.UPDATESTATELEADERACTION;      break;
+                        case 2: currState=MessageType.CHOOSEPRODUCTIONTYPE;         break;
+                        case 3: currState=MessageType.UPDATESTATELEADERACTION;      break;
                         default: view.showMessage("Choose not Allowed");
                     }
                 }
                 break;
 
+/* *** Estrazione Biglie *** */
             case EXTRACTIONMARBLES:
                 switch (message.getMessageType()){
                     case CHECKOK:
                         view.showMessage("Choose not Allowed");
-                        currState=MessageType.CHOOSETURN;
-                        break;
-                    case EXTRACTEDMARBLESLIST:
-                        currState=MessageType.CHOOSEAFTERTAKEMARBLE;
-                        break;
+                        currState=MessageType.CHOOSETURN; break;
+                    case EXTRACTEDMARBLESLIST: currState=MessageType.CHOOSEAFTERTAKEMARBLE; break;
                 }
                 break;
 
@@ -172,26 +168,91 @@ public class ClientController implements Observer {
                         case 0: currState=MessageType.EXCHANGEWAREHOUSE;  break;
                         case 1: currState=MessageType.ADDDISCARDMARBLES; break;
                         case 2: currState=MessageType.SELECTTRANSFORMATIONWHITEMARBLE; break;
-
-                    }
-
-                }
-
-
-            case SELECTDEVCARD:
-                if(message.getMessageType().equals(MessageType.CHECKOK)){
-                    MessageChechOk mess= (MessageChechOk) message;
-                    if(mess.getCheck())
-                        currState= MessageType.CHOOSERESOURCESPURCHASEDEVCARD;
-                    else
-                    {
-                        view.showMessage("You Can't Buy This Card");
-                        currState=MessageType.CHOOSETURN;
                     }
                 }
                 break;
 
+            case EXCHANGEWAREHOUSE:
+                if(message.getMessageType().equals(MessageType.CHECKOK))
+                    view.showMessage("Exchange Not Allowed");
+                currState=MessageType.CHOOSEAFTERTAKEMARBLE;
+                break;
+
+            case SELECTTRANSFORMATIONWHITEMARBLE:
+                if(message.getMessageType().equals(MessageType.CHECKOK))
+                    view.showMessage("Choice Not Allowed");
+                currState=MessageType.CHOOSEAFTERTAKEMARBLE;
+                break;
+
+            case ADDDISCARDMARBLES:
+                switch (message.getMessageType()){
+                    case CHECKOK: view.showMessage("Choice Not Allowed"); break;
+                    case UPDATEWAREHOUSE:
+                        if(board.getMarbleBuffer().size()>0)
+                            currState=MessageType.CHOOSEAFTERTAKEMARBLE;
+                        else
+                            currState=MessageType.ENDTURNACTIVELEADERCARD;
+                }
+                 break;
+
+
+
+/* *** compro carta ***/
+            case SELECTDEVCARD:
+                MessageChechOk mess= (MessageChechOk) message;
+                if(mess.getCheck())
+                    currState= MessageType.CHOOSERESOURCESPURCHASEDEVCARD;
+                else {
+                    view.showMessage("You can't buy this card!");
+                    currState=MessageType.CHOOSETURN;
+                }
+                break;
+
             case CHOOSERESOURCESPURCHASEDEVCARD:
+                switch (message.getMessageType()){
+                    case CHECKOK: view.showMessage("Incorrect Requested Resources!"); break;
+                    case UPDATERESOURCES: currState= MessageType.INSERTCARD; break;
+                }
+                break;
+            case INSERTCARD:
+                switch (message.getMessageType()){
+                    case CHECKOK: view.showMessage("You can't Insert the Card in that position"); break;
+                    case UPDATERESOURCES: currState= MessageType.ENDTURNACTIVELEADERCARD; break;
+                }
+                break;
+/* *** Attivo produzione ** */
+
+            case CHOOSEPRODUCTIONTYPE:
+                MessageChooseProductionType messageChooseProductionType= (MessageChooseProductionType) message;
+                switch (messageChooseProductionType.getChoice()){
+                    case 0: currState= MessageType.CHOOSERESOURCESBASEPRODUCTION;   break;
+                    case 1: currState= MessageType.ACTIVEPRODUCTIONDEVCARD;         break;
+                    case 2: currState= MessageType.ACTIVELEADERCARDPRODUCTION;      break;
+                    case 3:
+                        if(activatedProduction)
+                            currState=MessageType.ENDPRODUCTION;
+                        else
+                            currState= MessageType.CHOOSETURN;
+                    break;
+                    default: view.showMessage("Choice Not Allowed");
+                }
+                break;
+
+            case ENDPRODUCTION:
+                if(message.getMessageType().equals(MessageType.UPDATESTRONGBOX))
+                    currState=MessageType.ENDPRODUCTION;
+                break;
+
+            case ACTIVEPRODUCTIONDEVCARD:
+                MessageChechOk messageChechOk= (MessageChechOk) message;
+                if(messageChechOk.getCheck()){
+
+                }
+
+
+
+
+
 
 
 
@@ -203,53 +264,40 @@ public class ClientController implements Observer {
 
     public void action(){
         switch (currState){
-            case CONNECT:
-                view.askServerInfo();
-                break;
+            case CONNECT:  view.askServerInfo(); break;
+            case LOGIN: view.askNickname(); break;
+            case NUMPLAYERS: view.askNumPlayer(); break;
+            case WAITINGOTHERPLAYERS: break;
 
-            case LOGIN:
-                view.askNickname();
-                break;
+            case CHOOSELEADERCARDS: view.askChooseLeaderCards(); break;
+            case CHOOSERESOURCESFIRSTTURN: askChooseFirstResurces(); break;
 
-            case NUMPLAYERS:
-                view.askNumPlayer();
-                break;
+            case ENDTURN:  view.endturn(); break;
 
-            case WAITINGOTHERPLAYERS:
-                break;
+            case CHOOSETURN: view.askChooseTurn(); break;
 
-            case CHOOSELEADERCARDS:
-                view.askChooseLeaderCards();
-                break;
+            case EXTRACTIONMARBLES:  view.askExtractMarble(); break;
+            case CHOOSEAFTERTAKEMARBLE: view.askAfterTakeMarble(); break;
+            case EXCHANGEWAREHOUSE:  view.askExchange(); break;
+            case ADDDISCARDMARBLES: view.askAddDiscardMarble(); break;
+            case SELECTTRANSFORMATIONWHITEMARBLE: view.askSelectTrasformationWhiteMarble(); break;
 
-            case CHOOSERESOURCESFIRSTTURN:
-                askChooseFirstResurces();
-                break;
+            case SELECTDEVCARD: view.askSelectDevCard(); break;
+            case CHOOSERESOURCESPURCHASEDEVCARD: view.askChooseResourcesPurchaseDevCard(); break;
+            case INSERTCARD: view.askInsertCard(); break;
 
-            case ENDTURN:
-                view.endturn();
-                break;
-
-            case CHOOSETURN:
-                view.askChooseTurn();
-                break;
-
-            case EXTRACTIONMARBLES:
-                view.askExtractMarble();
-                break;
-
-            case CHOOSEAFTERTAKEMARBLE:
-                view.askAfterTakeMarble();
-                break;
+            case CHOOSEPRODUCTIONTYPE: view.askProductionType(); break;
+            case CHOSENRESOURCEBASEPRODUCTION: view.askChooseResourcesBaseProduction(); break;
+            case ACTIVEPRODUCTIONDEVCARD: view.askActiveProductionDevCard(); break;
+            case ACTIVELEADERCARDPRODUCTION: view.askActiveLeaderCardProduction(); break;
+            case ENDPRODUCTION: sendMessage(new MessageGeneric(board.getNickname(),MessageType.ENDPRODUCTION));
 
 
 
-            case SELECTDEVCARD:
-                view.askSelectDevCard();
-                break;
 
-            case CHOOSERESOURCESPURCHASEDEVCARD:
-               view.askChooseResourcesPurchaseDevCard();
+
+
+            case ENDTURNACTIVELEADERCARD: view.askEndTurnActiveLeaderCard();  break;
 
         }
 
@@ -284,41 +332,31 @@ public class ClientController implements Observer {
 
     /* ************************** UPDATE INFORMAZIONI DA SERVER ********************* */
 
+    /**
+     * this method is the Update method of the Observer model. it is used to update client information
+     * @param message information about Update
+     */
     @Override
     public void update(Message message) {
         switch (message.getMessageType()){
-            case INITIALSITUATIONGAME:
-                initialization((MessageInizialization)message);
-                break;
-            case UPDATECURRENTPLAYER:
-                updateCurrentPlayer((MessageUpdateCurrPlayer)message);
-                break;
-            case UPDATEFAITHPOINTS:
-                updateFaithPoint((MessageUpdateFaithMarker) message);
-                break;
-            case UPDATEMARKETTRAY:
-                updateMarketTray((MessageUpdateMarketTray) message);
-                break;
-            case UPDATEWAREHOUSE:
-                updateWarehouse((MessageUpdateWarehouse) message);
-                break;
-            case UPDATESTRONGBOX:
-                updateStrongbox((MessageUpdateStrongbox) message);
-                break;
-
-            case EXTRACTEDMARBLESLIST:
-                setMarbleBuffer((MessageExtractedMarbles)message);
-                break;
-
-            case UPDATEDEVCARDDECK:
-
+            case INITIALSITUATIONGAME: initialization((MessageInizialization)message); break;
+            case UPDATECURRENTPLAYER:  updateCurrentPlayer((MessageUpdateCurrPlayer)message); break;
+            case UPDATEFAITHPOINTS:  updateFaithPoint((MessageUpdateFaithMarker) message);break;
+            case UPDATEMARKETTRAY: updateMarketTray((MessageUpdateMarketTray) message); break;
+            case UPDATEWAREHOUSE: updateWarehouse((MessageUpdateWarehouse) message); break;
+            case UPDATESTRONGBOX: updateStrongbox((MessageUpdateStrongbox) message); break;
+            case EXTRACTEDMARBLESLIST: setMarbleBuffer((MessageExtractedMarbles)message); break;
+            case UPDATEDEVCARDDECK: updateDevCardDeck((MessageDeleteDevCard) message); break;
+            case UPDATEWHITEMARBLEEFFECT: updateWhiteMarbleEffect((MessageUpdateWhiteMarbleEffect) message); break;
+            case UPDATESINGLEPLAYER: updateSinglePlyaer((MessageUpdateSinglePlayerGame) message); break;
+            case UPDATERESOURCES: updateResources((MessageUpdateResources) message); break;
         }
         nextState(message);
 
     }
 
     private void setMarbleBuffer(MessageExtractedMarbles message) {
-        //board.setMarbleBuffer(message.getMarblesList());
+        board.setMarbleBuffer(message.getMarblesList());
     }
 
     private void initialization(MessageInizialization message) {
@@ -333,32 +371,51 @@ public class ClientController implements Observer {
         board.initialization(PlayerList,LeaderCard,devCardDeck,marketTray,remainingMarble);
     }
 
-    void updateCurrentPlayer(MessageUpdateCurrPlayer message){
+    private void updateCurrentPlayer(MessageUpdateCurrPlayer message){
         board.setCurrentPlayer(message.getNickname());
     }
 
-    void updateFaithPoint(MessageUpdateFaithMarker message){
+    private void updateFaithPoint(MessageUpdateFaithMarker message){
         board.setFaithMarker(message.getFaithPoints());
     }
 
-    void updateMarketTray(MessageUpdateMarketTray message){
+    private void updateMarketTray(MessageUpdateMarketTray message){
         char direction= message.getDirection();
         int num=message.getNum();
         board.updateMarketTray(direction,num);
     }
 
-    void updateStrongbox(MessageUpdateStrongbox message){
+    private void updateStrongbox(MessageUpdateStrongbox message){
         board.setStrongbox(message.getStrongbox());
     }
 
-    void updateWarehouse(MessageUpdateWarehouse message){
+    private void updateWarehouse(MessageUpdateWarehouse message){
         String[][] warehouse= message.getWarehouse();
         Map<String,Integer> extraChest= message.getExtraChest();
         board.setWarehouse(warehouse,extraChest);
     }
 
-    //todo update devCardDeck
-    //void updateDevCardDeck(MessageR)
+    private void updateDevCardDeck(MessageDeleteDevCard message){
+        board.removeCardfromDevCardDeck(message.getDevCardID());
+    }
+
+    private void updateWhiteMarbleEffect(MessageUpdateWhiteMarbleEffect message){
+        board.setWhiteMarbleEffectList(message.getWhiteMarbleEffectList());
+    }
+
+    private void updateSinglePlyaer(MessageUpdateSinglePlayerGame message){
+        String[][][] devcarddeck= message.getDevCardDeck();
+        int blackcrosstoken= message.getBlackCrossToken();
+        String token= message.getID();
+        board.singlePlayerUpdate(devcarddeck,blackcrosstoken,token);
+    }
+
+    private void updateResources(MessageUpdateResources message){
+        String[][] warehouse = message.getWarehouse();
+        Map<String, Integer> extraChest = message.getExtraChest();
+        Map<String,Integer> strongbox = message.getStrongbox();
+        board.updateresoruces(warehouse,extraChest,strongbox);
+    }
 
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();

@@ -2,10 +2,7 @@ package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * this class is used to store Client Data
@@ -19,31 +16,42 @@ public class PlayerBoard {
     private String[][] warehouse;
     private Map<String,Integer> extrachest;
     private Map<String,Integer> strongbox;
+
+    private boolean[] popsfavouritetile;
     private int faithMarker;
+    private int blackCrossToken;
 
     private List<String> leaderCard;
     private List<String> whiteMarbleEffectList;
     private String [][] slotDevCard;
+    private List<String> prductionBuffer;
 
     private String [][][] devCardDeck;
     private String [][] marketTray;
     private List<String> marbleBuffer;
     private String remainingMarble;
 
+    private String lastTokenUsed; //only for singleplayer
+
 
     public PlayerBoard () {
         playerList= new ArrayList<>();
+        currentPlayer=null;
+
         warehouse= new String[3][3];
         strongbox= new HashMap<>();
         extrachest= new HashMap<>();
+
         faithMarker=0;
-        currentPlayer=null;
+        popsfavouritetile= new boolean[]{false, false, false};
+
 
         leaderCard= new ArrayList<>();
         slotDevCard= new String[3][3];
 
         devCardDeck= new String[3][4][4];
         marketTray= new String[3][4];
+        prductionBuffer= new ArrayList<>();
     }
 
     public void setNickname(String name){
@@ -97,6 +105,14 @@ public class PlayerBoard {
         this.marbleBuffer = marbleBuffer;
     }
 
+    public void setPrductionBuffer(List<String> prductionBuffer) {
+        this.prductionBuffer = prductionBuffer;
+    }
+
+    public void setPopsfavouritetile(boolean[] popsfavouritetile) {
+        this.popsfavouritetile = popsfavouritetile;
+    }
+
     public void updateMarketTray(char direction, int n){
         String temp = remainingMarble;
 
@@ -116,14 +132,20 @@ public class PlayerBoard {
     }
 
     public void removeCardfromDevCardDeck (String ID) {
-        for(int i=0;i<3;i++){
-            for (int j=0;j<4;j++){
-                for(int k=0;k<devCardDeck[i][j].length;k++){
-                    if(devCardDeck[i][j][k].equals(ID))
-                        devCardDeck[i][j][k]=null;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                for (int k = 0; k < devCardDeck[i][j].length; k++) {
+                    if (devCardDeck[i][j][k].equals(ID))
+                        devCardDeck[i][j][k] = null;
                 }
             }
         }
+    }
+
+    public void updateresoruces(String[][] warehouse,  Map<String, Integer> extraChest, Map<String,Integer> strongbox){
+        this.warehouse=warehouse;
+        this.extrachest=extraChest;
+        this.strongbox=strongbox;
     }
 
 
@@ -135,6 +157,16 @@ public class PlayerBoard {
         this.devCardDeck=devCardDeck;
         this.marketTray=marketTray;
         this.remainingMarble= remainingMarble;
+    }
+
+    public void singlePlayerUpdate(String[][][] devCardDeck, int blackCrossToken, String tokenID){
+        this.devCardDeck=devCardDeck;
+        this.blackCrossToken=blackCrossToken;
+        this.lastTokenUsed=tokenID;
+    }
+
+    public boolean[] getPopsfavouritetile() {
+        return popsfavouritetile;
     }
 
     public List<String> getPlayerList() {
@@ -191,5 +223,9 @@ public class PlayerBoard {
 
     public String getRemainingMarble() {
         return remainingMarble;
+    }
+
+    public List<String> getPrductionBuffer() {
+        return prductionBuffer;
     }
 }

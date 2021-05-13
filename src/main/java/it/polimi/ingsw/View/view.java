@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 
 public interface view {
@@ -25,15 +26,9 @@ public interface view {
     void askChooseTurn(); //chiede quale delle 5 cose fare
         /*  0->extractMarble
             1-> selectDevCard
-            2->chooseResForBaseprod
-            3->ActiveProdDevCard
-            4->activeprodLeaderCard
-            5->Update stateLeadercard
+            2->chooseproductiontype
+            3->Update stateLeadercard
         */
-
-    void askChooseResourcesFirstTurn();
-
-    void askChooseAction();
 
     void askActiveLeaderAction(); //ask 1 turno
 
@@ -73,7 +68,7 @@ public interface view {
 
     void askActiveLeaderCardProduction();
 
-    void askEndTurnActiveLeaderCard();//chiede se finire il turno o attivare carta leader
+    void askEndTurnActiveLeaderCard();//chiede se finire il turno o attivare carta leader e manda i rispettivi messaggi
 
 
     void askUpdateStateLeaderAction();

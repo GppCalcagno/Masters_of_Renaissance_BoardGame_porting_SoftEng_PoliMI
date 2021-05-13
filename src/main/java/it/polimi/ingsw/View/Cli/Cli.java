@@ -64,15 +64,7 @@ public class Cli implements view {
         out.println("Enter the relative number: ");
     }
 
-    @Override
-    public void askChooseResourcesFirstTurn() {
 
-    }
-
-    @Override
-    public void askChooseAction() {
-
-    }
 
     @Override
     public void askActiveLeaderAction() {
