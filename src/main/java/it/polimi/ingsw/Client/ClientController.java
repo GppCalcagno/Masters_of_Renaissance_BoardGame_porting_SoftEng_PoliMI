@@ -225,7 +225,7 @@ public class ClientController implements Observer {
             case CHOOSEPRODUCTIONTYPE:
                 MessageChooseProductionType messageChooseProductionType= (MessageChooseProductionType) message;
                 switch (messageChooseProductionType.getChoice()){
-                    case 0: currState= MessageType.CHOOSERESOURCESBASEPRODUCTION;   break;
+                    case 0: currState= MessageType.ACTIVESBASEPRODUCTION;   break;
                     case 1: currState= MessageType.ACTIVEPRODUCTIONDEVCARD;         break;
                     case 2: currState= MessageType.ACTIVELEADERCARDPRODUCTION;      break;
                     case 3:
@@ -287,7 +287,7 @@ public class ClientController implements Observer {
             case INSERTCARD: view.askInsertCard(); break;
 
             case CHOOSEPRODUCTIONTYPE: view.askProductionType(); break;
-            case CHOSENRESOURCEBASEPRODUCTION: view.askChooseResourcesBaseProduction(); break;
+            case CHOSENRESOURCEBASEPRODUCTION: view.askActiveBaseProduction(); break;
             case ACTIVEPRODUCTIONDEVCARD: view.askActiveProductionDevCard(); break;
             case ACTIVELEADERCARDPRODUCTION: view.askActiveLeaderCardProduction(); break;
             case ENDPRODUCTION: sendMessage(new MessageGeneric(board.getNickname(),MessageType.ENDPRODUCTION));

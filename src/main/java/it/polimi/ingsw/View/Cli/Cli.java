@@ -247,7 +247,7 @@ public class Cli implements view {
     }
 
     @Override
-    public void askChooseResourcesBaseProduction() {
+    public void askActiveBaseProduction() {
         showWarehouse();
         out.println("Enter the type of resources from the Warehouse depots [Coins, Servants, Shields, Stones]: ");
 
@@ -476,12 +476,12 @@ public class Cli implements view {
     }
 
     @Override
-    public void showWinner() {
+    public void showWinnerandVictoryPoint() {
 
     }
 
     @Override
-    public void showVictoryPoint() {
+    public void showLorenzoTrun() {
 
     }
 }

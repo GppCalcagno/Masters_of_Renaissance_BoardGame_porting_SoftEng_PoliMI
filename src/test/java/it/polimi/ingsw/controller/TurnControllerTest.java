@@ -72,7 +72,8 @@ class TurnControllerTest {
         t.getGame().addPlayersList(p);
         t.getGame().setCurrentPlayer();
 
-        assertTrue(t.activeLeaderAction(0));
+        String ID = t.getGame().getCurrentPlayer().getLeaderActionBox().get(0).getID();
+        assertTrue(t.activeLeaderAction(ID));
     }
 
     @Test
@@ -88,7 +89,8 @@ class TurnControllerTest {
         t.getGame().addPlayersList(p);
         t.getGame().setCurrentPlayer();
 
-        assertTrue(t.activeLeaderAction(0));
+        String ID = t.getGame().getCurrentPlayer().getLeaderActionBox().get(0).getID();
+        assertTrue(t.activeLeaderAction(ID));
     }
 
     @Test

@@ -135,10 +135,17 @@ public class TurnController {
 
     /**
      * this method called by the player allow to activate a leaderActionCard
-     * @param pos refer which card must to be activated, 0 for the first, 1 for the second
+     * @param ID refer which card must to be activated, 0 for the first, 1 for the second
      * @return true if the card is activated
      */
-    public boolean activeLeaderAction(int pos){
+    public boolean activeLeaderAction(String ID){
+        int pos = -1;
+        for (LeaderAction l : game.getCurrentPlayer().getLeaderActionBox()) {
+            if (l.getID().equals(ID)) {
+                pos = game.getCurrentPlayer().getLeaderActionBox().indexOf(l);
+            }
+        }
+
         //controllo se posizione valida
         if(pos < 0 || pos>1)
             return false;
@@ -161,10 +168,17 @@ public class TurnController {
 
     /**
      * this method called by the player discard one of his leader action card to increase his faithmarker by one
-     * @param pos which leader action card must to be discarded: 0 for the first, 1 for the second
+     * @param ID which leader action card must to be discarded: 0 for the first, 1 for the second
      * @return true if the card is discarded
      */
-    public boolean discardLeaderAction(int pos) {
+    public boolean discardLeaderAction(String ID) {
+        int pos = -1;
+        for (LeaderAction l : game.getCurrentPlayer().getLeaderActionBox()) {
+            if (l.getID().equals(ID)) {
+                pos = game.getCurrentPlayer().getLeaderActionBox().indexOf(l);
+            }
+        }
+
         int size = game.getCurrentPlayer().getLeaderActionBox().size();
         //verifico se indice corretto
         if (pos > size)
@@ -642,8 +656,14 @@ public class TurnController {
             return true;
         }
         else if (game.getPlayersList().indexOf(game.getCurrentPlayer()) == 3){
-            game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesListStub.get(0));
-            game.getCurrentPlayer().getWarehouse().checkInsertion(1, resourcesListStub.get(1));
+            if (resourcesListStub.get(0).toString().equals(resourcesListStub.get(1).toString())) {
+                game.getCurrentPlayer().getWarehouse().checkInsertion(2, resourcesListStub.get(0));
+                game.getCurrentPlayer().getWarehouse().checkInsertion(2, resourcesListStub.get(1));
+            }
+            else {
+                game.getCurrentPlayer().getWarehouse().checkInsertion(0, resourcesListStub.get(0));
+                game.getCurrentPlayer().getWarehouse().checkInsertion(1, resourcesListStub.get(1));
+            }
             //chiamato al primo turno = warehouse vuoto = inserimento consentito
             return true;
         }

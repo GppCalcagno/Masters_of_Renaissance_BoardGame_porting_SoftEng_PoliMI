@@ -389,7 +389,7 @@ public class GameController {
 
     public void updateStateLeaderActionMethod (MessageAddDiscardLeaderCard message) {
         if (message.isAddOrDiscard()) {
-            if (turnController.activeLeaderAction(message.getPos())) {
+            if (turnController.activeLeaderAction(message.getID())) {
                 nextState.clear();
                 nextState.add(MessageType.ENDTURN);
                 nextState.add(MessageType.EXTRACTIONMARBLES);
@@ -397,12 +397,12 @@ public class GameController {
                 nextState.add(MessageType.ACTIVESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-                server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
+                server.sendtoPlayer(message.getNickname(), new MessageUpdateStateLeaderAction(message.getNickname(), message.getID(), true));
             }
             else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
         }
         else {
-            if (turnController.discardLeaderAction(message.getPos())) {
+            if (turnController.discardLeaderAction(message.getID())) {
                 nextState.clear();
                 nextState.add(MessageType.ENDTURN);
                 nextState.add(MessageType.EXTRACTIONMARBLES);
@@ -410,6 +410,7 @@ public class GameController {
                 nextState.add(MessageType.ACTIVESBASEPRODUCTION);
                 nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
                 nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
+                server.sendtoPlayer(message.getNickname(), new MessageUpdateStateLeaderAction(message.getNickname(), message.getID(), false));
                 server.sendBroadcastMessage(new MessageUpdateFaithMarker(message.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
             }
             else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
