@@ -3,11 +3,12 @@ package it.polimi.ingsw.View;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 
-public interface view {
+public interface ViewInterface {
 
     void askServerInfo();
 
     void endturn(); //fai apparire a schermo che il turno finisce e manda il messaggio
+
     /* ************************************ LOGIN PHASE ******************************** */
     void askNickname(); //chiede nome
 
@@ -18,7 +19,6 @@ public interface view {
     void askChooseLeaderCards(); //mostrra le carte e chie quale delle 4 carte tenere
 
     void askChooseResourcesFirstTurn(int num); //chiede quale risorse prendere in base al numero
-    //todo controllare che il metodo sia giusto
 
     /* ************************************ INGAME PHASE ******************************** */
 
@@ -30,7 +30,7 @@ public interface view {
             3->Update stateLeadercard
         */
 
-    void askActiveLeaderAction(); //ask 1 turno
+    void askUpdateStateLeaderAction();
 
     /* *** Market Turn *** */
     void askExtractMarble(); //ask 2 turno
@@ -68,10 +68,12 @@ public interface view {
 
     void askActiveLeaderCardProduction();
 
+    void sendEndProduction();//manda il messaggio di fine produzione e mette una print che conferma al player
+
     void askEndTurnActiveLeaderCard();//chiede se finire il turno o attivare carta leader e manda i rispettivi messaggi
 
 
-    void askUpdateStateLeaderAction();
+
 
     /* ************************************ SHOW PHASE ******************************** */
 
@@ -82,7 +84,6 @@ public interface view {
 
     void showWarehouse();
     void showStrongbox();
-    void showProductionBuffer();
     void showWhiteMarbleEffectList();
 
     void showFaithTrack();
@@ -99,8 +100,5 @@ public interface view {
 
     //WIP
     void showWinnerandVictoryPoint();
-
-
-
     void showLorenzoTrun();
 }

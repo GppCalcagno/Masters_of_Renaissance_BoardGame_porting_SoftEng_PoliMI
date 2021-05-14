@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.View.Cli.Cli;
-import it.polimi.ingsw.View.view;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import org.junit.jupiter.api.Test;
