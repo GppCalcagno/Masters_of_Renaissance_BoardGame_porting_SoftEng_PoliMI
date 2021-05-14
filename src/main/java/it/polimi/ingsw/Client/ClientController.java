@@ -1,51 +1,35 @@
 package it.polimi.ingsw.Client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.Network.Client.ClientSocket;
 import it.polimi.ingsw.Network.message.*;
 import it.polimi.ingsw.Observer.Observer;
-import it.polimi.ingsw.View.view;
-import it.polimi.ingsw.model.card.DevelopmentCard;
-import it.polimi.ingsw.model.card.LeaderAction;
-import it.polimi.ingsw.model.card.leadereffect.ChestLeader;
-import it.polimi.ingsw.model.card.leadereffect.DiscountLeader;
-import it.polimi.ingsw.model.card.leadereffect.ProductionLeader;
-import it.polimi.ingsw.model.card.leadereffect.TrasformationMarbleLeader;
-import it.polimi.ingsw.model.producible.*;
-import it.polimi.ingsw.model.requirements.RequestedLevelDevelopmentCards;
-import it.polimi.ingsw.model.requirements.RequestedResources;
-import it.polimi.ingsw.model.requirements.RequestedTypeDevelopmentCards;
-import it.polimi.ingsw.model.requirements.Requirements;
+import it.polimi.ingsw.View.ViewInterface;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 public class ClientController implements Observer {
 
     PlayerBoard board;
     ClientSocket clientSocket;
-    view view;
+    ViewInterface view;
     boolean activatedProduction;
+    boolean turndone;
 
     MessageType currState;
 
 
-    public ClientController(view view) throws IOException {
+    public ClientController(ViewInterface view) throws IOException {
         this.view = view;
         this.board= new PlayerBoard();
         activatedProduction=false;
+        turndone=false;
 
-        action();
         currState=MessageType.CONNECT;
+        action();
     }
 
     public void connect(Message message){
@@ -139,6 +123,7 @@ public class ClientController implements Observer {
 
 
             case ENDTURNACTIVELEADERCARD:
+                turndone=true;
                 switch (message.getMessageType()){
                     case CHECKOK:
                         view.showMessage("can't Active this LeaderCard");
@@ -160,6 +145,7 @@ public class ClientController implements Observer {
 
 /* *** SCELTA TURNI *** */
             case CHOOSETURN:
+                turndone=false;
                 if(message.getMessageType().equals(MessageType.CHOOSETURN)) {
                     MessageChooseTurn mess = (MessageChooseTurn) message;
                     switch (mess.getTurnID()){
@@ -215,8 +201,6 @@ public class ClientController implements Observer {
                             currState=MessageType.ENDTURNACTIVELEADERCARD;
                 }
                  break;
-
-
 
 
 /* *** compro carta ***/
@@ -327,75 +311,25 @@ public class ClientController implements Observer {
 
 /* ** UpdateStateLeaderCard ** */
             case UPDATESTATELEADERACTION:
-                //todo
+                switch (message.getMessageType()){
+                    case CHECKOK: view.showMessage("Can't Active This card"); break;
+                    case UPDATESTATELEADERACTION:
+                        MessageUpdateStateLeaderAction messageUpdateStateLeaderAction= (MessageUpdateStateLeaderAction) message;
+                        if(messageUpdateStateLeaderAction.isActivated()){
+                            view.showMessage("Leader Card activated");
+                        }
+                        else
+                            view.showMessage("Leader Card discarded");
+                }
 
+        }//endSwitch
 
-        }
         //azioni solo se siamo in fase iniziale, se è il suo turno o se la partita è finita
         if(board.getCurrentPlayer()==null || board.getCurrentPlayer().equals(board.getNickname()) || currState==MessageType.ENDGAME)
             action();
     }
 
-    public void action(){
-        switch (currState){
-            case CONNECT:  view.askServerInfo(); break;
-            case LOGIN: view.askNickname(); break;
-            case NUMPLAYERS: view.askNumPlayer(); break;
-            case WAITINGOTHERPLAYERS: break;
-
-            case CHOOSELEADERCARDS: view.askChooseLeaderCards(); break;
-            case CHOOSERESOURCESFIRSTTURN: askChooseFirstResurces(); break;
-
-            case CHOOSETURN: view.askChooseTurn(); break;
-
-            case EXTRACTIONMARBLES:  view.askExtractMarble(); break;
-            case CHOOSEAFTERTAKEMARBLE: view.askAfterTakeMarble(); break;
-            case EXCHANGEWAREHOUSE:  view.askExchange(); break;
-            case ADDDISCARDMARBLES: view.askAddDiscardMarble(); break;
-            case SELECTTRANSFORMATIONWHITEMARBLE: view.askSelectTrasformationWhiteMarble(); break;
-
-            case SELECTDEVCARD: view.askSelectDevCard(); break;
-            case CHOOSERESOURCESPURCHASEDEVCARD: view.askChooseResourcesPurchaseDevCard(); break;
-            case INSERTCARD: view.askInsertCard(); break;
-
-            case CHOOSEPRODUCTIONTYPE: view.askProductionType(); break;
-            case ACTIVESBASEPRODUCTION: view.askActiveBaseProduction(); break;
-            case CHOSENRESOURCEBASEPRODUCTION: view.askChosenResourceBaseProduction(); break;
-            case ACTIVEPRODUCTIONDEVCARD: view.askActiveProductionDevCard(); break;
-            case CHOOSERESOURCESDEVCARDPRODUCTION: view.askChooseResourcesDevCardProduction(); break;
-            case ACTIVELEADERCARDPRODUCTION: view.askActiveLeaderCardProduction(); break;
-            case ENDPRODUCTION: sendMessage(new MessageGeneric(board.getNickname(),MessageType.ENDPRODUCTION));
-
-            case UPDATESTATELEADERACTION: view.askUpdateStateLeaderAction(); break;
-
-
-            case ENDTURNACTIVELEADERCARD: view.askEndTurnActiveLeaderCard();  break;
-            case ENDTURN:  view.endturn(); break;
-
-            case UPDATEWINNER: view.showWinnerandVictoryPoint(); break;
-        }
-
-    }
-
-    /**
-     * this method is used to select the number of initial resources
-     */
-    private void askChooseFirstResurces() {
-        int position= board.getPlayerList().indexOf(board.getNickname());
-        int num=1;
-        if(position==0) num=0;
-        if(position==3) num=2;
-
-        if(num>0){
-         view.askChooseResourcesFirstTurn(num);
-        }
-        else{
-            List<String> emptyList= new ArrayList<>();
-            sendMessage(new MessageChooseResourcesFirstTurn(board.getNickname(), emptyList));
-        }
-
-    }
-
+public void action(){};
 
     /* ************************** UPDATE INFORMAZIONI DA SERVER ********************* */
 
@@ -417,12 +351,15 @@ public class ClientController implements Observer {
             case UPDATEWHITEMARBLEEFFECT: updateWhiteMarbleEffect((MessageUpdateWhiteMarbleEffect) message); break;
             case UPDATESINGLEPLAYER: updateSinglePlyaer((MessageUpdateSinglePlayerGame) message); break;
             case UPDATERESOURCES: updateResources((MessageUpdateResources) message); break;
+            case UPDATESTATELEADERACTION:updateStateLeaderAction((MessageUpdateStateLeaderAction) message); break;
         }
+
         //questi update non triggerano il client
         if(!message.getMessageType().equals(MessageType.UPDATEFAITHPOINTS) && !message.getMessageType().equals(MessageType.UPDATESLOTDEVCARDS))
         nextState(message);
 
     }
+
 
     private void setMarbleBuffer(MessageExtractedMarbles message) {
         board.setMarbleBuffer(message.getMarblesList());
@@ -485,4 +422,15 @@ public class ClientController implements Observer {
         Map<String,Integer> strongbox = message.getStrongbox();
         board.updateresoruces(warehouse,extraChest,strongbox);
     }
+
+    private void updateStateLeaderAction(MessageUpdateStateLeaderAction message) {
+        String ID =message.getID();
+        if(message.isActivated()){
+            board.getLeaderActionMap().get(ID).setActivated();
+        }
+        else{
+            board.getLeaderCard().remove(ID);
+        }
+    }
+
 }
