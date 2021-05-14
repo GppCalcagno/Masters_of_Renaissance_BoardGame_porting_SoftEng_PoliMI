@@ -1,23 +1,19 @@
 package it.polimi.ingsw.View.Cli;
 
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.View.Cli.Structure.ViewLeaderActionBox;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CliTest {
 
     @Test
     void showLeaderActionBox() throws IOException {
        PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         cli.showLeaderActionBox();
 
@@ -34,7 +30,7 @@ class CliTest {
     @Test
     void showSlotDevCard() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         //mostra vuota
         cli.showSlotDevCard();
@@ -53,7 +49,7 @@ class CliTest {
     @Test
     void showWarehouse() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
         //mostra vuota
         cli.showWarehouse();
 
@@ -72,7 +68,7 @@ class CliTest {
     @Test
     void showStrongbox() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         cli.showStrongbox();
 
@@ -89,7 +85,7 @@ class CliTest {
     @Test
     void showFaithTrack() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         cli.showFaithTrack();
 
@@ -102,7 +98,7 @@ class CliTest {
     @Test
     void showMarketTray() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         cli.showMarketTray();
 
@@ -120,7 +116,7 @@ class CliTest {
     @Test
     void showDevCardDeck() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         cli.showDevCardDeck();
 
@@ -136,7 +132,7 @@ class CliTest {
     @Test
     void showExtraChest() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         cli.showExtraChest();
 
@@ -153,7 +149,7 @@ class CliTest {
     @Test
     void askNickname() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
-        Cli cli = new Cli(playerBoard);
+        Cli cli = new Cli(playerBoard, controller);
 
         cli.askNickname();
 

@@ -3,20 +3,14 @@ package it.polimi.ingsw.Network.message;
 public class MessageSelectDevCard extends Message{
     private static final long serialVersionUID = -634200199040721658L;
 
-    private int rowDevCardDeck;
-    private int columnDevCardDeck;
+    private String cardID;
 
-    public MessageSelectDevCard(String nickname, int rowDevCardDeck, int columnDevCardDeck){
+    public MessageSelectDevCard(String nickname, String cardID){
         super(nickname, MessageType.SELECTDEVCARD);
-        this.rowDevCardDeck = rowDevCardDeck;
-        this.columnDevCardDeck = columnDevCardDeck;
+        this.cardID = cardID;
     }
 
-    public int getRowDevCardDeck() {
-        return rowDevCardDeck;
-    }
-
-    public int getColumnDevCardDeck() {
-        return columnDevCardDeck;
+    public String getCardID() {
+        return cardID;
     }
 }

@@ -73,13 +73,12 @@ public class TurnController {
 
     /**
      * this method called by the player allow to select from the DevCardDeck the card the player wants to buy
-     * @param row the row
-     * @param column the column
+     * @param ID of the dev card
      * @return true if there are no errors
      */
-    public boolean selectDevCard(int row, int column){
+    public boolean selectDevCard(String ID){
         try{
-            CurrentDevCardPurchase =game.getDevelopmentCardDeck().getDevCards(row,column);
+            CurrentDevCardPurchase =game.getDevelopmentCardDeck().getDevCardFromID(ID);
         } catch (NullPointerException e){ return false;}
 
         //controllo che il giocatore abbia spazio nello SlotDevCard e che abbia le risorse necessarie

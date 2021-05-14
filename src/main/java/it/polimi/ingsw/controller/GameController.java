@@ -296,7 +296,7 @@ public class GameController {
     }
 
     public void selectDevCardMethod (MessageSelectDevCard messageSelectDevCard) {
-        if (turnController.selectDevCard(messageSelectDevCard.getRowDevCardDeck(), messageSelectDevCard.getColumnDevCardDeck())) {
+        if (turnController.selectDevCard(messageSelectDevCard.getCardID())) {
             nextState.clear();
             nextState.add(MessageType.CHOOSERESOURCESPURCHASEDEVCARD);
             server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), true));
