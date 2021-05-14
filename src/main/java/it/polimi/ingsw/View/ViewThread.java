@@ -1,25 +1,22 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Client.ClientController;
+
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.message.MessageChooseResourcesFirstTurn;
-import it.polimi.ingsw.Network.message.MessageGeneric;
 import it.polimi.ingsw.Network.message.MessageType;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViewThread implements Runnable {
     private MessageType currentState;
     private ViewInterface view;
     private PlayerBoard board;
     private boolean active;
+    private String info;
+    private final  Object lock= new Object();
 
-    public ViewThread(MessageType currentState, ViewInterface view, PlayerBoard board, ClientController clientController) {
+    public ViewThread(ViewInterface view, PlayerBoard board) {
         this.currentState = currentState;
         this.view = view;
         active=false;
-        this.board = board;
     }
 
     @Override
@@ -33,43 +30,49 @@ public class ViewThread implements Runnable {
                 //da vedede
             }
         }
-        switch (currentState){
-            case CONNECT:  view.askServerInfo(); break;
-            case LOGIN: view.askNickname(); break;
-            case NUMPLAYERS: view.askNumPlayer(); break;
-            case WAITINGOTHERPLAYERS: break;
 
-            case CHOOSELEADERCARDS: view.askChooseLeaderCards(); break;
-            case CHOOSERESOURCESFIRSTTURN: askChooseFirstResurces(); break;
+        synchronized (lock){
+            switch (currentState){
+                case CONNECT:  view.askServerInfo(); break;
+                case LOGIN: view.askNickname(); break;
+                case NUMPLAYERS: view.askNumPlayer(); break;
+                case WAITINGOTHERPLAYERS: break;
 
-            case CHOOSETURN: view.askChooseTurn(); break;
+                case CHOOSELEADERCARDS: view.askChooseLeaderCards(); break;
+                case CHOOSERESOURCESFIRSTTURN: askChooseFirstResurces(); break;
 
-            case EXTRACTIONMARBLES:  view.askExtractMarble(); break;
-            case CHOOSEAFTERTAKEMARBLE: view.askAfterTakeMarble(); break;
-            case EXCHANGEWAREHOUSE:  view.askExchange(); break;
-            case ADDDISCARDMARBLES: view.askAddDiscardMarble(); break;
-            case SELECTTRANSFORMATIONWHITEMARBLE: view.askSelectTrasformationWhiteMarble(); break;
+                case CHOOSETURN: view.askChooseTurn(); break;
 
-            case SELECTDEVCARD: view.askSelectDevCard(); break;
-            case CHOOSERESOURCESPURCHASEDEVCARD: view.askChooseResourcesPurchaseDevCard(); break;
-            case INSERTCARD: view.askInsertCard(); break;
+                case EXTRACTIONMARBLES:  view.askExtractMarble(); break;
+                case CHOOSEAFTERTAKEMARBLE: view.askAfterTakeMarble(); break;
+                case EXCHANGEWAREHOUSE:  view.askExchange(); break;
+                case ADDDISCARDMARBLES: view.askAddDiscardMarble(); break;
+                case SELECTTRANSFORMATIONWHITEMARBLE: view.askSelectTrasformationWhiteMarble(); break;
 
-            case CHOOSEPRODUCTIONTYPE: view.askProductionType(); break;
-            case ACTIVESBASEPRODUCTION: view.askActiveBaseProduction(); break;
-            case CHOSENRESOURCEBASEPRODUCTION: view.askChosenResourceBaseProduction(); break;
-            case ACTIVEPRODUCTIONDEVCARD: view.askActiveProductionDevCard(); break;
-            case CHOOSERESOURCESDEVCARDPRODUCTION: view.askChooseResourcesDevCardProduction(); break;
-            case ACTIVELEADERCARDPRODUCTION: view.askActiveLeaderCardProduction(); break;
-            case ENDPRODUCTION: view.sendEndProduction();
+                case SELECTDEVCARD: view.askSelectDevCard(); break;
+                case CHOOSERESOURCESPURCHASEDEVCARD: view.askChooseResourcesPurchaseDevCard(); break;
+                case INSERTCARD: view.askInsertCard(); break;
 
-            case UPDATESTATELEADERACTION: view.askUpdateStateLeaderAction(); break;
+                case CHOOSEPRODUCTIONTYPE: view.askProductionType(); break;
+                case ACTIVESBASEPRODUCTION: view.askActiveBaseProduction(); break;
+                case CHOSENRESOURCEBASEPRODUCTION: view.askChosenResourceBaseProduction(); break;
+                case ACTIVEPRODUCTIONDEVCARD: view.askActiveProductionDevCard(); break;
+                case CHOOSERESOURCESDEVCARDPRODUCTION: view.askChooseResourcesDevCardProduction(); break;
+                case ACTIVELEADERCARDPRODUCTION: view.askActiveLeaderCardProduction(); break;
+                case ENDPRODUCTION: view.sendEndProduction();
+
+                case UPDATESTATELEADERACTION: view.askUpdateStateLeaderAction(); break;
 
 
-            case ENDTURNACTIVELEADERCARD: view.askEndTurnActiveLeaderCard();  break;
-            case ENDTURN:  view.endturn(); break;
+                case ENDTURNACTIVELEADERCARD: view.askEndTurnActiveLeaderCard();  break;
+                case ENDTURN:  view.endturn(); break;
 
-            case UPDATEWINNER: view.showWinnerandVictoryPoint(); break;
+                case UPDATEWINNER: view.showWinnerandVictoryPoint(); break;
+                case SHOWMESSAGE: view.showMessage(info);
+            }
+            active=false;
         }
+
     }
 
     private void askChooseFirstResurces() {
@@ -81,10 +84,22 @@ public class ViewThread implements Runnable {
     }
 
     public void setCurrentState(MessageType currentState) {
-        this.currentState = currentState;
+        synchronized (lock){
+            this.currentState = currentState;
+        }
+
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        synchronized (lock) {
+            this.active = active;
+        }
+    }
+
+
+    public void setInfo(String info){
+        synchronized (lock){
+            this.info=info;
+        }
     }
 }
