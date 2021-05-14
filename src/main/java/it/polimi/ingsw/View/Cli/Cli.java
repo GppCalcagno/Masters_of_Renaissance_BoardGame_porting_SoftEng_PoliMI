@@ -28,11 +28,13 @@ public class Cli implements view {
 
     @Override
     public void askNickname() {
+        out.println("\n");
         out.println("Enter your nickname: ");
     }
 
     @Override
     public void askNumPlayer() {
+        out.println("\n");
         out.println("Enter the number of players: ");
     }
 
@@ -394,29 +396,34 @@ public class Cli implements view {
     //show
     @Override
     public void showMessage(String message) {
+        out.println("\n");
         out.println(message);
     }
 
     @Override
     public void showLeaderActionBox() {
+        out.println("\n");
         ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox(playerBoard);
         viewLeaderActionBox.plot();
     }
 
     @Override
     public void showSlotDevCard() {
+        out.println("\n");
         ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(playerBoard);
         viewSlotDevCard.plot();
     }
 
     @Override
     public void showWarehouse() {
+        out.println("\n");
         ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard);
         viewWarehouse.plot();
     }
 
     @Override
     public void showStrongbox() {
+        out.println("\n");
         ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard);
         viewStrongbox.plot();
     }
@@ -433,12 +440,14 @@ public class Cli implements view {
 
     @Override
     public void showFaithTrack() {
+        out.println("\n");
         ViewFaithTrack viewFaithTrack = new ViewFaithTrack(playerBoard);
         viewFaithTrack.plot();
     }
 
     @Override
     public void showMarketTray() {
+        out.println("\n");
         ViewMarketTray viewMarketTray = new ViewMarketTray(playerBoard);
         viewMarketTray.plot();
     }
@@ -450,12 +459,14 @@ public class Cli implements view {
 
     @Override
     public void showDevCardDeck() {
+        out.println("\n");
         ViewDevCardDeck viewDevCardDeck = new ViewDevCardDeck(playerBoard);
         viewDevCardDeck.plot();
     }
 
     @Override
     public void showExtraChest(){
+        out.println("\n");
         ViewExtraChest viewExtraChest = new ViewExtraChest(playerBoard);
         viewExtraChest.plot();
     }

@@ -55,7 +55,9 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
 
     @Override
     public void showReq() {
-        System.out.println(reqDevelopmentCards);
+        reqDevelopmentCards.entrySet().forEach(entry -> {
+            System.out.println("Color : " + entry.getKey() + " " + "Number : " + " " + entry.getValue());
+        });
 
     }
 

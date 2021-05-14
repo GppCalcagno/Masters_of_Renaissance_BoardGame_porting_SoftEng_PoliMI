@@ -31,16 +31,17 @@ public class ProductionLeader extends LeaderAction {
 
     @Override
     public void showCli() {
+        System.out.println("\n");
         System.out.println("PRODUCTION LEADER");
         //cost
-        System.out.println("Cost : ");
+        System.out.println("Requirement : ");
         this.getCost().showReq();
         //victory points
         System.out.println("Victory points : ");
         System.out.println(getVictoryPoints());
         //nuova produzione
         System.out.println("Produced what : ");
-        System.out.println(getResources() + "one FaithMarker");
+        System.out.println(getResources() + " + one FaithMarker");
 
     }
 }

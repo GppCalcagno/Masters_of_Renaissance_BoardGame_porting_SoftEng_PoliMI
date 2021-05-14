@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.requirements;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Resources;
 
+import java.util.Locale;
+
 public class RequestedResources extends RequirementsLeader {
     /**
      *  this attribute is the type of the required resource
@@ -37,18 +39,11 @@ public class RequestedResources extends RequirementsLeader {
         return currentRes>=reqnumResources;
     }
 
-    public Resources getReqResources() {
-        return reqResources;
-    }
-
-    public int getReqnumResources() {
-        return reqnumResources;
-    }
-
     @Override
     public void showReq() {
-        System.out.println(getReqnumResources());
-        System.out.println(getReqResources());
+        System.out.println("Resources : " + reqResources + " " + "Number : " + reqnumResources);
+
+
     }
 
 
