@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.*;
 
@@ -734,7 +733,8 @@ public class Game {
             }
 
         }
-
+        turnPhase = TurnPhase.DOTURN;
+        setCanDoProductionTrue();
         setCurrentPlayer();
     }
 
