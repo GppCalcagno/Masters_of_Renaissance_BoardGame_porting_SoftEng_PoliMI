@@ -101,10 +101,18 @@ public class ClientSocket extends Observable {
      */
     public void EnablePing(boolean state){
         if(state){
-            pinger.schedule(new PingerTimerTask(sendMessage, LockSending),0,5000);
+            pinger.schedule(new PingerTimerTask(this),0,5000);
         }
         else
             pinger.cancel();
+    }
+
+    public ObjectOutputStream getSendMessage() {
+        return sendMessage;
+    }
+
+    public Object getLockSending() {
+        return LockSending;
     }
 }
 

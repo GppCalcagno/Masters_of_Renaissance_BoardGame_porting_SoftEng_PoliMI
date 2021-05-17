@@ -40,7 +40,6 @@ public class PlayerBoard {
     private List<String> leaderCard;
     private List<String> whiteMarbleEffectList;
     private String [][] slotDevCard;
-    private List<String> prductionBuffer;
 
     private String [][][] devCardDeck;
     private String [][] marketTray;
@@ -69,7 +68,6 @@ public class PlayerBoard {
 
         devCardDeck= new String[3][4][4];
         marketTray= new String[3][4];
-        prductionBuffer= new ArrayList<>();
 
         developmentCardMap = new HashMap<>();
         initializeDevCardMap();
@@ -128,9 +126,6 @@ public class PlayerBoard {
         this.marbleBuffer = marbleBuffer;
     }
 
-    public void setPrductionBuffer(List<String> prductionBuffer) {
-        this.prductionBuffer = prductionBuffer;
-    }
 
     public void setPopsfavouritetile(boolean[] popsfavouritetile) {
         this.popsfavouritetile = popsfavouritetile;
@@ -367,9 +362,5 @@ public class PlayerBoard {
 
     public String getRemainingMarble() {
         return remainingMarble;
-    }
-
-    public List<String> getPrductionBuffer() {
-        return prductionBuffer;
     }
 }

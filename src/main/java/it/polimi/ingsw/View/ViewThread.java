@@ -20,6 +20,11 @@ public class ViewThread implements Runnable {
     }
 
     @Override
+    public void run() {
+
+    }
+/*
+    @Override
     public void run(){
 
         while (!active) {
@@ -102,4 +107,6 @@ public class ViewThread implements Runnable {
             this.info=info;
         }
     }
+
+ */
 }

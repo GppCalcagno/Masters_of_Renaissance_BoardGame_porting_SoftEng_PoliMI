@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.message.*;
+import it.polimi.ingsw.Network.message.UpdateMesssage.*;
 import it.polimi.ingsw.model.exceptions.EndGameException;
 import it.polimi.ingsw.model.player.Player;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
+
     private GameState gameState;
 
     private TurnController turnController;
@@ -28,7 +30,7 @@ public class GameController {
         this.server = server;
         this.playersNames = new ArrayList<>();
     }
-
+    /*
     public void actionGame (Message receivedMessage) {
         if (nextState.contains(receivedMessage.getMessageType())) {
             switch (gameState) {
@@ -190,7 +192,7 @@ public class GameController {
                     nextState.add(MessageType.CHOOSELEADERCARDS);
                     gameState = GameState.INITGAME;
                     turnController.startGame();
-                    server.sendBroadcastMessage(new MessageInizialization(messageLogin.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
+                    server.sendBroadcastMessage(new MessageStartGame(messageLogin.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
                 }
                 else server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), false));
             }
@@ -206,7 +208,7 @@ public class GameController {
                     gameState = GameState.INITGAME;
                     turnController.getGame().addPlayersList(new Player(messageNumPlayers.getNickname()));
                     turnController.startGame();
-                    server.sendBroadcastMessage(new MessageInizialization(messageNumPlayers.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
+                    server.sendBroadcastMessage(new MessageStartGame(messageNumPlayers.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
                 }
                 else {
                     nextState.add(MessageType.LOGIN);
@@ -480,8 +482,10 @@ public class GameController {
     public boolean verifyCurrentPlayer (String nickname) {
         return turnController.getGame().getCurrentPlayer().getNickname().equals(nickname);
     }
-
+     */
     public TurnController getTurnController() {
         return turnController;
     }
+
+
 }

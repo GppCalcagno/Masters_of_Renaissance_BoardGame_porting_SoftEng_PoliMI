@@ -1,6 +1,9 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
 
-public class MessageUpdateMarketTray extends Message{
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
+
+public class MessageUpdateMarketTray extends Message {
     private static final long serialVersionUID = 1842562788535859189L;
     private char direction;
     private int num;

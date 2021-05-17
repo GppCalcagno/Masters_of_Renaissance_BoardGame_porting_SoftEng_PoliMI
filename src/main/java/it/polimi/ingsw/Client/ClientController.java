@@ -2,6 +2,7 @@ package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.Network.Client.ClientSocket;
 import it.polimi.ingsw.Network.message.*;
+import it.polimi.ingsw.Network.message.UpdateMesssage.*;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.View.ViewInterface;
 import it.polimi.ingsw.View.ViewThread;
@@ -13,12 +14,21 @@ import java.util.Map;
 
 
 public class ClientController implements Observer {
+    @Override
+    public void update(Message message) {
 
+    }
+
+    public void sendMessage(Message messageConnect) {
+    }
+/*
     PlayerBoard board;
     ClientSocket clientSocket;
     ViewThread view;
+
     boolean activatedProduction;
     boolean turndone;
+
     String info=null;
 
     MessageType currState;
@@ -48,6 +58,7 @@ public class ClientController implements Observer {
             case CHOOSETURN: nextState(message); break;
             case CHOOSEAFTERTAKEMARBLE: nextState(message); break;
             case CHOOSEPRODUCTIONTYPE: nextState(message); break;
+            case DISCONNECT: disconnect(); break;
             case LOGIN:
                 board.setNickname(message.getNickname());
                 clientSocket.sendMessage(message);
@@ -56,9 +67,14 @@ public class ClientController implements Observer {
         }
     }
 
+    private void disconnect() {
+
+    }
+
     public void nextState(Message message){
         switch (currState){
 /* *** LOGINPHASE *** */
+    /*
             case LOGIN:
                 switch (message.getMessageType()){
                     case CHECKOK: info="Nickname already in use!"; break;
@@ -84,6 +100,7 @@ public class ClientController implements Observer {
             break;
 
 /* *** FIRST TURN *** */
+    /*
             case WAITINGOTHERPLAYERS:
                 if(message.getMessageType().equals(MessageType.INITIALSITUATIONGAME))
                     currState=MessageType.CHOOSELEADERCARDS;
@@ -105,6 +122,7 @@ public class ClientController implements Observer {
                 break;
 
 /* *** fine turno\partita *** */
+    /*
             case ENDTURN:
                 //aspetto il mio turno-non esiste in singleplayer
                 switch(message.getMessageType()){
@@ -136,7 +154,6 @@ public class ClientController implements Observer {
                         currState=MessageType.ENDTURN;
                         break;
                     case UPDATESINGLEPLAYER:
-                        //view.showLorenzoTrun(); todo
                         currState=MessageType.CHOOSETURN;
                         break;
                     case UPDATEWINNER: //per giocatore corrente o singleplyaer
@@ -146,6 +163,7 @@ public class ClientController implements Observer {
 
 
 /* *** SCELTA TURNI *** */
+    /*
             case CHOOSETURN:
                 turndone=false;
                 if(message.getMessageType().equals(MessageType.CHOOSETURN)) {
@@ -161,6 +179,7 @@ public class ClientController implements Observer {
                 break;
 
 /* *** Estrazione Biglie *** */
+    /*
             case EXTRACTIONMARBLES:
                 switch (message.getMessageType()){
                     case CHECKOK:
@@ -206,6 +225,7 @@ public class ClientController implements Observer {
 
 
 /* *** compro carta ***/
+    /*
             case SELECTDEVCARD:
                 MessageChechOk mess= (MessageChechOk) message;
                 if(mess.getCheck())
@@ -230,6 +250,7 @@ public class ClientController implements Observer {
                 break;
 
 /* *** Attivo produzione ** */
+    /*
             case CHOOSEPRODUCTIONTYPE:
                 MessageChooseProductionType messageChooseProductionType= (MessageChooseProductionType) message;
                 switch (messageChooseProductionType.getChoice()){
@@ -312,6 +333,7 @@ public class ClientController implements Observer {
                 break;
 
 /* ** UpdateStateLeaderCard ** */
+    /*
             case UPDATESTATELEADERACTION:
                 switch (message.getMessageType()){
                     case CHECKOK: info=("Can't Active This card"); break;
@@ -348,10 +370,11 @@ public void action(){
      * this method is the Update method of the Observer model. it is used to update client information
      * @param message information about Update
      */
+    /*
     @Override
     public void update(Message message) {
         switch (message.getMessageType()){
-            case INITIALSITUATIONGAME: initialization((MessageInizialization)message); break;
+            case INITIALSITUATIONGAME: initialization((MessageStartGame)message); break;
             case UPDATECURRENTPLAYER:  updateCurrentPlayer((MessageUpdateCurrPlayer)message); break;
             case UPDATEFAITHPOINTS:  updateFaithPoint((MessageUpdateFaithMarker) message);break;
             case UPDATEMARKETTRAY: updateMarketTray((MessageUpdateMarketTray) message); break;
@@ -376,7 +399,7 @@ public void action(){
         board.setMarbleBuffer(message.getMarblesList());
     }
 
-    private void initialization(MessageInizialization message) {
+    private void initialization(MessageStartGame message) {
         List<String> PlayerList = message.getPlayersNameList();
         List<List<String>> AllLeaderCards= message.getLeaderCardsToChoose();
         String[][][] devCardDeck = message.getDevCardDeckMethod();
@@ -443,5 +466,5 @@ public void action(){
             board.getLeaderCard().remove(ID);
         }
     }
-
+*/
 }

@@ -1,8 +1,11 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
+
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
 
 import java.util.Map;
 
-public class MessageUpdateStrongbox extends Message{
+public class MessageUpdateStrongbox extends Message {
     private static final long serialVersionUID = 1138583085556221628L;
 
     private Map<String,Integer> strongbox;

@@ -1,8 +1,11 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
+
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
 
 import java.util.Map;
 
-public class MessageUpdateWarehouse extends Message{
+public class MessageUpdateWarehouse extends Message {
     private static final long serialVersionUID = 3757146638417054874L;
 
     private String[][] warehouse;

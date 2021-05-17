@@ -1,6 +1,9 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
 
-public class MessageUpdateStateLeaderAction extends Message{
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
+
+public class MessageUpdateStateLeaderAction extends Message {
     private static final long serialVersionUID = 2309901068199675655L;
 
     private String ID;

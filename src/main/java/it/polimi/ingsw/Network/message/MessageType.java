@@ -43,6 +43,7 @@ public enum MessageType {
     SHOWMESSAGE,
 
 
-    ENDGAME;
+    ENDGAME,
+    ERROR;
 
 }

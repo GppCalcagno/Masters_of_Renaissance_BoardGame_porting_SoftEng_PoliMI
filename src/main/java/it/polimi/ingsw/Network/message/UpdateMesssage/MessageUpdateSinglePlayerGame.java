@@ -1,6 +1,9 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
 
-public class MessageUpdateSinglePlayerGame extends Message{
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
+
+public class MessageUpdateSinglePlayerGame extends Message {
     private static final long serialVersionUID = -2807318014979699841L;
 
     private String[][][] devCardDeck;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.Cli;
 
+import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class CliTest {
+    ClientController controller;
 
     @Test
     void showLeaderActionBox() throws IOException {
@@ -145,15 +147,17 @@ class CliTest {
         cli.showExtraChest();
 
     }
-
+/*
     @Test
     void askNickname() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard, controller);
 
-        cli.askNickname();
+        //cli.askNickname();
 
         System.out.println(playerBoard.getNickname());
 
     }
+
+ */
 }

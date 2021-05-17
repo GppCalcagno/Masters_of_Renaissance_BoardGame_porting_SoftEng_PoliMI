@@ -1,6 +1,9 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
 
-public class MessageUpdateWinnerSinglePlayer extends Message{
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
+
+public class MessageUpdateWinnerSinglePlayer extends Message {
     private static final long serialVersionUID = 229329624772076140L;
 
     private String winner;

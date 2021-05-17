@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Network.Client;
 
+import it.polimi.ingsw.Network.message.MessageGeneric;
 import it.polimi.ingsw.Network.message.MessagePing;
+import it.polimi.ingsw.Network.message.MessageType;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -9,14 +11,16 @@ import java.util.logging.Logger;
 
 public class PingerTimerTask extends TimerTask {
     private MessagePing pingMessage;
+    ClientSocket socket;
     ObjectOutputStream sendToServer;
     private static Logger LOGGER = Logger.getLogger(ClientSocket.class.getName());
     private Object LockSending;
 
-    public PingerTimerTask(ObjectOutputStream sendToServer, Object LockSending) {
+    public PingerTimerTask(ClientSocket socket) {
         this.pingMessage = new MessagePing();
-        this.sendToServer = sendToServer;
-        this.LockSending = LockSending;
+        this.socket=socket;
+        this.sendToServer= socket.getSendMessage();
+        this.LockSending =socket.getLockSending();
     }
 
 
@@ -27,7 +31,7 @@ public class PingerTimerTask extends TimerTask {
                 sendToServer.writeObject(pingMessage);
             } catch (IOException e) {
                 LOGGER.severe("ERROR: CAN'T PING SERVER");
-                System.exit(-1);
+                socket.notifyAllObserver(new MessageGeneric("server", MessageType.DISCONNECT));
             }
 
         }

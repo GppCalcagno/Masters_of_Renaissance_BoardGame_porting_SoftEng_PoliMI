@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class Server extends Observable {
-    private final static int SOTIMEOUT=50;
+    private final static int SOTIMEOUT=5;
     private static Logger LOGGER;
 
     private Map<String, ServerClientHandler> clientHandlerMap;
@@ -60,6 +60,7 @@ public class Server extends Observable {
                 //eseguo connessioni con client
                 Socket clientSocket= serverSocket.accept();
                 if(connected==0 || connected<gameController.getTurnController().getNumPlayersCount()){
+                    //todo to fix
                     connected++;
                     //timeout set
                     clientSocket.setSoTimeout(SOTIMEOUT*1000);
@@ -110,7 +111,7 @@ public class Server extends Observable {
         clientHandlerMap.remove(name);
         LOGGER.info("Player " + name +" removed from ServerList");
         connected--;
-        //todo far risultare il giocatore disconnesso anche nel model;
+
     }
 
     /**
@@ -120,7 +121,7 @@ public class Server extends Observable {
     public void recivedMessage(Message message){
         //manda il messaggio al controller che lo smista, è l'unico punto di accesso al Model. Viene
         //sincronizzato cosi da non avere accessi concorrenti al model
-        gameController.actionGame(message);
+        //gameController.actionGame(message);
 
     }
 

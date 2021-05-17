@@ -1,8 +1,11 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
+
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
 
 import java.util.Map;
 
-public class MessageUpdateWinnerFinalPoints extends Message{
+public class MessageUpdateWinnerFinalPoints extends Message {
     private static final long serialVersionUID = 2509383771998500986L;
 
     private int playerWinner;

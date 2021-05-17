@@ -102,7 +102,7 @@ public class Cli implements ViewInterface {
         out.println("Enter the relative number: ");
         int action = input.nextInt();
 
-        controller.sendMessage(new MessageChooseTurn(playerBoard.getNickname(), action));
+        //controller.sendMessage(new MessageChooseTurn(playerBoard.getNickname(), action));
     }
 
     @Override
@@ -141,7 +141,7 @@ public class Cli implements ViewInterface {
         out.println("Enter the relative action's number: ");
         int choice = input.nextInt();
 
-        controller.sendMessage(new MessageChooseAfterTakeMarble(playerBoard.getNickname(), choice));
+        //controller.sendMessage(new MessageChooseAfterTakeMarble(playerBoard.getNickname(), choice));
     }
 
     @Override
@@ -170,12 +170,12 @@ public class Cli implements ViewInterface {
         int choiceb = input.nextInt();
 
         if (choiceb == 0) {
-            controller.sendMessage(new MessageAddDiscardMarble(playerBoard.getNickname(), false, -1));
+            //controller.sendMessage(new MessageAddDiscardMarble(playerBoard.getNickname(), false, -1));
         }
         else if (choiceb == 1){
             out.println("Enter Warehouse depots' index in which you want to insert the resource [0-2]: ");
             int index = input.nextInt();
-            controller.sendMessage(new MessageAddDiscardMarble(playerBoard.getNickname(), true, index));
+           //  controller.sendMessage(new MessageAddDiscardMarble(playerBoard.getNickname(), true, index));
         }
     }
 
@@ -187,7 +187,7 @@ public class Cli implements ViewInterface {
         out.println("Enter the resource with which do you want to convert the White marble [0-1]: ");
         int choice = input.nextInt();
 
-        controller.sendMessage(new MessageSelectTransformationWhiteMarble(playerBoard.getNickname(), choice));
+        //controller.sendMessage(new MessageSelectTransformationWhiteMarble(playerBoard.getNickname(), choice));
     }
 
     @Override
@@ -212,7 +212,7 @@ public class Cli implements ViewInterface {
         out.println("Enter the Development card's ID to buy: ");
         String devCard = input.nextLine();
 
-        controller.sendMessage(new MessageSelectDevCard(playerBoard.getNickname(), devCard));
+        //controller.sendMessage(new MessageSelectDevCard(playerBoard.getNickname(), devCard));
     }
 
     @Override
@@ -255,7 +255,7 @@ public class Cli implements ViewInterface {
             ExtrachestMap.put(e, numE);
         }
 
-        controller.sendMessage(new MessageChooseResourcesPurchaseDevCard(playerBoard.getNickname(), WarehouseRes, StrongboxRes, ExtrachestMap));
+        //controller.sendMessage(new MessageChooseResourcesPurchaseDevCard(playerBoard.getNickname(), WarehouseRes, StrongboxRes, ExtrachestMap));
     }
 
     @Override
@@ -281,7 +281,7 @@ public class Cli implements ViewInterface {
         out.println("Enter the slot in which do you want to insert the card [0-2]: ");
         int choice = input.nextInt();
 
-        controller.sendMessage(new MessageInsertCard(playerBoard.getNickname(), choice));
+        //controller.sendMessage(new MessageInsertCard(playerBoard.getNickname(), choice));
     }
 
     @Override

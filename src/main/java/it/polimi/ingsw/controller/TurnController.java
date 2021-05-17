@@ -730,6 +730,18 @@ public class TurnController {
     }
 
     /**
+     * disconnect player from the game
+     * @param name is the name of the disconnected player
+     */
+    public void disconnectPlayer(String name){
+        for(Player p: game.getPlayersList()){
+            if(p.getNickname().equals(name)){
+                p.setConnected(false);
+            }
+        }
+    }
+
+    /**
      * This method calls the Game's startgame method.
      */
     public void startGame (){

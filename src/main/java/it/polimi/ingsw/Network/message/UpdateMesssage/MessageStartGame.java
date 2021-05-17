@@ -1,11 +1,15 @@
-package it.polimi.ingsw.Network.message;
+package it.polimi.ingsw.Network.message.UpdateMesssage;
+
+import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.message.MessageType;
 
 import java.util.List;
+import java.util.Map;
 
-public class MessageInizialization extends Message{
+public class MessageStartGame extends Message {
     private static final long serialVersionUID = -2092724752083413983L;
 
-    private List<List<String>> leaderCardsToChoose;
+    private Map<String,List<String>> leaderCardsToChoose;
 
     private List<String> playersNameList;
 
@@ -15,8 +19,8 @@ public class MessageInizialization extends Message{
 
     private String remainingMarble;
 
-    public MessageInizialization(String nickname, List<List<String>> leaderCardsToChoose, List<String> playersNameList, String[][][] devCardDeckMethod, String[][] marketTray, String remainingMarble) {
-        super(nickname, MessageType.INITIALSITUATIONGAME);
+    public MessageStartGame(Map<String,List<String>>leaderCardsToChoose, List<String> playersNameList, String[][][] devCardDeckMethod, String[][] marketTray, String remainingMarble) {
+        super("server", MessageType.INITIALSITUATIONGAME);
         this.leaderCardsToChoose = leaderCardsToChoose;
         this.playersNameList = playersNameList;
         this.devCardDeckMethod = devCardDeckMethod;
@@ -24,7 +28,7 @@ public class MessageInizialization extends Message{
         this.remainingMarble = remainingMarble;
     }
 
-    public List<List<String>> getLeaderCardsToChoose() {
+    public Map<String,List<String>> getLeaderCardsToChoose() {
         return leaderCardsToChoose;
     }
 

@@ -48,7 +48,7 @@ public class Game {
      */
     private FaithTrack faithTrack;
 
-    private int lastPlayer;
+    private Player lastPlayer;
 
     /**
      * This is the constructor method
@@ -61,7 +61,7 @@ public class Game {
         this.marketStructure = new MarketStructure();
         this.faithTrack = new FaithTrack();
         this.finishedGame = false;
-        this.lastPlayer = -1;
+        this.lastPlayer = null;
     }
 
     /**
@@ -77,14 +77,18 @@ public class Game {
      */
     public void setCurrentPlayer () throws EndGameException {
         int i = this.playersList.indexOf(this.currentPlayer);
-        if (finishedGame && lastPlayer == -1)
-            lastPlayer = i;
-        i++;
-        if(i < this.playersList.size())
-            this.currentPlayer = this.playersList.get(i);
-        else this.currentPlayer = this.playersList.get(0);
-        if (finishedGame && i == lastPlayer)
-            throw new EndGameException();
+
+        if (finishedGame && lastPlayer == null)
+            lastPlayer = getCurrentPlayer();
+        do {
+            i++;
+            if(i >= this.playersList.size()) i=0;
+            if (finishedGame && playersList.get(i) == lastPlayer)
+                throw new EndGameException();
+
+        } while(!playersList.get(i).getConnected());
+
+        currentPlayer=playersList.get(i);
     }
 
     /**
