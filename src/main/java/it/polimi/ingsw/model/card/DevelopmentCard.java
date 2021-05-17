@@ -17,7 +17,7 @@ public class DevelopmentCard extends Card {
     private int level;
 
     /**
-     * This attribute indicates the cost to buy this Development Card
+     * This attribute indicates the cost to activate the Development Card's production
      */
     private RequirementsProduction costProduction;
 

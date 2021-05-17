@@ -23,8 +23,6 @@ public abstract class Marbles {
      * This method adds the converted Resource from the caught Marble to the Extra Chest, if the relative Leader Card is activated
      * @param p reference to the player's Extra Chest
      * @return true if the add is successful
-     * @throws NegativeQuantityExceptions is never throwed
-     * @throws OverflowQuantityExcepions if the Extra Chest is full
      */
-    public abstract boolean addToExtraChest (Player p) throws NegativeQuantityExceptions, OverflowQuantityExcepions;
+    public abstract boolean addToExtraChest (Player p);
 }

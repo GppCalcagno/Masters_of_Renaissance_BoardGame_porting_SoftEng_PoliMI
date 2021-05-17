@@ -26,7 +26,7 @@ public class RedMarble extends Marbles {
      * @return always false
      */
     @Override
-    public boolean addToExtraChest(Player p) throws NegativeQuantityExceptions, OverflowQuantityExcepions {
+    public boolean addToExtraChest(Player p) {
         return false;
     }
 }

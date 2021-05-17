@@ -1,491 +1,89 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.Network.Server.Server;
-import it.polimi.ingsw.Network.message.*;
-import it.polimi.ingsw.Network.message.UpdateMesssage.*;
 import it.polimi.ingsw.model.exceptions.EndGameException;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.GameState;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GameController {
-
     private GameState gameState;
-
-    private TurnController turnController;
-
-    private List<MessageType> nextState;
 
     private Server server;
 
     private List<String> playersNames;
 
+    private TurnController turnController;
+
+    private Game game;
+
     public GameController (Server server) throws IOException {
-        this.turnController = new TurnController();
         gameState = GameState.LOGIN;
-        this.nextState = new ArrayList<>();
-        nextState.add(MessageType.LOGIN);
         this.server = server;
         this.playersNames = new ArrayList<>();
     }
-    /*
-    public void actionGame (Message receivedMessage) {
-        if (nextState.contains(receivedMessage.getMessageType())) {
-            switch (gameState) {
-                case LOGIN:
-                    loginPhase(receivedMessage);
-                    break;
-                case INITGAME:
-                    initGamePhase(receivedMessage);
-                    break;
-                case INGAME:
-                    inGame(receivedMessage);
-                    break;
-                default:
-                    //stato non valido
-                    break;
-            }
-        }
+
+    public boolean extractionMarble(char colrowextract, int numextract) {
+        return game.extractionMarble(colrowextract, numextract);
     }
 
-    public void loginPhase (Message message) {
-        switch (message.getMessageType()) {
-            case LOGIN:
-                loginMethod((MessageLogin) message);
-                break;
-            case NUMPLAYERS:
-                numPlayersMethod((MessageNumPlayers) message);
-                break;
-            default:
-                break;
-        }
+    public boolean manageMarble(int choice, int indexWarehouse, String resourceWhiteMarble) {
+        return game.manageMarble(choice, indexWarehouse, resourceWhiteMarble);
     }
 
-    public void initGamePhase (Message message) {
-        switch (message.getMessageType()) {
-            case CHOOSELEADERCARDS:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    chooseLeaderCardsMethod((MessageChooseLeaderCards) message);
-                }
-                break;
-            case CHOOSERESOURCESFIRSTTURN:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    chooseResourcesFirstTurnMethod((MessageChooseResourcesFirstTurn) message);
-                }
-                break;
-            case ENDTURN:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    endTurnMethod();
-                }
-                break;
-            default:
-                break;
-        }
+    public boolean exchangeWarehouse (int row1, int row2) {
+        return game.exchangeWarehouse(row1, row2);
     }
 
-    public void inGame (Message message) {
-        switch (message.getMessageType()) {
-            case EXTRACTIONMARBLES:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    extractionMarblesMethod((MessageExtractionMarbles) message);
-                }
-                break;
-            case ADDDISCARDMARBLES:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    addDiscardMarblesMethod((MessageAddDiscardMarble) message);
-                }
-                break;
-            case EXCHANGEWAREHOUSE:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    exchangeWarehouseMethod((MessageExchangeWarehouse) message);
-                }
-                break;
-            case SELECTTRANSFORMATIONWHITEMARBLE:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    selectTransformationWhiteMarbleMethod((MessageSelectTransformationWhiteMarble) message);
-                }
-                break;
-            case SELECTDEVCARD:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    selectDevCardMethod((MessageSelectDevCard) message);
-                }
-                break;
-            case CHOOSERESOURCESPURCHASEDEVCARD:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    chooseResourcesForPurchase((MessageChooseResourcesPurchaseDevCard) message);
-                }
-                break;
-            case INSERTCARD:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    insertCardMethod((MessageInsertCard) message);
-                }
-                break;
-            case ACTIVESBASEPRODUCTION:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    ActiveBaseProductionMethod((MessageActiveBaseProduction) message);
-                }
-                break;
-            case CHOSENRESOURCEBASEPRODUCTION:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    chosenResourceBaseProductionMethod((MessageChosenResourceBaseProduction) message);
-                }
-                break;
-            case ACTIVEPRODUCTIONDEVCARD:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    activeProductionDevCard((MessageActiveProductionDevCard) message);
-                }
-                break;
-            case CHOOSERESOURCESDEVCARDPRODUCTION:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    chooseResourcesDevCardProductionMethod((MessageChooseResourcesDevCardProduction) message);
-                }
-                break;
-            case ACTIVELEADERCARDPRODUCTION:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    activeLeaderCardProductionMethod((MessageActiveLeaderCardProduction) message);
-                }
-                break;
-            case ENDPRODUCTION:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    endProductionMethod((MessageGeneric) message);
-                }
-                break;
-            case UPDATESTATELEADERACTION:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    updateStateLeaderActionMethod((MessageAddDiscardLeaderCard) message);
-                }
-                break;
-            case ENDTURN:
-                if (verifyCurrentPlayer(message.getNickname())) {
-                    endTurnMethod();
-                }
-                break;
-            default:
-                break;
-        }
+    public boolean selectDevCard(String ID, int column){
+        return game.selectDevCard(ID, column);
     }
 
-    public void loginMethod(MessageLogin messageLogin) {
-        if (turnController.getNumPlayersCount() == 0) {
-            playersNames.add(messageLogin.getNickname());
-            nextState.clear();
-            nextState.add(MessageType.NUMPLAYERS);
-            server.sendtoPlayer(messageLogin.getNickname(), new MessageRequestNumPlayers(messageLogin.getNickname()));
-        } else {
-            if (playersNames.size() < turnController.getNumPlayersCount() - 1) {
-                if (!playersNames.contains(messageLogin.getNickname())) {
-                    playersNames.add(messageLogin.getNickname());
-                    nextState.clear();
-                    nextState.add(MessageType.LOGIN);
-                    server.sendtoPlayer(messageLogin.getNickname(), new MessageGeneric(messageLogin.getNickname(), MessageType.WAITINGOTHERPLAYERS));
-                }
-                else server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), false));
-            } else {
-                if (!playersNames.contains(messageLogin.getNickname())) {
-                    playersNames.add(messageLogin.getNickname());
-                    for (String name : playersNames) {
-                        turnController.getGame().addPlayersList(new Player(name));
-                    }
-                    nextState.clear();
-                    nextState.add(MessageType.CHOOSELEADERCARDS);
-                    gameState = GameState.INITGAME;
-                    turnController.startGame();
-                    server.sendBroadcastMessage(new MessageStartGame(messageLogin.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
-                }
-                else server.sendtoPlayer(messageLogin.getNickname(), new MessageChechOk(messageLogin.getNickname(), false));
-            }
-        }
+    public boolean payResourcesToBuyDevCard (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
+        return game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap);
     }
 
-    public void numPlayersMethod (MessageNumPlayers messageNumPlayers) {
-        try {
-            if (turnController.VerifyNumPlayers(messageNumPlayers.getNumPlayers())) {
-                nextState.clear();
-                if (turnController.getNumPlayersCount() == 1) {
-                    nextState.add(MessageType.CHOOSELEADERCARDS);
-                    gameState = GameState.INITGAME;
-                    turnController.getGame().addPlayersList(new Player(messageNumPlayers.getNickname()));
-                    turnController.startGame();
-                    server.sendBroadcastMessage(new MessageStartGame(messageNumPlayers.getNickname(), turnController.leaderCardsToChoose(), turnController.playersNameList(), turnController.devCardDeckMethod(), turnController.marketTrayMethod(), turnController.remainingMarbleMethod()));
-                }
-                else {
-                    nextState.add(MessageType.LOGIN);
-                    server.sendtoPlayer(messageNumPlayers.getNickname(), new MessageGeneric(messageNumPlayers.getNickname(), MessageType.WAITINGOTHERPLAYERS));
-                }
-            }
-            else server.sendtoPlayer(messageNumPlayers.getNickname(), new MessageChechOk(messageNumPlayers.getNickname(), false));
-        } catch (IOException e) {
-            //se capita questo errore non ci sono le carte
-        }
+    public boolean activeBaseProduction (char r1, String reqRes1, char r2, String reqRes2, String chosenResource) {
+        return game.activeBaseProduction(r1, reqRes1, r2, reqRes2, chosenResource);
     }
 
-    public void chooseLeaderCardsMethod (MessageChooseLeaderCards messageChooseLeaderCards) {
-        if (turnController.ChooseLeaderCards(messageChooseLeaderCards.getI1(), messageChooseLeaderCards.getI2())) {
-            nextState.clear();
-            nextState.add(MessageType.CHOOSERESOURCESFIRSTTURN);
-            server.sendtoPlayer(messageChooseLeaderCards.getNickname(), new MessageChechOk(messageChooseLeaderCards.getNickname(), true));
-        }
-        server.sendtoPlayer(messageChooseLeaderCards.getNickname(), new MessageChechOk(messageChooseLeaderCards.getNickname(), false));
+    public boolean activeLeaderCardProduction (String ID, char r, String resource, int indexExtraProduction) {
+        return game.activeLeaderCardProduction(ID, r, resource, indexExtraProduction);
     }
 
-    public void chooseResourcesFirstTurnMethod (MessageChooseResourcesFirstTurn messageChooseResourcesFirstTurn) {
-        turnController.ChooseResourcesFirstTurn(messageChooseResourcesFirstTurn.getResourcesList());
-        nextState.clear();
-        nextState.add(MessageType.ENDTURN);
-        server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageChooseResourcesFirstTurn.getNickname(), giveFaithPoints(messageChooseResourcesFirstTurn.getNickname()), turnController.updatePlayersPopFavoriteTiles()));
+    public boolean activeDevCardProduction (int col) {
+        return game.activeDevCardProduction(col);
     }
 
-    public int giveFaithPoints(String name) {
-        if (playersNames.indexOf(name) > 2)
-            return 1;
-        else return 0;
+    public boolean payResourcesForDevCardProduction (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
+        return game.payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap);
     }
 
-    public void extractionMarblesMethod (MessageExtractionMarbles messageExtractionMarbles) {
-        if (turnController.TakeResourcesMarket(messageExtractionMarbles.getColrowextract(), messageExtractionMarbles.getNumextract())) {
-            nextState.clear();
-            nextState.add(MessageType.ADDDISCARDMARBLES);
-            nextState.add(MessageType.EXCHANGEWAREHOUSE);
-            nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
-            server.sendtoPlayer(messageExtractionMarbles.getNickname(), new MessageExtractedMarbles(messageExtractionMarbles.getNickname(), turnController.updateExtractedMarbles()));
-            server.sendBroadcastMessage(new MessageUpdateMarketTray(messageExtractionMarbles.getNickname(), messageExtractionMarbles.getColrowextract(), messageExtractionMarbles.getNumextract()));
-        }
-        else server.sendtoPlayer(messageExtractionMarbles.getNickname(), new MessageChechOk(messageExtractionMarbles.getNickname(), false));
+    public boolean endProduction () {
+        return game.endProduction();
     }
 
-    public void addDiscardMarblesMethod (MessageAddDiscardMarble messageAddDiscardMarble) {
-        if (!turnController.getGame().getMarketStructure().getBuffer().isEmpty()) {
-            if (turnController.AddDiscardMarble(messageAddDiscardMarble.isChoice(), messageAddDiscardMarble.getIndexwarehouse())) {
-                if (turnController.getGame().getMarketStructure().getBuffer().isEmpty()) {
-                    nextState.clear();
-                    nextState.add(MessageType.UPDATESTATELEADERACTION);
-                    nextState.add(MessageType.ENDTURN);
-                }
-                else {
-                    nextState.clear();
-                    nextState.add(MessageType.ADDDISCARDMARBLES);
-                    nextState.add(MessageType.EXCHANGEWAREHOUSE);
-                    nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
-                }
-
-                server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageUpdateWarehouse(messageAddDiscardMarble.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
-                server.sendBroadcastMessage(new MessageUpdateFaithMarker(messageAddDiscardMarble.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
-            }
-            else server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), false));
-        }
-        else server.sendtoPlayer(messageAddDiscardMarble.getNickname(), new MessageChechOk(messageAddDiscardMarble.getNickname(), false));
+    public boolean updateLeaderCard (String ID, int choice) {
+        return game.updateLeaderCard(ID, choice);
     }
 
-    public void exchangeWarehouseMethod (MessageExchangeWarehouse messageExchangeWarehouse) {
-        if (!turnController.getGame().getMarketStructure().getBuffer().isEmpty()) {
-            turnController.ExchangeWarehouse(messageExchangeWarehouse.getRow1(), messageExchangeWarehouse.getRow2());
-            server.sendtoPlayer(messageExchangeWarehouse.getNickname(), new MessageUpdateWarehouse(messageExchangeWarehouse.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest()));
-        }
-        else server.sendtoPlayer(messageExchangeWarehouse.getNickname(), new MessageChechOk(messageExchangeWarehouse.getNickname(), false));
+    public void endTurn () throws EndGameException {
+        game.endTurn();
     }
 
-    public void selectTransformationWhiteMarbleMethod(MessageSelectTransformationWhiteMarble message) {
-        if (turnController.selectTransformationWhiteMarble(message.getI())) {
-            nextState.clear();
-            nextState.add(MessageType.ADDDISCARDMARBLES);
-            nextState.add(MessageType.EXCHANGEWAREHOUSE);
-            nextState.add(MessageType.SELECTTRANSFORMATIONWHITEMARBLE);
-            server.sendtoPlayer(message.getNickname(), new MessageUpdateWhiteMarbleEffect(message.getNickname(), turnController.updateLeaderCardEffectWhiteMarble()));
-        }
-        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
+    public void setGame(int numPlayers) throws IOException {
+        if (numPlayers == 1)
+            game = new SinglePlayerGame();
+        else if (numPlayers == 2)
+            game = new Game();
     }
 
-    public void selectDevCardMethod (MessageSelectDevCard messageSelectDevCard) {
-        if (turnController.selectDevCard(messageSelectDevCard.getCardID())) {
-            nextState.clear();
-            nextState.add(MessageType.CHOOSERESOURCESPURCHASEDEVCARD);
-            server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), true));
-        }
-        else server.sendtoPlayer(messageSelectDevCard.getNickname(), new MessageChechOk(messageSelectDevCard.getNickname(), false));
-    }
-
-    public void chooseResourcesForPurchase (MessageChooseResourcesPurchaseDevCard messageChooseResourcesPurchaseDevCard) {
-        if (turnController.chooseResourcesForPurchase(messageChooseResourcesPurchaseDevCard.getWarehouseRes(), messageChooseResourcesPurchaseDevCard.getStrongboxRes(), messageChooseResourcesPurchaseDevCard.getExtrachestMap())) {
-            nextState.clear();
-            nextState.add(MessageType.INSERTCARD);
-            server.sendtoPlayer(messageChooseResourcesPurchaseDevCard.getNickname(), new MessageUpdateResources(messageChooseResourcesPurchaseDevCard.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest(), turnController.updateStrogbox()));
-        }
-        else server.sendtoPlayer(messageChooseResourcesPurchaseDevCard.getNickname(), new MessageChechOk(messageChooseResourcesPurchaseDevCard.getNickname(), false));
-    }
-
-    public void insertCardMethod (MessageInsertCard messageInsertCard) {
-        if (turnController.insertCard(messageInsertCard.getColumnSlotDev())) {
-            nextState.clear();
-            nextState.add(MessageType.UPDATESTATELEADERACTION);
-            nextState.add(MessageType.ENDTURN);
-            server.sendBroadcastMessage(new MessageDeleteDevCard(messageInsertCard.getNickname(), turnController.getCurrentDevCardPurchase().getID()));
-            server.sendtoPlayer(messageInsertCard.getNickname(), new MessageUpdateSlotDevCards(messageInsertCard.getNickname(), turnController.updateSlotDevCards()));
-        }
-        else server.sendtoPlayer(messageInsertCard.getNickname(), new MessageChechOk(messageInsertCard.getNickname(), false));
-    }
-
-    public void ActiveBaseProductionMethod(MessageActiveBaseProduction message) {
-        if (turnController.chooseResourcesBaseProduction(message.getWarehouseRes(), message.getStrongboxRes(), message.getExtrachestMap())) {
-            nextState.clear();
-            nextState.add(MessageType.CHOSENRESOURCEBASEPRODUCTION);
-            server.sendtoPlayer(message.getNickname(), new MessageUpdateResources(message.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest(), turnController.updateStrogbox()));
-        }
-        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
-    }
-
-    public void chosenResourceBaseProductionMethod (MessageChosenResourceBaseProduction message) {
-        if (turnController.activeBaseProduction(message.getResource())) {
-            nextState.clear();
-            nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-            nextState.add(MessageType.ACTIVESBASEPRODUCTION);
-            nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-            nextState.add(MessageType.ENDPRODUCTION);
-            server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
-        }
-        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
-    }
-
-    public void activeProductionDevCard (MessageActiveProductionDevCard message) {
-        if (turnController.activeProductionDevCard(message.getColumn())) {
-            nextState.clear();
-            nextState.add(MessageType.CHOOSERESOURCESDEVCARDPRODUCTION);
-            server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), true));
-        }
-        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
-    }
-
-    public void chooseResourcesDevCardProductionMethod (MessageChooseResourcesDevCardProduction message) {
-        if (turnController.chooseResourcesDevCardProduction(message.getWarehouseRes(), message.getStrongboxRes(), message.getExtrachestMap())) {
-            nextState.clear();
-            nextState.add(MessageType.ACTIVESBASEPRODUCTION);
-            nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-            nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-            nextState.add(MessageType.ENDPRODUCTION);
-            server.sendtoPlayer(message.getNickname(), new MessageUpdateResources(message.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest(), turnController.updateStrogbox()));
-        }
-        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
-    }
-
-    public void activeLeaderCardProductionMethod (MessageActiveLeaderCardProduction message) {
-        if (turnController.ActiveLeaderCardProduction(message.getIndexExtraProduction(), message.getWareStrongChest(), message.getResource())) {
-            nextState.clear();
-            nextState.add(MessageType.ACTIVESBASEPRODUCTION);
-            nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-            nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-            nextState.add(MessageType.ENDPRODUCTION);
-            server.sendtoPlayer(message.getNickname(), new MessageUpdateResources(message.getNickname(), turnController.updateWarehouse(), turnController.updateExtraChest(), turnController.updateStrogbox()));
-            server.sendBroadcastMessage(new MessageUpdateFaithMarker(message.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
-        }
-        else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
-    }
-
-    public void endProductionMethod (MessageGeneric message) {
-        turnController.emptyBuffer();
-        server.sendtoPlayer(message.getNickname(), new MessageUpdateStrongbox(message.getNickname(), turnController.updateStrogbox()));
-        nextState.clear();
-        nextState.add(MessageType.UPDATESTATELEADERACTION);
-        nextState.add(MessageType.ENDTURN);
-    }
-
-    public void updateStateLeaderActionMethod (MessageAddDiscardLeaderCard message) {
-        if (message.isAddOrDiscard()) {
-            if (turnController.activeLeaderAction(message.getID())) {
-                nextState.clear();
-                nextState.add(MessageType.ENDTURN);
-                nextState.add(MessageType.EXTRACTIONMARBLES);
-                nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
-                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-                server.sendtoPlayer(message.getNickname(), new MessageUpdateStateLeaderAction(message.getNickname(), message.getID(), true));
-            }
-            else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
-        }
-        else {
-            if (turnController.discardLeaderAction(message.getID())) {
-                nextState.clear();
-                nextState.add(MessageType.ENDTURN);
-                nextState.add(MessageType.EXTRACTIONMARBLES);
-                nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
-                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-                server.sendtoPlayer(message.getNickname(), new MessageUpdateStateLeaderAction(message.getNickname(), message.getID(), false));
-                server.sendBroadcastMessage(new MessageUpdateFaithMarker(message.getNickname(), turnController.updateFaithMarker(), turnController.updatePlayersPopFavoriteTiles()));
-            }
-            else server.sendtoPlayer(message.getNickname(), new MessageChechOk(message.getNickname(), false));
-        }
-    }
-
-    public void endTurnMethod () {
-        if (gameState == GameState.INITGAME) {
-            if (turnController.getGame().getPlayersList().indexOf(turnController.getGame().getCurrentPlayer()) == turnController.getNumPlayersCount() - 1) {
-                gameState = GameState.INGAME;
-                nextState.clear();
-                nextState.add(MessageType.EXTRACTIONMARBLES);
-                nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
-                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-                nextState.add(MessageType.UPDATESTATELEADERACTION);
-
-                try {
-                    turnController.endTurn();
-                    if (turnController.getNumPlayersCount() == 1)
-                        server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
-                    else
-                        server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
-
-                } catch (EndGameException e) {
-                    turnController.getGame().givefinalpoints();
-                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));
-                }
-            }
-            else {
-                nextState.clear();
-                nextState.add(MessageType.CHOOSELEADERCARDS);
-                nextState.add(MessageType.CHOOSERESOURCESFIRSTTURN);
-                try {
-                    turnController.endTurn();
-                    server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
-                } catch (EndGameException e) {
-                    turnController.getGame().givefinalpoints();
-                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));
-                }
-            }
-        }
-        else if (gameState == GameState.INGAME) {
-                nextState.clear();
-                nextState.add(MessageType.EXTRACTIONMARBLES);
-                nextState.add(MessageType.SELECTDEVCARD);
-                nextState.add(MessageType.ACTIVESBASEPRODUCTION);
-                nextState.add(MessageType.ACTIVEPRODUCTIONDEVCARD);
-                nextState.add(MessageType.ACTIVELEADERCARDPRODUCTION);
-                nextState.add(MessageType.UPDATESTATELEADERACTION);
-                try {
-                    turnController.endTurn();
-                    if (turnController.getNumPlayersCount() == 1)
-                        server.sendBroadcastMessage(new MessageUpdateSinglePlayerGame("server", turnController.devCardDeckMethod(), turnController.getGame().getBlackCrossToken(), turnController.getCurrentToken()));
-                    else
-                        server.sendBroadcastMessage(new MessageUpdateCurrPlayer(turnController.getGame().getCurrentPlayer().getNickname()));
-
-                } catch (EndGameException e) {
-                    turnController.getGame().givefinalpoints();
-                    //notifica il vincitore. se getwinner() = -1 -> vincitore = Lorenzo
-                    server.sendBroadcastMessage(new MessageUpdateWinnerFinalPoints("server", turnController.getGame().getWinner(), turnController.updateFinalPoints()));
-                }
-            }
-        }
-
-    public boolean verifyCurrentPlayer (String nickname) {
-        return turnController.getGame().getCurrentPlayer().getNickname().equals(nickname);
-    }
-     */
     public TurnController getTurnController() {
         return turnController;
     }
-
-
 }

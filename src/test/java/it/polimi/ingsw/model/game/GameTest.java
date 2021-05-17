@@ -3,17 +3,20 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Coins;
+import it.polimi.ingsw.model.producible.Servants;
 import it.polimi.ingsw.model.producible.Shields;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
     @Test
-    void setCurrentPlayer() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
+    void setCurrentPlayer() throws IOException, EndGameException {
         Game game = new Game();
         Player player1 = new Player("Rene");
         Player player2 = new Player("Caterina");
@@ -106,7 +109,7 @@ class GameTest {
     }
 
     @Test
-    void startgameLeaderActionBox() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void startgameLeaderActionBox() throws IOException{
         Game game = new Game();
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
@@ -125,7 +128,7 @@ class GameTest {
     }
 
     @Test
-    void startgameIncreaseFaithMarker4() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void startgameIncreaseFaithMarker4() throws IOException {
         Game game = new Game();
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
@@ -143,7 +146,7 @@ class GameTest {
     }
 
     @Test
-    void startgameIncreaseFaithMarker2() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void startgameIncreaseFaithMarker2() throws IOException {
         Game game = new Game();
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
@@ -157,7 +160,7 @@ class GameTest {
     }
 
     @Test
-    void givefinalpoints() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, GameFinishedException {
+    void givefinalpoints() throws IOException, NegativeQuantityExceptions, GameFinishedException, ActiveVaticanReportException {
         Game game = new Game();
         Player player = new Player("Caterina");
 
@@ -177,7 +180,7 @@ class GameTest {
     }
 
     @Test
-    void givefinalpoints0() throws IOException, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException {
+    void givefinalpoints0() throws IOException {
         Game game = new Game();
         Player player = new Player("Caterina");
 
@@ -195,5 +198,475 @@ class GameTest {
         assertTrue(game.getPlayersList().isEmpty());
         game.addPlayersList(player1);
         assertFalse(game.getPlayersList().isEmpty());
+    }
+
+    @Test
+    void takeResourcesMarketRight() throws IOException {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        game.addPlayersList(player1);
+        game.startgame();
+
+        assertTrue(game.extractionMarble('c', 1));
+    }
+
+    @Test
+    void takeResourcesMarketWrongColRow() throws IOException {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        game.addPlayersList(player1);
+        game.startgame();
+
+
+        assertFalse(game.extractionMarble('n', 2));
+    }
+
+    @Test
+    void takeResourcesMarketWrongNum() throws IOException {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        game.addPlayersList(player1);
+        game.startgame();
+
+        assertFalse(game.extractionMarble('r', 4));
+    }
+
+    @Test
+    void AddMarbleToWarehouse() throws IOException {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        game.addPlayersList(player1);
+        game.startgame();
+
+        assertTrue(game.extractionMarble('c', 1));
+        assertTrue(game.manageMarble(0, 2, " "));
+    }
+
+    @Test
+    void DiscardMarble() throws IOException {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        game.addPlayersList(player1);
+        game.startgame();
+
+        assertTrue(game.extractionMarble('c', 1));
+        assertTrue(game.manageMarble(2, 0, " "));
+    }
+
+    @Test
+    void exchangeWarehouse() throws IOException {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        game.addPlayersList(player1);
+        game.startgame();
+
+        assertTrue(game.extractionMarble('c', 1));
+        assertTrue(game.manageMarble(0, 0, " "));
+        assertTrue(game.exchangeWarehouse(0, 1));
+    }
+
+    @Test
+    void selectDevCardTestRight() throws IOException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        player1.getStrongbox().updateResources("Coins", 2);
+        game.addPlayersList(player1);
+        game.startgame();
+
+        assertTrue(game.selectDevCard("DCL1B1", 0));
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        StrongboxRes.put("Coins", 2);
+        assertTrue(game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap));
+    }
+
+    @Test
+    void selectDevCardTestWrongID() throws NegativeQuantityExceptions, IOException {
+        Game game = new Game();
+        Player player1 = new Player("Anna");
+        player1.getStrongbox().updateResources("Coins", 2);
+        game.addPlayersList(player1);
+        game.startgame();
+
+        assertFalse(game.selectDevCard("Prova", 0));
+    }
+
+    @Test
+    void deleteResRight() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getWarehouse().checkInsertion(0, new Coins());
+        player.getStrongbox().updateResources(new Coins(), 1);
+        player.getWarehouse().addleaderCardEffect(new Coins());
+        player.getWarehouse().getLeaderCardEffect().get(0).updateResources(1);
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        WarehouseRes.put("Coins", 1);
+        StrongboxRes.put("Coins", 1);
+        ExtrachestMap.put("Coins", 1);
+
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertTrue(game.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
+        assertEquals(0, game.getCurrentPlayer().countTotalResources());
+    }
+
+    @Test
+    void deleteResWrongChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
+        Game game = new Game();
+
+        Player player = new Player("Angelo");
+        player.getWarehouse().checkInsertion(0, new Coins());
+        player.getStrongbox().updateResources(new Coins(), 1);
+        player.getWarehouse().addleaderCardEffect(new Coins());
+        player.getWarehouse().getLeaderCardEffect().get(0).updateResources(1);
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        WarehouseRes.put("Coins", 1);
+        StrongboxRes.put("Coins", 1);
+        ExtrachestMap.put("Coins", 2);
+
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertFalse(game.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
+        assertEquals(3, game.getCurrentPlayer().countTotalResources());
+    }
+
+    @Test
+    void deleteResRightWithSecondChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
+        Game game = new Game();
+
+        Player player = new Player("Angelo");
+        player.getWarehouse().checkInsertion(0, new Coins());
+        player.getStrongbox().updateResources(new Coins(), 1);
+        player.getStrongbox().updateResources(new Coins(), 3);
+        player.getWarehouse().addleaderCardEffect(new Servants());
+        player.getWarehouse().getLeaderCardEffect().get(0).updateResources(1);
+        player.getWarehouse().addleaderCardEffect(new Coins());
+        player.getWarehouse().getLeaderCardEffect().get(1).updateResources(2);
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        WarehouseRes.put("Coins", 1);
+        StrongboxRes.put("Coins", 4);
+        ExtrachestMap.put("Coins", 2);
+
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertTrue(game.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
+        assertEquals(1, game.getCurrentPlayer().countTotalResources());
+    }
+
+    @Test
+    void activeBaseProductionTestRight() throws IOException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getStrongbox().updateResources("Coins", 2);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertEquals(2, player.countTotalResources());
+        assertTrue(game.activeBaseProduction('s', "Coins", 's', "Coins", "Servants"));
+        assertEquals(1, player.countTotalResources());
+    }
+
+    @Test
+    void activeBaseProductionTestWrongChar() throws IOException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getStrongbox().updateResources("Coins", 2);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertEquals(2, player.countTotalResources());
+        assertFalse(game.activeBaseProduction('t', "Coins", 's', "Coins", "Servants"));
+        assertEquals(2, player.countTotalResources());
+    }
+
+    @Test
+    void activeLeaderCardProductionRight() throws IOException, NegativeQuantityExceptions, GameFinishedException, EndGameException {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getStrongbox().updateResources("Shields", 2);
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL2Y1"));
+        game.addPlayersList(player);
+        game.setCurrentPlayer();
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCPL1"));
+        player.getLeaderActionBox().get(0).doSpecialAbility(player);
+
+        assertEquals(2, player.countTotalResources());
+        assertTrue(game.activeLeaderCardProduction("LCPL1", 's', "Coins", 0));
+        assertEquals(1, player.countTotalResources());
+        assertEquals(1, player.getSlotDevCards().getBuffer().get("Coins"));
+        assertEquals(1, player.getFaithMarker());
+    }
+
+    @Test
+    void activeLeaderCardProductionWrongID() throws IOException, NegativeQuantityExceptions, GameFinishedException {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertFalse(game.activeLeaderCardProduction("prova", 's', "Coins", 0));
+    }
+
+    @Test
+    void activeLeaderCardProductionWrongChest() throws IOException, NegativeQuantityExceptions, GameFinishedException, EndGameException {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getStrongbox().updateResources("Shields", 2);
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL2Y1"));
+        game.addPlayersList(player);
+        game.setCurrentPlayer();
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCPL1"));
+        player.getLeaderActionBox().get(0).doSpecialAbility(player);
+
+        assertEquals(2, player.countTotalResources());
+        assertFalse(game.activeLeaderCardProduction("LCPL1", 't', "Coins", 0));
+        assertEquals(2, player.countTotalResources());
+        assertNull(player.getSlotDevCards().getBuffer().get("Coins"));
+        assertEquals(0, player.getFaithMarker());
+    }
+
+    @Test
+    void activeLeaderCardProductionResource() throws IOException, NegativeQuantityExceptions, GameFinishedException {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getStrongbox().updateResources("Shields", 2);
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL2Y1"));
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCPL1"));
+        player.getLeaderActionBox().get(0).doSpecialAbility(player);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertEquals(2, player.countTotalResources());
+        assertFalse(game.activeLeaderCardProduction("LCPL1", 's', "prova", 0));
+        assertEquals(2, player.countTotalResources());
+        assertNull(player.getSlotDevCards().getBuffer().get("Coins"));
+        assertEquals(0, player.getFaithMarker());
+    }
+
+    @Test
+    void activeLeaderCardProductionWrongIndex() throws IOException, NegativeQuantityExceptions, GameFinishedException {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getStrongbox().updateResources("Shields", 2);
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL2Y1"));
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCPL1"));
+        player.getLeaderActionBox().get(0).doSpecialAbility(player);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertEquals(2, player.countTotalResources());
+        assertFalse(game.activeLeaderCardProduction("LCPL1", 's', "prova", 7));
+        assertEquals(2, player.countTotalResources());
+        assertNull(player.getSlotDevCards().getBuffer().get("Coins"));
+        assertEquals(0, player.getFaithMarker());
+    }
+
+    @Test
+    void activeLeaderCardProductionWrongxtraChest() throws IOException, NegativeQuantityExceptions, GameFinishedException {
+        Game game = new Game();
+        Player player = new Player("Angelo");
+        player.getStrongbox().updateResources("Shields", 2);
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
+        player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL2Y1"));
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCPL1"));
+        player.getLeaderActionBox().get(0).doSpecialAbility(player);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertEquals(2, player.countTotalResources());
+        assertFalse(game.activeLeaderCardProduction("LCPL1", 'e', "prova", 7));
+        assertEquals(2, player.countTotalResources());
+        assertNull(player.getSlotDevCards().getBuffer().get("Coins"));
+        assertEquals(0, player.getFaithMarker());
+    }
+
+    @Test
+    void activeDevCardProductionTestRight() throws IOException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Angelo Mangiante");
+        player.getStrongbox().updateResources("Coins", 2);
+        player.getStrongbox().updateResources("Shields", 1);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertTrue(game.selectDevCard("DCL1B1", 0));
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        StrongboxRes.put("Coins", 2);
+
+        assertTrue(game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap));
+
+        StrongboxRes.clear();
+        StrongboxRes.put("Shields", 1);
+        assertEquals(1, player.countTotalResources());
+
+        game.setTurnPhase(TurnPhase.DOTURN);
+        assertTrue(game.activeDevCardProduction(0));
+
+        assertTrue(game.payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap));
+
+        assertTrue(game.endProduction());
+
+        assertEquals(1, player.getFaithMarker());
+        assertEquals(0, player.countTotalResources());
+    }
+
+    @Test
+    void activeDevCardProductionTestWrongColumn() throws IOException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Giovanni Guardala");
+        player.getStrongbox().updateResources("Coins", 2);
+        player.getStrongbox().updateResources("Shields", 1);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertTrue(game.selectDevCard("DCL1B1", 0));
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        StrongboxRes.put("Coins", 2);
+
+        assertTrue(game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap));
+
+        StrongboxRes.clear();
+        StrongboxRes.put("Shields", 1);
+        assertEquals(1, player.countTotalResources());
+
+        assertFalse(game.activeDevCardProduction(5));
+    }
+
+    @Test
+    void activeDevCardProductionTestWrongResourcesProduction() throws IOException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Giovanni Guardala");
+        player.getStrongbox().updateResources("Coins", 2);
+        player.getStrongbox().updateResources("Servants", 1);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertTrue(game.selectDevCard("DCL1B1", 0));
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        StrongboxRes.put("Coins", 2);
+
+        assertTrue(game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap));
+
+        StrongboxRes.clear();
+        StrongboxRes.put("Shields", 1);
+        assertEquals(1, player.countTotalResources());
+
+        assertFalse(game.activeDevCardProduction(0));
+    }
+
+    @Test
+    void activeDevCardProductionTestWrongResourcesProduction2() throws IOException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Giovanni Guardala");
+        player.getStrongbox().updateResources("Coins", 2);
+        player.getStrongbox().updateResources("Servants", 1);
+        game.addPlayersList(player);
+        game.startgame();
+
+        assertTrue(game.selectDevCard("DCL1B1", 0));
+
+        Map<String,Integer> WarehouseRes = new HashMap<>();
+        Map<String,Integer> StrongboxRes = new HashMap<>();
+        Map<String,Integer> ExtrachestMap = new HashMap<>();
+        StrongboxRes.put("Coins", 2);
+
+        assertTrue(game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap));
+
+        StrongboxRes.clear();
+        //dovrebbe essere 1 Shields
+        StrongboxRes.put("Servants", 1);
+        assertEquals(1, player.countTotalResources());
+
+        assertFalse(game.activeDevCardProduction(0));
+    }
+
+    @Test
+    void updateLeaderCardTestRightActivation() throws IOException, EndGameException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Paolo Condo");
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
+        player.getStrongbox().updateResources("Coins", 5);
+        game.addPlayersList(player);
+        game.setCurrentPlayer();
+
+        assertTrue(game.updateLeaderCard("LCCL1", 1));
+        assertTrue(player.getLeaderActionBox().get(0).getActivated());
+    }
+
+    @Test
+    void updateLeaderCardTestRightDiscard() throws IOException, EndGameException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Paolo Condo");
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
+        player.getStrongbox().updateResources("Coins", 5);
+        game.addPlayersList(player);
+        game.setCurrentPlayer();
+
+        assertTrue(game.updateLeaderCard("LCCL1", 0));
+        assertTrue(player.getLeaderActionBox().isEmpty());
+    }
+
+    @Test
+    void updateLeaderCardTestWrongID() throws IOException, EndGameException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Paolo Condo");
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
+        player.getStrongbox().updateResources("Coins", 5);
+        game.addPlayersList(player);
+        game.setCurrentPlayer();
+
+        assertFalse(game.updateLeaderCard("prova", 1));
+    }
+
+    @Test
+    void updateLeaderCardTestWrongChoice() throws IOException, EndGameException, NegativeQuantityExceptions {
+        Game game = new Game();
+        Player player = new Player("Paolo Condo");
+        player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
+        player.getStrongbox().updateResources("Coins", 5);
+        game.addPlayersList(player);
+        game.setCurrentPlayer();
+
+        assertFalse(game.updateLeaderCard("LCCL1", 4));
+    }
+
+    @Test
+    void endTurnTestMultiPlayer() throws IOException, EndGameException {
+        Game game = new Game();
+        Player player1 = new Player("Vanessa Leonardi");
+        game.addPlayersList(player1);
+        game.setCurrentPlayer();
+        Player player2 = new Player("Maurizio Pistocchi");
+        game.addPlayersList(player2);
+
+        game.endTurn();
+        assertEquals(player2, game.getCurrentPlayer());
     }
 }

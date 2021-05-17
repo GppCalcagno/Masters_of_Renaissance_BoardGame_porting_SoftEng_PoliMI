@@ -1,12 +1,14 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
-import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.exceptions.NoSelectedLeaderActionExceptions;
+import it.polimi.ingsw.model.game.TurnPhase;
 import it.polimi.ingsw.model.producible.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +74,13 @@ public class Player {
      */
     private SlotDevCards slotDevCards;
 
+    private DevelopmentCard currentDevCardToBuy;
 
+    private int columnSlotBuyDev;
+
+    private DevelopmentCard currentDevCardToProduce;
+
+    private int columnSlotDevCardToProduce;
 
     /**
      * This is the costructor of Player
@@ -94,6 +102,12 @@ public class Player {
         this.warehouse= new WarehouseDepots();
         this.leaderCardEffectDiscount = new ArrayList<>();
         this.leaderCardEffectWhiteMarble = new ArrayList<>();
+
+        this.currentDevCardToBuy = null;
+        this.columnSlotBuyDev = -1;
+
+        this.currentDevCardToProduce = null;
+        this.columnSlotDevCardToProduce = -1;
     }
 
     /**
@@ -249,6 +263,18 @@ public class Player {
         return leaderCardEffectWhiteMarble;
     }
 
+    public void chooseResourceWhiteMarbleEffect (String resource) {
+        for (Resources r : leaderCardEffectWhiteMarble) {
+            if (r.toString().equals(resource)) {
+                if (leaderCardEffectWhiteMarble.indexOf(r) == 1) {
+                    Resources r0 = leaderCardEffectWhiteMarble.get(0);
+                    leaderCardEffectWhiteMarble.set(0, r);
+                    leaderCardEffectWhiteMarble.set(1, r0);
+                }
+            }
+        }
+    }
+
     /**
      * This method returns the LeaderActionBox attribute
      * @return a List of LeaderAction
@@ -358,5 +384,37 @@ public class Player {
 
     public boolean[] getPopsfavortiles() {
         return popsfavortiles;
+    }
+
+    public DevelopmentCard getCurrentDevCardToBuy() {
+        return currentDevCardToBuy;
+    }
+
+    public int getColumnSlotBuyDev() {
+        return columnSlotBuyDev;
+    }
+
+    public void setCurrentDevCardToBuy(DevelopmentCard currentDevCardToBuy) {
+        this.currentDevCardToBuy = currentDevCardToBuy;
+    }
+
+    public void setColumnSlotBuyDev(int columnSlotBuyDev) {
+        this.columnSlotBuyDev = columnSlotBuyDev;
+    }
+
+    public DevelopmentCard getCurrentDevCardToProduce() {
+        return currentDevCardToProduce;
+    }
+
+    public int getColumnSlotDevCardToProduce() {
+        return columnSlotDevCardToProduce;
+    }
+
+    public void setCurrentDevCardToProduce(DevelopmentCard currentDevCardToProduce) {
+        this.currentDevCardToProduce = currentDevCardToProduce;
+    }
+
+    public void setColumnSlotDevCardToProduce(int columnSlotDevCardToProduce) {
+        this.columnSlotDevCardToProduce = columnSlotDevCardToProduce;
     }
 }

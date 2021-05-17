@@ -67,7 +67,7 @@ class TurnControllerTest {
     }
 
     @Test
-    void activeLeaderCardNotActivated() throws IOException, NegativeQuantityExceptions, EmptyLeaderCardException, NullPlayerListGameException, ActiveVaticanReportException, EndGameException {
+    void activeLeaderCardNotActivated() throws IOException, NegativeQuantityExceptions, EndGameException {
         TurnController t = new TurnController();
         LeaderCardDeckStub leaderCardDeckStub = new LeaderCardDeckStub();
 

@@ -135,8 +135,7 @@ public class SlotDevCards {
      * @param y column
      * @return the corresponding DevelopmentCard
      */
-    public DevelopmentCard getDevCards(int x, int y) throws NullPointerException{
-        if(boardDevCards[x][y]==null) throw new NullPointerException();
+    public DevelopmentCard getDevCards(int x, int y) {
         return  boardDevCards[x][y];
     }
 

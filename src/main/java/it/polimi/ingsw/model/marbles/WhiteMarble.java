@@ -25,7 +25,7 @@ public class WhiteMarble extends Marbles {
      * @return true if the add is successful
      */
     @Override
-    public boolean addToExtraChest(Player p) throws NegativeQuantityExceptions, OverflowQuantityExcepions {
+    public boolean addToExtraChest(Player p) {
         if(!p.getLeaderCardEffectWhiteMarble().isEmpty()){
             Resources white = p.getLeaderCardEffectWhiteMarble().get(0);
             if (!p.getWarehouse().getLeaderCardEffect().isEmpty()) {

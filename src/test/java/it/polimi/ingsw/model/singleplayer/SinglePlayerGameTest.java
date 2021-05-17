@@ -53,7 +53,7 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void startgame() throws IOException, NullPlayerListGameException, EmptyLeaderCardException, EndGameException {
+    void startgame() throws IOException, EndGameException {
 
         SinglePlayerGame game = new SinglePlayerGame();
         Player player1 = new Player("Qui");
@@ -65,7 +65,7 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void givefinalpoints() throws IOException, NegativeQuantityExceptions, NullPlayerListGameException, EmptyLeaderCardException, ActiveVaticanReportException, GameFinishedException {
+    void givefinalpoints() throws IOException, NegativeQuantityExceptions, ActiveVaticanReportException, GameFinishedException {
         SinglePlayerGame game = new SinglePlayerGame();
         Player player = new Player("Valentina");
 

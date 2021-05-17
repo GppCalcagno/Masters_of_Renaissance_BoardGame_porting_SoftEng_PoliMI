@@ -38,14 +38,13 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){
                 //scorro la mappa e verifico se la carta è presente
-                try {
-                    card=player.getSlotDevCards().getDevCards(i,j);
-                    if(card.getColorCard().equals(reqColor) && card.getLevel()==(reqLevel)){ return true; }
-                    }
-                catch (NullPointerException e) {}
+                card=player.getSlotDevCards().getDevCards(i,j);
+                if(card != null && card.getColorCard().equals(reqColor) && card.getLevel()==(reqLevel)){
+                    return true;
+                }
             }
         }
-    return false;
+        return false;
     }
 
     @Override
