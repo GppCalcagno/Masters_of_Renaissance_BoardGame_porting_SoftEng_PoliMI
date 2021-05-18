@@ -4,25 +4,26 @@ import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 
+import java.util.Map;
+
 public class MessagePayResources extends Message {
 
     private static final long serialVersionUID = -4554480045749065772L;
 
-    private char c;
-    private String resources;
-    private int numOf;
+    private Map<String,Integer> warehouse;
+    private Map<String,Integer> strongBox;
+    private Map<String,Integer> extraChest;
 
-    public MessagePayResources(String nickname, char c, String resources, int numOf) {
+    public MessagePayResources(String nickname, Map<String, Integer> warehouse, Map<String, Integer> strongBox, Map<String, Integer> extraChest) {
         super(nickname, MessageType.PAYRESOURCES);
-        this.c = c;
-        this.resources = resources;
-        this.numOf = numOf;
+        this.warehouse = warehouse;
+        this.strongBox = strongBox;
+        this.extraChest = extraChest;
     }
-
 
     @Override
     public void action(GameController gameController) {
-
+        gameController.payResources(warehouse,strongBox,extraChest);
     }
 }
 

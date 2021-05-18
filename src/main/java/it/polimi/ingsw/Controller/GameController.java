@@ -70,8 +70,8 @@ public class GameController {
         return game.selectDevCard(ID, column);
     }
 
-    public boolean payResourcesToBuyDevCard (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
-        return game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap);
+    public boolean payResources (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
+        return game.payResources(WarehouseRes, StrongboxRes, ExtrachestMap);
     }
 
     public boolean activeBaseProduction (char r1, String reqRes1, char r2, String reqRes2, String chosenResource) {
@@ -86,9 +86,6 @@ public class GameController {
         return game.activeDevCardProduction(col);
     }
 
-    public boolean payResourcesForDevCardProduction (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
-        return game.payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap);
-    }
 
     public boolean endProduction () {
         return game.endProduction();

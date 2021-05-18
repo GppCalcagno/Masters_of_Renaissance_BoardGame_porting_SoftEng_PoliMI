@@ -11,7 +11,7 @@ public class MessageManageMarbles extends Message {
     private int row;
     private String changeFromWithe;
 
-    public MessageManageMarbles(String nickname, char structure, int row, String changeFromWithe) {
+    public MessageManageMarbles(String nickname, int structure, int row, String changeFromWithe) {
         super(nickname, MessageType.MANAGEMARBLES);
         this.structure = structure;
         this.row = row;
@@ -21,6 +21,6 @@ public class MessageManageMarbles extends Message {
 
     @Override
     public void action(GameController gameController) {
-
+        gameController.manageMarble(structure,row,changeFromWithe);
     }
 }

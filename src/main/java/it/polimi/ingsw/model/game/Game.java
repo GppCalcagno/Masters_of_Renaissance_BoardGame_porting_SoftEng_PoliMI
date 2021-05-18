@@ -446,7 +446,6 @@ public class Game {
     }
 
     public boolean payResourcesToBuyDevCard (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
-        if (currentPlayer.getCurrentDevCardToBuy() != null) {
             if(!currentPlayer.getCurrentDevCardToBuy().getCost().checkResources(WarehouseRes,StrongboxRes,ExtrachestMap))
                 return false;
             if (deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap)) {
@@ -472,8 +471,6 @@ public class Game {
                 }
             }
             else return false;
-        }
-        else return false;
     }
 
     /**
@@ -670,7 +667,6 @@ public class Game {
     }
 
     public boolean payResourcesForDevCardProduction (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
-        if (currentPlayer.getCurrentDevCardToProduce() != null) {
             DevelopmentCard card = currentPlayer.getCurrentDevCardToProduce();
 
             //controlla se risorse corrispondono a costo carta
@@ -685,8 +681,19 @@ public class Game {
             currentPlayer.getSlotDevCards().cardProduction(card);
             update.onUpdateResources(currentPlayer);
             return true;
+    }
+
+
+    public boolean payResources(Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap){
+        if(currentPlayer.getCurrentDevCardToProduce() != null)
+            payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap);
+        else {
+            if(currentPlayer.getCurrentDevCardToBuy() != null)
+                payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap);
         }
-        else return false;
+        //message error
+
+        return false;
     }
 
     public boolean endProduction () {
