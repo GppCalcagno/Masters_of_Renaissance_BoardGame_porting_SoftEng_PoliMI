@@ -2,7 +2,7 @@ package it.polimi.ingsw.View.Cli;
 
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.*;
+import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageUpdateStateLeaderAction;
 
 import java.util.Locale;

@@ -53,6 +53,8 @@ public enum MessageType {
     UPDATEWINNERSINGLEPLAYER,
 
 /* ** UTILITY Message ** */
+    FINISHEDGAME,
+    ENDGAME,
     SHOWMESSAGE,
     PING,
     DISCONNECT,

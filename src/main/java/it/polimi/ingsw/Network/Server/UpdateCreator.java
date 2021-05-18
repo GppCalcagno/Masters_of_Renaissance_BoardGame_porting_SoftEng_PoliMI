@@ -1,12 +1,13 @@
 package it.polimi.ingsw.Network.Server;
 
+import it.polimi.ingsw.Network.Message.ClientMessage.MessageGeneric;
+import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Strongbox;
 import it.polimi.ingsw.model.player.WarehouseDepots;
 import it.polimi.ingsw.model.producible.Resources;
 import it.polimi.ingsw.model.singleplayer.token.Tokens;
@@ -72,13 +73,11 @@ public class UpdateCreator {
 
         MessageUpdateFaithMarker message = new MessageUpdateFaithMarker(playersPosition, playersPopFavoriteTile);
         server.sendBroadcastMessage(message);
-
     }
 
     public void onUpdateMarketTray(Player player, char direction, int num){
         MessageUpdateMarketTray message= new MessageUpdateMarketTray(player.getNickname(),direction, num);
         server.sendBroadcastMessage(message);
-
     }
 
     public void onUpdateDevCardDeck(Player player, DevelopmentCard card){
@@ -88,14 +87,16 @@ public class UpdateCreator {
     }
 
 
-
     public void onUpdatePlayerState(Player player, boolean state){
         MessageUpdatePlayerState message= new MessageUpdatePlayerState(player.getNickname(),state);
         server.sendBroadcastMessage(message);
 
     }
 
-    public void onUpdateResources(Player player, WarehouseDepots warehouseDepots, List<ExtraChest> extraChests, Map<String,Integer> strongbox){
+    public void onUpdateResources(Player player){
+        WarehouseDepots warehouseDepots= player.getWarehouse();
+        List<ExtraChest> extraChests = player.getWarehouse().getLeaderCardEffect();
+        Map<String,Integer> strongbox= player.getStrongbox().getChest();
         String[][] stringWarehouseDepots= warehouseConvert(warehouseDepots);
         Map<String,Integer> stringExtrachest = extrachestConvert(extraChests);
 
@@ -125,13 +126,15 @@ public class UpdateCreator {
 
     }
 
-    public void onUpdateStrongBox(Player player, Strongbox strongbox){
-        MessageUpdateStrongbox message= new MessageUpdateStrongbox(player.getNickname(), strongbox.getChest());
+    public void onUpdateStrongBox(Player player){
+        MessageUpdateStrongbox message= new MessageUpdateStrongbox(player.getNickname(), player.getStrongbox().getChest());
         server.sendBroadcastMessage(message);
 
     }
 
-    public void onUpdateWarehouse(Player player, WarehouseDepots warehouseDepots, List<ExtraChest> extraChests){
+    public void onUpdateWarehouse(Player player){
+        WarehouseDepots warehouseDepots= player.getWarehouse();
+        List<ExtraChest> extraChests= player.getWarehouse().getLeaderCardEffect();
         String[][] stringWarehouseDepots= warehouseConvert(warehouseDepots);
         Map<String,Integer> stringExtrachests = extrachestConvert(extraChests);
 
@@ -153,6 +156,10 @@ public class UpdateCreator {
     public void  onUpdateWinnerSinglePlayer(boolean winner, int finalpoint){
         MessageUpdateWinnerSinglePlayer message= new MessageUpdateWinnerSinglePlayer(winner, finalpoint);
         server.sendBroadcastMessage(message);
+    }
+
+    public void onUpdateGameFinished(){
+        server.sendBroadcastMessage(new MessageGeneric("server", MessageType.FINISHEDGAME));
     }
 
     //REQUESTNUMPLAYER????
@@ -190,4 +197,6 @@ public class UpdateCreator {
         }
         return result;
     }
+
+
 }

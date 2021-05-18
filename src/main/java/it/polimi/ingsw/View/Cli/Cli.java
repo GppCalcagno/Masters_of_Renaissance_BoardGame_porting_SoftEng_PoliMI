@@ -2,7 +2,7 @@ package it.polimi.ingsw.View.Cli;
 
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.*;
+import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.ViewInterface;
 
@@ -58,6 +58,11 @@ public class Cli implements ViewInterface {
     }
 
     @Override
+    public void GameStart() {
+
+    }
+
+    @Override
     public void askChooseLeaderCards() {
         showLeaderActionBox();
         out.println("\n");
@@ -106,6 +111,66 @@ public class Cli implements ViewInterface {
     }
 
     @Override
+    public void extractMarble() {
+
+    }
+
+    @Override
+    public void manageMarble() {
+
+    }
+
+    @Override
+    public void exchangeWarehouse() {
+
+    }
+
+    @Override
+    public void buyDevCard() {
+
+    }
+
+    @Override
+    public void payResources() {
+
+    }
+
+    @Override
+    public void activeBaseProduction() {
+
+    }
+
+    @Override
+    public void activeLeaderActionProd() {
+
+    }
+
+    @Override
+    public void activeDevCardProduction() {
+
+    }
+
+    @Override
+    public void updateLeaderCard() {
+
+    }
+
+    @Override
+    public void endTurn() {
+
+    }
+
+    @Override
+    public void endProduction() {
+
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+
     public void askExtractMarble() {
         showMarketTray();
         out.println("\n");
@@ -130,7 +195,7 @@ public class Cli implements ViewInterface {
         controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), colrow, num));
     }
 
-    @Override
+
     public void askAfterTakeMarble() {
         showMarbleBuffer();
         out.println("\n");
@@ -144,7 +209,7 @@ public class Cli implements ViewInterface {
         //controller.sendMessage(new MessageChooseAfterTakeMarble(playerBoard.getNickname(), choice));
     }
 
-    @Override
+
     public void askExchange() {
         showWarehouse();
         out.println("\n");
@@ -158,7 +223,6 @@ public class Cli implements ViewInterface {
         controller.sendMessage(new MessageExchangeWarehouse(playerBoard.getNickname(), row1, row2));
     }
 
-    @Override
     public void askAddDiscardMarble() {
         showMarbleBuffer();
         out.println("\n");
@@ -179,7 +243,6 @@ public class Cli implements ViewInterface {
         }
     }
 
-    @Override
     public void askSelectTrasformationWhiteMarble() {
         showWhiteMarbleEffectList();
         out.println("\n");
@@ -190,7 +253,7 @@ public class Cli implements ViewInterface {
         //controller.sendMessage(new MessageSelectTransformationWhiteMarble(playerBoard.getNickname(), choice));
     }
 
-    @Override
+
     public void askSelectDevCard() {
         boolean wantToWatch = true;
 
@@ -215,7 +278,6 @@ public class Cli implements ViewInterface {
         //controller.sendMessage(new MessageSelectDevCard(playerBoard.getNickname(), devCard));
     }
 
-    @Override
     public void askChooseResourcesPurchaseDevCard() {
         showWarehouse();
         out.println("\n");
@@ -258,7 +320,6 @@ public class Cli implements ViewInterface {
         //controller.sendMessage(new MessageChooseResourcesPurchaseDevCard(playerBoard.getNickname(), WarehouseRes, StrongboxRes, ExtrachestMap));
     }
 
-    @Override
     public void askInsertCard() {
         boolean wantToWatch = true;
 
@@ -284,7 +345,6 @@ public class Cli implements ViewInterface {
         //controller.sendMessage(new MessageInsertCard(playerBoard.getNickname(), choice));
     }
 
-    @Override
     public void askProductionType() {
         boolean wantToWatch = true;
 
@@ -344,7 +404,6 @@ public class Cli implements ViewInterface {
         out.println("Productions:\n0: Activate base production\n1: Activate the production power of a Development card\n2: Activate the production power of the relative Leader card\n3: End production");
     }
 
-    @Override
     public void askActiveBaseProduction() {
         showWarehouse();
         out.println("Enter the type of resources from the Warehouse depots [Coins, Servants, Shields, Stones]: ");
@@ -364,12 +423,11 @@ public class Cli implements ViewInterface {
         }
     }
 
-    @Override
     public void askChosenResourceBaseProduction() {
         out.println("Enter the type of the chosen resource [Coins, Servants, Shields, Stones]: ");
     }
 
-    @Override
+
     public void askActiveProductionDevCard() {
         boolean wantToWatch = true;
 
@@ -391,7 +449,7 @@ public class Cli implements ViewInterface {
         out.println("Enter the number of the Slot Development cards' column [0-2]: ");
     }
 
-    @Override
+
     public void askChooseResourcesDevCardProduction() {
         showWarehouse();
         out.println("Enter the type of resources from the Warehouse depots [Coins, Servants, Shields, Stones]: ");
@@ -411,7 +469,7 @@ public class Cli implements ViewInterface {
         }
     }
 
-    @Override
+
     public void askActiveLeaderCardProduction() {
         boolean wantToWatch = true;
 
@@ -443,12 +501,12 @@ public class Cli implements ViewInterface {
         out.println("Enter the type of the given resource [Coins, Servants, Shields, Stones]: ");
     }
 
-    @Override
+
     public void sendEndProduction() {
 
     }
 
-    @Override
+
     public void askEndTurnActiveLeaderCard() {
         boolean wantToWatch = true;
 
@@ -470,7 +528,7 @@ public class Cli implements ViewInterface {
         out.println("Do you want to activate or discard a Leader card or do you want to end your turn? [0-1]: ");
     }
 
-    @Override
+
     public void askUpdateStateLeaderAction() {
         boolean wantToWatch = true;
 
@@ -589,6 +647,11 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showLorenzoTrun() {
+
+    }
+
+    @Override
+    public void ioError() {
 
     }
 }
