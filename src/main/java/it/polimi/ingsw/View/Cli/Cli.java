@@ -108,7 +108,7 @@ public class Cli implements ViewInterface {
     public void doAction(){
         while (true){
             inputFromPlayer();
-            ActionParser actionParser = new ActionParser(this, controller, playerBoard, line);
+            ActionParser actionParser = new ActionParser(this, controller, playerBoard);
         }
     }
 
