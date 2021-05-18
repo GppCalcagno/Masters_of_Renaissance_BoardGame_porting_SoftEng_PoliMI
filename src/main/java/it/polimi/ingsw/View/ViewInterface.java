@@ -43,7 +43,6 @@ public interface ViewInterface {
 
     void showDevCard(String ID);
     void showLeaderAction(String ID);
-    void showPlayerState(String name);
 
     //WIP
     void showWinnerandVictoryPoint();

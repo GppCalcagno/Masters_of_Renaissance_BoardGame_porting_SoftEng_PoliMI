@@ -16,13 +16,5 @@ public class MessageConnect extends Message {
         this.serverPort=serverPort;
     }
 
-    public String getServerAddress() {
-        return serverAddress;
-    }
-
-    public int getServerPort() {
-        return serverPort;
-    }
-
     //dovrebbe essere un messaggio filtrato dal server
 }

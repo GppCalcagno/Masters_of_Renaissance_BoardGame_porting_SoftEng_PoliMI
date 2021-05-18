@@ -19,17 +19,6 @@ public class MessagePayResources extends Message {
         this.numOf = numOf;
     }
 
-    public char getC() {
-        return c;
-    }
-
-    public int getNumOf() {
-        return numOf;
-    }
-
-    public String getResources() {
-        return resources;
-    }
 
     @Override
     public void action(GameController gameController) {

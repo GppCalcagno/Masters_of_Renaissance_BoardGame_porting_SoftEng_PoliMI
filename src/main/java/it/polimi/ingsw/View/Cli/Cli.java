@@ -193,10 +193,6 @@ public class Cli implements ViewInterface {
         playerBoard.searchLeaderCard(ID);
     }
 
-    @Override
-    public void showPlayerState(String name) {
-
-    }
 
     @Override
     public void showWinnerandVictoryPoint() {

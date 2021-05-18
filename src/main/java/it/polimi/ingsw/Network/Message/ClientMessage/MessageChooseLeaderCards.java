@@ -16,17 +16,11 @@ public class MessageChooseLeaderCards extends Message {
         this.i2 = i2;
     }
 
-    public int getI1() {
-        return i1;
-    }
-
-    public int getI2() {
-        return i2;
-    }
 
     @Override
     public void action(GameController gameController) {
         //todo miss method
+        gameController.chooseInitialLeaderCards(i1,i2);
 
     }
 }

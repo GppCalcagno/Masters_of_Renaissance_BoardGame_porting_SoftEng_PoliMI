@@ -25,7 +25,6 @@ public class MessageActiveBaseProduction extends Message {
         this.structure2 = structure2;
     }
 
-
     @Override
     public void action(GameController gameController) {
         gameController.activeBaseProduction(structure1,resources1,structure2,resources2,wanted);
