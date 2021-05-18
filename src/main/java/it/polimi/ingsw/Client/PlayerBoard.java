@@ -361,8 +361,25 @@ public class PlayerBoard {
         return playerList;
     }
 
+
     public String getNickname() {
         return nickname;
+    }
+
+    public Map<String, Integer> getPlayersFaithMarkerPosition() {
+        return playersFaithMarkerPosition;
+    }
+
+    public Map<String, boolean[]> getPlayersPopFavoriteTile() {
+        return playersPopFavoriteTile;
+    }
+
+    public String getPlayerWinner() {
+        return playerWinner;
+    }
+
+    public Map<String, Integer> getPlayersPoints() {
+        return playersPoints;
     }
 
     public String getCurrentPlayer() {
