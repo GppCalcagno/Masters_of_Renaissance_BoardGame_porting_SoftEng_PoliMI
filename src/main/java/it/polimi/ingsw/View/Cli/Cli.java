@@ -10,43 +10,45 @@ import java.io.PrintStream;
 import java.util.*;
 
 public class Cli implements ViewInterface {
-    PlayerBoard playerBoard;
+    private PlayerBoard playerBoard;
     private final PrintStream out;
-    private Scanner input;
     private ClientController controller;
+    private InputReader input;
+    private String line;
 
 
     public Cli(PlayerBoard playerBoard, ClientController controller) {
         this.playerBoard = playerBoard;
         this.controller = controller;
         out = System.out;
-        input = new Scanner(System.in);
+        input = new InputReader();
+        gameStart();
+    }
+    @Override
+    public void inputFromPlayer() {
+        input.run();
+        line = input.getLine();
     }
 
     @Override
     public void askServerInfo() {
         out.println("\n");
         out.println("Please enter server IP [default: 127.0.0.1]: ");
-        String serverAddress = input.nextLine();
-
+        inputFromPlayer();
+        String serverAddress = line;
         out.println("\n");
         out.println("Please enter server port [default : 1234]: ");
-        int serverPort = input.nextInt();
-
+        inputFromPlayer();
+        int serverPort = Integer.parseInt(line);
         controller.sendMessage(new MessageConnect(serverAddress, serverPort));
     }
 
     @Override
-    public void endturn() {
-        controller.sendMessage(new MessageEndTurn(playerBoard.getNickname()));
-
-    }
-
-    @Override  //nickname + num player + gamestart + first resources and leader action tutto in un unico metodo non è meglio??
     public void askNickname() {
         out.println("\n");
         out.println("Please enter your nickname: ");
-        String nickname = input.nextLine();
+        inputFromPlayer();
+        String nickname = line;
         out.println("Welcome : " + nickname);
         controller.sendMessage(new MessageLogin(nickname));
     }
@@ -55,26 +57,35 @@ public class Cli implements ViewInterface {
     public void askNumPlayer() {
         out.println("\n");
         out.println("Please enter the number of players: ");
-        int numPlayers = input.nextInt();
+        inputFromPlayer();
+        int numPlayers = Integer.parseInt(line);
         controller.sendMessage(new MessageNumPlayers(playerBoard.getNickname(), numPlayers));
     }
 
     @Override
-    public void GameStart(){
+    public void gameStart(){
         ViewStart viewstart = new ViewStart();
     }
-
 
     @Override
     public void askChooseLeaderCards() {
         showLeaderActionBox();
         out.println("Please enter which two cards you want keep during the game: [0-3]");
-        int i1 = input.nextInt();
-        int i2 = input.nextInt();
+        inputFromPlayer();
+        int i1 = Integer.parseInt(line);
+        inputFromPlayer();
+        int i2 = Integer.parseInt(line);
         controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), i1, i2));
     }
 
-    //show
+    @Override
+    public void doAction(){
+        while (true){
+            inputFromPlayer();
+            ActionParser actionParser = new ActionParser(this, controller, playerBoard, line);
+        }
+    }
+
     @Override
     public void showMessage(String message) {
         out.println("\n");
@@ -188,5 +199,4 @@ public class Cli implements ViewInterface {
                 "\n show <structure to show>" +
                 "\n help ");
     }
-
 }

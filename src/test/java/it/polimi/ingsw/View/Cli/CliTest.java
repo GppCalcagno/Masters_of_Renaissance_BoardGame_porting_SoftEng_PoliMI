@@ -163,6 +163,6 @@ class CliTest {
     void viewSTart() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard, controller);
-        cli.GameStart();
+        cli.gameStart();
     }
 }

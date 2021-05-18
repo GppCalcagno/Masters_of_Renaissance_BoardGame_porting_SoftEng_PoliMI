@@ -7,18 +7,19 @@ public interface ViewInterface {
 
     void askServerInfo();
 
-    void endturn(); //fai apparire a schermo che il turno finisce e manda il messaggio
-
     /* ************************************ LOGIN PHASE ******************************** */
     void askNickname(); //chiede nome
 
     void askNumPlayer(); //chiede numero
 
+    void inputFromPlayer();
     /* ************************************ INITGAME PHASE ******************************** */
-    void GameStart();
+
+    void gameStart();
 
     void askChooseLeaderCards(); //mostrra le carte e chie quale delle 4 carte tenere
 
+    void doAction();
     /* ************************************ SHOW PHASE ******************************** */
     void showMessage(String message);
 

@@ -10,22 +10,22 @@ import java.util.Scanner;
 
 public class ActionParser {
 
-    private Scanner input;
     private String[] parts;
     private ClientController controller;
     private PlayerBoard playerBoard;
     private Cli cli;
+    private String line;
 
-    public ActionParser(ClientController controller, PlayerBoard playerBoard){
+    public ActionParser(Cli cli, ClientController controller, PlayerBoard playerBoard, String line){
+        this.cli = cli;
         this.playerBoard = playerBoard;
         this.controller = controller;
-        input = new Scanner(System.in);
-        cli  = new Cli(playerBoard, controller);
+        this.line = line;
+        askChooseTurn();
     }
 
     public void askChooseTurn() {
-        String action = input.nextLine();
-        parts = action.toUpperCase(Locale.ROOT).split(" ");
+        parts = line.toUpperCase(Locale.ROOT).split(" ");
         if (parts[0] != "") {
             try {
                 switch (parts[0]) {
