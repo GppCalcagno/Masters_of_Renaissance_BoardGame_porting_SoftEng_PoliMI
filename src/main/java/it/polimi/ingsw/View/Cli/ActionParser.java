@@ -215,6 +215,9 @@ public class ActionParser {
                 case "LEADERACTION":
                     cli.showLeaderAction(parts[2]);
                     break;
+                case "LORENZOTURN":
+                    cli.showLorenzoTrun();
+                    break;
                 default:
                     System.out.println("Nothing to show...");
                     break;

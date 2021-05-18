@@ -190,22 +190,17 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showLeaderAction(String ID) {
-        playerBoard.searchLeaderCard(ID);
-    }
-
-    @Override
-    public void showPlayerState(String name) {
-
+        System.out.println(playerBoard.searchLeaderCard(ID));
     }
 
     @Override
     public void showWinnerandVictoryPoint() {
-
+        System.out.println("The winner is : " + playerBoard.getPlayerWinner() + "with : " + playerBoard.getPlayersPoints().get(playerBoard.getPlayerWinner()) + " points!");
     }
 
     @Override
     public void showLorenzoTrun() {
-
+        System.out.println(playerBoard.getLastTokenUsed());
     }
 
     /**
