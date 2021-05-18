@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Message;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.Controller.GameController;
 
 public class MessageNumPlayers extends Message {
     private static final long serialVersionUID = -81224732564833427L;

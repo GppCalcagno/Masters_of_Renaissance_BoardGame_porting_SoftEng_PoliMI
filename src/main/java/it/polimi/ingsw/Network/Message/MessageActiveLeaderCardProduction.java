@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Message;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.Controller.GameController;
 
 public class MessageActiveLeaderCardProduction extends Message{
     private static final long serialVersionUID = 8021603830645282467L;

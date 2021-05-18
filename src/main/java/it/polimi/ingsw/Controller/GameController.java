@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Server.Server;
@@ -19,6 +19,8 @@ public class GameController {
 
     private List<String> playersNames;
 
+    private final static Object modelLock = new Object();
+
 
     private Game game;
 
@@ -29,26 +31,11 @@ public class GameController {
     }
 
     public void onRecivedMessage(Message message){
-
-
+        synchronized (modelLock){
+            if(message.getNickname().equals(game.getCurrentPlayer()))
+            message.action(this);
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public boolean extractionMarble(char colrowextract, int numextract) {

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Network.Message;
 
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.Controller.GameController;
 
 import java.io.Serializable;
 

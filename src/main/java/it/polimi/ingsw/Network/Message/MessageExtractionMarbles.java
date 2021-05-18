@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Message;
 
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.Controller.GameController;
 
 public class MessageExtractionMarbles extends Message {
     private static final long serialVersionUID = 8042579921096981359L;

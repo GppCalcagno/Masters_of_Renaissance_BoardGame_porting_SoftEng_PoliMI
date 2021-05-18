@@ -23,7 +23,7 @@ public class UpdateCreator {
         this.server = server;
     }
 
-    public void onUpdateStartGame(DevelopmentCard[][][] developmentCardDeck, List<Player> playersList , Marbles[][] marketTray, Marbles remainingMarble, Map<String,List<LeaderAction>> leaderCardsToChoose){
+    public void onUpdateStartGame(DevelopmentCard[][][] developmentCardDeck, List<Player> playersList , Marbles[][] marketTray, Marbles remainingMarble){
         String[][][] stringdevCardDeck = new String[3][4][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -33,10 +33,6 @@ public class UpdateCreator {
             }
         }
 
-        List<String> stringPlayerList= new ArrayList<>();
-        for(Player p: playersList){
-            stringPlayerList.add(p.getNickname());
-        }
         String [][] stringmarketTray = new String[3][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -46,12 +42,14 @@ public class UpdateCreator {
         String stringremainingMarble= remainingMarble.toString();
 
         Map<String,List<String>> stringleaderCardsToChoose= new HashMap<>();
-        for(String p: leaderCardsToChoose.keySet()){
+        List<String> stringPlayerList= new ArrayList<>();
+        for(Player p: playersList){
             List<String> stringLeaderCard= new ArrayList<>();
-            for (LeaderAction card: leaderCardsToChoose.get(p)){
+            for (LeaderAction card: p.getLeaderActionBox()){
                 stringLeaderCard.add(card.getID());
             }
-            stringleaderCardsToChoose.put(p,stringLeaderCard);
+            stringleaderCardsToChoose.put(p.getNickname(),stringLeaderCard);
+            stringPlayerList.add(p.getNickname());
         }
 
         MessageStartGame message= new MessageStartGame(stringleaderCardsToChoose,stringPlayerList,stringdevCardDeck,stringmarketTray,stringremainingMarble);
