@@ -329,13 +329,20 @@ public class Game {
                     update.onUpdateMarketTray(currentPlayer, colrowextract, numextract);
                     return true;
                 }
-                else return false;
+                else {
+                    update.onUpdateError("Wrong message");
+                    return false;
+                }
             }
             catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+                update.onUpdateError("Wrong number of column or row");
                 return false;
             }
         }
-        else return false;
+        else {
+            update.onUpdateError("You can't do this action");
+            return false;
+        }
     }
 
     /**
@@ -346,8 +353,20 @@ public class Game {
      */
     public boolean manageMarble(int choice, int indexWarehouse, String resourceWhiteMarble) {
         if (!marketStructure.getBuffer().isEmpty()) {
-            currentPlayer.chooseResourceWhiteMarbleEffect(resourceWhiteMarble);
+            if (!currentPlayer.getLeaderCardEffectWhiteMarble().isEmpty()) {
+                if (resourceWhiteMarble == null && indexWarehouse != 2) {
+                    update.onUpdateError("You have not choose a resource.");
+                    return false;
+                }
+                if (isRightResource(resourceWhiteMarble)) {
+                    currentPlayer.chooseResourceWhiteMarbleEffect(resourceWhiteMarble);
+                }
+            }
             if (choice == 0) {
+                if (indexWarehouse < 0 || indexWarehouse > 2) {
+                    update.onUpdateError("You have put a wrong Warehouse's index.");
+                    return false;
+                }
                 try {
                     int faithMarker = currentPlayer.getFaithMarker();
                     if (marketStructure.getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
@@ -357,7 +376,10 @@ public class Game {
                         else update.onUpdateFaithMarker(currentPlayer, playersList, true);
                         return true;
                     }
-                    else return false;
+                    else {
+                        update.onUpdateError("You can not add a resource into the Warehouse.");
+                        return false;
+                    }
                 } catch (ActiveVaticanReportException activeVaticanReportException) {
                     marketStructure.getBuffer().remove(0);
                     try {
@@ -376,7 +398,10 @@ public class Game {
                     update.onUpdateWarehouse(currentPlayer, true);
                     return true;
                 }
-                else return false;
+                else {
+                    update.onUpdateError("You can not add a resource into Extra Chest.");
+                    return false;
+                }
             }
             else if (choice == 2) {
                 marketStructure.discardMarbles(marketStructure.getBuffer().get(0));
@@ -397,9 +422,15 @@ public class Game {
                 update.onUpdateFaithMarker(currentPlayer, playersList, true);
                 return true;
             }
-            else return false;
+            else {
+                update.onUpdateError("Wrong choice.");
+                return false;
+            }
         }
-        else return false;
+        else {
+            update.onUpdateError("You can not do this action.");
+            return false;
+        }
     }
 
     /**
@@ -413,7 +444,10 @@ public class Game {
             update.onUpdateWarehouse(currentPlayer, false);
             return true;
         }
-        else return false;
+        else {
+            update.onUpdateError("Wrong rows.");
+            return false;
+        }
     }
 
     /**
@@ -424,8 +458,10 @@ public class Game {
      */
     public boolean selectDevCard(String ID, int column){
         if (turnPhase.equals(TurnPhase.DOTURN)) {
-            if (column < 0 || column > 2)
+            if (column < 0 || column > 2) {
+                update.onUpdateError("Wrong column.");
                 return false;
+            }
             //catch NullPointerException perché l'ID potrebbe essere errato
             try {
                 //controllo che il giocatore abbia spazio nello SlotDevCard e che abbia le risorse necessarie
@@ -436,18 +472,27 @@ public class Game {
                     update.onUpdateDevCardDeck(currentPlayer, currentPlayer.getCurrentDevCardToBuy());
                     return true;
                 }
-                else return false;
+                else {
+                    update.onUpdateError("You can not buy this card.");
+                    return false;
+                }
             }
             catch (NullPointerException e) {
+                update.onUpdateError("Wrong ID");
                 return false;
             }
         }
-        else return false;
+        else {
+            update.onUpdateError("You can not do this action.");
+            return false;
+        }
     }
 
     public boolean payResourcesToBuyDevCard (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
-            if(!currentPlayer.getCurrentDevCardToBuy().getCost().checkResources(WarehouseRes,StrongboxRes,ExtrachestMap))
+            if(!currentPlayer.getCurrentDevCardToBuy().getCost().checkResources(WarehouseRes,StrongboxRes,ExtrachestMap)) {
+                update.onUpdateError("Insufficient resources.");
                 return false;
+            }
             if (deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap)) {
                 try {
                     if (currentPlayer.getSlotDevCards().insertCards(currentPlayer.getColumnSlotBuyDev(), currentPlayer.getCurrentDevCardToBuy())) {
@@ -457,7 +502,10 @@ public class Game {
                         turnPhase = TurnPhase.ENDTURN;
                         return true;
                     }
-                    else return false;
+                    else {
+                        update.onUpdateError("You can't insert the Development card.");
+                        return false;
+                    }
                 } catch (GameFinishedException e) {
                     currentPlayer.setCurrentDevCardToBuy(null);
                     currentPlayer.setColumnSlotBuyDev(-1);
@@ -467,10 +515,16 @@ public class Game {
                         update.onUpdateGameFinished();
                         return true;
                     }
-                    else return false;
+                    else {
+                        update.onUpdateError("Comm sfaccimm è possibil.");
+                        return false;
+                    }
                 }
             }
-            else return false;
+            else {
+                update.onUpdateError("You can not delete these resources.");
+                return false;
+            }
     }
 
     /**
@@ -522,6 +576,10 @@ public class Game {
     }
 
     public boolean activeBaseProduction (char r1, String reqRes1, char r2, String reqRes2, String chosenResource) {
+        if (!isRightResource(reqRes1) || !isRightResource(reqRes2) || !isRightResource(chosenResource)) {
+            update.onUpdateError("Wrong resources.");
+            return false;
+        }
         if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
             if (canDoProduction[5]) {
                 Map<String,Integer> WarehouseRes = new HashMap<>();
@@ -560,11 +618,20 @@ public class Game {
                     update.onUpdateResources(currentPlayer);
                     return true;
                 }
-                else return false;
+                else {
+                    update.onUpdateError("You can not delete these resources to do this action.");
+                    return false;
+                }
             }
-            else return false;
+            else {
+                update.onUpdateError("You have already do this action.");
+                return false;
+            }
         }
-        else return false;
+        else {
+            update.onUpdateError("You can not do this action.");
+            return false;
+        }
     }
 
     public boolean isRightResource (String resource) {
@@ -578,8 +645,10 @@ public class Game {
 
     public boolean activeLeaderCardProduction (String ID, char r, String resource) {
         if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
-            if (!isRightResource(resource))
+            if (!isRightResource(resource)) {
+                update.onUpdateError("Wrong resource.");
                 return false;
+            }
             LeaderAction l = null;
             int posLeaderBox = -1;
             for (LeaderAction l1 : currentPlayer.getLeaderActionBox()) {
@@ -588,14 +657,22 @@ public class Game {
                     posLeaderBox = currentPlayer.getLeaderActionBox().indexOf(l1);
                 }
             }
-            if (l == null)
+            if (l == null) {
+                update.onUpdateError("Wrong ID.");
                 return false;
-            if (!l.getActivated())
+            }
+            if (!l.getActivated()) {
+                update.onUpdateError("This card is not activated.");
                 return false;
-            if (posLeaderBox < 0 || posLeaderBox > 1)
+            }
+            if (posLeaderBox < 0 || posLeaderBox > 1) {
+                update.onUpdateError("Error.");
                 return false;
-            if (!canDoProduction[posLeaderBox + 3])
+            }
+            if (!canDoProduction[posLeaderBox + 3]) {
+                update.onUpdateError("You have already do this production.");
                 return false;
+            }
             String reqResource = l.getResources().toString();
             Map<String, Integer> w = new HashMap<>();
             Map<String, Integer> s = new HashMap<>();
@@ -635,19 +712,28 @@ public class Game {
                 turnPhase = TurnPhase.DOPRODUCTION;
                 return true;
             }
-            else return false;
+            else {
+                update.onUpdateError("You can not delete these resources to do this action.");
+                return false;
+            }
         }
-        else return false;
+        else {
+            update.onUpdateError("You can do this action.");
+            return false;
+        }
     }
 
     public boolean activeDevCardProduction (int col) {
         if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
             if (canDoProduction[col]) {
                 try {
-                    if (currentPlayer.getSlotDevCards().getDevCards(col) == null)
+                    if (currentPlayer.getSlotDevCards().getDevCards(col) == null) {
+                        update.onUpdateError("This card does not exist.");
                         return false;
+                    }
                 }
                 catch (ArrayIndexOutOfBoundsException e) {
+                    update.onUpdateError("Wrong column.");
                     return false;
                 }
                 DevelopmentCard card = currentPlayer.getSlotDevCards().getDevCards(col);
@@ -659,23 +745,36 @@ public class Game {
                     update.onUpdateActivatedDevCardProduction(currentPlayer, card.getID());
                     return true;
                 }
-                else return false;
+                else {
+                    update.onUpdateError("You have not the resources to activate this production power.");
+                    return false;
+                }
             }
-            else return false;
+            else {
+                update.onUpdateError("You have already do this production.");
+                return false;
+            }
         }
-        else return false;
+        else {
+            update.onUpdateError("You can do this action.");
+            return false;
+        }
     }
 
     public boolean payResourcesForDevCardProduction (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
             DevelopmentCard card = currentPlayer.getCurrentDevCardToProduce();
 
             //controlla se risorse corrispondono a costo carta
-            if(!card.getCostProduction().checkResources(WarehouseRes,StrongboxRes,ExtrachestMap))
+            if(!card.getCostProduction().checkResources(WarehouseRes,StrongboxRes,ExtrachestMap)) {
+                update.onUpdateError("Insufficient resources.");
                 return false;
+            }
 
             //elimino le risorse
-            if(!deleteRes(WarehouseRes,StrongboxRes,ExtrachestMap))
+            if(!deleteRes(WarehouseRes,StrongboxRes,ExtrachestMap)) {
+                update.onUpdateError("You can't delete these resources because you don't have them.");
                 return false;
+            }
 
             //assegno le risorse al buffer giocatore
             currentPlayer.getSlotDevCards().cardProduction(card);
@@ -683,17 +782,16 @@ public class Game {
             return true;
     }
 
-
     public boolean payResources(Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap){
         if(currentPlayer.getCurrentDevCardToProduce() != null)
-            payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap);
-        else {
-            if(currentPlayer.getCurrentDevCardToBuy() != null)
-                payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap);
+            return payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap);
+        else if(currentPlayer.getCurrentDevCardToBuy() != null) {
+            return payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap);
         }
-        //message error
-
-        return false;
+        else {
+            update.onUpdateError("You can't do this.");
+            return false;
+        }
     }
 
     public boolean endProduction () {
@@ -702,9 +800,15 @@ public class Game {
                 update.onUpdateStrongBox(currentPlayer);
                 return true;
             }
-            else return false;
+            else {
+                update.onUpdateError("Difficile che entri qui.");
+                return false;
+            }
         }
-        else return false;
+        else {
+            update.onUpdateError("Empty buffer.");
+            return false;
+        }
     }
 
     /**
@@ -750,9 +854,15 @@ public class Game {
                 }
                 else return false;
             }
-            else return false;
+            else {
+                update.onUpdateError("Wrong choice.");
+                return false;
+            }
         }
-        else return false;
+        else {
+            update.onUpdateError("You don't have Leader cards.");
+            return false;
+        }
     }
 
     /**
@@ -769,18 +879,24 @@ public class Game {
         }
 
         //controllo se posizione valida
-        if(pos < 0 || pos>1)
+        if(pos < 0 || pos>1) {
+            update.onUpdateError("Wrong ID.");
             return false;
+        }
 
         LeaderAction card = currentPlayer.getLeaderActionBox().get(pos);
 
         //carta già attivata
-        if(card.getActivated())
-            return true;
+        if(card.getActivated()) {
+            update.onUpdateError("Already activated.");
+            return false;
+        }
 
         //controllo risorse
-        if(!card.getCost().checkResources(currentPlayer))
+        if(!card.getCost().checkResources(currentPlayer)) {
+            update.onUpdateError("You don't have the requirements to activate this card.");
             return false;
+        }
         //attivo carta
         card.setActivated();
 
@@ -801,13 +917,16 @@ public class Game {
             }
         }
 
-        int size = currentPlayer.getLeaderActionBox().size();
         //verifico se indice corretto
-        if (pos > size)
+        if (pos < 0 || pos > 1) {
+            update.onUpdateError("Wrong ID.");
             return false;
+        }
         //verifico che non sia già stata attivata
-        if (currentPlayer.getLeaderActionBox().get(pos).getActivated())
+        if (currentPlayer.getLeaderActionBox().get(pos).getActivated()) {
+            update.onUpdateError("Already activated.");
             return false;
+        }
         currentPlayer.getLeaderActionBox().remove(pos);
         try {
             currentPlayer.increasefaithMarker();
