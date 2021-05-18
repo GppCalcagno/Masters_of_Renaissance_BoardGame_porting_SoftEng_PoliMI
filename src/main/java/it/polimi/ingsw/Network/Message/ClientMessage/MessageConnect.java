@@ -1,8 +1,10 @@
-package it.polimi.ingsw.Network.Message;
+package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessageType;
 
-public class MessageConnect extends Message{
+public class MessageConnect extends Message {
     private static final long serialVersionUID = -1278945139114596789L;
 
     private String serverAddress;
@@ -22,8 +24,5 @@ public class MessageConnect extends Message{
         return serverPort;
     }
 
-    @Override
-    public void action(GameController gameController) {
-
-    }
+    //dovrebbe essere un messaggio filtrato dal server
 }

@@ -1,8 +1,10 @@
-package it.polimi.ingsw.Network.Message;
+package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessageType;
 
-public class MessageChooseLeaderCards extends Message{
+public class MessageChooseLeaderCards extends Message {
     private static final long serialVersionUID = -7664166014343608100L;
 
     private int i1;
@@ -24,6 +26,7 @@ public class MessageChooseLeaderCards extends Message{
 
     @Override
     public void action(GameController gameController) {
-
+        //todo miss method
+        gameController.lea
     }
 }

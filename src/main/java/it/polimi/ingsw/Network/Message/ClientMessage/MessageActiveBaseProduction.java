@@ -1,10 +1,12 @@
-package it.polimi.ingsw.Network.Message;
+package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessageType;
 
 import java.util.Map;
 
-public class MessageActiveBaseProduction extends Message{
+public class MessageActiveBaseProduction extends Message {
     private static final long serialVersionUID = 7072915502239427238L;
 
     private String wanted;
@@ -23,28 +25,9 @@ public class MessageActiveBaseProduction extends Message{
         this.structure2 = structure2;
     }
 
-    public char getStructure1() {
-        return structure1;
-    }
-
-    public char getStructure2() {
-        return structure2;
-    }
-
-    public String getResources1() {
-        return resources1;
-    }
-
-    public String getResources2() {
-        return resources2;
-    }
-
-    public String getWanted() {
-        return wanted;
-    }
 
     @Override
     public void action(GameController gameController) {
-
+        gameController.activeBaseProduction(structure1,resources1,structure2,resources2,wanted);
     }
 }

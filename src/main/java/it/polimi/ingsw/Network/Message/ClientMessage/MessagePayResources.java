@@ -1,8 +1,10 @@
-package it.polimi.ingsw.Network.Message;
+package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessageType;
 
-public class MessagePayResources extends Message{
+public class MessagePayResources extends Message {
 
     private static final long serialVersionUID = -4554480045749065772L;
 

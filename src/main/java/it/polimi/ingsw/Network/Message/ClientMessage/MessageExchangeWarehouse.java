@@ -1,6 +1,8 @@
-package it.polimi.ingsw.Network.Message;
+package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessageType;
 
 public class MessageExchangeWarehouse extends Message {
     private static final long serialVersionUID = -6846180864378519974L;
@@ -25,6 +27,6 @@ public class MessageExchangeWarehouse extends Message {
 
     @Override
     public void action(GameController gameController) {
-
+        gameController.exchangeWarehouse(row1,row2);
     }
 }
