@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.requirements.RequestedLevelDevelopmentCards;
 import it.polimi.ingsw.model.requirements.RequestedResources;
 import it.polimi.ingsw.model.requirements.RequestedTypeDevelopmentCards;
 import it.polimi.ingsw.model.requirements.Requirements;
+import it.polimi.ingsw.model.singleplayer.LorenzoIlMagnifico;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,20 +34,28 @@ public class PlayerBoard {
     private Map<String,Integer> extrachest;
     private Map<String,Integer> strongbox;
 
-    private boolean[] popsfavouritetile;
-    private int faithMarker;
-    private int blackCrossToken;
+    private Map<String, Integer> playersFaithMarkerPosition;
+    private Map<String, boolean[]> playersPopFavoriteTile;
 
-    private List<String> leaderCard;
-    private List<String> whiteMarbleEffectList;
+    private List<String> leaderCards;
+
     private String [][] slotDevCard;
 
     private String [][][] devCardDeck;
     private String [][] marketTray;
-    private List<String> marbleBuffer;
     private String remainingMarble;
 
+    private List<String> marbleBuffer;
+    private String ActivedDevCardProd;
+
+    private String playerWinner;
+    private Map<String, Integer> playersPoints;
+
+
+
+
     private String lastTokenUsed; //only for singleplayer
+    private int blackCrossToken; //only for singleplayer
 
     Map<String, DevelopmentCard> developmentCardMap;
     Map<String, LeaderAction> leaderActionMap;
@@ -59,20 +68,23 @@ public class PlayerBoard {
         strongbox= new HashMap<>();
         extrachest= new HashMap<>();
 
-        faithMarker=0;
-        popsfavouritetile= new boolean[]{false, false, false};
+        blackCrossToken=0;
+        playersFaithMarkerPosition= new HashMap<>();
+        playersFaithMarkerPosition= new HashMap<>();
+        playersPoints= new HashMap<>();
 
 
-        leaderCard= new ArrayList<>();
+        leaderCards= new ArrayList<>();
         slotDevCard= new String[3][3];
 
         devCardDeck= new String[3][4][4];
         marketTray= new String[3][4];
 
-        developmentCardMap = new HashMap<>();
-        initializeDevCardMap();
-        leaderActionMap = new HashMap<>();
-        initializeLeaderCardMap();
+
+
+
+        developmentCardMap = new HashMap<>();   initializeDevCardMap();
+        leaderActionMap = new HashMap<>();      initializeLeaderCardMap();
     }
 
     public void setNickname(String name){
@@ -83,30 +95,30 @@ public class PlayerBoard {
         this.playerList = playerList;
     }
 
+    public void setActivedDevCardProd(String activedDevCardProd) {
+        ActivedDevCardProd = activedDevCardProd;
+    }
+
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
-    public void setFaithMarker(int faithMarker) {
-        this.faithMarker = faithMarker;
-    }
 
     public void setWarehouse(String[][] warehouse, Map<String,Integer> extrachest) {
-        this.warehouse = warehouse;
-        this.extrachest= extrachest;
-
+        if(currentPlayer.equals(nickname)){
+            this.warehouse = warehouse;
+            this.extrachest= extrachest;
+        }
     }
 
-    public void setWhiteMarbleEffectList(List<String> whiteMarbleEffectList) {
-        this.whiteMarbleEffectList = whiteMarbleEffectList;
-    }
 
     public void setStrongbox(Map<String, Integer> strongbox) {
+        if(currentPlayer.equals(nickname))
         this.strongbox = strongbox;
     }
 
     public void setLeaderCard(List<String> leaderCard) {
-        this.leaderCard = leaderCard;
+        this.leaderCards = leaderCard;
     }
 
     public void setSlotDevCard(String[][] slotDevCard) {
@@ -122,31 +134,40 @@ public class PlayerBoard {
         this.remainingMarble = remainingMarble;
     }
 
-    public void setMarbleBuffer(List<String> marbleBuffer) {
-        this.marbleBuffer = marbleBuffer;
-    }
 
+    public void setFaithMarker(Map<String, Integer> playersPosition, Map<String, boolean[]> playersPopFavoriteTile){
+        this.playersFaithMarkerPosition=playersPosition;
+        this.playersPopFavoriteTile=playersPopFavoriteTile;
 
-    public void setPopsfavouritetile(boolean[] popsfavouritetile) {
-        this.popsfavouritetile = popsfavouritetile;
     }
 
     public void updateMarketTray(char direction, int n){
         String temp = remainingMarble;
 
         if( direction == 'c') {
+            if(currentPlayer.equals(nickname)){
+                for(int i=0;i<3;i++)
+                    marbleBuffer.add(marketTray[i][n]);
+            }
+
             remainingMarble = marketTray[0][n];
             marketTray[0][n] = marketTray[1][n];
             marketTray[1][n] = marketTray[2][n];
             marketTray[2][n] = temp;
         }
         else if( direction == 'r') {
+            if(currentPlayer.equals(nickname)){
+                for(int i=0;i<4;i++)
+                    marbleBuffer.add(marketTray[n][i]);
+            }
+
             remainingMarble = marketTray[n][0];
             marketTray[n][0] = marketTray[n][1];
             marketTray[n][1] = marketTray[n][2];
             marketTray[n][2] = marketTray[n][3];
             marketTray[n][3] = temp;
         }
+
     }
 
     public void removeCardfromDevCardDeck (String ID) {
@@ -161,17 +182,19 @@ public class PlayerBoard {
     }
 
     public void updateresoruces(String[][] warehouse,  Map<String, Integer> extraChest, Map<String,Integer> strongbox){
-        this.warehouse=warehouse;
-        this.extrachest=extraChest;
-        this.strongbox=strongbox;
+        if(nickname.equals(currentPlayer)){
+            this.warehouse=warehouse;
+            this.extrachest=extraChest;
+            this.strongbox=strongbox;
+        }
     }
 
 
-    public void initialization(List<String> playerList, List<String> leaderCard, String [][][] devCardDeck,  String[][] marketTray, String remainingMarble){
+    public void onGameStart(List<String> playerList, Map<String,List<String>> leaderCards, String [][][] devCardDeck,  String[][] marketTray, String remainingMarble){
         this.playerList=playerList;
         currentPlayer=playerList.get(0);
 
-        this.leaderCard=leaderCard;
+        this.leaderCards=leaderCards.get(nickname);
         this.devCardDeck=devCardDeck;
         this.marketTray=marketTray;
         this.remainingMarble= remainingMarble;
@@ -182,6 +205,36 @@ public class PlayerBoard {
         this.blackCrossToken=blackCrossToken;
         this.lastTokenUsed=tokenID;
     }
+
+    public void updateSlotDevCard(String ID, int col){
+        if(currentPlayer.equals(nickname)){
+            int i=0;
+            while(slotDevCard[i][col]!=null && i<3)i++;
+            slotDevCard[i][col]=ID;
+        }
+    }
+
+    public void updateStateLeaderCard(String ID){
+        if(currentPlayer.equals(nickname))
+        leaderActionMap.get(ID).setActivated();
+    }
+
+    public void updateWinner(String playerWinner, Map<String, Integer> playersPoints){
+        this.playerWinner=playerWinner;
+        this.playersPoints=playersPoints;
+    }
+
+
+    public void updateWinner(boolean win, int finalpoint){
+        if(win)
+            playerWinner=nickname;
+        else
+            playerWinner= "LorenzoIlMagnifico";
+
+        playersPoints.put(nickname,finalpoint);
+    }
+
+
 
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();
@@ -304,10 +357,6 @@ public class PlayerBoard {
         return leaderActionMap;
     }
 
-    public boolean[] getPopsfavouritetile() {
-        return popsfavouritetile;
-    }
-
     public List<String> getPlayerList() {
         return playerList;
     }
@@ -332,16 +381,9 @@ public class PlayerBoard {
         return strongbox;
     }
 
-    public int getFaithMarker() {
-        return faithMarker;
-    }
 
     public List<String> getLeaderCard() {
-        return leaderCard;
-    }
-
-    public List<String> getWhiteMarbleEffectList() {
-        return whiteMarbleEffectList;
+        return leaderCards;
     }
 
     public String[][] getSlotDevCard() {
@@ -362,5 +404,21 @@ public class PlayerBoard {
 
     public String getRemainingMarble() {
         return remainingMarble;
+    }
+
+    public List<String> getLeaderCards() {
+        return leaderCards;
+    }
+
+    public String getActivedDevCardProd() {
+        return ActivedDevCardProd;
+    }
+
+    public String getLastTokenUsed() {
+        return lastTokenUsed;
+    }
+
+    public int getBlackCrossToken() {
+        return blackCrossToken;
     }
 }

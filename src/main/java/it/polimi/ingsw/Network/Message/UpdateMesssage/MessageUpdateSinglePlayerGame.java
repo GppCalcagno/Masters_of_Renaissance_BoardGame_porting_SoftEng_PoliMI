@@ -7,35 +7,24 @@ import it.polimi.ingsw.Network.Message.MessageType;
 public class MessageUpdateSinglePlayerGame extends Message {
     private static final long serialVersionUID = -2807318014979699841L;
 
-    private String[] tokensHeap;
 
     private int blackCrossToken;
+    private String [][][] devCardDeck;
 
     /**
      * This attribute indicates the extracted token's ID
      */
     private String ID;
 
-    public MessageUpdateSinglePlayerGame(String[] tokensHeap ,int blackCrossToken, String id) {
+    public MessageUpdateSinglePlayerGame(int blackCrossToken, String id, String [][][] devCardDeck) {
         super("Lollo", MessageType.UPDATESINGLEPLAYER);
         this.blackCrossToken = blackCrossToken;
         this.ID = id;
-        this.tokensHeap=tokensHeap;
+        this.devCardDeck=devCardDeck;
     }
-
-
-
-    public int getBlackCrossToken() {
-        return blackCrossToken;
-    }
-
-    public String getID() {
-        return ID;
-    }
-
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.singlePlayerUpdate(devCardDeck,blackCrossToken,ID);
     }
 }

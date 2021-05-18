@@ -22,17 +22,10 @@ public class MessageUpdateStateLeaderAction extends Message {
         this.activated = activated;
     }
 
-    public String getID() {
-        return ID;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        if(activated)
+            playerBoard.updateStateLeaderCard(ID);
     }
 }

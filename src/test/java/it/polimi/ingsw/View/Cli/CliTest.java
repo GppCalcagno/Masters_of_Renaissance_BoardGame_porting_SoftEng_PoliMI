@@ -92,7 +92,7 @@ class CliTest {
 
         cli.showFaithTrack();
 
-        playerBoard.setFaithMarker(20);
+        //playerBoard.setFaithMarker(20);
 
         cli.showFaithTrack();
 

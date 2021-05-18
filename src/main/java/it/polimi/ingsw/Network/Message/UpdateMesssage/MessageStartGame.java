@@ -29,30 +29,9 @@ public class MessageStartGame extends Message {
         this.remainingMarble = remainingMarble;
     }
 
-    public Map<String,List<String>> getLeaderCardsToChoose() {
-        return leaderCardsToChoose;
-    }
-
-    public List<String> getPlayersNameList() {
-        return playersNameList;
-    }
-
-    public String[][][] getDevCardDeckMethod() {
-        return devCardDeckMethod;
-    }
-
-    public String[][] getMarketTray() {
-        return marketTray;
-    }
-
-    public String getRemainingMarble() {
-        return remainingMarble;
-    }
-
 
     @Override
     public void update(PlayerBoard playerBoard) {
-
-
+        playerBoard.onGameStart(playersNameList,leaderCardsToChoose,devCardDeckMethod,marketTray,remainingMarble);
     }
 }

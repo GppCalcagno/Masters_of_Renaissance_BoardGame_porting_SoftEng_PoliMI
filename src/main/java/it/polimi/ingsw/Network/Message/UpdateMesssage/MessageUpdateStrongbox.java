@@ -16,13 +16,9 @@ public class MessageUpdateStrongbox extends Message {
         this.strongbox = strongbox;
     }
 
-    public Map<String, Integer> getStrongbox() {
-        return strongbox;
-    }
-
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.setStrongbox(strongbox);
     }
 }

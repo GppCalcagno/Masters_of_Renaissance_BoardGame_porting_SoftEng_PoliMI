@@ -19,17 +19,9 @@ public class MessageUpdateWinnerMultiplayer extends Message {
         this.playersPoints = playersPoints;
     }
 
-    public String getPlayerWinner() {
-        return playerWinner;
-    }
-
-    public Map<String, Integer> getPlayersPoints() {
-        return playersPoints;
-    }
-
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.updateWinner(playerWinner,playersPoints);
     }
 }

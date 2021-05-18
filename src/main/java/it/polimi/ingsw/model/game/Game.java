@@ -306,7 +306,6 @@ public class Game {
                     if (currentPlayer.getSlotDevCards().insertCards(currentPlayer.getColumnSlotBuyDev(), currentPlayer.getCurrentDevCardToBuy())) {
                         currentPlayer.setCurrentDevCardToBuy(null);
                         currentPlayer.setColumnSlotBuyDev(-1);
-
                         turnPhase = TurnPhase.ENDTURN;
                         return true;
                     }
@@ -419,6 +418,7 @@ public class Game {
 
     public boolean activeLeaderCardProduction (String ID, char r, String resource, int indexExtraProduction) {
         if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
+
             if (canDoProduction[3] || canDoProduction[4]) {
                 Resources resourceConverted = null;
                 Resources[] resourcesVet = {
@@ -489,6 +489,8 @@ public class Game {
                                         turnPhase = TurnPhase.DOPRODUCTION;
                                         return isFinishedGame();
                                     }
+
+
                                 }
                                 if (canDoProduction[3])
                                     canDoProduction[3] = false;

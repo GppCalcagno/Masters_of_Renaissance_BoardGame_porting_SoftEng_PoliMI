@@ -15,6 +15,6 @@ public class MessageError extends Message {
 
     @Override
     public void update(PlayerBoard playerBoard){
-
+        //show
     }
 }

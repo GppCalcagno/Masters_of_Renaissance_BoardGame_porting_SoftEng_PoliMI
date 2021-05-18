@@ -23,17 +23,14 @@ public class MessageUpdateFaithMarker extends Message {
         this.removeMarblefromBuffer=removeMarblefromBuffer;
     }
 
-    public Map<String, Integer> getPlayersPosition() {
-        return playersPosition;
-    }
-
-    public Map<String, boolean[]> getPlayersPopFavoriteTile() {
-        return playersPopFavoriteTile;
-    }
-
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.setFaithMarker(playersPosition,playersPopFavoriteTile);
+
+        if(removeMarblefromBuffer){
+            playerBoard.getMarbleBuffer().remove(0);
+        }
+
     }
 }

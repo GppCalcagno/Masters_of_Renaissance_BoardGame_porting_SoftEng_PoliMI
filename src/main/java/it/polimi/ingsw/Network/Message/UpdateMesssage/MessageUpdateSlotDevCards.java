@@ -16,17 +16,8 @@ public class MessageUpdateSlotDevCards extends Message {
         this.column = column;
     }
 
-    public String getID() {
-        return ID;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+
     }
 }

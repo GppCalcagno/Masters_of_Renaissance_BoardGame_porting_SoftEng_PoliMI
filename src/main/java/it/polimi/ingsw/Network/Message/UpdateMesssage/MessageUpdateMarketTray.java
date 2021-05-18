@@ -15,16 +15,9 @@ public class MessageUpdateMarketTray extends Message {
         this.num=num;
     }
 
-    public char getDirection() {
-        return direction;
-    }
-
-    public int getNum() {
-        return num;
-    }
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.updateMarketTray(direction,num);
     }
 }

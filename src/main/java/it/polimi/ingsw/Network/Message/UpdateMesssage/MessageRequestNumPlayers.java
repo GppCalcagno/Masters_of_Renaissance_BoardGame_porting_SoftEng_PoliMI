@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Network.Message.ClientMessage;
+package it.polimi.ingsw.Network.Message.UpdateMesssage;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
@@ -9,4 +9,6 @@ public class MessageRequestNumPlayers extends Message {
     public MessageRequestNumPlayers(String nickname) {
         super(nickname, MessageType.REQUESTNUMPLAYERS);
     }
+
+    //todo wip
 }

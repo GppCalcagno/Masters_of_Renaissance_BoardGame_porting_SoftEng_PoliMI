@@ -17,6 +17,6 @@ public class MessageUpdatePlayerState extends Message {
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        //per il momento inutile
     }
 }

@@ -20,18 +20,11 @@ public class MessageUpdateWarehouse extends Message {
         this.removeMarblefromBuffer=removeMarblefromBuffer;
     }
 
-    public String[][] getWarehouse() {
-        return warehouse;
-    }
-
-    public Map<String, Integer> getExtraChest() {
-        return extraChest;
-    }
-
-
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.setWarehouse(warehouse,extraChest);
+        if(removeMarblefromBuffer)
+            playerBoard.getMarbleBuffer().remove(0);
     }
 
 

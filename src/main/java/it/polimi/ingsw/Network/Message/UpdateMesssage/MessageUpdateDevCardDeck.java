@@ -20,6 +20,6 @@ public class MessageUpdateDevCardDeck extends Message {
 
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.removeCardfromDevCardDeck(cardID);
     }
 }

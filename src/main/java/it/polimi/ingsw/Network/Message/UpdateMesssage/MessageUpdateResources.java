@@ -20,20 +20,8 @@ public class MessageUpdateResources extends Message {
         this.strongbox = strongbox;
     }
 
-    public String[][] getWarehouse() {
-        return warehouse;
-    }
-
-    public Map<String, Integer> getExtraChest() {
-        return extraChest;
-    }
-
-    public Map<String, Integer> getStrongbox() {
-        return strongbox;
-    }
-
     @Override
     public void update(PlayerBoard playerBoard) {
-        super.update(playerBoard);
+        playerBoard.updateresoruces(warehouse,extraChest,strongbox);
     }
 }
