@@ -418,6 +418,10 @@ public class PlayerBoard {
         return lastTokenUsed;
     }
 
+    public int getFaithMarker(){
+        return playersFaithMarkerPosition.get(nickname);
+    }
+
     public int getBlackCrossToken() {
         return blackCrossToken;
     }
