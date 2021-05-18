@@ -5,7 +5,6 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 
 public class MessageEndProduction extends Message {
-
     private static final long serialVersionUID = -2193109517171387273L;
 
     public MessageEndProduction(String nickname) {

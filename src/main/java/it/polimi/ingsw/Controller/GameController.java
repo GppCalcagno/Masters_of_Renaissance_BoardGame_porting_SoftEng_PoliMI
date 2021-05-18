@@ -1,50 +1,136 @@
 package it.polimi.ingsw.Controller;
 
+
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageError;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestNumPlayers;
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.Server.UpdateCreator;
-import it.polimi.ingsw.model.exceptions.EndGameException;
 import it.polimi.ingsw.model.game.Game;
-import it.polimi.ingsw.model.game.GameState;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class GameController {
-    private GameState gameState;
-
     private Server server;
-
     private List<String> playersNames;
+    private int numPlayer;
+    private Game game=null;
+    private static Logger LOGGER= Logger.getLogger(Server.class.getName());
 
     private final static Object modelLock = new Object();
 
 
-    private Game game;
-
-    public GameController (Server server) throws IOException {
-        gameState = GameState.LOGIN;
+    public GameController (Server server){
         this.server = server;
         this.playersNames = new ArrayList<>();
+        numPlayer=0;
     }
 
     public void onRecivedMessage(Message message) {
         synchronized (modelLock){
-            if(message.getNickname().equals(game.getCurrentPlayer()))
-            message.action(this);
+            switch (message.getMessageType()){
+                case LOGIN: message.action(this); break;
+                case NUMPLAYERS: message.action(this); break;
+                default:
+                    if(message.getNickname().equals(game.getCurrentPlayer()))
+                        message.action(this);
+            }
+        }
+        System.out.println(playersNames);
+        System.out.println(numPlayer);
+    }
+
+
+
+    public void onLogin(String name){
+
+        if(!playersNames.contains(name)){
+            if(playersNames.size()==0){
+                playersNames.add(name);
+                server.sendtoPlayer(name, new MessageRequestNumPlayers("server"));
+            }
+            else
+            {
+                if (numPlayer==0 || (numPlayer>0 && playersNames.size()>=numPlayer)){
+                    server.sendtoPlayer(name, new MessageError("server","Not yet established NumPlayer"));
+                    server.sendtoPlayer(name, new MessageGeneric("server", MessageType.DISCONNECT));
+                }
+                else {
+                    playersNames.add(name);
+
+                    if(playersNames.size()==numPlayer) {
+                        try {
+                            game= new Game(new UpdateCreator(server));
+                            for(String player: playersNames){
+                                game.addPlayersList(new Player(player));
+                            }
+                            game.startgame();
+                        } catch (IOException e) {
+                            server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));
+                            LOGGER.severe("FATAL ERROR: can't Read System File");
+                            System.exit(0);
+                        }
+                    }
+                    else
+                        server.sendtoPlayer(name, new MessageGeneric("server", MessageType.WAITINGOTHERPLAYERS));
+                }
+            }
+        }
+        else {
+            server.sendtoPlayer(name, new MessageError("server","Nickname Already Taken!"));
+            server.sendtoPlayer(name, new MessageGeneric("server", MessageType.LOGIN));
+        }
+
+    }
+
+    public void onNumPlayer(int num){
+        if(num<1 ||num>4){
+            server.sendBroadcastMessage(new MessageError("server", "Number of Player is Not Correct"));
+            server.sendBroadcastMessage(new MessageRequestNumPlayers("server"));
+        }
+        else{
+            if(numPlayer==0)
+                numPlayer=num;
+                try {
+                    if(num==1) {
+                        game = new SinglePlayerGame(new UpdateCreator(server));
+                        game.addPlayersList(new Player(playersNames.get(0)));
+                        game.startgame();
+                    }
+
+                } catch (IOException e) {
+                    server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));
+                    LOGGER.severe("FATAL ERROR: can't Read System File");
+                    System.exit(0);
+                }
         }
     }
 
 
+    public void disconnect(String name){
+        if(game==null){
 
-    public void onLogin(){
-
-
-
+            playersNames.remove(name);
+            if(playersNames.size()==0)
+                numPlayer=0;
+        }
+        else {
+            for(int i=0;i<game.getPlayersList().size();i++){
+                if(game.getPlayersList().get(i).getNickname().equals(name))
+                    game.getPlayersList().get(i).setConnected(false);
+            }
+        }
     }
+
+
 
     public boolean chooseInitialLeaderCards (int i1, int i2) {
         return game.chooseInitialLeaderCards(i1, i2);
@@ -105,5 +191,4 @@ public class GameController {
         else if (numPlayers == 2)
             game = new Game(updateCreator);
     }
-
 }

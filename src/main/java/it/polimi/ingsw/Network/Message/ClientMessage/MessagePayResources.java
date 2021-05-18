@@ -7,7 +7,6 @@ import it.polimi.ingsw.Network.Message.MessageType;
 import java.util.Map;
 
 public class MessagePayResources extends Message {
-
     private static final long serialVersionUID = -4554480045749065772L;
 
     private Map<String,Integer> warehouse;

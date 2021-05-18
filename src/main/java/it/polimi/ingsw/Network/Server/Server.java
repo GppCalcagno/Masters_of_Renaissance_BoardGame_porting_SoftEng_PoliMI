@@ -12,13 +12,14 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class Server extends Observable {
-    private final static int SOTIMEOUT=20;
+    private final static int SOTIMEOUT=30;
     private static Logger LOGGER;
 
-    private Map<String, ServerClientHandler> clientHandlerMap;
+    private Map<Integer, ServerClientHandler> iDClientMap;
+    private Map<Integer, String> iDNameMap;
     private GameController gameController;
     private ServerSocket serverSocket;
-    private int connected;
+    private int clientConnected;
     private int port;
 
 
@@ -27,15 +28,13 @@ public class Server extends Observable {
      * @param port is the port of the Server
      */
     public Server(int port){
-        try {
-            this.gameController= new GameController(this);
-        } catch (IOException e) {
-            LOGGER.severe("ERROR: CAN'T LOAD GAME CARD");
-        }
-        clientHandlerMap = new HashMap<>();
+        this.gameController= new GameController(this);
+        iDClientMap = new HashMap<>();
+        iDNameMap = new HashMap<>();
+
         this.port=port;
         LOGGER= Logger.getLogger(Server.class.getName());
-        connected=0;
+        clientConnected =0;
     }
 
 
@@ -58,13 +57,15 @@ public class Server extends Observable {
                 //eseguo connessioni con client
                 Socket clientSocket= serverSocket.accept();
                     //todo to fix
-                    connected++;
+                    clientConnected++;
                     //timeout set
                     clientSocket.setSoTimeout(SOTIMEOUT*1000);
                     LOGGER.info("Connection with Client successful");
 
-                    //avvio thread
-                    Thread thread= new Thread(new ServerClientHandler(clientSocket,this));
+                    //Strart thread
+                    ServerClientHandler clientHandler=new ServerClientHandler(clientSocket,this,clientConnected);
+                    Thread thread= new Thread(clientHandler);
+                    addIDClient(clientConnected,clientHandler);
                     thread.start();
 
             } catch (IOException e) {
@@ -74,27 +75,26 @@ public class Server extends Observable {
         }
     }
 
+
     /**
-     * this method add a client (player) on clientHandlerMap and observer list
-     * @param name name of the player
-     * @param ClientHandler socket of the player
+     * this method add a Client to iDClientMap
+     * @param ID of the client
+     * @param clientHandler socket manager of the client
      */
-    public void addPlayer(String name, ServerClientHandler ClientHandler){
-            clientHandlerMap.put(name, ClientHandler);
-            addObserver(ClientHandler);
-            LOGGER.info("Player " + name +" Added to ServerList");
+    public void addIDClient(int ID, ServerClientHandler clientHandler){
+        iDClientMap.put(ID,clientHandler);
     }
 
-    /**
-     * This method remove a client (player) on clientHandlerMap and observer list
-     * @param name name of the player
-     */
-    public void removePlayer(String name){
-        removeObserver(clientHandlerMap.get(name));
-        clientHandlerMap.remove(name);
-        LOGGER.info("Player " + name +" removed from ServerList");
-        connected--;
+    public void addIDname(int ID, String name){
+        iDNameMap.put(ID,name);
+    }
 
+    public Integer getIDfromName(String name){
+        for(int identifier: iDNameMap.keySet()){
+            if(iDNameMap.get(identifier).equals(name))
+                return  identifier;
+        }
+        return null;
     }
 
     /**
@@ -111,7 +111,7 @@ public class Server extends Observable {
      */
     public void sendBroadcastMessage(Message message){
         notifyAllObserver(message);
-        LOGGER.info("Server sent Broadcast Message: "+ message.getMessageType());
+        LOGGER.info("Server send Broadcast Message: "+ message.getMessageType());
     }
 
 
@@ -121,8 +121,27 @@ public class Server extends Observable {
      * @param message is the message you want to send
      */
     public void sendtoPlayer(String player, Message message){
-        clientHandlerMap.get(player).update(message);
-        LOGGER.info("Server sent Private Message to " + player+": "+ message.getMessageType());
+        Integer id=getIDfromName(player);
+        if(id!=null){
+            iDClientMap.get(id).update(message);
+            LOGGER.info("Server send to " +player+" a message: "+ message.getMessageType());
+        }
+
+    }
+
+    public void disconnect(int ID){
+        LOGGER.info("Player "+iDNameMap.get(ID)+" disconnected");
+
+        if(iDNameMap.containsKey(ID))
+            gameController.disconnect(iDNameMap.get(ID));
+
+        if(iDClientMap.containsKey(ID))
+            iDClientMap.get(ID).clocsesocket();
+
+        iDClientMap.remove(ID);
+        iDNameMap.remove(ID);
+
+        clientConnected--;
     }
 
 }

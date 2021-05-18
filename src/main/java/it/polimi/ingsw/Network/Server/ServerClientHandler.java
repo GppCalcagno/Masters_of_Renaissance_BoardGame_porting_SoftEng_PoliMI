@@ -15,21 +15,14 @@ public class ServerClientHandler implements Runnable, Observer {
     /** this attribute is the Logger Of the server, is used to sent check or warning message */
     private final Logger SERVERLOGGER;
 
-    /** this is the name of the player who is using the socket */
-    private String clientName;
+    /** this is the identifier of the player who is using the socket */
+    private final int ID;
 
     /** this is the socket of the player */
-    private Socket clientSocket;
-
-    /**
-     * this is the connection state of the socket
-     * true  -> connected
-     * false -> disconnected
-     */
-    private boolean connected;
+    private final Socket clientSocket;
 
     /** this attribute is used to send information to the Model and controll Player Socket */
-    private Server server;
+    private final Server server;
 
 
     /** this attribute is used to send message */
@@ -37,7 +30,7 @@ public class ServerClientHandler implements Runnable, Observer {
     /** this attribute is used to recive message */
     private ObjectInputStream input;
 
-    /** this is a locker to manage the Concurrency     */
+    /** this is a locker to manage the Concurrency */
     private  final Object SenderLock;
 
     /**
@@ -45,19 +38,18 @@ public class ServerClientHandler implements Runnable, Observer {
      * @param clientSocket is the connected socket of the player
      * @param server is the current Game Server
      */
-    public ServerClientHandler(Socket clientSocket, Server server) {
+    public ServerClientHandler(Socket clientSocket, Server server, int ID) {
         SERVERLOGGER= Logger.getLogger(Server.class.getName());
         this.clientSocket = clientSocket;
         this.server=server;
-        connected=true;
         SenderLock= new Object();
+        this.ID=ID;
 
         try {
             output = new ObjectOutputStream(clientSocket.getOutputStream());
             input = new ObjectInputStream(clientSocket.getInputStream());
         } catch (IOException e) {
             SERVERLOGGER.severe("ERROR: THREAD INITIALIZATION ");
-            disconnect();
         }
 
     }
@@ -72,38 +64,28 @@ public class ServerClientHandler implements Runnable, Observer {
     private void ReciveMessage() {
         try {
 
-            while(connected){
-
+            while(true){
                 //possibile lock (non necessario per ora)
-                SERVERLOGGER.info("Server in attesa di messaggio");
+                SERVERLOGGER.info("Server wait a Message");
                 Message message= (Message) input.readObject();
-
 
                 if(message!=null){
                     SERVERLOGGER.info("Messagge recived" + "(from" + message.getNickname()+")"+ ":" + message.getMessageType());
-                    if(message.getMessageType().equals(MessageType.PING)){
-                        sendMessage(new MessageGeneric("server",MessageType.PING));
-                    }
-                    else{
-                        if(message.getMessageType().equals(MessageType.LOGIN)){
-                            server.addPlayer(message.getNickname(),this);
-                            clientName=message.getNickname();
-                        }
-
-                        if(message.getMessageType().equals(MessageType.DISCONNECT)) break;
+                    switch (message.getMessageType()){
+                        case PING: sendMessage(new MessageGeneric("server", MessageType.PING)); break;
+                        case LOGIN:
+                            server.addIDname(ID,message.getNickname());
                             server.recivedMessage(message);
+                            break;
+                        default: server.recivedMessage(message);
                     }
                 }
             }//finewhile
-
-            SERVERLOGGER.info("Ended ClientHander while");
-            disconnect();
-
-
-        }catch (IOException | ClassNotFoundException e) {
-                SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
-                disconnect();
-            }
+        }
+        catch (IOException | ClassNotFoundException e) {
+            SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
+            server.disconnect(ID);
+        }
     }
 
     /**
@@ -121,18 +103,19 @@ public class ServerClientHandler implements Runnable, Observer {
      * @param message is the message to send to the player
      */
     private void sendMessage(Message message){
-            try {
-                output.writeObject(message);
-                output.reset();
+        try {
+            output.writeObject(message);
+            output.reset();
 
-            } catch (IOException e) {
-                SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE TO:"+ clientName);
-                disconnect();
-            }
+        } catch (IOException e) {
+            SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE: DISCONNECT PLAYER");
+            server.disconnect(ID);
         }
+    }
 
-    /** this method is used to disconnect a plauer from the game  */
-    public void disconnect(){
-        server.removePlayer(clientName);
+
+    public void clocsesocket(){
+        try { clientSocket.close();}
+            catch (IOException ignore) {}
     }
 }

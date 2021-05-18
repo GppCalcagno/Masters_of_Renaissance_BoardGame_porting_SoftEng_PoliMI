@@ -16,6 +16,6 @@ public class MessageNumPlayers extends Message {
 
     @Override
     public void action(GameController gameController) {
-
+        gameController.onNumPlayer(numPlayers);
     }
 }
