@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.model.exceptions.EndGameException;
 import it.polimi.ingsw.model.game.Game;
@@ -18,7 +19,6 @@ public class GameController {
 
     private List<String> playersNames;
 
-    private TurnController turnController;
 
     private Game game;
 
@@ -27,6 +27,29 @@ public class GameController {
         this.server = server;
         this.playersNames = new ArrayList<>();
     }
+
+    public void onRecivedMessage(Message message){
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public boolean extractionMarble(char colrowextract, int numextract) {
         return game.extractionMarble(colrowextract, numextract);
@@ -83,7 +106,4 @@ public class GameController {
             game = new Game();
     }
 
-    public TurnController getTurnController() {
-        return turnController;
-    }
 }

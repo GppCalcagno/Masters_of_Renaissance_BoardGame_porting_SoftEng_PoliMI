@@ -12,19 +12,13 @@ import java.util.*;
 
 public class Game {
 
-    /**
-     * This attribute is the vector that contains the players' references
-     */
+    /** This attribute is the vector that contains the players' references */
     private List<Player> playersList;
 
-    /**
-     * This attribute is the current player's reference
-     */
+    /** This attribute is the current player's reference */
     private Player currentPlayer;
 
-    /**
-     * This attribute indicates if the game is finished
-     */
+    /** This attribute indicates if the game is finished */
     private boolean finishedGame;
 
     /**

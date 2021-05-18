@@ -1,16 +1,7 @@
 package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.Network.Client.ClientSocket;
-import it.polimi.ingsw.Network.message.*;
-import it.polimi.ingsw.Network.message.UpdateMesssage.*;
+import it.polimi.ingsw.Network.Message.*;
 import it.polimi.ingsw.Observer.Observer;
-import it.polimi.ingsw.View.ViewInterface;
-import it.polimi.ingsw.View.ViewThread;
-
-import java.io.IOException;
-
-import java.util.List;
-import java.util.Map;
 
 
 public class ClientController implements Observer {

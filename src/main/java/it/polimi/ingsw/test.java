@@ -1,13 +1,12 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Network.message.*;
+import it.polimi.ingsw.Network.Message.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.security.SignatureSpi;
 import java.util.Scanner;
 
 public class test {

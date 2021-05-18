@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Network.Client;
 
-import it.polimi.ingsw.Network.message.MessageGeneric;
-import it.polimi.ingsw.Network.message.MessagePing;
-import it.polimi.ingsw.Network.message.MessageType;
+import it.polimi.ingsw.Network.Message.MessageGeneric;
+import it.polimi.ingsw.Network.Message.MessagePing;
+import it.polimi.ingsw.Network.Message.MessageType;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

@@ -2,7 +2,7 @@ package it.polimi.ingsw.View;
 
 
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.message.MessageType;
+import it.polimi.ingsw.Network.Message.MessageType;
 
 
 public class ViewThread implements Runnable {

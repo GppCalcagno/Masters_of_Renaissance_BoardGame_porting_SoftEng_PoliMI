@@ -1,9 +1,9 @@
 package it.polimi.ingsw.Network.Client;
 
-import it.polimi.ingsw.Network.message.Message;
+import it.polimi.ingsw.Network.Message.Message;
 
+import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Observer.Observable;
-import it.polimi.ingsw.Observer.Observer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,6 +14,8 @@ import java.util.Timer;
 import java.util.logging.Logger;
 
 public class ClientSocket extends Observable {
+
+    private final static int SOTIMEOUT=20;
     /** this is the Client Socket */
     private Socket clientSocket;
 
@@ -44,17 +46,21 @@ public class ClientSocket extends Observable {
         clientSocket = new Socket();
         LockSending=new Object();
 
-        try { clientSocket.connect(new InetSocketAddress(address,port)); }
-            catch (IOException e) {
-                CLOGGER.severe("ERROR: CAN'T CONNECT TO THE SERVER");
-                System.exit(-1);
-            }
+        try {
+            clientSocket.connect(new InetSocketAddress(address,port));
+            clientSocket.setSoTimeout(SOTIMEOUT*1000);
+        }
+        catch (IOException e) {
+            CLOGGER.severe("ERROR: CAN'T CONNECT TO THE SERVER");
+            System.exit(-1);
+        }
 
         //INOUT class
         try {
             sendMessage= new ObjectOutputStream(clientSocket.getOutputStream());
             reciveMessage= new ObjectInputStream(clientSocket.getInputStream());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             CLOGGER.severe("ERROR: CAN'T OPEN I/O STREAM");
             System.exit(-1);
         }
@@ -64,18 +70,18 @@ public class ClientSocket extends Observable {
         EnablePing(true);
     }
 
-    /**
-     * this method is a Listener of Message from the server
-     */
+    /** this method is a Listener of Message from the server */
     public void readMessage(){
-
         while(true) {
             try {
                 Message message = (Message) reciveMessage.readObject();
-                CLOGGER.info("recived Message");
-                notifyAllObserver(message);
 
-            } catch (IOException | ClassNotFoundException e) {
+                if(message!=null && !message.getMessageType().equals(MessageType.PING)){
+                    CLOGGER.info("recived Message: "+ message.getMessageType());
+                    notifyAllObserver(message);
+                }
+            }
+            catch (IOException | ClassNotFoundException e) {
                 CLOGGER.warning("ERROR: CAN'T READ MESSAGE");
             }
         }
