@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Server;
 
-import it.polimi.ingsw.Network.Message.ClientMessage.MessageGeneric;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -62,7 +62,7 @@ public class UpdateCreator {
         server.sendBroadcastMessage(message);
     }
 
-    public void onUpdateFaithMarker(List<Player> playerList){
+    public void onUpdateFaithMarker(Player player, List<Player> playerList, boolean removeMarblefromBuffer){
         Map<String, Integer> playersPosition= new HashMap<>();
         Map<String, boolean[]> playersPopFavoriteTile= new HashMap<>();
 
@@ -71,7 +71,7 @@ public class UpdateCreator {
             playersPopFavoriteTile.put(p.getNickname(),p.getPopsfavortiles());
         }
 
-        MessageUpdateFaithMarker message = new MessageUpdateFaithMarker(playersPosition, playersPopFavoriteTile);
+        MessageUpdateFaithMarker message = new MessageUpdateFaithMarker(player.getNickname(), playersPosition, playersPopFavoriteTile, removeMarblefromBuffer);
         server.sendBroadcastMessage(message);
     }
 
@@ -132,13 +132,13 @@ public class UpdateCreator {
 
     }
 
-    public void onUpdateWarehouse(Player player){
+    public void onUpdateWarehouse(Player player, boolean removeMarble){
         WarehouseDepots warehouseDepots= player.getWarehouse();
         List<ExtraChest> extraChests= player.getWarehouse().getLeaderCardEffect();
         String[][] stringWarehouseDepots= warehouseConvert(warehouseDepots);
         Map<String,Integer> stringExtrachests = extrachestConvert(extraChests);
 
-        MessageUpdateWarehouse message= new MessageUpdateWarehouse(player.getNickname(), stringWarehouseDepots,stringExtrachests);
+        MessageUpdateWarehouse message= new MessageUpdateWarehouse(player.getNickname(), stringWarehouseDepots,stringExtrachests,removeMarble);
         server.sendBroadcastMessage(message);
 
     }

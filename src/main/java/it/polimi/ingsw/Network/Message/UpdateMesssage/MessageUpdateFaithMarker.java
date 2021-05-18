@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network.Message.UpdateMesssage;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.model.player.Player;
 
 import java.util.Map;
 
@@ -13,10 +14,13 @@ public class MessageUpdateFaithMarker extends Message {
 
     private Map<String, boolean[]> playersPopFavoriteTile;
 
-    public MessageUpdateFaithMarker( Map<String, Integer> playersPosition, Map<String,boolean[]> playersPopFavoriteTile) {
-        super("server", MessageType.UPDATEFAITHPOINTS);
+    private boolean removeMarblefromBuffer;
+
+    public MessageUpdateFaithMarker(String player, Map<String, Integer> playersPosition, Map<String,boolean[]> playersPopFavoriteTile, boolean removeMarblefromBuffer) {
+        super(player, MessageType.UPDATEFAITHPOINTS);
         this.playersPosition=playersPosition;
         this.playersPopFavoriteTile = playersPopFavoriteTile;
+        this.removeMarblefromBuffer=removeMarblefromBuffer;
     }
 
     public Map<String, Integer> getPlayersPosition() {

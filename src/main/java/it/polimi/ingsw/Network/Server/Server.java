@@ -102,7 +102,7 @@ public class Server extends Observable {
      * @param message is the message given to GameController
      */
     public void recivedMessage(Message message){
-        //gameController.actionGame(message);
+        gameController.onRecivedMessage(message);
     }
 
     /**

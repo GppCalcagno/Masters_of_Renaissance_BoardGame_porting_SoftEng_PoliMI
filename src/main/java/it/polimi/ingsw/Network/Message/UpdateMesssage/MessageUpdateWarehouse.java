@@ -11,11 +11,13 @@ public class MessageUpdateWarehouse extends Message {
 
     private String[][] warehouse;
     private Map<String , Integer> extraChest;
+    private boolean removeMarblefromBuffer;
 
-    public MessageUpdateWarehouse(String nickname, String[][] warehouse, Map<String , Integer> extraChest) {
+    public MessageUpdateWarehouse(String nickname, String[][] warehouse, Map<String , Integer> extraChest, boolean removeMarblefromBuffer) {
         super(nickname, MessageType.UPDATEWAREHOUSE);
         this.warehouse = warehouse;
         this.extraChest = extraChest;
+        this.removeMarblefromBuffer=removeMarblefromBuffer;
     }
 
     public String[][] getWarehouse() {
@@ -31,4 +33,6 @@ public class MessageUpdateWarehouse extends Message {
     public void update(PlayerBoard playerBoard) {
         super.update(playerBoard);
     }
+
+
 }
