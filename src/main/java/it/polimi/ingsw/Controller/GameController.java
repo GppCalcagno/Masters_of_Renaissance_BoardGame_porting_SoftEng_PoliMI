@@ -46,7 +46,13 @@ public class GameController {
 
     }
 
+    public boolean chooseInitialLeaderCards (int i1, int i2) {
+        return game.chooseInitialLeaderCards(i1, i2);
+    }
 
+    public boolean chooseInitialResources (List<String> initialResources) {
+        return game.chooseInitialResources(initialResources);
+    }
 
     public boolean extractionMarble(char colrowextract, int numextract) {
         return game.extractionMarble(colrowextract, numextract);
