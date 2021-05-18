@@ -20,19 +20,6 @@ public class MessageActiveLeaderCardProduction extends Message {
         this.resource = resource;
     }
 
-    public String getID() {
-        return ID;
-    }
-
-    public char getStructure() {
-        return structure;
-    }
-
-    public String getResource() {
-        return resource;
-    }
-
-
     @Override
     public void action(GameController gameController) {
 

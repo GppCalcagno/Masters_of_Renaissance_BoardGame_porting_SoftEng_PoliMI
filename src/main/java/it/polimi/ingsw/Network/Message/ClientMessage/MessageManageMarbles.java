@@ -18,17 +18,6 @@ public class MessageManageMarbles extends Message {
         this.changeFromWithe = changeFromWithe;
     }
 
-    public int getRow() {
-        return row;
-    }
-
-    public int getStructure() {
-        return structure;
-    }
-
-    public String getChangeFromWithe() {
-        return changeFromWithe;
-    }
 
     @Override
     public void action(GameController gameController) {

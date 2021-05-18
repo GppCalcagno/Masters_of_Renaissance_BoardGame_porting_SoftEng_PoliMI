@@ -14,10 +14,6 @@ public class MessageNumPlayers extends Message {
         this.numPlayers = numPlayers;
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
-    }
-
     @Override
     public void action(GameController gameController) {
 

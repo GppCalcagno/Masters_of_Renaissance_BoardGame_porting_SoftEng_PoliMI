@@ -14,10 +14,6 @@ public class MessageActiveProductionDevCard extends Message {
         this.column = column;
     }
 
-    public int getColumn() {
-        return column;
-    }
-
     @Override
     public void action(GameController gameController){
         gameController.activeDevCardProduction(column);

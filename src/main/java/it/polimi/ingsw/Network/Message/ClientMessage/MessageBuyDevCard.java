@@ -17,14 +17,6 @@ public class MessageBuyDevCard extends Message {
         this.columnSlotDevCard = columnSlotDevCard;
     }
 
-    public String getID() {
-        return ID;
-    }
-
-    public int getColumnSlotDevCard() {
-        return columnSlotDevCard;
-    }
-
     @Override
     public void action(GameController gameController) {
         gameController.selectDevCard(ID,columnSlotDevCard);

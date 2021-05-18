@@ -14,10 +14,6 @@ public class MessageActivatedDevCardProduction extends Message {
         this.ID = ID;
     }
 
-    public String getID() {
-        return ID;
-    }
-
     @Override
     public void update(PlayerBoard playerBoard) {}
 }

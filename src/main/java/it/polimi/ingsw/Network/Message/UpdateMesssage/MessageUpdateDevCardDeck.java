@@ -14,11 +14,6 @@ public class MessageUpdateDevCardDeck extends Message {
         this.cardID=cardID;
     }
 
-    public String getCardID() {
-        return cardID;
-    }
-
-
     @Override
     public void update(PlayerBoard playerBoard) {
         playerBoard.removeCardfromDevCardDeck(cardID);

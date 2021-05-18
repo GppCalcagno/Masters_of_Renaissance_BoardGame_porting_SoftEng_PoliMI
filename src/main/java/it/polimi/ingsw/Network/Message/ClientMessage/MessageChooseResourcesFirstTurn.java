@@ -16,13 +16,8 @@ public class MessageChooseResourcesFirstTurn extends Message {
         this.resourcesList = resourcesList;
     }
 
-    public List<String> getResourcesList() {
-        return resourcesList;
-    }
-
     @Override
     public void action(GameController gameController) {
-        //todo adding method
-
+        gameController.chooseInitialResources(resourcesList);
     }
 }

@@ -17,14 +17,6 @@ public class MessageExchangeWarehouse extends Message {
         this.row2 = row2;
     }
 
-    public int getRow1() {
-        return row1;
-    }
-
-    public int getRow2() {
-        return row2;
-    }
-
     @Override
     public void action(GameController gameController) {
         gameController.exchangeWarehouse(row1,row2);

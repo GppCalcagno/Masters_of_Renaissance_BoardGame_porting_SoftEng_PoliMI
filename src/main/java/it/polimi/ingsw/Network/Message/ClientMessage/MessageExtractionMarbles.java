@@ -18,13 +18,6 @@ public class MessageExtractionMarbles extends Message {
         this.numextract = numextract;
     }
 
-    public char getColrowextract() {
-        return colrowextract;
-    }
-
-    public int getNumextract() {
-        return numextract;
-    }
 
     @Override
     public void action(GameController gameController) {
