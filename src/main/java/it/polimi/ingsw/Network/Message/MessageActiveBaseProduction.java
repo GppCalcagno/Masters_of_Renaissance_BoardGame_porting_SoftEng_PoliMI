@@ -7,27 +7,40 @@ import java.util.Map;
 public class MessageActiveBaseProduction extends Message{
     private static final long serialVersionUID = 7072915502239427238L;
 
-    private Map<String,Integer> WarehouseRes;
-    private Map<String,Integer> StrongboxRes;
-    private Map<String,Integer> ExtrachestMap;
+    private String wanted;
+    private String resources1;
+    private String resources2;
 
-    public MessageActiveBaseProduction(String nickname, Map<String, Integer> warehouseRes, Map<String, Integer> strongboxRes, Map<String, Integer> extrachestMap) {
+    private char structure1;
+    private char structure2;
+
+    public MessageActiveBaseProduction(String nickname, String wanted, char structure1, String resources1, char structure2, String resources2) {
         super(nickname, MessageType.ACTIVESBASEPRODUCTION);
-        WarehouseRes = warehouseRes;
-        StrongboxRes = strongboxRes;
-        ExtrachestMap = extrachestMap;
+        this.wanted = wanted;
+        this.resources1 = resources1;
+        this.resources2 = resources2;
+        this.structure1 = structure1;
+        this.structure2 = structure2;
     }
 
-    public Map<String, Integer> getWarehouseRes() {
-        return WarehouseRes;
+    public char getStructure1() {
+        return structure1;
     }
 
-    public Map<String, Integer> getStrongboxRes() {
-        return StrongboxRes;
+    public char getStructure2() {
+        return structure2;
     }
 
-    public Map<String, Integer> getExtrachestMap() {
-        return ExtrachestMap;
+    public String getResources1() {
+        return resources1;
+    }
+
+    public String getResources2() {
+        return resources2;
+    }
+
+    public String getWanted() {
+        return wanted;
     }
 
     @Override

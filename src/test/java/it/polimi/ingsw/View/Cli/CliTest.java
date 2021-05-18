@@ -14,6 +14,7 @@ class CliTest {
 
     @Test
     void showLeaderActionBox() throws IOException {
+
        PlayerBoard playerBoard = new PlayerBoard();
         Cli cli = new Cli(playerBoard, controller);
 
@@ -147,7 +148,7 @@ class CliTest {
         cli.showExtraChest();
 
     }
-/*
+
     @Test
     void askNickname() throws IOException {
         PlayerBoard playerBoard = new PlayerBoard();
@@ -158,6 +159,10 @@ class CliTest {
         System.out.println(playerBoard.getNickname());
 
     }
-
- */
+    @Test
+    void viewSTart() throws IOException {
+        PlayerBoard playerBoard = new PlayerBoard();
+        Cli cli = new Cli(playerBoard, controller);
+        cli.GameStart();
+    }
 }

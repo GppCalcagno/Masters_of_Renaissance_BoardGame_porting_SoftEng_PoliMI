@@ -15,6 +15,7 @@ public interface ViewInterface {
     void askNumPlayer(); //chiede numero
 
     /* ************************************ INITGAME PHASE ******************************** */
+    void GameStart();
 
     void askChooseLeaderCards(); //mostrra le carte e chie quale delle 4 carte tenere
 
@@ -22,60 +23,29 @@ public interface ViewInterface {
 
     /* ************************************ INGAME PHASE ******************************** */
 
+    void askChooseTurn();
 
-    void askChooseTurn(); //chiede quale delle 5 cose fare
-        /*  0->extractMarble
-            1-> selectDevCard
-            2->chooseproductiontype
-            3->Update stateLeadercard
-        */
+    /* *** TURNO MERCATO *** */
+    void extractMarble();
+    void manageMarble();
+    void exchangeWarehouse();
 
-    void askUpdateStateLeaderAction();
+    /* *** TURNO COMPRA DEVCARD *** */
+    void buyDevCard();
+    void payResources();
 
-    /* *** Market Turn *** */
-    void askExtractMarble(); //ask 2 turno
-
-    void askAfterTakeMarble();// chiede se vuole fare exchange o fare gestire biglie o impostare biglia
-        /*  seleziona una tra le seguenti mosse:
-           0->askExchange;
-           1->askAddDiscardMarble;
-           2-> askSetDefaulMarbleLeaderEffect;
-        */
-
-    void askExchange();
-    void askAddDiscardMarble();
-    void askSelectTrasformationWhiteMarble();
-
-    /* *** Purchase Card Turn *** */
-    void askSelectDevCard();//ask 3 turno
-    void askChooseResourcesPurchaseDevCard();
-    void askInsertCard();
+    /* *** TURNO ATTIVA PRODU *** */
+    void activeBaseProduction();
+    void activeLeaderActionProd();
+    void activeDevCardProduction();
 
 
-    /* *** Producion  Turn *** */
-    void askProductionType();
-    /*  0 -> askActiveBaseProduction
-        1 -> askActiveProductionDevCard
-        2 -> ActiveLeaderCardProduction
-        3 -> End Production
-     */
-
-    void askActiveBaseProduction();
-    void askChosenResourceBaseProduction();
-
-    void askActiveProductionDevCard();
-    void askChooseResourcesDevCardProduction();
-
-    void askActiveLeaderCardProduction();
-
-    void sendEndProduction();//manda il messaggio di fine produzione e mette una print che conferma al player
-
-    void askEndTurnActiveLeaderCard();//chiede se finire il turno o attivare carta leader e manda i rispettivi messaggi
-
-
-
+    void updateLeaderCard();
+    void endTurn();
+    void endProduction();
 
     /* ************************************ SHOW PHASE ******************************** */
+    void show();
 
     void showMessage(String message);
 
@@ -101,4 +71,6 @@ public interface ViewInterface {
     //WIP
     void showWinnerandVictoryPoint();
     void showLorenzoTrun();
+
+    void ioError();
 }
