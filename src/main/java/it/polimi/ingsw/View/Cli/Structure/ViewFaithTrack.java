@@ -153,7 +153,7 @@ public class ViewFaithTrack {
         tiles[5][121] = "═";
         tiles[5][122] = "═";
         tiles[5][123] = "═";
-        tiles[5][124] = "╝";
+        tiles[5][124] = "╝" + Color.ANSI_BRIGHTWHITE.escape();
         tiles[4][124] = "║";
         tiles[3][124] = "║";
         tiles[3][122] = "✞";

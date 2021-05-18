@@ -7,7 +7,7 @@ import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.ViewInterface;
 
 import java.io.PrintStream;
-import java.util.*;
+
 
 public class Cli implements ViewInterface {
     private PlayerBoard playerBoard;
@@ -16,7 +16,10 @@ public class Cli implements ViewInterface {
     private InputReader input;
     private String line;
 
-
+    /**
+     * @param playerBoard playerìs board
+     * @param controller client controller
+     */
     public Cli(PlayerBoard playerBoard, ClientController controller) {
         this.playerBoard = playerBoard;
         this.controller = controller;
@@ -24,12 +27,19 @@ public class Cli implements ViewInterface {
         input = new InputReader();
         gameStart();
     }
+
+    /**
+     * this method calls InputReader and read the input inserted by the player
+     */
     @Override
     public void inputFromPlayer() {
         input.run();
         line = input.getLine();
     }
 
+    /**
+     * when a player connect, the server ip and the port are requested in order to set the connection with the server
+     */
     @Override
     public void askServerInfo() {
         out.println("\n");
@@ -43,6 +53,9 @@ public class Cli implements ViewInterface {
         controller.sendMessage(new MessageConnect(serverAddress, serverPort));
     }
 
+    /**
+     * the nickname of the player
+     */
     @Override
     public void askNickname() {
         out.println("\n");
@@ -53,6 +66,9 @@ public class Cli implements ViewInterface {
         controller.sendMessage(new MessageLogin(nickname));
     }
 
+    /**
+     * how many players want to play. this is decided by the first player that connects himself to the server
+     */
     @Override
     public void askNumPlayer() {
         out.println("\n");
@@ -62,11 +78,17 @@ public class Cli implements ViewInterface {
         controller.sendMessage(new MessageNumPlayers(playerBoard.getNickname(), numPlayers));
     }
 
+    /**
+     * show the start of the game
+     */
     @Override
     public void gameStart(){
         ViewStart viewstart = new ViewStart();
     }
 
+    /**
+     * before starting the game every player choose two cards through four
+     */
     @Override
     public void askChooseLeaderCards() {
         showLeaderActionBox();
@@ -78,6 +100,10 @@ public class Cli implements ViewInterface {
         controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), i1, i2));
     }
 
+    /**
+     * this method received the input from the player and parse it to ActionParser in order to call the right method for
+     * the turn that player chose
+     */
     @Override
     public void doAction(){
         while (true){
@@ -86,6 +112,10 @@ public class Cli implements ViewInterface {
         }
     }
 
+    /**
+     * this method print the message it receives
+     * @param message
+     */
     @Override
     public void showMessage(String message) {
         out.println("\n");
@@ -118,11 +148,6 @@ public class Cli implements ViewInterface {
         out.println("\n");
         ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard);
         viewStrongbox.plot();
-    }
-
-    @Override
-    public void showWhiteMarbleEffectList() {
-
     }
 
     @Override
@@ -160,12 +185,12 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showDevCard(String ID) {
-
+        playerBoard.searchDevCard(ID);
     }
 
     @Override
     public void showLeaderAction(String ID) {
-
+        playerBoard.searchLeaderCard(ID);
     }
 
     @Override
@@ -183,6 +208,9 @@ public class Cli implements ViewInterface {
 
     }
 
+    /**
+     * this method print the allowed command that the player can write from his cli
+     */
     public void help(){
         System.out.println("Here the commands you can insert during the game: " +
                 "\n extractionmarble <row or column (r/c)> < index of r/c>" +

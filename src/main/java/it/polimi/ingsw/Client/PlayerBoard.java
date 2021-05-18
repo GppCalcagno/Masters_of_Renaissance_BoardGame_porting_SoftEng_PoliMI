@@ -341,11 +341,11 @@ public class PlayerBoard {
         }
     }
 
-    DevelopmentCard searchDevCard (String ID) {
+    public DevelopmentCard searchDevCard (String ID) {
         return developmentCardMap.get(ID);
     }
 
-    LeaderAction searchLeaderCard (String ID) {
+    public LeaderAction searchLeaderCard (String ID) {
         return leaderActionMap.get(ID);
     }
 

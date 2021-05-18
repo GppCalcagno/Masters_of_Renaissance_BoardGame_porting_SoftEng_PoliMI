@@ -5,6 +5,10 @@ import it.polimi.ingsw.Client.PlayerBoard;
 
 public interface ViewInterface {
 
+    /**
+     * this class is the interface where CLI and GUI take methods
+     */
+
     void askServerInfo();
 
     /* ************************************ LOGIN PHASE ******************************** */
@@ -28,7 +32,6 @@ public interface ViewInterface {
 
     void showWarehouse();
     void showStrongbox();
-    void showWhiteMarbleEffectList();
 
     void showFaithTrack();
     void showExtraChest();

@@ -6,9 +6,12 @@ import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageUpdateStateLeaderAction;
 
 import java.util.Locale;
-import java.util.Scanner;
 
 public class ActionParser {
+    /**
+     * this class take the input from the client and parse them, in order to send the right message to the server
+     */
+
 
     private String[] parts;
     private ClientController controller;
@@ -16,6 +19,13 @@ public class ActionParser {
     private Cli cli;
     private String line;
 
+    /**
+     * this is the constructor, it is called from the Cli
+     * @param cli the cli of the player
+     * @param controller the client controller
+     * @param playerBoard the player's board
+     * @param line the input that player just inserted
+     */
     public ActionParser(Cli cli, ClientController controller, PlayerBoard playerBoard, String line){
         this.cli = cli;
         this.playerBoard = playerBoard;
@@ -24,6 +34,9 @@ public class ActionParser {
         askChooseTurn();
     }
 
+    /**
+     * this method parse the input from the player and launch the right method for the turn that player choose to do
+     */
     public void askChooseTurn() {
         parts = line.toUpperCase(Locale.ROOT).split(" ");
         if (parts[0] != "") {
@@ -78,6 +91,7 @@ public class ActionParser {
             }
         }
     }
+
 
     public void extractMarble() {
         if(parts[0]=="EXTRACTIONMARBLE") {
@@ -165,6 +179,9 @@ public class ActionParser {
         }
     }
 
+    /**
+     * this method call the right cli's method, where it shows what player wants
+     */
     public void show(){
         if(parts[0]=="SHOW"){
             switch(parts[1].toUpperCase(Locale.ROOT)){

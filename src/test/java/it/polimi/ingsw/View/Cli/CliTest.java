@@ -2,6 +2,7 @@ package it.polimi.ingsw.View.Cli;
 
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
+import it.polimi.ingsw.model.player.WarehouseDepots;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -62,6 +63,8 @@ class CliTest {
         warehouse[1][0] = "Coins";
         warehouse[2][1] = "Stones";
 
+        playerBoard.setCurrentPlayer("Paolo");
+
         playerBoard.setWarehouse(warehouse, null);
         //mostra piena
         cli.showWarehouse();
@@ -79,6 +82,8 @@ class CliTest {
 
         strongbox.put("Shields", 4);
         strongbox.put("Coins", 21);
+
+        playerBoard.setCurrentPlayer("Paolo");
 
         playerBoard.setStrongbox(strongbox);
 
@@ -142,6 +147,8 @@ class CliTest {
         Map<String, Integer> chest = new HashMap<>();
 
         chest.put("Coins",2);
+
+        playerBoard.setCurrentPlayer("paolo");
 
         playerBoard.setWarehouse(null, chest);
 
