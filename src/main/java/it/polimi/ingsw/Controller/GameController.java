@@ -30,7 +30,7 @@ public class GameController {
         this.playersNames = new ArrayList<>();
     }
 
-    public void onRecivedMessage(Message message){
+    public void onRecivedMessage(Message message) throws EndGameException {
         synchronized (modelLock){
             if(message.getNickname().equals(game.getCurrentPlayer()))
             message.action(this);

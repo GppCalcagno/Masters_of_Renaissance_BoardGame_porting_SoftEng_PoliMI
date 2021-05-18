@@ -13,6 +13,6 @@ public class MessageDisconnect extends Message {
     @Override
     public void action(GameController gameController) {
         //todomethod
-        jh
+
     }
 }

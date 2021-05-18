@@ -23,6 +23,6 @@ public class MessageChooseResourcesFirstTurn extends Message {
     @Override
     public void action(GameController gameController) {
         //missing method
-        vhjbn
+
     }
 }

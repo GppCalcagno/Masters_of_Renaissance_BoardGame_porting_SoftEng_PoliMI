@@ -27,6 +27,6 @@ public class MessageChooseLeaderCards extends Message {
     @Override
     public void action(GameController gameController) {
         //todo miss method
-        gameController.lea
+
     }
 }

@@ -36,6 +36,6 @@ public class MessageActiveLeaderCardProduction extends Message {
     @Override
     public void action(GameController gameController) {
     //todo tofix
-        vgb
+
     }
 }

@@ -19,34 +19,7 @@ public interface ViewInterface {
 
     void askChooseLeaderCards(); //mostrra le carte e chie quale delle 4 carte tenere
 
-    void askChooseResourcesFirstTurn(int num); //chiede quale risorse prendere in base al numero
-
-    /* ************************************ INGAME PHASE ******************************** */
-
-    void askChooseTurn();
-
-    /* *** TURNO MERCATO *** */
-    void extractMarble();
-    void manageMarble();
-    void exchangeWarehouse();
-
-    /* *** TURNO COMPRA DEVCARD *** */
-    void buyDevCard();
-    void payResources();
-
-    /* *** TURNO ATTIVA PRODU *** */
-    void activeBaseProduction();
-    void activeLeaderActionProd();
-    void activeDevCardProduction();
-
-
-    void updateLeaderCard();
-    void endTurn();
-    void endProduction();
-
     /* ************************************ SHOW PHASE ******************************** */
-    void show();
-
     void showMessage(String message);
 
     void showLeaderActionBox();
@@ -71,6 +44,4 @@ public interface ViewInterface {
     //WIP
     void showWinnerandVictoryPoint();
     void showLorenzoTrun();
-
-    void ioError();
 }

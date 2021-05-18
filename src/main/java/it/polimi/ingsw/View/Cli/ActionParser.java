@@ -13,12 +13,14 @@ public class ActionParser {
     private Scanner input;
     private String[] parts;
     private ClientController controller;
-    public PlayerBoard playerBoard;
+    private PlayerBoard playerBoard;
+    private Cli cli;
 
     public ActionParser(ClientController controller, PlayerBoard playerBoard){
         this.playerBoard = playerBoard;
         this.controller = controller;
         input = new Scanner(System.in);
+        cli  = new Cli(playerBoard, controller);
     }
 
     public void askChooseTurn() {
@@ -26,7 +28,7 @@ public class ActionParser {
         parts = action.toUpperCase(Locale.ROOT).split(" ");
         if (parts[0] != "") {
             try {
-                switch (parts[0].toUpperCase(Locale.ROOT)) {
+                switch (parts[0]) {
                     case "EXTRACTIONMARBLE":
                         extractMarble();
                         break;
@@ -63,6 +65,9 @@ public class ActionParser {
                     case "SHOW":
                         show();
                         break;
+                    case "HELP":
+                        help();
+                        break;
                     default:
 
                 }
@@ -86,8 +91,16 @@ public class ActionParser {
     }
 
     public void manageMarble(){
+        String resources="";
+        int row=-1;
+        char structure = 0;
         if(parts[0]=="MANAGEMARBLE"){
-            controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), parts[1].charAt(0), Integer.parseInt(parts[2]), parts[3]));
+            if(parts[1]!=null) structure = parts[1].charAt(0);
+            if(structure == 'W') row = Integer.parseInt(parts[2]);
+
+            if(parts[3]!=null) resources = parts[3];
+
+            controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), structure, row, resources));
         }
     }
 
@@ -146,9 +159,14 @@ public class ActionParser {
         }
     }
 
+    public void help(){
+        if(parts[0]=="HELP"){
+            cli.help();
+        }
+    }
+
     public void show(){
         if(parts[0]=="SHOW"){
-            Cli cli = new Cli(playerBoard, controller);
             switch(parts[1].toUpperCase(Locale.ROOT)){
                 case "LEADERACTIONBOX":
                     cli.showLeaderActionBox();

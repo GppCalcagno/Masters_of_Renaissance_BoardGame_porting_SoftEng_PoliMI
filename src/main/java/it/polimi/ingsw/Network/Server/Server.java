@@ -2,7 +2,7 @@ package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Observer.Observable;
-import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.Controller.GameController;
 
 import java.io.IOException;
 import java.net.ServerSocket;

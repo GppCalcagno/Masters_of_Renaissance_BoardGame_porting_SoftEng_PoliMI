@@ -21,6 +21,6 @@ public class MessageActiveProductionDevCard extends Message {
     @Override
     public void action(GameController gameController){
         //tofix
-        sao
+
     }
 }
