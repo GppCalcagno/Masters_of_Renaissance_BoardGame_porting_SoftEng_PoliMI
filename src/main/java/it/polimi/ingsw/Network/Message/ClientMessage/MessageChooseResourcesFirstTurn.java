@@ -22,7 +22,7 @@ public class MessageChooseResourcesFirstTurn extends Message {
 
     @Override
     public void action(GameController gameController) {
-        //missing method
+        //todo adding method
 
     }
 }

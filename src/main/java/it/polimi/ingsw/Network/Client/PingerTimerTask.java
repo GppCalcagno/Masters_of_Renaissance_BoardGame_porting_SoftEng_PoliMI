@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Client;
 
-import it.polimi.ingsw.Network.Message.ClientMessage.MessagePing;
+
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
 
@@ -10,14 +10,14 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 public class PingerTimerTask extends TimerTask {
-    private MessagePing pingMessage;
+    private MessageGeneric pingMessage;
     ClientSocket socket;
     ObjectOutputStream sendToServer;
     private static Logger LOGGER = Logger.getLogger(ClientSocket.class.getName());
     private Object LockSending;
 
     public PingerTimerTask(ClientSocket socket) {
-        this.pingMessage = new MessagePing();
+        this.pingMessage = new MessageGeneric("client",MessageType.PING);
         this.socket=socket;
         this.sendToServer= socket.getSendMessage();
         this.LockSending =socket.getLockSending();

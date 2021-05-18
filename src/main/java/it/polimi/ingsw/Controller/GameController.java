@@ -39,6 +39,15 @@ public class GameController {
     }
 
 
+
+    public void onLogin(){
+
+
+
+    }
+
+
+
     public boolean extractionMarble(char colrowextract, int numextract) {
         return game.extractionMarble(colrowextract, numextract);
     }
@@ -63,7 +72,7 @@ public class GameController {
         return game.activeBaseProduction(r1, reqRes1, r2, reqRes2, chosenResource);
     }
 
-    public boolean activeLeaderCardProduction (String ID, char r, String resource, int indexExtraProduction) {
+    public boolean activeLeaderCardProduction (String ID, char r, String resource) {
         return game.activeLeaderCardProduction(ID, r, resource);
     }
 

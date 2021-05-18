@@ -6,6 +6,7 @@ import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
+import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.WarehouseDepots;
@@ -40,13 +41,7 @@ public class UpdateCreator {
 
     public void onUpdateStartGame(DevelopmentCard[][][] developmentCardDeck, List<Player> playersList , Marbles[][] marketTray, Marbles remainingMarble){
         String[][][] stringdevCardDeck = new String[3][4][4];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                for (int k = 0; k < 4; k++) {
-                    stringdevCardDeck[i][j][k] = developmentCardDeck[i][j][k].getID();
-                }
-            }
-        }
+        stringdevCardDeck =devCardDeckConvert(developmentCardDeck);
 
         String [][] stringmarketTray = new String[3][4];
         for (int i = 0; i < 3; i++) {
@@ -221,7 +216,6 @@ public class UpdateCreator {
      * @param developmentCardDeck DevcardDeck Model version
      * @return DevcardDeck client version
      */
-
     private String[][][] devCardDeckConvert(DevelopmentCard[][][] developmentCardDeck){
         String[][][] stringdevCardDeck = new String[3][4][4];
         for (int i = 0; i < 3; i++) {
@@ -236,4 +230,7 @@ public class UpdateCreator {
         }
         return stringdevCardDeck;
     }
+
+
+
 }
