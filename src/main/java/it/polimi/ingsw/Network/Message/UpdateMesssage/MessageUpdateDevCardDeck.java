@@ -5,6 +5,7 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 
 public class MessageUpdateDevCardDeck extends Message {
+    private static final long serialVersionUID = -1087115289891404959L;
 
     private String cardID;
 

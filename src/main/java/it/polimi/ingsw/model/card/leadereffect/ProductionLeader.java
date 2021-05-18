@@ -22,7 +22,6 @@ public class ProductionLeader extends LeaderAction {
             if (!getCost().checkResources(player))
                 return false;
             else {
-                player.getSlotDevCards().addLeaderCardEffect(getResources());
                 setActivated();
                 return true;
             }

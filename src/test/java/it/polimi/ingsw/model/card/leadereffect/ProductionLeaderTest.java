@@ -40,7 +40,6 @@ class ProductionLeaderTest {
         playerTest.getSlotDevCards().insertCards(1, devCardsDeck.getDevCards(1, 2));
 
         assertTrue(leaderCardDeck.getLeaderCardList(8).doSpecialAbility(playerTest));
-        assertFalse(playerTest.getSlotDevCards().getLeaderCardEffect().isEmpty());
     }
 
     @Test

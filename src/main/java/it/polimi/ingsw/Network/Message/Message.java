@@ -27,7 +27,7 @@ public abstract class Message implements Serializable {
     }
 
 
-    public  void action(GameController gameController) throws EndGameException {}
+    public  void action(GameController gameController) {}
 
     public  void update(PlayerBoard playerBoard){}
 

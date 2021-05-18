@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Server;
 
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
+import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -22,6 +22,20 @@ public class UpdateCreator {
 
     public UpdateCreator(Server server) {
         this.server = server;
+    }
+
+    public void onUpdateError(String message) {
+        MessageError messageError = new MessageError("server", message);
+        server.sendBroadcastMessage(messageError);
+    }
+
+    public void onUpdateInitialLeaderCards (Player player, List<LeaderAction> leaderActionList) {
+        List<String> stringList = new ArrayList<>();
+        for (LeaderAction l : leaderActionList) {
+            stringList.add(l.getID());
+        }
+        MessageUpdateInitialLeaderCards message = new MessageUpdateInitialLeaderCards(player.getNickname(), stringList);
+        server.sendtoPlayer(player.getNickname(), message);
     }
 
     public void onUpdateStartGame(DevelopmentCard[][][] developmentCardDeck, List<Player> playersList , Marbles[][] marketTray, Marbles remainingMarble){
@@ -86,6 +100,9 @@ public class UpdateCreator {
 
     }
 
+    public void onUpdateActivatedDevCardProduction(Player player, String ID) {
+        server.sendBroadcastMessage(new MessageActivatedDevCardProduction(player.getNickname(), ID));
+    }
 
     public void onUpdatePlayerState(Player player, boolean state){
         MessageUpdatePlayerState message= new MessageUpdatePlayerState(player.getNickname(),state);
@@ -105,11 +122,8 @@ public class UpdateCreator {
 
     }
 
-    public void onUpdateSinglePlayer(Tokens token, int blackCrossToken, Tokens[] tokensHeap){
-        String[] StringtokensHeap= new String[7];
-        for(int i=0;i<7;i++) StringtokensHeap[i]=tokensHeap[i].getID();
-
-        MessageUpdateSinglePlayerGame message= new MessageUpdateSinglePlayerGame(StringtokensHeap,blackCrossToken,token.getID());
+    public void onUpdateSinglePlayer(int blackCrossToken, DevelopmentCard[][][] devCardsDeck, Tokens tokens){
+        MessageUpdateSinglePlayerGame message= new MessageUpdateSinglePlayerGame(blackCrossToken, tokens.getID(), devCardDeckConvert(devCardsDeck));
         server.sendBroadcastMessage(message);
 
     }
@@ -120,8 +134,8 @@ public class UpdateCreator {
 
     }
 
-    public void onUpdateLeaderCard(Player player, LeaderAction card, boolean active){
-        MessageUpdateStateLeaderAction message= new MessageUpdateStateLeaderAction(player.getNickname(), card.getID(),active);
+    public void onUpdateLeaderCard(Player player, String IDcard, boolean active){
+        MessageUpdateStateLeaderAction message= new MessageUpdateStateLeaderAction(player.getNickname(), IDcard, active);
         server.sendBroadcastMessage(message);
 
     }
@@ -153,13 +167,17 @@ public class UpdateCreator {
 
     }
 
-    public void  onUpdateWinnerSinglePlayer(boolean winner, int finalpoint){
+    public void onUpdateWinnerSinglePlayer(boolean winner, int finalpoint){
         MessageUpdateWinnerSinglePlayer message= new MessageUpdateWinnerSinglePlayer(winner, finalpoint);
         server.sendBroadcastMessage(message);
     }
 
     public void onUpdateGameFinished(){
         server.sendBroadcastMessage(new MessageGeneric("server", MessageType.FINISHEDGAME));
+    }
+
+    public void onUpdateInfo(String player, Message message) {
+        server.sendtoPlayer(player, message);
     }
 
     //REQUESTNUMPLAYER????
@@ -198,5 +216,24 @@ public class UpdateCreator {
         return result;
     }
 
+    /**
+     * this method is used to convert DevcardDeck Version
+     * @param developmentCardDeck DevcardDeck Model version
+     * @return DevcardDeck client version
+     */
 
+    private String[][][] devCardDeckConvert(DevelopmentCard[][][] developmentCardDeck){
+        String[][][] stringdevCardDeck = new String[3][4][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                for (int k = 0; k < 4; k++) {
+                    if(developmentCardDeck[i][j][k]!=null)
+                        stringdevCardDeck[i][j][k] = developmentCardDeck[i][j][k].getID();
+                    else
+                        stringdevCardDeck[i][j][k]=null;
+                }
+            }
+        }
+        return stringdevCardDeck;
+    }
 }

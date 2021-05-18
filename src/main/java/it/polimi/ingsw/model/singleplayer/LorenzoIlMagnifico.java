@@ -31,7 +31,7 @@ public class LorenzoIlMagnifico {
      */
     private DevCardsDeck developmentDeck;
 
-    private String currentToken;
+    private Tokens currentToken;
 
     /** this is the constructor, it initialize the blackCrossToken = 0 because Lorenzo starts at the beginning
      * of the board as the other player
@@ -54,13 +54,14 @@ public class LorenzoIlMagnifico {
         Collections.shuffle(intList);
         intList.toArray(tokensvet);
 
+        currentToken = null;
     }
 
     /** this method active a tokens and increase the index i to the next time call an other token
      */
     public void drawTokens() throws ActiveVaticanReportException {
         tokensvet[i].effectTokens(this);
-        currentToken = tokensvet[i].getID();
+        currentToken = tokensvet[i];
         if(i<tokensvet.length) i++;
     }
 
@@ -111,7 +112,7 @@ public class LorenzoIlMagnifico {
         return developmentDeck;
     }
 
-    public String getCurrentToken() {
+    public Tokens getCurrentToken() {
         return currentToken;
     }
 }

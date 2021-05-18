@@ -1,13 +1,10 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
-import it.polimi.ingsw.model.card.leadereffect.ExtraProduction;
 import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.producible.Resources;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SlotDevCards {
@@ -22,18 +19,12 @@ public class SlotDevCards {
      */
     private Map<String,Integer> buffer;
 
-    /** this is a list of optional that if the player hasn't the leader card that allows to discount the price
-     * of productions aren't initialized
-     */
-    private List<ExtraProduction> leaderCardEffect;
-
     /** the constructor initialize the matrix as 3*3 as written in the rules even though the player can't
      * buy more than seven cards
      */
     public SlotDevCards() {
         boardDevCards = new DevelopmentCard[3][3];
         buffer = new HashMap<>();
-        leaderCardEffect= new ArrayList<>();
     }
 
     /** this method check if the player can buy a specific level card from the development card market
@@ -119,15 +110,6 @@ public class SlotDevCards {
         }
     }
 
-
-    /**
-     * this method active the card leader extra production
-     * @param resources the resources wanted from the extra production.
-     */
-    public void addLeaderCardEffect(Resources resources){
-        leaderCardEffect.add(new ExtraProduction(resources));
-    }
-
     /**
      * this method is a get from the boardDevCards
      * leave an NullPointerException exception if the slot is empty
@@ -174,10 +156,6 @@ public class SlotDevCards {
             }
         }
         return totalNumberDevCards;
-    }
-
-    public List<ExtraProduction> getLeaderCardEffect(){
-        return leaderCardEffect;
     }
 
     /**

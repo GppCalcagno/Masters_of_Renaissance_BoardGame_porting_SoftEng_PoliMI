@@ -2,6 +2,7 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Server.Server;
+import it.polimi.ingsw.Network.Server.UpdateCreator;
 import it.polimi.ingsw.model.exceptions.EndGameException;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.game.GameState;
@@ -30,7 +31,7 @@ public class GameController {
         this.playersNames = new ArrayList<>();
     }
 
-    public void onRecivedMessage(Message message) throws EndGameException {
+    public void onRecivedMessage(Message message) {
         synchronized (modelLock){
             if(message.getNickname().equals(game.getCurrentPlayer()))
             message.action(this);
@@ -63,7 +64,7 @@ public class GameController {
     }
 
     public boolean activeLeaderCardProduction (String ID, char r, String resource, int indexExtraProduction) {
-        return game.activeLeaderCardProduction(ID, r, resource, indexExtraProduction);
+        return game.activeLeaderCardProduction(ID, r, resource);
     }
 
     public boolean activeDevCardProduction (int col) {
@@ -82,15 +83,15 @@ public class GameController {
         return game.updateLeaderCard(ID, choice);
     }
 
-    public void endTurn () throws EndGameException {
+    public void endTurn (){
         game.endTurn();
     }
 
-    public void setGame(int numPlayers) throws IOException {
+    public void setGame(int numPlayers, UpdateCreator updateCreator) throws IOException {
         if (numPlayers == 1)
-            game = new SinglePlayerGame();
+            game = new SinglePlayerGame(updateCreator);
         else if (numPlayers == 2)
-            game = new Game();
+            game = new Game(updateCreator);
     }
 
 }

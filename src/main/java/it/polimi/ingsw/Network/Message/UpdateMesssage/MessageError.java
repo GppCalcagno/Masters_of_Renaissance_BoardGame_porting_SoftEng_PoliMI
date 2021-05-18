@@ -5,11 +5,13 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 
 public class MessageError extends Message {
+    private static final long serialVersionUID = 84642072058199835L;
+
     String errorType;
 
 
-    public MessageError(String nickname, MessageType messageType,String errorType) {
-        super(nickname, messageType.ERROR);
+    public MessageError(String nickname, String errorType) {
+        super(nickname, MessageType.ERROR);
         this.errorType=errorType;
     }
 

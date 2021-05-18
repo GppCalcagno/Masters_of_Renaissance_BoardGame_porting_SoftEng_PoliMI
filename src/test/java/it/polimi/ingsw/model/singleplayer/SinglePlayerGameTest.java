@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.singleplayer;
 
+import it.polimi.ingsw.Network.Server.Server;
+import it.polimi.ingsw.Network.Server.UpdateCreator;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Coins;
@@ -13,7 +15,7 @@ class SinglePlayerGameTest {
 
     @Test
     void isFinishedGame25Player() throws IOException, EndGameException {
-        SinglePlayerGame s = new SinglePlayerGame();
+        SinglePlayerGame s = new SinglePlayerGame(new UpdateCreator(new Server(1234)));
         Player p = new Player("Giusè");
         s.addPlayersList(p);
         s.setCurrentPlayer();
@@ -27,7 +29,7 @@ class SinglePlayerGameTest {
 
     @Test
     void isFinishedGame25Lorenzo() throws IOException, EndGameException {
-        SinglePlayerGame s = new SinglePlayerGame();
+        SinglePlayerGame s = new SinglePlayerGame(new UpdateCreator(new Server(1234)));
         Player p = new Player("Giusè");
         s.addPlayersList(p);
         s.setCurrentPlayer();
@@ -39,7 +41,7 @@ class SinglePlayerGameTest {
 
     @Test
     void isFinishedGameEmptyColumn() throws IOException, EndGameException {
-        SinglePlayerGame s = new SinglePlayerGame();
+        SinglePlayerGame s = new SinglePlayerGame(new UpdateCreator(new Server(1234)));
         Player p = new Player("Giusè");
         s.addPlayersList(p);
         s.setCurrentPlayer();
@@ -55,7 +57,7 @@ class SinglePlayerGameTest {
     @Test
     void startgame() throws IOException, EndGameException {
 
-        SinglePlayerGame game = new SinglePlayerGame();
+        SinglePlayerGame game = new SinglePlayerGame(new UpdateCreator(new Server(1234)));
         Player player1 = new Player("Qui");
         game.addPlayersList(player1);
         game.setCurrentPlayer();
@@ -66,7 +68,7 @@ class SinglePlayerGameTest {
 
     @Test
     void givefinalpoints() throws IOException, NegativeQuantityExceptions, ActiveVaticanReportException, GameFinishedException {
-        SinglePlayerGame game = new SinglePlayerGame();
+        SinglePlayerGame game = new SinglePlayerGame(new UpdateCreator(new Server(1234)));
         Player player = new Player("Valentina");
 
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(2, 0));

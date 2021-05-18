@@ -1,16 +1,23 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.Network.Message.ClientMessage.MessageDisconnect;
+import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestNumPlayers;
+import it.polimi.ingsw.Network.Server.UpdateCreator;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
-import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.*;
+import it.polimi.ingsw.model.singleplayer.token.Tokens;
 
 import java.io.IOException;
 import java.util.*;
 
 public class Game {
+    private int numPlayers;
 
     /** This attribute is the vector that contains the players' references */
     private List<Player> playersList;
@@ -54,10 +61,12 @@ public class Game {
      */
     private boolean[] canDoProduction;
 
+    private UpdateCreator update;
+
     /**
      * This is the constructor method
      */
-    public Game() throws IOException {
+    public Game(UpdateCreator update) throws IOException {
         this.currentPlayer = null;
         this.playersList = new ArrayList<>();
         this.leaderCardDeck = new LeaderCardDeck();
@@ -69,6 +78,8 @@ public class Game {
         this.turnPhase = TurnPhase.DOTURN;
         this.canDoProduction = new boolean[6];
         setCanDoProductionTrue();
+        this.update = update;
+        this.numPlayers = 0;
     }
 
     public void setCanDoProductionTrue(){
@@ -102,6 +113,7 @@ public class Game {
         } while(!playersList.get(i).getConnected());
 
         currentPlayer=playersList.get(i);
+        update.onUpdateCurrentPlayer(currentPlayer);
     }
 
     /**
@@ -162,8 +174,8 @@ public class Game {
             }
             catch (ActiveVaticanReportException ignored) {}
         }
+        update.onUpdateStartGame(developmentCardDeck.getDevelopmentCardDeck(), playersList, marketStructure.getMarketTray(), marketStructure.getRemainingMarble());
     }
-
 
     /**
      * This method counts victory points of each player at the end of the game according to the rules
@@ -172,6 +184,135 @@ public class Game {
         for(Player p : this.playersList){
             p.addVictoryPoints(p.getSlotDevCards().countVictoryPoints() + p.countLeaderActionVictoryPoints() + (p.countTotalResources())/5 + faithTrack.getPlayerPoint(p));
         }
+    }
+
+    public boolean loginPlayer (String nickname) {
+        if (playersList.isEmpty()) {
+            Player p = new Player(nickname);
+            playersList.add(p);
+            Message message = new MessageRequestNumPlayers(nickname);
+            update.onUpdateInfo(p.getNickname(), message);
+            return true;
+        }
+
+        for (Player ps : playersList) {
+            if (ps.getNickname().equals(nickname))
+                return false;
+        }
+
+        if (numPlayers != 0) {
+            if (playersList.size() + 1 < numPlayers) {
+                Player p = new Player(nickname);
+                playersList.add(p);
+                Message message = new MessageGeneric(nickname, MessageType.WAITINGOTHERPLAYERS);
+                update.onUpdateInfo(nickname, message);
+                return true;
+            } else if (playersList.size() + 1 == numPlayers) {
+                Player p = new Player(nickname);
+                playersList.add(p);
+                startgame();
+                gameState = GameState.INITGAME;
+                return true;
+            }
+            else {
+                Message message = new MessageDisconnect(nickname);
+                update.onUpdateInfo(nickname, message);
+                return false;
+            }
+        }
+        else {
+            Message message = new MessageDisconnect(nickname);
+            update.onUpdateInfo(nickname, message);
+            return false;
+        }
+    }
+
+    public boolean setNumPlayers (int numPlayers) {
+        if (this.numPlayers == 0) {
+            this.numPlayers = numPlayers;
+            return true;
+        }
+        else {
+            update.onUpdateError("You can't set players' number");
+            return false;
+        }
+    }
+
+    public boolean chooseInitialLeaderCards (int i1, int i2) {
+        if (gameState != GameState.INITGAME) {
+            update.onUpdateError("You have already chosen your Leader cards.");
+            return false;
+        }
+
+        if (currentPlayer.getLeaderActionBox().size() == 4) {
+            if (i1 < 0 || i1 > 3 || i2 < 0 || i2 > 3 || i1 == i2) {
+                update.onUpdateError("Wrong indexes.");
+                return false;
+            }
+            LeaderAction d1 = currentPlayer.getLeaderActionBox().get(i1);
+            LeaderAction d2 = currentPlayer.getLeaderActionBox().get(i2);
+            currentPlayer.getLeaderActionBox().clear();
+            currentPlayer.getLeaderActionBox().add(d1);
+            currentPlayer.getLeaderActionBox().add(d2);
+            update.onUpdateInitialLeaderCards(currentPlayer, currentPlayer.getLeaderActionBox());
+            return true;
+        }
+        else {
+            update.onUpdateError("You have already chosen your Leader cards.");
+            return false;
+        }
+    }
+
+    public boolean chooseInitialResources (List<String> initialResources) {
+        if (gameState != GameState.INITGAME) {
+            update.onUpdateError("You have already chosen your resources.");
+            return false;
+        }
+
+        if (playersList.indexOf(currentPlayer) == 0) {
+            update.onUpdateError("You can't choose resources");
+            return false;
+        }
+        else if (playersList.indexOf(currentPlayer) == 1 || playersList.indexOf(currentPlayer) == 2) {
+            if (!isRightResource(initialResources.get(0))) {
+                update.onUpdateError("Wrong resource");
+                return false;
+            }
+            currentPlayer.getWarehouse().checkInsertion(0, convertStringToResource(initialResources.get(0)));
+            update.onUpdateWarehouse(currentPlayer, false);
+            return true;
+        }
+        else if (playersList.indexOf(currentPlayer) == 3) {
+            if (!isRightResource(initialResources.get(0)) || !isRightResource(initialResources.get(1))) {
+                update.onUpdateError("Wrong resources");
+                return false;
+            }
+
+            if (initialResources.get(0).equals(initialResources.get(1))) {
+                currentPlayer.getWarehouse().checkInsertion(2, convertStringToResource(initialResources.get(0)));
+                currentPlayer.getWarehouse().checkInsertion(2, convertStringToResource(initialResources.get(1)));
+            }
+            else {
+                currentPlayer.getWarehouse().checkInsertion(0, convertStringToResource(initialResources.get(0)));
+                currentPlayer.getWarehouse().checkInsertion(1, convertStringToResource(initialResources.get(1)));
+            }
+            update.onUpdateWarehouse(currentPlayer, false);
+            gameState = GameState.INGAME;
+            return true;
+        }
+        else {
+            update.onUpdateError("It's impossible");
+            return false;
+        }
+    }
+
+    public Resources convertStringToResource (String stringResource) {
+        Resources[] resources = {new Coins(), new Servants(), new Shields(), new Stones()};
+        for (Resources r : resources) {
+            if (stringResource.equals(r.toString()))
+                return r;
+        }
+        return null;
     }
 
     /**
@@ -185,8 +326,7 @@ public class Game {
             try {
                 if (marketStructure.extractMarbles(colrowextract, numextract)) {
                     turnPhase = TurnPhase.EXTRACTMARBLES;
-                    //update buffer marbles
-                    //update riga/colonna e num
+                    update.onUpdateMarketTray(currentPlayer, colrowextract, numextract);
                     return true;
                 }
                 else return false;
@@ -209,9 +349,12 @@ public class Game {
             currentPlayer.chooseResourceWhiteMarbleEffect(resourceWhiteMarble);
             if (choice == 0) {
                 try {
+                    int faithMarker = currentPlayer.getFaithMarker();
                     if (marketStructure.getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
                         marketStructure.getBuffer().remove(0);
-                        //update warehouse e buffer
+                        if (faithMarker == currentPlayer.getFaithMarker())
+                            update.onUpdateWarehouse(currentPlayer, true);
+                        else update.onUpdateFaithMarker(currentPlayer, playersList, true);
                         return true;
                     }
                     else return false;
@@ -220,17 +363,17 @@ public class Game {
                     try {
                         faithTrack.checkPopeSpace(playersList, 0);
                     } catch (GameFinishedException e) {
-                        //update faithmarker e buffer
-                        return isFinishedGame();
+                        if (isFinishedGame())
+                            update.onUpdateGameFinished();
                     }
-                    //update faithmarker e buffer
+                    update.onUpdateFaithMarker(currentPlayer, playersList, true);
                     return true;
                 }
             }
             else if (choice == 1) {
                 if (marketStructure.getBuffer().get(0).addToExtraChest(currentPlayer)) {
                     marketStructure.getBuffer().remove(0);
-                    //update warehouse e extrachest e buffer
+                    update.onUpdateWarehouse(currentPlayer, true);
                     return true;
                 }
                 else return false;
@@ -238,19 +381,20 @@ public class Game {
             else if (choice == 2) {
                 marketStructure.discardMarbles(marketStructure.getBuffer().get(0));
                 for (Player p : playersList) {
-                    if (p.equals(currentPlayer)) {
+                    if (!p.equals(currentPlayer)) {
                         try {
                             p.increasefaithMarker();
-                            //update faithmarker
                         } catch (ActiveVaticanReportException e) {
                             try {
                                 faithTrack.checkPopeSpace(playersList, 0);
                             } catch (GameFinishedException gameFinishedException) {
-                                return isFinishedGame();
+                                if (isFinishedGame())
+                                    update.onUpdateGameFinished();
                             }
                         }
                     }
                 }
+                update.onUpdateFaithMarker(currentPlayer, playersList, true);
                 return true;
             }
             else return false;
@@ -265,8 +409,11 @@ public class Game {
      * @return true if the client can do the change
      */
     public boolean exchangeWarehouse (int row1, int row2) {
-        //update warehouse
-        return currentPlayer.getWarehouse().checkExchange(row1, row2);
+        if (currentPlayer.getWarehouse().checkExchange(row1, row2)) {
+            update.onUpdateWarehouse(currentPlayer, false);
+            return true;
+        }
+        else return false;
     }
 
     /**
@@ -286,6 +433,7 @@ public class Game {
                     currentPlayer.setCurrentDevCardToBuy(developmentCardDeck.getDevCardFromID(ID));
                     currentPlayer.setColumnSlotBuyDev(column);
                     turnPhase = TurnPhase.BUYDEVCARD;
+                    update.onUpdateDevCardDeck(currentPlayer, currentPlayer.getCurrentDevCardToBuy());
                     return true;
                 }
                 else return false;
@@ -306,6 +454,7 @@ public class Game {
                     if (currentPlayer.getSlotDevCards().insertCards(currentPlayer.getColumnSlotBuyDev(), currentPlayer.getCurrentDevCardToBuy())) {
                         currentPlayer.setCurrentDevCardToBuy(null);
                         currentPlayer.setColumnSlotBuyDev(-1);
+                        update.onUpdateResources(currentPlayer);
                         turnPhase = TurnPhase.ENDTURN;
                         return true;
                     }
@@ -313,9 +462,13 @@ public class Game {
                 } catch (GameFinishedException e) {
                     currentPlayer.setCurrentDevCardToBuy(null);
                     currentPlayer.setColumnSlotBuyDev(-1);
-
+                    update.onUpdateResources(currentPlayer);
                     turnPhase = TurnPhase.ENDTURN;
-                    return isFinishedGame();
+                    if (isFinishedGame()) {
+                        update.onUpdateGameFinished();
+                        return true;
+                    }
+                    else return false;
                 }
             }
             else return false;
@@ -407,6 +560,7 @@ public class Game {
                     currentPlayer.getSlotDevCards().baseProduction(chosenResource);
                     canDoProduction[5] = false;
                     turnPhase = TurnPhase.DOPRODUCTION;
+                    update.onUpdateResources(currentPlayer);
                     return true;
                 }
                 else return false;
@@ -416,126 +570,73 @@ public class Game {
         else return false;
     }
 
-    public boolean activeLeaderCardProduction (String ID, char r, String resource, int indexExtraProduction) {
+    public boolean isRightResource (String resource) {
+        String[] allResources = {"Coins", "Servants", "Shields", "Stones"};
+        for (String r : allResources){
+            if (resource.equals(r))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean activeLeaderCardProduction (String ID, char r, String resource) {
         if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
-
-            if (canDoProduction[3] || canDoProduction[4]) {
-                Resources resourceConverted = null;
-                Resources[] resourcesVet = {
-                        new Coins(),
-                        new Servants(),
-                        new Shields(),
-                        new Stones()
-                };
-                for (Resources res : resourcesVet) {
-                    if (resource.equals(res.toString()))
-                        resourceConverted = res;
+            if (!isRightResource(resource))
+                return false;
+            LeaderAction l = null;
+            int posLeaderBox = -1;
+            for (LeaderAction l1 : currentPlayer.getLeaderActionBox()) {
+                if (l1.getID().equals(ID)) {
+                    l = l1;
+                    posLeaderBox = currentPlayer.getLeaderActionBox().indexOf(l1);
                 }
-                if (resourceConverted == null)
+            }
+            if (l == null)
+                return false;
+            if (!l.getActivated())
+                return false;
+            if (posLeaderBox < 0 || posLeaderBox > 1)
+                return false;
+            if (!canDoProduction[posLeaderBox + 3])
+                return false;
+            String reqResource = l.getResources().toString();
+            Map<String, Integer> w = new HashMap<>();
+            Map<String, Integer> s = new HashMap<>();
+            Map<String, Integer> e = new HashMap<>();
+            switch (r) {
+                case 'w' :
+                    w.put(reqResource, 1);
+                    break;
+                case 's' :
+                    s.put(reqResource, 1);
+                    break;
+                case 'e' :
+                    e.put(reqResource, 1);
+                    break;
+                default:
                     return false;
-
-                if (currentPlayer.getSlotDevCards().getLeaderCardEffect().isEmpty())
-                    return false;
-                else {
-                    if (currentPlayer.getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction) == null)
-                        return false;
-                    else {
-                        switch (r) {
-                            case 'w' :
-                                if (currentPlayer.getWarehouse().delete(currentPlayer.getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).getResources())) {
-                                    try {
-                                        currentPlayer.getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(currentPlayer, resourceConverted);
-                                    } catch (ActiveVaticanReportException e) {
-                                        try {
-                                            faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
-                                        } catch (GameFinishedException gameFinishedException) {
-                                            if (canDoProduction[3])
-                                                canDoProduction[3] = false;
-                                            else canDoProduction[4] = false;
-                                            turnPhase = TurnPhase.DOPRODUCTION;
-                                            return isFinishedGame();
-                                        }
-                                        if (canDoProduction[3])
-                                            canDoProduction[3] = false;
-                                        else canDoProduction[4] = false;
-                                        turnPhase = TurnPhase.DOPRODUCTION;
-                                        return true;
-                                    }
-                                    if (canDoProduction[3])
-                                        canDoProduction[3] = false;
-                                    else canDoProduction[4] = false;
-                                    turnPhase = TurnPhase.DOPRODUCTION;
-                                    return true;
-                                }
-                            case 's' :
-                                try {
-                                    currentPlayer.getStrongbox().updateResources(currentPlayer.getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).getResources(), -1);
-                                } catch (NegativeQuantityExceptions negativeQuantityExceptions) {
-                                    return false;
-                                }
-                                try {
-                                    currentPlayer.getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(currentPlayer, resourceConverted);
-                                } catch (ActiveVaticanReportException e) {
-                                    try {
-                                        faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
-                                        if (canDoProduction[3])
-                                            canDoProduction[3] = false;
-                                        else canDoProduction[4] = false;
-                                        turnPhase = TurnPhase.DOPRODUCTION;
-                                    } catch (GameFinishedException gameFinishedException) {
-                                        if (canDoProduction[3])
-                                            canDoProduction[3] = false;
-                                        else canDoProduction[4] = false;
-                                        turnPhase = TurnPhase.DOPRODUCTION;
-                                        return isFinishedGame();
-                                    }
-
-
-                                }
-                                if (canDoProduction[3])
-                                    canDoProduction[3] = false;
-                                else canDoProduction[4] = false;
-                                turnPhase = TurnPhase.DOPRODUCTION;
-                                return true;
-                            case 'e' :
-                                for (ExtraChest chest : currentPlayer.getWarehouse().getLeaderCardEffect()) {
-                                    if (chest.getResources().equals(currentPlayer.getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).getResources())) {
-                                        try {
-                                            chest.updateResources(-1);
-                                        } catch (OverflowQuantityExcepions ignored) {}
-                                        catch (NegativeQuantityExceptions negativeQuantityExceptions) {
-                                            return false;
-                                        }
-                                        try {
-                                            currentPlayer.getSlotDevCards().getLeaderCardEffect().get(indexExtraProduction).activeExtraProduction(currentPlayer, resourceConverted);
-                                        } catch (ActiveVaticanReportException e) {
-                                            try {
-                                                faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
-                                                if (canDoProduction[3])
-                                                    canDoProduction[3] = false;
-                                                else canDoProduction[4] = false;
-                                                turnPhase = TurnPhase.DOPRODUCTION;
-                                            } catch (GameFinishedException gameFinishedException) {
-                                                if (canDoProduction[3])
-                                                    canDoProduction[3] = false;
-                                                else canDoProduction[4] = false;
-                                                turnPhase = TurnPhase.DOPRODUCTION;
-                                                return isFinishedGame();
-                                            }
-                                        }
-                                        if (canDoProduction[3])
-                                            canDoProduction[3] = false;
-                                        else canDoProduction[4] = false;
-                                        turnPhase = TurnPhase.DOPRODUCTION;
-                                        return true;
-                                    }
-                                }
-                                return false;
-                            default:
-                                return false;
-                        }
+            }
+            if (deleteRes(w, s, e)) {
+                try {
+                    currentPlayer.increasefaithMarker();
+                } catch (ActiveVaticanReportException activeVaticanReportException) {
+                    try {
+                        faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
+                    } catch (GameFinishedException gameFinishedException) {
+                        if (isFinishedGame())
+                            update.onUpdateGameFinished();
                     }
+                    update.onUpdateFaithMarker(currentPlayer, playersList, false);
                 }
+                if (currentPlayer.getSlotDevCards().getBuffer().containsKey(resource)) {
+                    currentPlayer.getSlotDevCards().getBuffer().put(resource, currentPlayer.getSlotDevCards().getBuffer().get(resource) + 1);
+                }
+                else {
+                    currentPlayer.getSlotDevCards().getBuffer().put(resource, 1);
+                }
+                canDoProduction[posLeaderBox + 3] = false;
+                turnPhase = TurnPhase.DOPRODUCTION;
+                return true;
             }
             else return false;
         }
@@ -544,7 +645,7 @@ public class Game {
 
     public boolean activeDevCardProduction (int col) {
         if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
-            if (canDoProduction[0] || canDoProduction[1] || canDoProduction[2]) {
+            if (canDoProduction[col]) {
                 try {
                     if (currentPlayer.getSlotDevCards().getDevCards(col) == null)
                         return false;
@@ -556,13 +657,9 @@ public class Game {
                 if (card.getCostProduction().checkResources(currentPlayer) && currentPlayer.getSlotDevCards().checkUsage(card)) {
                     currentPlayer.setCurrentDevCardToProduce(currentPlayer.getSlotDevCards().getDevCards(col));
                     currentPlayer.setColumnSlotDevCardToProduce(col);
-                    if (canDoProduction[0])
-                        canDoProduction[0] = false;
-                    else if (canDoProduction[1])
-                        canDoProduction[1] = false;
-                    else if (canDoProduction[2])
-                        canDoProduction[2] = false;
+                    canDoProduction[col] = false;
                     turnPhase = TurnPhase.DOPRODUCTION;
+                    update.onUpdateActivatedDevCardProduction(currentPlayer, card.getID());
                     return true;
                 }
                 else return false;
@@ -586,7 +683,7 @@ public class Game {
 
             //assegno le risorse al buffer giocatore
             currentPlayer.getSlotDevCards().cardProduction(card);
-
+            update.onUpdateResources(currentPlayer);
             return true;
         }
         else return false;
@@ -595,7 +692,7 @@ public class Game {
     public boolean endProduction () {
         if (!currentPlayer.getSlotDevCards().getBuffer().isEmpty()) {
             if (emptyBuffer()) {
-                //update Strongbox
+                update.onUpdateStrongBox(currentPlayer);
                 return true;
             }
             else return false;
@@ -634,14 +731,14 @@ public class Game {
         if (!currentPlayer.getLeaderActionBox().isEmpty()) {
             if (choice == 0) {
                 if (discardLeaderAction(ID)) {
-
+                    update.onUpdateLeaderCard(currentPlayer, ID, false);
                     return true;
                 }
                 else return false;
             }
             else if (choice == 1) {
                 if (activeLeaderAction(ID)) {
-
+                    update.onUpdateLeaderCard(currentPlayer, ID, true);
                     return true;
                 }
                 else return false;
@@ -711,27 +808,25 @@ public class Game {
             try {
                 faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
             } catch (GameFinishedException gameFinishedException) {
-                return isFinishedGame();
+                if (isFinishedGame())
+                    update.onUpdateFaithMarker(currentPlayer, playersList, false);
             }
         }
+        update.onUpdateFaithMarker(currentPlayer, playersList, false);
         return true;
     }
 
-    public void endTurn () throws EndGameException {
-        try {
-            playLorenzoTurn();
-        } catch (ActiveVaticanReportException e) {
-            try {
-                faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
-            } catch (GameFinishedException gameFinishedException) {
-
-                isFinishedGame();
-            }
-
-        }
+    public void endTurn () {
         turnPhase = TurnPhase.DOTURN;
         setCanDoProductionTrue();
-        setCurrentPlayer();
+        try {
+            setCurrentPlayer();
+        } catch (EndGameException e) {
+            Player winner = playersList.get(getWinner());
+            givefinalpoints();
+            update.onUpdateWinnerMultiplayer(winner, playersList);
+        }
+        update.onUpdateCurrentPlayer(currentPlayer);
     }
 
     /**
@@ -789,7 +884,7 @@ public class Game {
     public void playLorenzoTurn () throws ActiveVaticanReportException {
     }
 
-    public String getCurrentToken () {
+    public Tokens getCurrentToken () {
         return null;
     }
 
@@ -811,5 +906,13 @@ public class Game {
 
     public void setCanDoProduction(int i) {
         canDoProduction[i] = false;
+    }
+
+    public boolean getFinishedGame() {
+        return finishedGame;
+    }
+
+    public int getNumPlayers() {
+        return numPlayers;
     }
 }

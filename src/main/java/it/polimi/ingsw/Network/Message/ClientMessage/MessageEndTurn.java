@@ -13,7 +13,7 @@ public class MessageEndTurn extends Message {
     }
 
     @Override
-    public void action(GameController gameController) throws EndGameException {
+    public void action(GameController gameController){
         gameController.endTurn();
     }
 }

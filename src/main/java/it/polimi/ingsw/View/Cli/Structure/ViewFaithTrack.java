@@ -160,7 +160,10 @@ public class ViewFaithTrack {
     }
 
     private void updateObject(){
+        /*
         tiles[1][2+ pb.getFaithMarker()*5] = "♔";  //♙
+
+         */
     }
 
     public void plot() {
