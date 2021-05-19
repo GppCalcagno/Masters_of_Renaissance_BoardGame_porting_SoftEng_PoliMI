@@ -13,14 +13,15 @@ public class ClientController implements Observer {
     PlayerBoard board;
     ViewInterface view;
 
-    public ClientController(ViewInterface view) {
-        try {
-            this.board= new PlayerBoard();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
+    public ClientController() {
+        board=new PlayerBoard();
     }
+
+    public void setView(ViewInterface view) {
+        this.view = view;
+    }
+
+
 
     @Override
     public void update(Message message) {
@@ -35,4 +36,7 @@ public class ClientController implements Observer {
         clientSocket.sendMessage(message);
     }
 
+    public PlayerBoard getBoard() {
+        return board;
+    }
 }

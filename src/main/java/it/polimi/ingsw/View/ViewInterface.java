@@ -13,6 +13,7 @@ public interface ViewInterface {
     void askServerInfo();
     void askLogin();
     void askNumPlayer();
+    void start();
 
 
 

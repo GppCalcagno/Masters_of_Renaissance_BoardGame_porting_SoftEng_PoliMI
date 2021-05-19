@@ -57,7 +57,7 @@ public class PlayerBoard {
     Map<String, DevelopmentCard> developmentCardMap;
     Map<String, LeaderAction> leaderActionMap;
 
-    public PlayerBoard () throws IOException {
+    public PlayerBoard () {
         playerList= new ArrayList<>();
         currentPlayer=null;
 
@@ -77,8 +77,15 @@ public class PlayerBoard {
         devCardDeck= new String[3][4][4];
         marketTray= new String[3][4];
 
-        developmentCardMap = new HashMap<>();   initializeDevCardMap();
-        leaderActionMap = new HashMap<>();      initializeLeaderCardMap();
+        developmentCardMap = new HashMap<>();
+        leaderActionMap = new HashMap<>();
+        try {
+            initializeLeaderCardMap();
+            initializeDevCardMap();
+        } catch (IOException ioException) {
+            System.out.println("CAN'T LOAD CARD! CHECH GSON FILE");
+            System.exit(0);
+        }
     }
 
     public void setNickname(String name){

@@ -28,9 +28,14 @@ public class Cli implements ViewInterface {
         this.controller = controller;
         out = System.out;
         input = new InputReader(parser);
+        out.println("sono la cli");
+    }
+    @Override
+    public void start(){
         gameStart();
         askServerInfo();
     }
+
 
     /**
      * this method calls InputReader and read the input inserted by the player
