@@ -29,5 +29,6 @@ public class MessageUpdateWinnerSinglePlayer extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.updateWinner(win,finalpoint);
+        view.onUpdateWinnerSinglePlayer();
     }
 }

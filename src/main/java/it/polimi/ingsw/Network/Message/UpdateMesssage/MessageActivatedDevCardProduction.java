@@ -18,5 +18,6 @@ public class MessageActivatedDevCardProduction extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.setActivedDevCardProd(ID);
+        view.onUpdateActivatedDevCardProduction(ID);
     }
 }

@@ -205,9 +205,17 @@ public class PlayerBoard {
         }
     }
 
-    public void updateStateLeaderCard(String ID){
-        if(isMyturn())
-        leaderActionMap.get(ID).setActivated();
+    public void updateStateLeaderCard(String ID,boolean activeOrDiscard){
+        if(isMyturn()){
+            if(activeOrDiscard){
+                leaderActionMap.get(ID).setActivated();
+            }
+            else {
+                leaderActionMap.remove(ID);
+            }
+
+        }
+
     }
 
     public void updateWinner(String playerWinner, Map<String, Integer> playersPoints){

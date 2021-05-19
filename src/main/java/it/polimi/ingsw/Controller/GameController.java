@@ -3,9 +3,7 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageError;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestNumPlayers;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.Server.UpdateCreator;
 import it.polimi.ingsw.model.game.Game;
@@ -40,12 +38,12 @@ public class GameController {
                 case LOGIN: message.action(this); break;
                 case NUMPLAYERS: message.action(this); break;
                 default:
-                    if(message.getNickname().equals(game.getCurrentPlayer()))
+                    if(message.getNickname().equals(game.getCurrentPlayer().getNickname()))
                         message.action(this);
+                    else
+                        server.sendtoPlayer(message.getNickname(),new MessageError("server","This isn't your Turn"));
             }
         }
-        System.out.println(playersNames);
-        System.out.println(numPlayer);
     }
 
 
@@ -55,13 +53,13 @@ public class GameController {
         if(!playersNames.contains(name)){
             if(playersNames.size()==0){
                 playersNames.add(name);
-                server.sendtoPlayer(name, new MessageRequestNumPlayers("server"));
+                server.sendtoPlayer(name, new MessageRequestNumPlayers());
             }
             else
             {
                 if (numPlayer==0 || (numPlayer>0 && playersNames.size()>=numPlayer)){
                     server.sendtoPlayer(name, new MessageError("server","Not yet established NumPlayer"));
-                    server.sendtoPlayer(name, new MessageGeneric("server", MessageType.DISCONNECT));
+                    server.sendtoPlayer(name, new MessageDisconnect(name));
                 }
                 else {
                     playersNames.add(name);
@@ -80,13 +78,13 @@ public class GameController {
                         }
                     }
                     else
-                        server.sendtoPlayer(name, new MessageGeneric("server", MessageType.WAITINGOTHERPLAYERS));
+                        server.sendtoPlayer(name, new MessageWaitingForOtherPlayer());
                 }
             }
         }
         else {
             server.sendtoPlayer(name, new MessageError("server","Nickname Already Taken!"));
-            server.sendtoPlayer(name, new MessageGeneric("server", MessageType.LOGIN));
+            server.sendtoPlayer(name, new MessageRequestLogin());
         }
 
     }
@@ -94,7 +92,7 @@ public class GameController {
     public void onNumPlayer(int num){
         if(num<1 ||num>4){
             server.sendBroadcastMessage(new MessageError("server", "Number of Player is Not Correct"));
-            server.sendBroadcastMessage(new MessageRequestNumPlayers("server"));
+            server.sendBroadcastMessage(new MessageRequestNumPlayers());
         }
         else{
             if(numPlayer==0)
@@ -113,6 +111,8 @@ public class GameController {
                 }
         }
     }
+
+
 
 
     public void disconnect(String name){

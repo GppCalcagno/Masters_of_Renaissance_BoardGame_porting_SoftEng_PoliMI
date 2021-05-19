@@ -18,6 +18,6 @@ public class MessageError extends Message {
 
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view){
-        view.onUpdateError();
+        view.onUpdateError(errorType);
     }
 }

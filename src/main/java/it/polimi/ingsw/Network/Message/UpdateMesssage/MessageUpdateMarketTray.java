@@ -20,5 +20,6 @@ public class MessageUpdateMarketTray extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.updateMarketTray(direction,num);
+        view.onUpdateMarketTray();
     }
 }

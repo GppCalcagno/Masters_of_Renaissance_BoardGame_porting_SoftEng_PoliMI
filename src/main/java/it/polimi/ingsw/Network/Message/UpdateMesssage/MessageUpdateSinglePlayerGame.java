@@ -27,5 +27,6 @@ public class MessageUpdateSinglePlayerGame extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.singlePlayerUpdate(devCardDeck,blackCrossToken,ID);
+        view.onUpdateSinglePlayerGame();
     }
 }

@@ -5,17 +5,15 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.View.ViewInterface;
 
-public class MessageUpdateCurrPlayer extends Message {
-    private static final long serialVersionUID = -4542117400168457410L;
+public class MessageGameFinished extends Message {
 
-    public MessageUpdateCurrPlayer(String nickname) {
-        super(nickname, MessageType.UPDATECURRENTPLAYER);
+    public MessageGameFinished() {
+        super("info", MessageType.FINISHEDGAME);
     }
 
 
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.setCurrentPlayer(getNickname());
-        view.onUpdateCurrPlayer();
+        view.showMessage("the game will end on the next turn");
     }
 }

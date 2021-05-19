@@ -21,5 +21,6 @@ public class MessageUpdateStrongbox extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.setStrongbox(strongbox);
+        view.onUpdateStrongbox();
     }
 }

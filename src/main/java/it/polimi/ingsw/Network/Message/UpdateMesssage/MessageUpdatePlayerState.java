@@ -18,6 +18,6 @@ public class MessageUpdatePlayerState extends Message {
 
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
-        //per il momento inutile
+        view.onUpdatePlayerState(getNickname(),isConnected);
     }
 }

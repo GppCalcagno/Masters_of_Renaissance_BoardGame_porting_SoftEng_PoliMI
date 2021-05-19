@@ -5,8 +5,9 @@ public enum MessageType {
 /* ** FIRST FASE Message ** */
     CONNECT,
     LOGIN,
-    REQUESTNUMPLAYERS, //??
-    WAITINGOTHERPLAYERS,  //?
+    REQUESTLOGIN,
+    REQUESTNUMPLAYERS,
+    WAITINGOTHERPLAYERS,
     NUMPLAYERS,
 
 /* ** INIT FASE Message ** */
@@ -59,7 +60,6 @@ public enum MessageType {
 /* ** UTILITY Message ** */
     FINISHEDGAME,
     ENDGAME,
-    SHOWMESSAGE,
     PING,
     DISCONNECT,
     ERROR;

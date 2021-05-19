@@ -5,19 +5,17 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.View.ViewInterface;
 
-public class MessageUpdateInfo extends Message {
-    private static final long serialVersionUID = 8241870936095822512L;
+public class MessageWaitingForOtherPlayer extends Message {
+    private static final long serialVersionUID = 1022749417453669552L;
 
-    private String info;
-
-    public MessageUpdateInfo(String nickname, String info) {
-        super(nickname, MessageType.UPDATEINFO);
-        this.info = info;
+    public MessageWaitingForOtherPlayer() {
+        super("server", MessageType.WAITINGOTHERPLAYERS);
     }
-
 
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
-        //show
+        view.showMessage("Waiting for Other Player");
     }
+
+
 }

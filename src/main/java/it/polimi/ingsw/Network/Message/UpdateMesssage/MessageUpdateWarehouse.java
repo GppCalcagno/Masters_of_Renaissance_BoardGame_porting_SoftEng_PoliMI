@@ -26,6 +26,7 @@ public class MessageUpdateWarehouse extends Message {
         playerBoard.setWarehouse(warehouse,extraChest);
         if(removeMarblefromBuffer)
             playerBoard.getMarbleBuffer().remove(0);
+        view.onUpdateWarehouse();
     }
 
 

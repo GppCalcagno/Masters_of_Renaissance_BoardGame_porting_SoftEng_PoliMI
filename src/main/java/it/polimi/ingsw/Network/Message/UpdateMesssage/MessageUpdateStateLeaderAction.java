@@ -26,7 +26,8 @@ public class MessageUpdateStateLeaderAction extends Message {
 
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
-        if(activated)
-            playerBoard.updateStateLeaderCard(ID);
+            playerBoard.updateStateLeaderCard(ID,activated);
+            view.onUpdateStateLeaderAction(ID,activated);
+
     }
 }

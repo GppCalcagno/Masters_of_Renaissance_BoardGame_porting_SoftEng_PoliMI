@@ -18,5 +18,6 @@ public class MessageUpdateDevCardDeck extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.removeCardfromDevCardDeck(cardID);
+        view.onUpdateDevCardDeck(cardID);
     }
 }

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
+import it.polimi.ingsw.Network.Message.MessagePing;
 import it.polimi.ingsw.Observer.Observer;
 
 import java.io.IOException;
@@ -44,7 +43,6 @@ public class ServerClientHandler implements Runnable, Observer {
         SenderLock= new Object();
         this.ID=ID;
 
-
         try {
             output = new ObjectOutputStream(clientSocket.getOutputStream());
             input = new ObjectInputStream(clientSocket.getInputStream());
@@ -71,7 +69,7 @@ public class ServerClientHandler implements Runnable, Observer {
                 if(message!=null){
                     SERVERLOGGER.info("Messagge recived" + "(from" + message.getNickname()+")"+ ":" + message.getMessageType());
                     switch (message.getMessageType()){
-                        case PING: sendMessage(new MessageGeneric("server", MessageType.PING)); break;
+                        case PING: sendMessage(new MessagePing()); break;
                         case LOGIN:
                             server.addIDname(ID,message.getNickname());
                             server.recivedMessage(message);

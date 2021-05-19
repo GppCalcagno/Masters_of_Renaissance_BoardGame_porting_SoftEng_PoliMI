@@ -31,5 +31,7 @@ public class MessageUpdateFaithMarker extends Message {
         if(removeMarblefromBuffer){
             playerBoard.getMarbleBuffer().remove(0);
         }
+
+        view.onUpdateFaithMarker();
     }
 }

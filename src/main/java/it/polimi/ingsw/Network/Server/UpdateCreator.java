@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.MessagePing;
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.model.card.DevelopmentCard;
@@ -168,14 +169,9 @@ public class UpdateCreator {
     }
 
     public void onUpdateGameFinished(){
-        server.sendBroadcastMessage(new MessageGeneric("server", MessageType.FINISHEDGAME));
+        server.sendBroadcastMessage(new MessageGameFinished());
     }
 
-    public void onUpdateInfo(String player, Message message) {
-        server.sendtoPlayer(player, message);
-    }
-
-    //REQUESTNUMPLAYER????
 
 
     /**
