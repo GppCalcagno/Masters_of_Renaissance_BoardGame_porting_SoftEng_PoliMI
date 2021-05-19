@@ -2,6 +2,9 @@ package it.polimi.ingsw.View;
 
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
+
+import java.util.List;
+
 /**
  * this class is the interface where CLI and GUI take methods
  */
@@ -16,7 +19,7 @@ public interface ViewInterface {
     /* ************************************ UPDATE ******************************** */
     void onUpdateStartGame();
     void onUpdateCurrPlayer();
-    void onUpdateInitialLeaderCards(String leaderCard1, String leaderCard2);
+    void onUpdateInitialLeaderCards(List<String> leaderCard);
     void onUpdateActivatedDevCardProduction(String devCard);
     void onUpdateError(String error);
     void onUpdateRequestNumPlayers();
