@@ -35,7 +35,7 @@ public class ActionParser {
     /**
      * this method parse the input from the player and launch the right method for the turn that player choose to do
      */
-    public void askChooseTurn(String input) {
+    public void commandParcer(String input) {
         String [] parts = input.toUpperCase(Locale.ROOT).split(" ");
         if (parts[0] != "") {
             try {

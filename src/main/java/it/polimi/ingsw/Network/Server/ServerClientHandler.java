@@ -32,7 +32,6 @@ public class ServerClientHandler implements Runnable, Observer {
 
     /** this is a locker to manage the Concurrency */
     private  final Object SenderLock;
-
     /**
      * this is the costructor of the class
      * @param clientSocket is the connected socket of the player
@@ -45,13 +44,13 @@ public class ServerClientHandler implements Runnable, Observer {
         SenderLock= new Object();
         this.ID=ID;
 
+
         try {
             output = new ObjectOutputStream(clientSocket.getOutputStream());
             input = new ObjectInputStream(clientSocket.getInputStream());
         } catch (IOException e) {
             SERVERLOGGER.severe("ERROR: THREAD INITIALIZATION ");
         }
-
     }
 
     /** Thread run method  */
@@ -82,7 +81,7 @@ public class ServerClientHandler implements Runnable, Observer {
                 }
             }//finewhile
         }
-        catch (IOException | ClassNotFoundException e) {
+        catch (IOException | ClassNotFoundException | NullPointerException e) {
             SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
             server.disconnect(ID);
         }

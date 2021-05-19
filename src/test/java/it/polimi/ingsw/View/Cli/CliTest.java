@@ -12,6 +12,7 @@ import java.util.Map;
 
 class CliTest {
     ClientController controller;
+    /*
 
     @Test
     void showLeaderActionBox() throws IOException {
@@ -172,4 +173,6 @@ class CliTest {
         Cli cli = new Cli(playerBoard, controller);
         cli.gameStart();
     }
+
+    */
 }

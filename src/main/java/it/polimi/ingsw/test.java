@@ -21,7 +21,7 @@ public class test {
         Scanner in= new Scanner(System.in);
 
         try {
-            socket.connect(new InetSocketAddress("127.0.0.1",1234));
+            socket.connect(new InetSocketAddress("127.0.0.1",4444));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,8 +32,6 @@ public class test {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
         System.out.println("manda 1o messaggio: LOGIN");
         in.next();

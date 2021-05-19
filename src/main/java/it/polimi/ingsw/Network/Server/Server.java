@@ -64,6 +64,7 @@ public class Server extends Observable {
 
                     //Strart thread
                     ServerClientHandler clientHandler=new ServerClientHandler(clientSocket,this,clientConnected);
+
                     Thread thread= new Thread(clientHandler);
                     addIDClient(clientConnected,clientHandler);
                     thread.start();

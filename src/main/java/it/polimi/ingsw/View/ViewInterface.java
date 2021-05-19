@@ -8,6 +8,8 @@ import it.polimi.ingsw.Client.PlayerBoard;
 public interface ViewInterface {
 
     void askServerInfo();
+    void askLogin();
+    void askNumPlayer();
 
     void onUpdateError();
 
