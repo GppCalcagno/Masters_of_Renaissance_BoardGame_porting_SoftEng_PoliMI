@@ -11,14 +11,30 @@ public interface ViewInterface {
     void askLogin();
     void askNumPlayer();
 
-    void onUpdateError();
 
-    /* ************************************ LOGIN PHASE ******************************** */
 
-    void onUpdateStagegame();
-    /* ************************************ INITGAME PHASE ******************************** */
+    /* ************************************ UPDATE ******************************** */
+    void onUpdateStartGame();
     void onUpdateCurrPlayer();
     void onUpdateInitialLeaderCards();
+    void onUpdateActivatedDevCardProduction();
+    void onUpdateError();
+    void onUpdateRequestNumPlayers();
+    void onUpdateDevCardDeck();
+    void onUpdateFaithMarker();
+    void onUpdateInfo();
+    void onUpdateMarketTray();
+    void onUpdatePlayerState();
+    void onUpdateUpdateResources();
+    void onUpdateSinglePlayerGame();
+    void onUpdateSlotDevCards();
+    void onUpdateStateLeaderAction();
+    void onUpdateStringbox();
+    void onUpdateWarehouse();
+    void onUpdateWinnerMultiplayer();
+    void onUpdateWinnerSinglePlayer();
+
+    /* ************************************ INITGAME PHASE ******************************** */
     /* ************************************ INGAME PHASE ******************************** */
     void inputFromPlayer();
     /* ************************************ SHOW PHASE ******************************** */
@@ -26,18 +42,12 @@ public interface ViewInterface {
 
     void showLeaderActionBox();
     void showSlotDevCard();
-
     void showWarehouse();
     void showStrongbox();
-
     void showFaithTrack();
     void showExtraChest();
-
     void showMarketTray();
-    void showMarbleBuffer();
     void showDevCardDeck();
-
-
     void showDevCard(String ID);
     void showLeaderAction(String ID);
 
