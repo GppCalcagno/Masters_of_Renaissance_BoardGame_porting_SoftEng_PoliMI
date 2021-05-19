@@ -16,7 +16,6 @@ public class Cli implements ViewInterface {
     private final PrintStream out;
     private ClientController controller;
     private InputReader input;
-    private String line;
 
     /**
      * @param playerBoard playerìs board
@@ -32,7 +31,15 @@ public class Cli implements ViewInterface {
         askServerInfo();
     }
 
-
+    /**
+     * this method calls InputReader and read the input inserted by the player
+     */
+    @Override
+    public void inputFromPlayer() {
+        while (playerBoard.isMyturn()) {
+            input.run();
+        }
+    }
 
     /**
      * when a player connect, the server ip and the port are requested in order to set the connection with the server
@@ -51,17 +58,10 @@ public class Cli implements ViewInterface {
 
     @Override
     public void askLogin() {
-
-    }
-
-    /**
-     * the nickname of the player
-     */
-        public void askNickname() {
+        Scanner in= new Scanner(System.in);
         out.println("\n");
         out.println("Please enter your nickname: ");
-        //inputFromPlayer();
-        String nickname = line;
+        String nickname = in.nextLine();
         out.println("Welcome : " + nickname);
         controller.sendMessage(new MessageLogin(nickname));
     }
@@ -71,20 +71,15 @@ public class Cli implements ViewInterface {
      */
     @Override
     public void askNumPlayer() {
+        Scanner in= new Scanner(System.in);
         out.println("\n");
         out.println("Please enter the number of players: ");
-        //inputFromPlayer();
-        int numPlayers = Integer.parseInt(line);
+        int numPlayers = in.nextInt();
         controller.sendMessage(new MessageNumPlayers(playerBoard.getNickname(), numPlayers));
     }
 
     @Override
     public void onUpdateError() {
-
-    }
-
-    @Override
-    public void onRequestNumPlayer() {
 
     }
 
@@ -99,60 +94,15 @@ public class Cli implements ViewInterface {
     }
 
     @Override
-    public void onUpdateItitialLeaderCards() {
+    public void onUpdateInitialLeaderCards() {
 
     }
 
     /**
      * show the start of the game
      */
-
     public void gameStart(){
-        System.out.println("\n" +
-                "\n" +
-                " /$$      /$$  /$$$$$$  /$$$$$$$$  /$$$$$$  /$$$$$$$$ /$$$$$$$  /$$$$$$\n" +
-                "| $$$    /$$$ /$$__  $$| $$_____/ /$$__  $$|__  $$__/| $$__  $$|_  $$_/\n" +
-                "| $$$$  /$$$$| $$  \\ $$| $$      | $$  \\__/   | $$   | $$  \\ $$  | $$  \n" +
-                "| $$ $$/$$ $$| $$$$$$$$| $$$$$   |  $$$$$$    | $$   | $$$$$$$/  | $$  \n" +
-                "| $$  $$$| $$| $$__  $$| $$__/    \\____  $$   | $$   | $$__  $$  | $$  \n" +
-                "| $$\\  $ | $$| $$  | $$| $$       /$$  \\ $$   | $$   | $$  \\ $$  | $$  \n" +
-                "| $$ \\/  | $$| $$  | $$| $$$$$$$$|  $$$$$$/   | $$   | $$  | $$ /$$$$$$\n" +
-                "|__/     |__/|__/  |__/|________/ \\______/    |__/   |__/  |__/|______/\n" +
-                "                                                                       \n" +
-                "                                                                       \n" +
-                "                                                                       \n" +
-                "");
-        System.out.println("Welcome to Maestri Del Rinascimento!" +
-                "\n" +
-                "A turn model game where you can make multiple action during your turn in order to become the richer and faithful family in Florence" +
-                "\n" +
-                "Type <HELP> during the game phases to view all possible actions,\nLET'S START!\n\n");
-    }
-
-    /**
-     * before starting the game every player choose two cards through four
-     */
-
-    public void askChooseLeaderCards() {
-        showLeaderActionBox();
-        out.println("Please enter which two cards you want keep during the game: [0-3]");
-       // inputFromPlayer();
-        int i1 = Integer.parseInt(line);
-        //inputFromPlayer();
-        int i2 = Integer.parseInt(line);
-        controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), i1, i2));
-    }
-
-    /**
-     * this method received the input from the player and parse it to ActionParser in order to call the right method for
-     * the turn that player chose
-     */
-
-    public void doAction(){
-        while (true){
-            //inputFromPlayer();
-            ActionParser actionParser = new ActionParser(this, controller, playerBoard);
-        }
+        ViewStart viewstart = new ViewStart();
     }
 
     /**
@@ -238,7 +188,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showWinnerandVictoryPoint() {
-        System.out.println("The winner is : " + playerBoard.getPlayerWinner() + "with : " + playerBoard.getPlayersPoints().get(playerBoard.getPlayerWinner()) + " points!");
+        System.out.println("The winner is : " + playerBoard.getPlayerWinner() + " with : " + playerBoard.getPlayersPoints().get(playerBoard.getPlayerWinner()) + " points!");
     }
 
     @Override

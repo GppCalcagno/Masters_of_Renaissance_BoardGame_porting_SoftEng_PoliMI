@@ -35,7 +35,7 @@ public class ActionParser {
     /**
      * this method parse the input from the player and launch the right method for the turn that player choose to do
      */
-    public void commandParcer(String input) {
+    public void commandParser(String input) {
         String [] parts = input.toUpperCase(Locale.ROOT).split(" ");
         if (parts[0] != "") {
             try {
@@ -105,17 +105,17 @@ public class ActionParser {
                 int old=0;
                 if(isRightResource(parts[i+1])){
                     switch (structure){
-                        case 'w':
+                        case 'W':
                             if(warehouse.containsKey(parts[i+1]))
                                 old=warehouse.get(parts[i+1]);
                             warehouse.put(parts[i+1],old+ Integer.parseInt(parts[i+2]));
                             break;
-                        case 's':
+                        case 'S':
                             if(strongBox.containsKey(parts[i+1]))
                                 old=strongBox.get(parts[i+1]);
                             strongBox.put(parts[i+1],old+ Integer.parseInt(parts[i+2]));
                             break;
-                        case 'e':
+                        case 'E':
                             if(extraChest.containsKey(parts[i+1]))
                                 old=extraChest.get(parts[i+1]);
                             extraChest.put(parts[i+1],old+ Integer.parseInt(parts[i+2]));

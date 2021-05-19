@@ -20,7 +20,7 @@ public class InputReader implements Runnable{
     public void run() {
         input.reset();
         String line = input.nextLine();
-        parser.commandParcer(line);
+        parser.commandParser(line);
     }
 
 

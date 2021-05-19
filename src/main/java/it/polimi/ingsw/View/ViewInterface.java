@@ -14,19 +14,13 @@ public interface ViewInterface {
     void onUpdateError();
 
     /* ************************************ LOGIN PHASE ******************************** */
-    void onRequestNumPlayer();
+
     void onUpdateStagegame();
     /* ************************************ INITGAME PHASE ******************************** */
     void onUpdateCurrPlayer();
-    void onUpdateItitialLeaderCards();
+    void onUpdateInitialLeaderCards();
     /* ************************************ INGAME PHASE ******************************** */
-
-
-
-
-
-
-
+    void inputFromPlayer();
     /* ************************************ SHOW PHASE ******************************** */
     void showMessage(String message);
 
