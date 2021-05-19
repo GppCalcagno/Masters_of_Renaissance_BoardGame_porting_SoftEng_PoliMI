@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network.Message.UpdateMesssage;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.View.ViewInterface;
 
 public class MessageUpdateStateLeaderAction extends Message {
     private static final long serialVersionUID = 2309901068199675655L;
@@ -24,7 +25,7 @@ public class MessageUpdateStateLeaderAction extends Message {
 
 
     @Override
-    public void update(PlayerBoard playerBoard) {
+    public void update(PlayerBoard playerBoard, ViewInterface view) {
         if(activated)
             playerBoard.updateStateLeaderCard(ID);
     }

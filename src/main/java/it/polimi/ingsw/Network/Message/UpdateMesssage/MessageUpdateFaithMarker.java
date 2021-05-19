@@ -3,7 +3,7 @@ package it.polimi.ingsw.Network.Message.UpdateMesssage;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.View.ViewInterface;
 
 import java.util.Map;
 
@@ -25,12 +25,11 @@ public class MessageUpdateFaithMarker extends Message {
 
 
     @Override
-    public void update(PlayerBoard playerBoard) {
+    public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.setFaithMarker(playersPosition,playersPopFavoriteTile);
 
         if(removeMarblefromBuffer){
             playerBoard.getMarbleBuffer().remove(0);
         }
-
     }
 }

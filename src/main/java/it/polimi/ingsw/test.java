@@ -49,7 +49,7 @@ public class test {
         System.out.println("manda 2o messaggio: NUM");
         in.next();
 
-        Message message= new MessageNumPlayers("franco",2);
+        Message message= new MessageNumPlayers("franco",3);
 
         try {
             outputStm.writeObject(message);

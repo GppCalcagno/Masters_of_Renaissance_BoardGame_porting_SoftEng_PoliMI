@@ -2,6 +2,7 @@ package it.polimi.ingsw.Network.Message;
 
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Controller.GameController;
+import it.polimi.ingsw.View.ViewInterface;
 import it.polimi.ingsw.model.exceptions.EndGameException;
 
 import java.io.Serializable;
@@ -29,6 +30,6 @@ public abstract class Message implements Serializable {
 
     public  void action(GameController gameController) {}
 
-    public  void update(PlayerBoard playerBoard){}
+    public  void update(PlayerBoard playerBoard, ViewInterface view){}
 
 }

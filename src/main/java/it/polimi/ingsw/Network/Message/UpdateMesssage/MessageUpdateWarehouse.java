@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network.Message.UpdateMesssage;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.View.ViewInterface;
 
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class MessageUpdateWarehouse extends Message {
     }
 
     @Override
-    public void update(PlayerBoard playerBoard) {
+    public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.setWarehouse(warehouse,extraChest);
         if(removeMarblefromBuffer)
             playerBoard.getMarbleBuffer().remove(0);

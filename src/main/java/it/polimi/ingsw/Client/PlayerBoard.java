@@ -51,9 +51,6 @@ public class PlayerBoard {
     private String playerWinner;
     private Map<String, Integer> playersPoints;
 
-
-
-
     private String lastTokenUsed; //only for singleplayer
     private int blackCrossToken; //only for singleplayer
 
@@ -80,9 +77,6 @@ public class PlayerBoard {
         devCardDeck= new String[3][4][4];
         marketTray= new String[3][4];
 
-
-
-
         developmentCardMap = new HashMap<>();   initializeDevCardMap();
         leaderActionMap = new HashMap<>();      initializeLeaderCardMap();
     }
@@ -96,7 +90,8 @@ public class PlayerBoard {
     }
 
     public void setActivedDevCardProd(String activedDevCardProd) {
-        ActivedDevCardProd = activedDevCardProd;
+        if(isMyturn())
+            ActivedDevCardProd = activedDevCardProd;
     }
 
     public void setCurrentPlayer(String currentPlayer) {
@@ -105,7 +100,7 @@ public class PlayerBoard {
 
 
     public void setWarehouse(String[][] warehouse, Map<String,Integer> extrachest) {
-        if(currentPlayer.equals(nickname)){
+        if(isMyturn()){
             this.warehouse = warehouse;
             this.extrachest= extrachest;
         }
@@ -113,7 +108,7 @@ public class PlayerBoard {
 
 
     public void setStrongbox(Map<String, Integer> strongbox) {
-        if(currentPlayer.equals(nickname))
+        if(isMyturn())
         this.strongbox = strongbox;
     }
 
@@ -143,38 +138,34 @@ public class PlayerBoard {
 
     public void updateMarketTray(char direction, int n){
         String temp = remainingMarble;
-
-        if( direction == 'c') {
-            if(currentPlayer.equals(nickname)){
-                for(int i=0;i<3;i++)
-                    marbleBuffer.add(marketTray[i][n]);
-            }
-
-            remainingMarble = marketTray[0][n];
-            marketTray[0][n] = marketTray[1][n];
-            marketTray[1][n] = marketTray[2][n];
-            marketTray[2][n] = temp;
+        switch (direction) {
+            case 'c':
+                if (isMyturn()) {
+                    for (int i = 0; i < 3; i++) marbleBuffer.add(marketTray[i][n]);
+                }
+                remainingMarble = marketTray[0][n];
+                marketTray[0][n] = marketTray[1][n];
+                marketTray[1][n] = marketTray[2][n];
+                marketTray[2][n] = temp;
+                break;
+            case 'r':
+                if (isMyturn()) {
+                    for (int i = 0; i < 4; i++) marbleBuffer.add(marketTray[n][i]);
+                }
+                remainingMarble = marketTray[n][0];
+                marketTray[n][0] = marketTray[n][1];
+                marketTray[n][1] = marketTray[n][2];
+                marketTray[n][2] = marketTray[n][3];
+                marketTray[n][3] = temp;
+                break;
         }
-        else if( direction == 'r') {
-            if(currentPlayer.equals(nickname)){
-                for(int i=0;i<4;i++)
-                    marbleBuffer.add(marketTray[n][i]);
-            }
-
-            remainingMarble = marketTray[n][0];
-            marketTray[n][0] = marketTray[n][1];
-            marketTray[n][1] = marketTray[n][2];
-            marketTray[n][2] = marketTray[n][3];
-            marketTray[n][3] = temp;
-        }
-
     }
 
     public void removeCardfromDevCardDeck (String ID) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 for (int k = 0; k < devCardDeck[i][j].length; k++) {
-                    if (devCardDeck[i][j][k].equals(ID))
+                    if (devCardDeck[i][j][k]!= null && devCardDeck[i][j][k].equals(ID))
                         devCardDeck[i][j][k] = null;
                 }
             }
@@ -182,7 +173,7 @@ public class PlayerBoard {
     }
 
     public void updateresoruces(String[][] warehouse,  Map<String, Integer> extraChest, Map<String,Integer> strongbox){
-        if(nickname.equals(currentPlayer)){
+        if(isMyturn()){
             this.warehouse=warehouse;
             this.extrachest=extraChest;
             this.strongbox=strongbox;
@@ -207,7 +198,7 @@ public class PlayerBoard {
     }
 
     public void updateSlotDevCard(String ID, int col){
-        if(currentPlayer.equals(nickname)){
+        if(isMyturn()){
             int i=0;
             while(slotDevCard[i][col]!=null && i<3)i++;
             slotDevCard[i][col]=ID;
@@ -215,7 +206,7 @@ public class PlayerBoard {
     }
 
     public void updateStateLeaderCard(String ID){
-        if(currentPlayer.equals(nickname))
+        if(isMyturn())
         leaderActionMap.get(ID).setActivated();
     }
 
@@ -234,7 +225,7 @@ public class PlayerBoard {
         playersPoints.put(nickname,finalpoint);
     }
 
-
+    public boolean isMyturn(){ return currentPlayer.equals(nickname); }
 
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();
@@ -340,6 +331,8 @@ public class PlayerBoard {
             leaderActionMap.put(tl.getID(), tl);
         }
     }
+
+
 
     public DevelopmentCard searchDevCard (String ID) {
         return developmentCardMap.get(ID);
