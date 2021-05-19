@@ -1,10 +1,5 @@
 package it.polimi.ingsw.model.game;
 
-import it.polimi.ingsw.Network.Message.ClientMessage.MessageDisconnect;
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageGeneric;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestNumPlayers;
 import it.polimi.ingsw.Network.Server.UpdateCreator;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
@@ -80,6 +75,7 @@ public class Game {
         setCanDoProductionTrue();
         this.update = update;
         this.numPlayers = 0;
+        this.gameState = GameState.INITGAME;
     }
 
     public void setCanDoProductionTrue(){
@@ -183,58 +179,6 @@ public class Game {
     public void givefinalpoints () {
         for(Player p : this.playersList){
             p.addVictoryPoints(p.getSlotDevCards().countVictoryPoints() + p.countLeaderActionVictoryPoints() + (p.countTotalResources())/5 + faithTrack.getPlayerPoint(p));
-        }
-    }
-
-    public boolean loginPlayer (String nickname) {
-        if (playersList.isEmpty()) {
-            Player p = new Player(nickname);
-            playersList.add(p);
-            Message message = new MessageRequestNumPlayers(nickname);
-            update.onUpdateInfo(p.getNickname(), message);
-            return true;
-        }
-
-        for (Player ps : playersList) {
-            if (ps.getNickname().equals(nickname))
-                return false;
-        }
-
-        if (numPlayers != 0) {
-            if (playersList.size() + 1 < numPlayers) {
-                Player p = new Player(nickname);
-                playersList.add(p);
-                Message message = new MessageGeneric(nickname, MessageType.WAITINGOTHERPLAYERS);
-                update.onUpdateInfo(nickname, message);
-                return true;
-            } else if (playersList.size() + 1 == numPlayers) {
-                Player p = new Player(nickname);
-                playersList.add(p);
-                startgame();
-                gameState = GameState.INITGAME;
-                return true;
-            }
-            else {
-                Message message = new MessageDisconnect(nickname);
-                update.onUpdateInfo(nickname, message);
-                return false;
-            }
-        }
-        else {
-            Message message = new MessageDisconnect(nickname);
-            update.onUpdateInfo(nickname, message);
-            return false;
-        }
-    }
-
-    public boolean setNumPlayers (int numPlayers) {
-        if (this.numPlayers == 0) {
-            this.numPlayers = numPlayers;
-            return true;
-        }
-        else {
-            update.onUpdateError("You can't set players' number");
-            return false;
         }
     }
 
