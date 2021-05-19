@@ -91,7 +91,10 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateCurrPlayer() {
-        if(playerBoard.isMyturn()) System.out.println("Is your turn.");
+        if(playerBoard.isMyturn()){
+            System.out.println("Is your turn, please insert a command");
+            System.out.println("type HELP to see all commands");
+        }
         else System.out.println("Is " + playerBoard.getCurrentPlayer() + "'s turn.");
     }
 
@@ -119,7 +122,14 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateDevCardDeck(String devCard) {
-        if(playerBoard.isMyturn()) System.out.println("You bought : " + devCard);
+        if(playerBoard.isMyturn()){
+            System.out.println("You selected : " + devCard);
+            System.out.println("Now you have to pay it. " +
+                    "\n PAYRESOURCES <W/S/E> <resource> <number>    repeat all parameters for every different resource or every different structure the resource come from" +
+                    "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
+                    "\n -- <resource> the resource needed for the payment" +
+                    "\n -- <number> how many resources");
+        }
         else System.out.println(playerBoard.getCurrentPlayer() + " bought : " + devCard);
     }
 
@@ -136,7 +146,15 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateMarketTray() {
-        if(playerBoard.isMyturn()) System.out.println("You changed the marketTray");
+        if(playerBoard.isMyturn()){
+            System.out.println("You changed the marketTray");
+            if(playerBoard.getMarbleBuffer()!=null)
+            System.out.println("Now you have to manage marbles you extracted" +
+                    "\n MANAGEMARBLE <W/E/D> <row W> <resource>" +
+                    "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
+                    "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
+                    "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want");
+        }
         else System.out.println(playerBoard.getCurrentPlayer() + " changed the marketTray");
     }
 
@@ -179,8 +197,10 @@ public class Cli implements ViewInterface {
     }
 
     @Override
+
     public void onUpdateWarehouse() {
         if(playerBoard.isMyturn()) System.out.println("You update your warehouse");
+        if(playerBoard.getMarbleBuffer()!=null) System.out.println("Please continue on manage your marbles...");
     }
 
     @Override
@@ -286,19 +306,39 @@ public class Cli implements ViewInterface {
      * this method print the allowed command that the player can write from his cli
      */
     public void help(){
-        System.out.println("Here the commands you can insert during the game: " +
-                "\n extractionmarble <row or column (r/c)> < index of r/c>" +
-                "\n managemarble <W/E/D (warehouse,extrachest,discard)> (optional)<index of W> <resources wanted if changeWitheMarble is activated>" +
-                "\n exchangewarehouse <row1> <row2>" +
-                "\n buydevcard <id card> <position where store the card in slotdevcard>" +
-                "\n payresources <W/S/E (warehouse/strongbox/extrachest)> <resource> <how many>" +
-                "\n activebaseproduction <resource wanted> <W/S/E> <resource paied> <W/S/E> <resource paied>" +
-                "\n activeleaderaction <id card> <W/S/E> <resource>" +
-                "\n activedevcardproduction <id card>" +
-                "\n updateleadercard <id card> <0 discard 1 active>" +
-                "\n endturn" +
-                "\n endproduction" +
-                "\n show <structure to show>" +
-                "\n help ");
+        System.out.println("Please insert a command: " +
+                "\n EXTRACTIONMARBLE <r/c> <num>" +
+                "\n -- <r/c> select row or column of the marketTray" +
+                "\n -- <num> the number or the row or the column" +
+                "\n MANAGEMARBLE <W/E/D> <row W> <resource>" +
+                "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
+                "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
+                "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want" +
+                "\n EXCHANGEWAREHOUSE <row1> <row2>" +
+                "\n -- <row1> && <row2> are the rows you want to switch" +
+                "\n BUYDEVCARD <ID> <positon>" +
+                "\n -- <ID> is the id of the devCard" +
+                "\n -- <position> where you want to stored the card in your SlotDevCard" +
+                "\n PAYRESOURCES <W/S/E> <resource> <number>    repeat all parameters for every different resource or every different structure the resource come from" +
+                "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
+                "\n -- <resource> the resource needed for the payment" +
+                "\n -- <number> how many resources" +
+                "\n ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>" +
+                "\n -- <resource wanted> is the resource you want to be produced" +
+                "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
+                "\n -- <resource> the resource you want to be as payment for the production" +
+                "\nACTIVELEADERACTIONPROD <ID> <W/S/E> <resource>      only if you have a leader card with as effect an extraproduction" +
+                "\n -- <ID> the id of the leader card" +
+                "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
+                "\n -- <resource> the resource you want to be as payment for the production" +
+                "\n ACTIVEDEVCARDPRODUCTION <ID>" +
+                "\n -- <ID> the id of one of yours devCard that can be activated to do a production" +
+                "\n UPDATELEADERCARD <ID> <0/1>" +
+                "\n -- <ID> id of one of your leader card" +
+                "\n -- <0/1> 0=discard, 1=active" +
+                "\n ENDPRODUCTION        when you want to finish your production but not the turn" +
+                "\n ENDTURN     when you want to finish your turn" +
+                "\n SHOW <object> " +
+                "\n -- <object> is something you want to be shown");
     }
 }
