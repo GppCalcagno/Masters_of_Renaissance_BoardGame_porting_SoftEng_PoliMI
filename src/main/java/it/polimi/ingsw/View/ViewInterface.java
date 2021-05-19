@@ -16,20 +16,20 @@ public interface ViewInterface {
     /* ************************************ UPDATE ******************************** */
     void onUpdateStartGame();
     void onUpdateCurrPlayer();
-    void onUpdateInitialLeaderCards();
-    void onUpdateActivatedDevCardProduction();
-    void onUpdateError();
+    void onUpdateInitialLeaderCards(String leaderCard1, String leaderCard2);
+    void onUpdateActivatedDevCardProduction(String devCard);
+    void onUpdateError(String error);
     void onUpdateRequestNumPlayers();
-    void onUpdateDevCardDeck();
+    void onUpdateDevCardDeck(String devCard);
     void onUpdateFaithMarker();
-    void onUpdateInfo();
+    void onUpdateInfo(String info);
     void onUpdateMarketTray();
-    void onUpdatePlayerState();
-    void onUpdateUpdateResources();
-    void onUpdateSinglePlayerGame();
-    void onUpdateSlotDevCards();
-    void onUpdateStateLeaderAction();
-    void onUpdateStringbox();
+    void onUpdatePlayerState(String nickname, boolean state);
+    void onUpdateUpdateResources(); // solo current
+    void onUpdateSinglePlayerGame(); //lorenzo fa turno e dice che token ha usato
+    void onUpdateSlotDevCards(); //solo current
+    void onUpdateStateLeaderAction(String leaderCard, boolean state);
+    void onUpdateStrongbox();
     void onUpdateWarehouse();
     void onUpdateWinnerMultiplayer();
     void onUpdateWinnerSinglePlayer();
@@ -51,7 +51,5 @@ public interface ViewInterface {
     void showDevCard(String ID);
     void showLeaderAction(String ID);
 
-    //WIP
-    void showWinnerandVictoryPoint();
     void showLorenzoTrun();
 }
