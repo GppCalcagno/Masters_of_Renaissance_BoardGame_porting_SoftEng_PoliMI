@@ -68,7 +68,7 @@ public class PlayerBoard {
 
         blackCrossToken=0;
         playersFaithMarkerPosition= new HashMap<>();
-        playersFaithMarkerPosition= new HashMap<>();
+        playersPopFavoriteTile= new HashMap<>();
         playersPoints= new HashMap<>();
 
 
@@ -198,6 +198,12 @@ public class PlayerBoard {
         this.devCardDeck=devCardDeck;
         this.marketTray=marketTray;
         this.remainingMarble= remainingMarble;
+
+        for (String p: playerList){
+            playersFaithMarkerPosition.put(p,0);
+            playersPopFavoriteTile.put(p, new boolean[3]);
+
+        }
     }
 
     public void singlePlayerUpdate(String[][][] devCardDeck, int blackCrossToken, String tokenID){
