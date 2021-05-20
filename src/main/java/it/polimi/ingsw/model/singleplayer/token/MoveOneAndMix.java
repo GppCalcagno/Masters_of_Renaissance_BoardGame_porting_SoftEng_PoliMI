@@ -24,7 +24,6 @@ public class MoveOneAndMix extends Tokens{
         List<Tokens> intList = Arrays.asList(l.getTokensvet());
         Collections.shuffle(intList);
         intList.toArray(l.getTokensvet());
-        l.setI(-1);
     }
 
     @Override

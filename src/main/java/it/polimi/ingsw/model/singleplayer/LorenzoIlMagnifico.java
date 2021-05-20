@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.singleplayer;
 
 import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
-import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
 
 import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.singleplayer.token.DiscardDevCards;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.model.singleplayer.token.MoveOneAndMix;
 import it.polimi.ingsw.model.singleplayer.token.MoveTwo;
 import it.polimi.ingsw.model.singleplayer.token.Tokens;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +19,6 @@ public class LorenzoIlMagnifico {
      */
     private int blackCrossToken;
 
-    private int i;
     /** these are the tokens that every turn, random, are played
      */
     private Tokens[] tokensvet;
@@ -38,7 +35,6 @@ public class LorenzoIlMagnifico {
      * and tokensvet are 7 in accord whit the rules and shuffle them
      */
     public LorenzoIlMagnifico(DevCardsDeck developmentDeck){
-        this.i = 0;
         this.developmentDeck = developmentDeck;
         blackCrossToken=0;
         tokensvet = new Tokens[7];
@@ -60,26 +56,15 @@ public class LorenzoIlMagnifico {
     /** this method active a tokens and increase the index i to the next time call an other token
      */
     public void drawTokens() throws ActiveVaticanReportException {
-        tokensvet[i].effectTokens(this);
-        currentToken = tokensvet[i];
-        if(i<tokensvet.length) i++;
+        currentToken= tokensvet[0];
+        tokensvet[0].effectTokens(this);
     }
 
     /**
      * this method allows the moveOneAndMix to set the i to the first position
-     * @param i the index i
+     * @param index the index i
      */
-    public void setI(int i){
-        this.i= i;
-    }
 
-    /**
-     * the get for the index i
-     * @return i
-     */
-    public int getI() {
-        return i;
-    }
 
     /**
      * the get for the tokensvet[]

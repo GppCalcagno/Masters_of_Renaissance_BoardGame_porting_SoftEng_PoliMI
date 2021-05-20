@@ -31,6 +31,11 @@ public class DiscardDevCards extends Tokens {
             if (i < 0) throw new NoSuchElementException();
             else l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
         }
+
+        Tokens[] vec= l.getTokensvet();
+        Tokens temp= vec[0];
+        vec[0]=vec[6];
+        vec[6]= temp;
     }
 
     @Override

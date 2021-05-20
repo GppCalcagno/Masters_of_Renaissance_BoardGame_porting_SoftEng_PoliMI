@@ -15,6 +15,11 @@ public class MoveTwo extends Tokens {
      */
     public void effectTokens(LorenzoIlMagnifico l) throws  ActiveVaticanReportException {
         l.increaseFaithMarker(2);
+
+        Tokens[] vec= l.getTokensvet();
+        Tokens temp= vec[0];
+        vec[0]=vec[6];
+        vec[6]= temp;
     }
 
     @Override
