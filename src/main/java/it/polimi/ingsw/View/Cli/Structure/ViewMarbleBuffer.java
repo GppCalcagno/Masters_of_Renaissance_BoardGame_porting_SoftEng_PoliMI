@@ -32,6 +32,9 @@ public class ViewMarbleBuffer {
         else if(pb.getMarbleBuffer().get(i).equals("Stones")) {
             color = Color.ANSI_BRIGHDARK.escape();
         }
+        else if(pb.getMarbleBuffer().get(i).equals("FaithMarker")){
+            color = Color.ANSI_RED.escape();
+        }
         else color =Color.ANSI_BRIGHTWHITE.escape();
 
         tiles[i]=color +"●"+Color.ANSI_BRIGHTWHITE.escape();

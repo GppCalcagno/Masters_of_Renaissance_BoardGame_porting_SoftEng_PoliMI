@@ -23,8 +23,10 @@ public class ViewFaithTrack {
 
     private void fillTiles(){
 
-        String yellow = Color.ANSI_YELLOW.escape();
-        String orange = Color.ANSI_RED.escape();
+        String color = Color.ANSI_BRIGHDARK.escape();
+
+        String green = Color.ANSI_GREEN.escape();
+        String gray = Color.ANSI_BRIGHDARK.escape();
         String red = Color.ANSI_BRIGHTRED.escape();
 
 
@@ -59,10 +61,20 @@ public class ViewFaithTrack {
         tiles[0][123] = Color.ANSI_BRIGHTYELLOW.escape() + "0" + Color.ANSI_BRIGHTWHITE.escape();
 
         //pope space 1
-        tiles[7][34] = Color.ANSI_BRIGHTYELLOW.escape() +"2"+yellow;
-        tiles[6][25] = yellow + "║";
-        tiles[7][25] = yellow + "║";
-        tiles[8][25] = yellow + "╚";
+        
+        if(pb.isMyturn()) {
+            for (String nickname : pb.getPlayerList()) {
+                if (pb.getPlayersFaithMarkerPosition().get(nickname) <= 42) color = gray;
+                else {
+                    if (pb.getPlayersPopFavoriteTile().get(pb.getCurrentPlayer())[0]) color = green;
+                    else color = red;
+                }
+            }
+        }
+        tiles[7][34] = Color.ANSI_BRIGHTYELLOW.escape() +"2"+color;
+        tiles[6][25] = color + "║";
+        tiles[7][25] = color + "║";
+        tiles[8][25] = color + "╚";
         tiles[8][26] = "═";
         tiles[8][27] = "═";
         tiles[8][28] = "═";
@@ -88,10 +100,19 @@ public class ViewFaithTrack {
 
 
         //pope space 2
-        tiles[7][72] = Color.ANSI_BRIGHTYELLOW.escape() +"3" + orange;
-        tiles[6][60] = orange + "║";
-        tiles[7][60] = orange + "║";
-        tiles[8][60] = orange + "╚";
+        if(pb.isMyturn()) {
+            for (String nickname : pb.getPlayerList()) {
+                if (pb.getPlayersFaithMarkerPosition().get(nickname) < 82) color = gray;
+                else {
+                    if (pb.getPlayersPopFavoriteTile().get(pb.getCurrentPlayer())[1]) color = green;
+                    else color = red;
+                }
+            }
+        }
+        tiles[7][72] = Color.ANSI_BRIGHTYELLOW.escape() +"3" + color;
+        tiles[6][60] = color + "║";
+        tiles[7][60] = color + "║";
+        tiles[8][60] = color + "╚";
         tiles[8][61] = "═";
         tiles[8][62] = "═";
         tiles[8][63] = "═";
@@ -121,10 +142,19 @@ public class ViewFaithTrack {
         tiles[6][82] = "✞";
 
         //pope space 3
-        tiles[7][109] = Color.ANSI_BRIGHTYELLOW.escape() +"4" + red;
-        tiles[6][95] = red + "║";
-        tiles[7][95] = red + "║";
-        tiles[8][95] = red + "╚";
+        if(pb.isMyturn()) {
+            for (String nickname : pb.getPlayerList()) {
+                if (pb.getPlayersFaithMarkerPosition().get(nickname) < 122) color = gray;
+                else {
+                    if (pb.getPlayersPopFavoriteTile().get(pb.getCurrentPlayer())[2]) color = green;
+                    else color = red;
+                }
+            }
+        }
+        tiles[7][109] = Color.ANSI_BRIGHTYELLOW.escape() +"4" + color;
+        tiles[6][95] = color + "║";
+        tiles[7][95] = color + "║";
+        tiles[8][95] = color + "╚";
         tiles[8][96] = "═";
         tiles[8][97] = "═";
         tiles[8][98] = "═";
@@ -164,7 +194,7 @@ public class ViewFaithTrack {
         for(String player : pb.getPlayerList()){
             tiles[i][2+ pb.getPlayersFaithMarkerPosition().get(player)*5] = "♔";  //♙
             tiles[i][125] = player;
-            i++;
+            i--;
         }
     }
 
