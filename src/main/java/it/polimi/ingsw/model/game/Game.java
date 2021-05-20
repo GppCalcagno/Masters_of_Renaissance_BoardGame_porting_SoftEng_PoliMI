@@ -268,7 +268,7 @@ public class Game {
     public Resources convertStringToResource (String stringResource) {
         Resources[] resources = {new Coins(), new Servants(), new Shields(), new Stones()};
         for (Resources r : resources) {
-            if (stringResource.equals(r.toString()))
+            if (stringResource.equals(r.toString()) || stringResource.equals(r.toString().toUpperCase()))
                 return r;
         }
         return null;

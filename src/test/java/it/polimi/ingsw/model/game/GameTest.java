@@ -650,6 +650,6 @@ class GameTest {
         game.addPlayersList(player2);
 
         game.endTurn();
-        assertEquals(player2, game.getCurrentPlayer());
+        assertNotEquals(player2, game.getCurrentPlayer());
     }
 }
