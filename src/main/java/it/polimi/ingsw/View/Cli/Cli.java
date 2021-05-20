@@ -242,6 +242,9 @@ public class Cli implements ViewInterface {
     @Override
     public void onUpdateSinglePlayerGame() {
         System.out.println("Lorenzo played : " + playerBoard.getLastTokenUsed());
+        out.println("The Black Cross Token's position is " + playerBoard.getBlackCrossToken());
+        showFaithTrack();
+        showDevCardDeck();
     }
 
     @Override
@@ -361,12 +364,16 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showDevCard(String ID) {
-        playerBoard.searchDevCard(ID).toString();
+        if (playerBoard.searchDevCard(ID) != null)
+            playerBoard.searchDevCard(ID).showCli();
+        else out.println("Wrong ID");
     }
 
     @Override
     public void showLeaderAction(String ID) {
-        playerBoard.searchLeaderCard(ID).showCli();
+        if (playerBoard.searchLeaderCard(ID) != null)
+            playerBoard.searchLeaderCard(ID).showCli();
+        else out.println("Wrong ID");
     }
 
     @Override
@@ -377,7 +384,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showLorenzoTrun() {
-        System.out.println(playerBoard.getLastTokenUsed().toString());
+        System.out.println(playerBoard.getLastTokenUsed());
     }
 
     /**

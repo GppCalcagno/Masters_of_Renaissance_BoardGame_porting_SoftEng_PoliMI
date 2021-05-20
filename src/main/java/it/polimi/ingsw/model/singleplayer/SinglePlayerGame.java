@@ -118,24 +118,45 @@ public class SinglePlayerGame extends Game {
 
     @Override
     public void endTurn() {
-        try {
-            playLorenzoTurn();
-        } catch (ActiveVaticanReportException e) {
-            try {
-                getFaithTrack().checkPopeSpace(getPlayersList(), getBlackCrossToken());
-            } catch (GameFinishedException gameFinishedException) {
-                if (isFinishedGame())
-                    getUpdate().onUpdateGameFinished();
+        boolean canEndTurn = false;
+        if (getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
+            setGameState(GameState.INGAME);
+            for (Player p : getPlayersList()) {
+                if (p.getLeaderActionBox().size() == 4)
+                    setGameState(GameState.INITGAME);
+            }
+            canEndTurn = true;
+        }
+        else {
+            if (getTurnPhase() == TurnPhase.ENDTURN) {
+                canEndTurn = true;
+                setTurnPhase(TurnPhase.DOTURN);
+                setCanDoProductionTrue();
             }
         }
-        getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken());
-        setTurnPhase(TurnPhase.DOTURN);
-        setCanDoProductionTrue();
-        try {
-            setCurrentPlayer();
-        } catch (EndGameException e) {
-            givefinalpoints();
-            getUpdate().onUpdateWinnerSinglePlayer(playerWin, getCurrentPlayer().getVictoryPoints());
+        if(canEndTurn){
+            try {
+                playLorenzoTurn();
+            } catch (ActiveVaticanReportException e) {
+                try {
+                    getFaithTrack().checkPopeSpace(getPlayersList(), getBlackCrossToken());
+                } catch (GameFinishedException gameFinishedException) {
+                    if (isFinishedGame())
+                        getUpdate().onUpdateGameFinished();
+                }
+            }
+            getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken());
+            setTurnPhase(TurnPhase.DOTURN);
+            setCanDoProductionTrue();
+            try {
+                setCurrentPlayer();
+            } catch (EndGameException e) {
+                givefinalpoints();
+                getUpdate().onUpdateWinnerSinglePlayer(playerWin, getCurrentPlayer().getVictoryPoints());
+            }
+        }
+        else{
+            getUpdate().onUpdateError(getCurrentPlayer().getNickname(),"Take your turn before you finish it");
         }
     }
 
