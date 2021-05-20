@@ -228,6 +228,11 @@ public class Cli implements ViewInterface {
     }
 
     @Override
+    public void onDisconnect(){
+        controller.disconnect();
+    }
+
+    @Override
     public void onUpdateUpdateResources() {
         if (playerBoard.isMyturn()) System.out.println("Your resources have been updated\n");
         showStrongbox();

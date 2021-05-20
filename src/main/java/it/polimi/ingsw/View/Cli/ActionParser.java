@@ -39,6 +39,7 @@ public class ActionParser {
         if (parts[0] != "") {
             try {
                 switch (parts[0]) {
+                    case "DISCONNECT": cli.onDisconnect();                          break;
                     case "CHOOSELEADERCARDS": chooseleadercars(parts);              break;
                     case "CHOOSERESOURCES": chooseresources(parts);                 break;
                     case "EXTRACTIONMARBLE": extractMarble(parts);                  break;

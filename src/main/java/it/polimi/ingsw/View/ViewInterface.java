@@ -35,9 +35,9 @@ public interface ViewInterface {
     void onUpdateWarehouse();
     void onUpdateWinnerMultiplayer();
     void onUpdateWinnerSinglePlayer();
+    void onDisconnect();
 
-    /* ************************************ INITGAME PHASE ******************************** */
-    /* ************************************ INGAME PHASE ******************************** */
+
     /* ************************************ SHOW PHASE ******************************** */
     void showMessage(String message);
 

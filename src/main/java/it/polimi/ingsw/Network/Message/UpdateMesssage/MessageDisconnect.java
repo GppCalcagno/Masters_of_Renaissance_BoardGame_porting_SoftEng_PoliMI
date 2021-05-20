@@ -9,7 +9,9 @@ public class MessageDisconnect extends Message {
     public MessageDisconnect(String nickname) {
         super(nickname, MessageType.DISCONNECT);
     }
+
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
+        view.onDisconnect();
     }
 }

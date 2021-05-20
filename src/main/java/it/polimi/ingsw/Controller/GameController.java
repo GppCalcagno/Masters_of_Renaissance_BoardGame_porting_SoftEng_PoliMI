@@ -53,7 +53,7 @@ public class GameController {
         else
         {
             if (numPlayer==0 || (numPlayer>0 && playersNames.size()>=numPlayer)){
-                server.sendtoPlayer(name, new MessageError("server","Not yet established NumPlayer"));
+                server.sendtoPlayer(name, new MessageError("server","Not yet established NumPlayer. Disconnecting..."));
                 server.sendtoPlayer(name, new MessageDisconnect(name));
             }
             else {

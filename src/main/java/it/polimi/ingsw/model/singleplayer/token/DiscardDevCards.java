@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.singleplayer.token;
 import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.singleplayer.LorenzoIlMagnifico;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DiscardDevCards extends Tokens {
@@ -23,19 +24,17 @@ public class DiscardDevCards extends Tokens {
      */
     @Override
     public void effectTokens(LorenzoIlMagnifico l) {
-        int i = l.getDevelopmentDeck().getDevelopmentCardDeck().length - 1;
-        for (int j = 0; j < 2; j++) {
-            while (i > 0 && l.getDevelopmentDeck().getDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color)) == null) {
-                i--;
-            }
-        }
+        int i=2;
+
+        while (i > 0 && l.getDevelopmentDeck().getDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color)) == null) { i--;}
+
         if (i > 0) l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
         if (i > 0) l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
 
-        Tokens[] vec= l.getTokensvet();
-        Tokens temp= vec[0];
-        vec[0]=vec[6];
-        vec[6]= temp;
+        List<Tokens> tokensList= l.getTokensvet();
+        Tokens temp= tokensList.remove(0);
+        tokensList.add(6,temp);
+
     }
 
     @Override

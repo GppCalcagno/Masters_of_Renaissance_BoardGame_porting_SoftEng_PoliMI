@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.singleplayer.token;
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.singleplayer.LorenzoIlMagnifico;
 
+import java.util.List;
+
 public class MoveTwo extends Tokens {
     private String ID;
 
@@ -16,10 +18,9 @@ public class MoveTwo extends Tokens {
     public void effectTokens(LorenzoIlMagnifico l) throws  ActiveVaticanReportException {
         l.increaseFaithMarker(2);
 
-        Tokens[] vec= l.getTokensvet();
-        Tokens temp= vec[0];
-        vec[0]=vec[6];
-        vec[6]= temp;
+        List<Tokens> tokensList= l.getTokensvet();
+        Tokens temp= tokensList.remove(0);
+        tokensList.add(6,temp);
     }
 
     @Override

@@ -5,6 +5,7 @@ import it.polimi.ingsw.Network.Message.Message;
 
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Observer.Observable;
+import it.polimi.ingsw.View.Cli.Color;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -24,9 +25,6 @@ public class ClientSocket extends Observable {
     private ObjectOutputStream sendMessage;
     /** This Attribute is used to recive message from the Server */
     private ObjectInputStream reciveMessage;
-
-    /** This Attribute is the log of the client */
-    private Logger CLOGGER= Logger.getLogger(ClientSocket.class.getName());
 
     /** This attribute is a Timer Schedule for the ping Message */
     private Timer pinger;
@@ -53,8 +51,8 @@ public class ClientSocket extends Observable {
             clientSocket.setSoTimeout(SOTIMEOUT*1000);
         }
         catch (IOException e) {
-            CLOGGER.severe("ERROR: CAN'T CONNECT TO THE SERVER");
-            System.exit(-1);
+            System.out.println(Color.ANSI_RED.escape()+"Can't connect to the server"+ Color.ANSI_BRIGHTWHITE.escape());
+            System.exit(0);
         }
 
         //INOUT class
@@ -63,8 +61,8 @@ public class ClientSocket extends Observable {
             reciveMessage= new ObjectInputStream(clientSocket.getInputStream());
         }
         catch (IOException e) {
-            CLOGGER.severe("ERROR: CAN'T OPEN I/O STREAM");
-            System.exit(-1);
+            System.out.println(Color.ANSI_RED.escape()+"Can't Open I/O Stream"+ Color.ANSI_BRIGHTWHITE.escape());
+            System.exit(0);
         }
 
         //pinger
@@ -83,7 +81,7 @@ public class ClientSocket extends Observable {
                 }
             }
             catch (IOException | ClassNotFoundException e) {
-                CLOGGER.warning("ERROR: CAN'T READ MESSAGE");
+                System.out.println(Color.ANSI_RED.escape()+"Can't reach the server anymore"+ Color.ANSI_BRIGHTWHITE.escape());
                 System.exit(0);
             }
         }
@@ -98,7 +96,7 @@ public class ClientSocket extends Observable {
             try {
                 sendMessage.writeObject(message);
             } catch (IOException e) {
-                CLOGGER.severe("EROOR: CAN'T SEND MESSAGE TO THE CONTROLLER");
+                System.out.println(Color.ANSI_RED.escape()+"Can't send Message to the  server anymore"+ Color.ANSI_BRIGHTWHITE.escape());
                 disconnect();
             }
         }
@@ -108,7 +106,7 @@ public class ClientSocket extends Observable {
         try {
             clientSocket.close();
         } catch (IOException ioException) {
-            CLOGGER.severe("EROOR: CAN'T CLOSE THE SOCKET");
+            System.out.println(Color.ANSI_RED.escape()+"Can't close the socket"+ Color.ANSI_BRIGHTWHITE.escape());
             System.exit(0);
         }
     }

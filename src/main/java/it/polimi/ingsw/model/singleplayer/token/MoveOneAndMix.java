@@ -21,9 +21,7 @@ public class MoveOneAndMix extends Tokens{
     @Override
     public void effectTokens(LorenzoIlMagnifico l) throws ActiveVaticanReportException {
         l.increaseFaithMarker(l.getFaithMarker()+1);
-        List<Tokens> intList = Arrays.asList(l.getTokensvet());
-        Collections.shuffle(intList);
-        intList.toArray(l.getTokensvet());
+        Collections.shuffle(l.getTokensvet());
     }
 
     @Override

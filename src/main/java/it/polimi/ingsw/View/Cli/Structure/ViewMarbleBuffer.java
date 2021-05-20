@@ -19,7 +19,8 @@ public class ViewMarbleBuffer {
     }
 
     private void updateObject() {
-        for(int i=0; i<pb.getMarbleBuffer().size(); i++){
+        int i=0;
+        for(i=0; i<pb.getMarbleBuffer().size(); i++){
         if(pb.getMarbleBuffer().get(i).equals("Servants")) {
             color = Color.ANSI_BRIGHTPURPLE.escape();
         }
@@ -38,6 +39,9 @@ public class ViewMarbleBuffer {
         else color =Color.ANSI_BRIGHTWHITE.escape();
 
         tiles[i]=color +"●"+Color.ANSI_BRIGHTWHITE.escape();
+        }
+        for(;i<MAX_HORIZ_TILES;i++){
+            tiles[i]="";
         }
     }
 

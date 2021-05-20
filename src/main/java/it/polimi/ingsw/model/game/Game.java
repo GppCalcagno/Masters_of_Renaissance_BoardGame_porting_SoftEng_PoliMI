@@ -109,7 +109,6 @@ public class Game {
         } while(!playersList.get(i).getConnected());
 
         currentPlayer=playersList.get(i);
-        //update.onUpdateCurrentPlayer(currentPlayer);
     }
 
     /**
@@ -888,7 +887,7 @@ public class Game {
         return true;
     }
 
-    public void endTurn () {
+    public void endTurn() {
         boolean canEndTurn = false;
         if (gameState.equals(GameState.INITGAME) && currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
             gameState = GameState.INGAME;
@@ -912,6 +911,7 @@ public class Game {
                 Player winner = playersList.get(getWinner());
                 givefinalpoints();
                 update.onUpdateWinnerMultiplayer(winner, playersList);
+                //finisci tutto
             }
             update.onUpdateCurrentPlayer(currentPlayer);
         }

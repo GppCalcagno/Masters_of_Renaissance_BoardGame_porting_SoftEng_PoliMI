@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.singleplayer.token.MoveOneAndMix;
 import it.polimi.ingsw.model.singleplayer.token.MoveTwo;
 import it.polimi.ingsw.model.singleplayer.token.Tokens;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,7 @@ public class LorenzoIlMagnifico {
 
     /** these are the tokens that every turn, random, are played
      */
-    private Tokens[] tokensvet;
+    private List<Tokens> tokensvet;
 
     /**
      * this is the development card deck that is initialized in the game
@@ -37,27 +38,25 @@ public class LorenzoIlMagnifico {
     public LorenzoIlMagnifico(DevCardsDeck developmentDeck){
         this.developmentDeck = developmentDeck;
         blackCrossToken=0;
-        tokensvet = new Tokens[7];
-        tokensvet[0] = new DiscardDevCards(ColorCard.BLUE);
-        tokensvet[1] = new DiscardDevCards(ColorCard.GREEN);
-        tokensvet[2] = new DiscardDevCards(ColorCard.PURPLE);
-        tokensvet[3] = new DiscardDevCards(ColorCard.YELLOW);
-        tokensvet[4] = new MoveTwo();
-        tokensvet[5] = new MoveTwo();
-        tokensvet[6] = new MoveOneAndMix();
+        tokensvet = new ArrayList<>();
+        tokensvet.add(new DiscardDevCards(ColorCard.BLUE));
+        tokensvet.add(new DiscardDevCards(ColorCard.GREEN));
+        tokensvet.add(new DiscardDevCards(ColorCard.PURPLE));
+        tokensvet.add(new DiscardDevCards(ColorCard.PURPLE));
+        tokensvet.add(new DiscardDevCards(ColorCard.YELLOW));
+        tokensvet.add(new MoveOneAndMix());
+        tokensvet.add(new MoveTwo());
+        tokensvet.add(new MoveTwo());
 
-        List<Tokens> intList = Arrays.asList(tokensvet);
-        Collections.shuffle(intList);
-        intList.toArray(tokensvet);
-
+        Collections.shuffle(tokensvet);
         currentToken = null;
     }
 
     /** this method active a tokens and increase the index i to the next time call an other token
      */
     public void drawTokens() throws ActiveVaticanReportException {
-        currentToken= tokensvet[0];
-        tokensvet[0].effectTokens(this);
+        currentToken= tokensvet.get(0);
+        currentToken.effectTokens(this);
     }
 
     /**
@@ -70,7 +69,7 @@ public class LorenzoIlMagnifico {
      * the get for the tokensvet[]
      * @return array tokensvet[]
      */
-    public Tokens[] getTokensvet() {
+    public List<Tokens> getTokensvet() {
         return tokensvet;
     }
 

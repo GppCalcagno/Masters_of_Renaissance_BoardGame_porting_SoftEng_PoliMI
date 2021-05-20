@@ -29,12 +29,12 @@ class LorenzoIlMagnificoTest {
         Tokens t5 = new DiscardDevCards(ColorCard.PURPLE);
         Tokens t6 = new DiscardDevCards(ColorCard.YELLOW);
 
-        if(l.getTokensvet()[0].getClass().equals(t1)) assertEquals(1, l.getFaithMarker());
-        else if(l.getTokensvet()[0].getClass().equals(t2)) assertEquals(2, l.getFaithMarker());
-        else if(l.getTokensvet()[0].getClass().equals(t3)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.BLUE)][2]);
-        else if(l.getTokensvet()[0].getClass().equals(t4)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.GREEN)][2]);
-        else if(l.getTokensvet()[0].getClass().equals(t5)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.PURPLE)][2]);
-        else if(l.getTokensvet()[0].getClass().equals(t6)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.YELLOW)][2]);
+        if(l.getTokensvet().get(0).getClass().equals(t1)) assertEquals(1, l.getFaithMarker());
+        else if(l.getTokensvet().get(0).getClass().equals(t2)) assertEquals(2, l.getFaithMarker());
+        else if(l.getTokensvet().get(0).getClass().equals(t3)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.BLUE)][2]);
+        else if(l.getTokensvet().get(0).getClass().equals(t4)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.GREEN)][2]);
+        else if(l.getTokensvet().get(0).getClass().equals(t5)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.PURPLE)][2]);
+        else if(l.getTokensvet().get(0).getClass().equals(t6)) assertEquals(null, l.getDevelopmentDeck().getDevelopmentCardDeck()[2][l.getDevelopmentDeck().getColumnFromColor(ColorCard.YELLOW)][2]);
 
     }
 
