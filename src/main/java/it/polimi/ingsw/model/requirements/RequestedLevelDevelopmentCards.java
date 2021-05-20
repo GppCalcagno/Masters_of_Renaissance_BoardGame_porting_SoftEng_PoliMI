@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model.requirements;
 
+import it.polimi.ingsw.View.Cli.Color;
 import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.player.Player;
+
+import java.awt.*;
 
 public class RequestedLevelDevelopmentCards extends RequirementsLeader {
     /**
@@ -49,6 +52,14 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
 
     @Override
     public void showReq() {
-        System.out.println("Color : " + reqColor + " " + "Level : " + reqLevel);
+        String color = Color.ANSI_BRIGHTWHITE.escape();
+        switch(reqColor){
+            case BLUE: color = Color.ANSI_BRIGHTBLUE.escape();break;
+            case GREEN: color = Color.ANSI_GREEN.escape(); break;
+            case PURPLE: color = Color.ANSI_BRIGHTPURPLE.escape(); break;
+            case YELLOW: color = Color.ANSI_YELLOW.escape(); break;
+        }
+
+        System.out.println("Color : " + color + reqColor + Color.ANSI_BRIGHTWHITE + " " + "Level : " + reqLevel);
     }
 }

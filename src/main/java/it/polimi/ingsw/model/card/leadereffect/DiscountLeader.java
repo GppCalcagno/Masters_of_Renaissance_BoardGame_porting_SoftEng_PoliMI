@@ -31,7 +31,7 @@ public class DiscountLeader extends LeaderAction {
 
     @Override
     public void showCli() {
-        System.out.println("\n");
+
         System.out.println("DISCOUNT LEADER");
         //costo
         System.out.println("Requirement : ");

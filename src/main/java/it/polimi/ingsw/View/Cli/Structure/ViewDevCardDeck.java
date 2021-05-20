@@ -90,7 +90,7 @@ public class ViewDevCardDeck {
     private void updateObject(){
 
         for(int i=1; i<6; i=i+2){
-            for(int j=1; j<23; j=j+6){
+            for(int j=1; j<23; j=j+7){
                 if(pb.getDevCardDeck()[0][i/2][j/6]!=null) {
                     tiles[i][j] = String.valueOf(pb.getDevCardDeck()[0][i/2][j / 6].charAt(0));
                     tiles[i][j + 1] = String.valueOf(pb.getDevCardDeck()[0][i/2][j / 6].charAt(1));

@@ -119,16 +119,21 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateCurrPlayer() {
-        if(playerBoard.isMyturn()){
-            out.println("Is your turn, please insert a command, type HELP to see all commands\n");
-            out.println(Color.ANSI_YELLOW.escape()+"\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
-                    "\n -- <r/c> select row or column of the marketTray" +
-                    "\n -- <num> the number or the row or the column\n" +
-                    Color.ANSI_YELLOW.escape()+"\t BUYDEVCARD <ID> <positon>" + Color.RESET +
-                    "\n -- <ID> is the id of the devCard" +
-                    "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
-                    Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
-                    "\n -- <ID> the id of one of yours devCard that can be activated to do a production\n");
+        if(playerBoard.isMyturn()) {
+            if (playerBoard.getLeaderCards().size() == 4) {
+                out.println("Your game is started, first of all you have to choose \n" +
+                        Color.ANSI_YELLOW.escape() + "\tCHOOSERESOURCES <String Resources> <String Resources>" + Color.RESET + " to seelect the Resources (Stones,Shields,Servants,Coins)");
+            } else {
+                out.println("Is your turn, please insert a command, type HELP to see all commands\n");
+                out.println(Color.ANSI_YELLOW.escape() + "\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
+                        "\n -- <r/c> select row or column of the marketTray" +
+                        "\n -- <num> the number or the row or the column\n" +
+                        Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>" + Color.RESET +
+                        "\n -- <ID> is the id of the devCard" +
+                        "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
+                        Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
+                        "\n -- <ID> the id of one of yours devCard that can be activated to do a production\n");
+            }
         }
         else System.out.println("Is " + playerBoard.getCurrentPlayer() + "'s turn.");
     }

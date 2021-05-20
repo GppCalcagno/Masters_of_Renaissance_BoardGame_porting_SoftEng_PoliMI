@@ -456,6 +456,7 @@ public class PlayerBoard {
         return lastTokenUsed;
     }
 
+
     public int getFaithMarker(){
         return playersFaithMarkerPosition.get(nickname);
     }

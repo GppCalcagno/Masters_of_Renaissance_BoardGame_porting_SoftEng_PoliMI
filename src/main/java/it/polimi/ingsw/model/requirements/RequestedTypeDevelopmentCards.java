@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.requirements;
 
+import it.polimi.ingsw.View.Cli.Color;
 import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.player.Player;
@@ -55,8 +56,16 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
 
     @Override
     public void showReq() {
+        String[] color = {Color.ANSI_BRIGHTWHITE.escape()};
+
         reqDevelopmentCards.entrySet().forEach(entry -> {
-            System.out.println("Color : " + entry.getKey() + " " + "Number : " + " " + entry.getValue());
+            switch(entry.getKey()){
+            case BLUE: color[0] = Color.ANSI_BRIGHTBLUE.escape();break;
+            case GREEN: color[0] = Color.ANSI_GREEN.escape(); break;
+            case PURPLE: color[0] = Color.ANSI_BRIGHTPURPLE.escape(); break;
+            case YELLOW: color[0] = Color.ANSI_YELLOW.escape(); break;
+        }
+            System.out.println("Color : " + color[0] +  entry.getKey() + Color.ANSI_BRIGHTWHITE.escape()+ " " + "Number : " + " " + entry.getValue());
         });
 
     }

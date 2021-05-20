@@ -31,7 +31,6 @@ public class ChestLeader extends LeaderAction {
 
     @Override
     public void showCli() {
-        System.out.println("\n");
         System.out.println("EXTRACHEST");
         //requisiti
         System.out.println("Requirement : ");

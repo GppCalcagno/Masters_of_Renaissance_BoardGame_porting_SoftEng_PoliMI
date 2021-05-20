@@ -12,8 +12,8 @@ import java.util.Map;
 
 class CliTest {
     ClientController controller;
-    /*
 
+/*
     @Test
     void showLeaderActionBox() throws IOException {
 

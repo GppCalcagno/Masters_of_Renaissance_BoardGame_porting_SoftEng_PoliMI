@@ -30,7 +30,6 @@ public class ProductionLeader extends LeaderAction {
 
     @Override
     public void showCli() {
-        System.out.println("\n");
         System.out.println("PRODUCTION LEADER");
         //cost
         System.out.println("Requirement : ");

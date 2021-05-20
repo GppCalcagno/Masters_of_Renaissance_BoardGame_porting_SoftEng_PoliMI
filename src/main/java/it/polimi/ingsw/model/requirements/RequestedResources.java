@@ -41,6 +41,7 @@ public class RequestedResources extends RequirementsLeader {
 
     @Override
     public void showReq() {
+
         System.out.println("Resources : " + reqResources + " " + "Number : " + reqnumResources);
 
 
