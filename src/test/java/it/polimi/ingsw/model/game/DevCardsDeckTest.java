@@ -82,4 +82,10 @@ class DevCardsDeckTest {
         assertEquals(2, devCardsDeck.getColumnFromColor(ColorCard.YELLOW));
         assertNotEquals(1, devCardsDeck.getColumnFromColor(ColorCard.GREEN));
     }
+
+    @Test
+    void checkLevel() throws IOException {
+        DevCardsDeck deck = new DevCardsDeck();
+        assertEquals(1, deck.getDevCards(2, 3).getLevel());
+    }
 }

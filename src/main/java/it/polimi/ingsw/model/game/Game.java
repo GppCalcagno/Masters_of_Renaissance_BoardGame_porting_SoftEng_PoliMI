@@ -309,50 +309,45 @@ public class Game {
                     update.onUpdateError(currentPlayer.getNickname(),"You have not choose a resource.");
                     return false;
                 }
-                if (isRightResource(resourceWhiteMarble)) {
+                if (isRightResource(resourceWhiteMarble))
                     currentPlayer.chooseResourceWhiteMarbleEffect(resourceWhiteMarble);
-                }
             }
             switch (choice) {
                 case 'W' :
                     if (indexWarehouse < 0 || indexWarehouse > 2) {
                         update.onUpdateError(currentPlayer.getNickname(),"You have put a wrong Warehouse's index.");
-                        return false;
                     }
-                    try {
-                        int faithMarker = currentPlayer.getFaithMarker();
-                        if (marketStructure.getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
-                            marketStructure.getBuffer().remove(0);
-                            if (faithMarker == currentPlayer.getFaithMarker())
-                                update.onUpdateWarehouse(currentPlayer, true);
-                            else update.onUpdateFaithMarker(currentPlayer, playersList, true);
-                            return true;
-                        }
-                        else {
-                            update.onUpdateError(currentPlayer.getNickname(),"You can not add a resource into the Warehouse.");
-                            return false;
-                        }
-                    } catch (ActiveVaticanReportException activeVaticanReportException) {
-                        marketStructure.getBuffer().remove(0);
+                    else {
                         try {
-                            faithTrack.checkPopeSpace(playersList, 0);
-                        } catch (GameFinishedException e) {
-                            if (isFinishedGame())
-                                update.onUpdateGameFinished();
+                            int faithMarker = currentPlayer.getFaithMarker();
+                            if (marketStructure.getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
+                                marketStructure.getBuffer().remove(0);
+                                if (faithMarker == currentPlayer.getFaithMarker())
+                                    update.onUpdateWarehouse(currentPlayer, true);
+                                else update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                            } else {
+                                update.onUpdateError(currentPlayer.getNickname(), "You can not add a resource into the Warehouse.");
+                            }
+                        } catch (ActiveVaticanReportException activeVaticanReportException) {
+                            marketStructure.getBuffer().remove(0);
+                            try {
+                                faithTrack.checkPopeSpace(playersList, 0);
+                            } catch (GameFinishedException e) {
+                                if (isFinishedGame())
+                                    update.onUpdateGameFinished();
+                            }
+                            update.onUpdateFaithMarker(currentPlayer, playersList, true);
                         }
-                        update.onUpdateFaithMarker(currentPlayer, playersList, true);
-                        return true;
                     }
+                    break;
                 case 'E' :
                     if (marketStructure.getBuffer().get(0).addToExtraChest(currentPlayer)) {
                         marketStructure.getBuffer().remove(0);
                         update.onUpdateWarehouse(currentPlayer, true);
-                        return true;
                     }
-                    else {
+                    else
                         update.onUpdateError(currentPlayer.getNickname(),"You can not add a resource into Extra Chest.");
-                        return false;
-                    }
+                    break;
                 case 'D' :
                     marketStructure.discardMarbles(marketStructure.getBuffer().get(0));
                     for (Player p : playersList) {
@@ -370,11 +365,15 @@ public class Game {
                         }
                     }
                     update.onUpdateFaithMarker(currentPlayer, playersList, true);
-                    return true;
+                    break;
                 default:
                     update.onUpdateError(currentPlayer.getNickname(),"Wrong choice.");
-                    return false;
+                    break;
             }
+            if (!marketStructure.getBuffer().isEmpty()) {
+                turnPhase = TurnPhase.ENDTURN;
+            }
+            return true;
         }
         else {
             update.onUpdateError(currentPlayer.getNickname(),"You can not do this action.");
@@ -535,29 +534,31 @@ public class Game {
                 Map<String,Integer> StrongboxRes = new HashMap<>();
                 Map<String,Integer> ExtrachestMap = new HashMap<>();
                 switch (r1) {
-                    case 'w' :
+                    case 'W' :
                         WarehouseRes.put(reqRes1, 1);
                         break;
-                    case 's' :
+                    case 'S' :
                         StrongboxRes.put(reqRes1, 1);
                         break;
-                    case 'e' :
+                    case 'E' :
                         ExtrachestMap.put(reqRes1, 1);
                         break;
                     default:
+                        update.onUpdateError(currentPlayer.getNickname(),"You can only choose between W (Warehouse), S (Strongbox), E (ExtraChest).");
                         return false;
                 }
                 switch (r2) {
-                    case 'w' :
+                    case 'W' :
                         WarehouseRes.put(reqRes2, 1);
                         break;
-                    case 's' :
+                    case 'S' :
                         StrongboxRes.put(reqRes2, 1);
                         break;
-                    case 'e' :
+                    case 'E' :
                         ExtrachestMap.put(reqRes2, 1);
                         break;
                     default:
+                        update.onUpdateError(currentPlayer.getNickname(),"You can only choose between W (Warehouse), S (Strongbox), E (ExtraChest).");
                         return false;
                 }
                 if (deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap)) {
@@ -627,16 +628,17 @@ public class Game {
             Map<String, Integer> s = new HashMap<>();
             Map<String, Integer> e = new HashMap<>();
             switch (r) {
-                case 'w' :
+                case 'W' :
                     w.put(reqResource, 1);
                     break;
-                case 's' :
+                case 'S' :
                     s.put(reqResource, 1);
                     break;
-                case 'e' :
+                case 'E' :
                     e.put(reqResource, 1);
                     break;
                 default:
+                    update.onUpdateError(currentPlayer.getNickname(),"You can only choose between W (Warehouse), S (Strongbox), E (ExtraChest).");
                     return false;
             }
             if (deleteRes(w, s, e)) {
@@ -745,17 +747,13 @@ public class Game {
 
     public boolean endProduction () {
         if (!currentPlayer.getSlotDevCards().getBuffer().isEmpty()) {
-            if (emptyBuffer()) {
-                update.onUpdateStrongBox(currentPlayer);
-                return true;
-            }
-            else {
-                update.onUpdateError(currentPlayer.getNickname(),"Difficile che entri qui.");
-                return false;
-            }
+           emptyBuffer();
+           turnPhase = TurnPhase.ENDTURN;
+           update.onUpdateStrongBox(currentPlayer);
+           return true;
         }
         else {
-            update.onUpdateError(currentPlayer.getNickname(),"Empty buffer.");
+            update.onUpdateError(currentPlayer.getNickname(),"You have not activated any production.");
             return false;
         }
     }
