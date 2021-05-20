@@ -3,7 +3,7 @@ package it.polimi.ingsw.Network.Server;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessagePing;
 import it.polimi.ingsw.Network.Message.MessageType;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageLogin;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestLogin;
 import it.polimi.ingsw.Observer.Observer;
 
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class ServerClientHandler implements Runnable, Observer {
         } catch (IOException e) {
             SERVERLOGGER.severe("ERROR: THREAD INITIALIZATION ");
         }
-        output.writeObject(new MessageLogin());
+        output.writeObject(new MessageRequestLogin());
 
     }
 
@@ -75,10 +75,7 @@ public class ServerClientHandler implements Runnable, Observer {
                     SERVERLOGGER.info("Messagge recived" + "(from " + message.getNickname()+")"+ ":" + message.getMessageType());
                     switch (message.getMessageType()){
                         case PING: sendMessage(new MessagePing()); break;
-                        case LOGIN:
-                            server.addIDname(ID,message.getNickname());
-                            server.recivedMessage(message);
-                            break;
+                        case LOGIN: server.addIDname(ID,message.getNickname(), message); break;
                         default: server.recivedMessage(message);
                     }
                 }
@@ -86,6 +83,7 @@ public class ServerClientHandler implements Runnable, Observer {
         }
         catch (IOException | ClassNotFoundException | NullPointerException  e) {
             SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
+            e.printStackTrace();
             server.disconnect(ID);
         }
     }

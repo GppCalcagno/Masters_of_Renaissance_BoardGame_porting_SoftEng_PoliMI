@@ -46,47 +46,36 @@ public class GameController {
         }
     }
 
-
-
     public void onLogin(String name){
-
-        if(!playersNames.contains(name)){
-            if(playersNames.size()==0){
+        if(playersNames.size()==0){
+            playersNames.add(name);
+            server.sendtoPlayer(name, new MessageRequestNumPlayers());
+        }
+        else
+        {
+            if (numPlayer==0 || (numPlayer>0 && playersNames.size()>=numPlayer)){
+                server.sendtoPlayer(name, new MessageError("server","Not yet established NumPlayer"));
+                server.sendtoPlayer(name, new MessageDisconnect(name));
+            }
+            else {
                 playersNames.add(name);
-                server.sendtoPlayer(name, new MessageRequestNumPlayers());
-            }
-            else
-            {
-                if (numPlayer==0 || (numPlayer>0 && playersNames.size()>=numPlayer)){
-                    server.sendtoPlayer(name, new MessageError("server","Not yet established NumPlayer"));
-                    server.sendtoPlayer(name, new MessageDisconnect(name));
-                }
-                else {
-                    playersNames.add(name);
-
-                    if(playersNames.size()==numPlayer) {
-                        try {
-                            game= new Game(new UpdateCreator(server));
-                            for(String player: playersNames){
-                                game.addPlayersList(new Player(player));
-                            }
-                            game.startgame();
-                        } catch (IOException e) {
-                            server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));
-                            LOGGER.severe("FATAL ERROR: can't Read System File");
-                            System.exit(0);
+                if(playersNames.size()==numPlayer) {
+                    try {
+                        game= new Game(new UpdateCreator(server));
+                        for(String player: playersNames){
+                            game.addPlayersList(new Player(player));
                         }
+                        game.startgame();
+                    } catch (IOException e) {
+                        server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));
+                        LOGGER.severe("FATAL ERROR: can't Read System File");
+                        System.exit(0);
                     }
-                    else
-                        server.sendtoPlayer(name, new MessageWaitingForOtherPlayer());
+                }
+                else
+                    server.sendtoPlayer(name, new MessageWaitingForOtherPlayer());
                 }
             }
-        }
-        else {
-            server.sendtoPlayer(name, new MessageError("server","Nickname Already Taken!"));
-            server.sendtoPlayer(name, new MessageRequestLogin());
-        }
-
     }
 
     public void onNumPlayer(int num){
@@ -114,9 +103,6 @@ public class GameController {
                 }
         }
     }
-
-
-
 
     public void disconnect(String name){
         if(game==null){

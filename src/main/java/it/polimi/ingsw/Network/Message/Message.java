@@ -31,7 +31,7 @@ public abstract class Message implements Serializable {
     public  void action(GameController gameController) {}
 
     public  void update(PlayerBoard playerBoard, ViewInterface view){
-        System.out.println("gesu");
+        System.out.println("not the correct message");
     }
 
 }

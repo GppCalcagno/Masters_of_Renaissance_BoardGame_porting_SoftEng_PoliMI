@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageError;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestLogin;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Controller.GameController;
 
@@ -56,7 +58,6 @@ public class Server extends Observable {
             try {
                 //eseguo connessioni con client
                 Socket clientSocket= serverSocket.accept();
-                    //todo to fix
                     clientConnected++;
                     //timeout set
                     clientSocket.setSoTimeout(SOTIMEOUT*1000);
@@ -87,8 +88,16 @@ public class Server extends Observable {
         iDClientMap.put(ID,clientHandler);
     }
 
-    public void addIDname(int ID, String name){
-        iDNameMap.put(ID,name);
+    public void addIDname(int ID, String name, Message message){
+        if(iDNameMap.containsValue(name)){
+            iDClientMap.get(ID).update(new MessageError("server","Nickname already Used"));
+            iDClientMap.get(ID).update(new MessageRequestLogin());
+        }else
+        {
+            iDNameMap.put(ID,name);
+            recivedMessage(message);
+        }
+
     }
 
     public Integer getIDfromName(String name){

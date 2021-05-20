@@ -201,7 +201,7 @@ public class ActionParser {
     }
 
     public boolean isRightResource (String resource) {
-        String[] allResources = {"Coins", "Servants", "Shields", "Stones"};
+        String[] allResources = {"COINS", "SERVANTS", "SHIELDS", "STONES"};
         for (String r : allResources){
             if (resource.equals(r))
                 return true;
