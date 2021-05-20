@@ -31,6 +31,12 @@ public class ClientController implements Observer {
         clientSocket.readMessage();
     }
 
+    public void disconnect(){
+        this.clientSocket.disconnect();
+    }
+
+
+
     public void sendMessage(Message message) {
         clientSocket.sendMessage(message);
     }

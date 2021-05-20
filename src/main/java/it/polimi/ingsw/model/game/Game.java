@@ -252,7 +252,6 @@ public class Game {
         }
         currentPlayer.setInitialResources(0);
         update.onUpdateWarehouse(currentPlayer, false);
-        gameState = GameState.INGAME;
         return true;
     }
 
@@ -890,31 +889,35 @@ public class Game {
     }
 
     public void endTurn () {
-        if (currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
-
-            boolean isINGAME = true;
+        boolean canEndTurn = false;
+        if (gameState.equals(GameState.INITGAME) && currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
+            gameState = GameState.INGAME;
             for (Player p : playersList) {
-                if (p.getInitialResources() > 1 || p.getLeaderActionBox().size() == 4)
-                    isINGAME = false;
+                if (p.getLeaderActionBox().size() == 4)
+                    gameState = GameState.INITGAME;
             }
-
-            if (isINGAME) gameState=GameState.INITGAME;
-
-                if (turnPhase == TurnPhase.ENDTURN) {
-                    turnPhase = TurnPhase.DOTURN;
-                    setCanDoProductionTrue();
-                    try {
-                        setCurrentPlayer();
-                    } catch (EndGameException e) {
-                        Player winner = playersList.get(getWinner());
-                        givefinalpoints();
-                        update.onUpdateWinnerMultiplayer(winner, playersList);
-                    }
-                    update.onUpdateCurrentPlayer(currentPlayer);
-                } else
-                    update.onUpdateError(currentPlayer.getNickname(), "You can't end your turn, Choose a Turn Action.");
+            canEndTurn = true;
         }
-
+        else {
+            if (turnPhase == TurnPhase.ENDTURN) {
+                canEndTurn = true;
+                turnPhase = TurnPhase.DOTURN;
+                setCanDoProductionTrue();
+            }
+        }
+        if(canEndTurn){
+            try {
+                setCurrentPlayer();
+            } catch (EndGameException e) {
+                Player winner = playersList.get(getWinner());
+                givefinalpoints();
+                update.onUpdateWinnerMultiplayer(winner, playersList);
+            }
+            update.onUpdateCurrentPlayer(currentPlayer);
+        }
+        else{
+            update.onUpdateError(currentPlayer.getNickname(),"Take your turn before you finish it");
+        }
     }
 
     /**

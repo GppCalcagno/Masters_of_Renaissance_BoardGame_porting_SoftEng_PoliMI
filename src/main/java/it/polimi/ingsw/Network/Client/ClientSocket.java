@@ -99,9 +99,23 @@ public class ClientSocket extends Observable {
                 sendMessage.writeObject(message);
             } catch (IOException e) {
                 CLOGGER.severe("EROOR: CAN'T SEND MESSAGE TO THE CONTROLLER");
+                disconnect();
             }
         }
     }
+
+    public void disconnect(){
+        try {
+            clientSocket.close();
+        } catch (IOException ioException) {
+            CLOGGER.severe("EROOR: CAN'T CLOSE THE SOCKET");
+            System.exit(0);
+        }
+    }
+
+
+
+
 
     /**
      * this Method is used to switch Pinging to the server

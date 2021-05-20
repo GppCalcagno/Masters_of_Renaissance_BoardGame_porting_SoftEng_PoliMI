@@ -112,9 +112,12 @@ public class GameController {
                 numPlayer=0;
         }
         else {
-            for(int i=0;i<game.getPlayersList().size();i++){
-                if(game.getPlayersList().get(i).getNickname().equals(name))
-                    game.getPlayersList().get(i).setConnected(false);
+            synchronized (modelLock){
+                for(int i=0;i<game.getPlayersList().size();i++){
+                    if(game.getPlayersList().get(i).getNickname().equals(name))
+                        game.getPlayersList().get(i).setConnected(false);
+            }
+
             }
         }
     }
