@@ -190,11 +190,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateFaithMarker() {
-            out.println("This is your new faithMarker's position : " + playerBoard.getFaithMarker());
-            for (String nickname : playerBoard.getPlayerList()) {
-                if (!nickname.equals(playerBoard.getNickname()))
-                    out.println(nickname + "'s faithMarker is now at : " + playerBoard.getPlayersFaithMarkerPosition().get(playerBoard.getCurrentPlayer()));
-            }
+            new ViewFaithTrack(playerBoard).plot();
     }
 
 
@@ -287,21 +283,18 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showLeaderActionBox() {
-        out.println("\n");
         ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox(playerBoard);
         viewLeaderActionBox.plot();
     }
 
     @Override
     public void showSlotDevCard() {
-        out.println("\n");
         ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(playerBoard);
         viewSlotDevCard.plot();
     }
 
     @Override
     public void showWarehouse() {
-        out.println("\n");
         ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard);
         viewWarehouse.plot();
         if(!playerBoard.getExtrachest().isEmpty()) showExtraChest();
@@ -309,21 +302,18 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showStrongbox() {
-        out.println("\n");
         ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard);
         viewStrongbox.plot();
     }
 
     @Override
     public void showFaithTrack() {
-        out.println("\n");
         ViewFaithTrack viewFaithTrack = new ViewFaithTrack(playerBoard);
         viewFaithTrack.plot();
     }
 
     @Override
     public void showMarketTray() {
-        out.println("\n");
         ViewMarketTray viewMarketTray = new ViewMarketTray(playerBoard);
         viewMarketTray.plot();
     }
@@ -331,14 +321,12 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showDevCardDeck() {
-        out.println("\n");
         ViewDevCardDeck viewDevCardDeck = new ViewDevCardDeck(playerBoard);
         viewDevCardDeck.plot();
     }
 
     @Override
     public void showExtraChest(){
-        out.println("\n");
         ViewExtraChest viewExtraChest = new ViewExtraChest(playerBoard);
         viewExtraChest.plot();
     }

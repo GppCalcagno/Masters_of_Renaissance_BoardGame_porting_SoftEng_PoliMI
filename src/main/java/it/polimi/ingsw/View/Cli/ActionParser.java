@@ -59,6 +59,7 @@ public class ActionParser {
                         System.out.println(Color.ANSI_RED.escape() +"The command doesn't exist!" + Color.RESET);
                 }
             } catch (ArrayIndexOutOfBoundsException e){
+                    e.printStackTrace();
                     System.out.println(Color.ANSI_RED.escape() +"The command need more parameters, please write it correctly" + Color.RESET);
             } catch (NumberFormatException n){
                 System.out.println(Color.ANSI_RED.escape() +"The command need at least a number, please insert it correctly"+ Color.RESET);
@@ -183,7 +184,6 @@ public class ActionParser {
      * @param parts
      */
     public void show(String[] parts){
-        System.out.println(parts[1]);
             switch(parts[1].toUpperCase(Locale.ROOT)){
                 case "LEADERACTIONBOX": cli.showLeaderActionBox();  break;
                 case "SLOTDEVCARD": cli.showSlotDevCard();          break;

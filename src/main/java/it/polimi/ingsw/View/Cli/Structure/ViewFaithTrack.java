@@ -10,8 +10,8 @@ public class ViewFaithTrack {
 
     PlayerBoard pb;
 
-    private static final int MAX_VERT_TILES = 6; //rows.
-    private static final int MAX_HORIZ_TILES = 125; //cols.
+    private static final int MAX_VERT_TILES = 9; //rows.
+    private static final int MAX_HORIZ_TILES = 126; //cols.
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
@@ -36,12 +36,12 @@ public class ViewFaithTrack {
         }
 
         //line of the track
-        for(int j=0; j<MAX_HORIZ_TILES; j=j+5){
-            tiles[2][j] = "╚";
-            tiles[2][j+1] = "═";
-            tiles[2][j+2] = "═";
-            tiles[2][j+3] = "═";
-            tiles[2][j+4] = "╝";
+        for(int j=0; j<MAX_HORIZ_TILES-1; j=j+5){
+            tiles[5][j] = "╚";
+            tiles[5][j+1] = "═";
+            tiles[5][j+2] = "═";
+            tiles[5][j+3] = "═";
+            tiles[5][j+4] = "╝";
         }
 
         //points
@@ -59,111 +59,115 @@ public class ViewFaithTrack {
         tiles[0][123] = Color.ANSI_BRIGHTYELLOW.escape() + "0" + Color.ANSI_BRIGHTWHITE.escape();
 
         //pope space 1
-        tiles[4][34] = Color.ANSI_BRIGHTYELLOW.escape() +"2"+yellow;
-        tiles[3][25] = yellow + "║";
-        tiles[4][25] = yellow + "║";
-        tiles[5][25] = yellow + "╚";
-        tiles[5][26] = "═";
-        tiles[5][27] = "═";
-        tiles[5][28] = "═";
-        tiles[5][29] = "═";
-        tiles[5][30] = "═";
-        tiles[5][31] = "═";
-        tiles[5][32] = "═";
-        tiles[5][33] = "═";
-        tiles[5][34] = "═";
-        tiles[5][35] = "═";
-        tiles[5][36] = "═";
-        tiles[5][37] = "═";
-        tiles[5][38] = "═";
-        tiles[5][39] = "═";
-        tiles[5][40] = "═";
-        tiles[5][41] = "═";
-        tiles[5][42] = "═";
-        tiles[5][43] = "═";
-        tiles[5][44] = "╝";
-        tiles[4][44] = "║";
-        tiles[3][44] = "║";
-        tiles[3][42] = "✞";
+        tiles[7][34] = Color.ANSI_BRIGHTYELLOW.escape() +"2"+yellow;
+        tiles[6][25] = yellow + "║";
+        tiles[7][25] = yellow + "║";
+        tiles[8][25] = yellow + "╚";
+        tiles[8][26] = "═";
+        tiles[8][27] = "═";
+        tiles[8][28] = "═";
+        tiles[8][29] = "═";
+        tiles[8][30] = "═";
+        tiles[8][31] = "═";
+        tiles[8][32] = "═";
+        tiles[8][33] = "═";
+        tiles[8][34] = "═";
+        tiles[8][35] = "═";
+        tiles[8][36] = "═";
+        tiles[8][37] = "═";
+        tiles[8][38] = "═";
+        tiles[8][39] = "═";
+        tiles[8][40] = "═";
+        tiles[8][41] = "═";
+        tiles[8][42] = "═";
+        tiles[8][43] = "═";
+        tiles[8][44] = "╝";
+        tiles[7][44] = "║";
+        tiles[6][44] = "║";
+        tiles[6][42] = "✞";
 
 
         //pope space 2
-        tiles[4][72] = Color.ANSI_BRIGHTYELLOW.escape() +"3" + orange;
-        tiles[3][60] = orange + "║";
-        tiles[4][60] = orange + "║";
-        tiles[5][60] = orange + "╚";
-        tiles[5][61] = "═";
-        tiles[5][62] = "═";
-        tiles[5][63] = "═";
-        tiles[5][64] = "═";
-        tiles[5][65] = "═";
-        tiles[5][66] = "═";
-        tiles[5][67] = "═";
-        tiles[5][68] = "═";
-        tiles[5][69] = "═";
-        tiles[5][70] = "═";
-        tiles[5][71] = "═";
-        tiles[5][72] = "═";
-        tiles[5][73] = "═";
-        tiles[5][74] = "═";
-        tiles[5][75] = "═";
-        tiles[5][76] = "═";
-        tiles[5][77] = "═";
-        tiles[5][78] = "═";
-        tiles[5][79] = "═";
-        tiles[5][80] = "═";
-        tiles[5][81] = "═";
-        tiles[5][82] = "═";
-        tiles[5][83] = "═";
-        tiles[5][84] = "╝";
-        tiles[4][84] = "║";
-        tiles[3][84] = "║";
-        tiles[3][82] = "✞";
+        tiles[7][72] = Color.ANSI_BRIGHTYELLOW.escape() +"3" + orange;
+        tiles[6][60] = orange + "║";
+        tiles[7][60] = orange + "║";
+        tiles[8][60] = orange + "╚";
+        tiles[8][61] = "═";
+        tiles[8][62] = "═";
+        tiles[8][63] = "═";
+        tiles[8][64] = "═";
+        tiles[8][65] = "═";
+        tiles[8][66] = "═";
+        tiles[8][67] = "═";
+        tiles[8][68] = "═";
+        tiles[8][69] = "═";
+        tiles[8][70] = "═";
+        tiles[8][71] = "═";
+        tiles[8][72] = "═";
+        tiles[8][73] = "═";
+        tiles[8][74] = "═";
+        tiles[8][75] = "═";
+        tiles[8][76] = "═";
+        tiles[8][77] = "═";
+        tiles[8][78] = "═";
+        tiles[8][79] = "═";
+        tiles[8][80] = "═";
+        tiles[8][81] = "═";
+        tiles[8][82] = "═";
+        tiles[8][83] = "═";
+        tiles[8][84] = "╝";
+        tiles[7][84] = "║";
+        tiles[6][84] = "║";
+        tiles[6][82] = "✞";
 
         //pope space 3
-        tiles[4][109] = Color.ANSI_BRIGHTYELLOW.escape() +"4" + red;
-        tiles[3][95] = red + "║";
-        tiles[4][95] = red + "║";
-        tiles[5][95] = red + "╚";
-        tiles[5][96] = "═";
-        tiles[5][97] = "═";
-        tiles[5][98] = "═";
-        tiles[5][99] = "═";
-        tiles[5][100] = "═";
-        tiles[5][101] = "═";
-        tiles[5][102] = "═";
-        tiles[5][103] = "═";
-        tiles[5][104] = "═";
-        tiles[5][105] = "═";
-        tiles[5][106] = "═";
-        tiles[5][107] = "═";
-        tiles[5][108] = "═";
-        tiles[5][109] = "═";
-        tiles[5][110] = "═";
-        tiles[5][111] = "═";
-        tiles[5][112] = "═";
-        tiles[5][113] = "═";
-        tiles[5][114] = "═";
-        tiles[5][115] = "═";
-        tiles[5][116] = "═";
-        tiles[5][117] = "═";
-        tiles[5][118] = "═";
-        tiles[5][119] = "═";
-        tiles[5][120] = "═";
-        tiles[5][121] = "═";
-        tiles[5][122] = "═";
-        tiles[5][123] = "═";
-        tiles[5][124] = "╝" + Color.ANSI_BRIGHTWHITE.escape();
-        tiles[4][124] = "║";
-        tiles[3][124] = "║";
-        tiles[3][122] = "✞";
+        tiles[7][109] = Color.ANSI_BRIGHTYELLOW.escape() +"4" + red;
+        tiles[6][95] = red + "║";
+        tiles[7][95] = red + "║";
+        tiles[8][95] = red + "╚";
+        tiles[8][96] = "═";
+        tiles[8][97] = "═";
+        tiles[8][98] = "═";
+        tiles[8][99] = "═";
+        tiles[8][100] = "═";
+        tiles[8][101] = "═";
+        tiles[8][102] = "═";
+        tiles[8][103] = "═";
+        tiles[8][104] = "═";
+        tiles[8][105] = "═";
+        tiles[8][106] = "═";
+        tiles[8][107] = "═";
+        tiles[8][108] = "═";
+        tiles[8][109] = "═";
+        tiles[8][110] = "═";
+        tiles[8][111] = "═";
+        tiles[8][112] = "═";
+        tiles[8][113] = "═";
+        tiles[8][114] = "═";
+        tiles[8][115] = "═";
+        tiles[8][116] = "═";
+        tiles[8][117] = "═";
+        tiles[8][118] = "═";
+        tiles[8][119] = "═";
+        tiles[8][120] = "═";
+        tiles[8][121] = "═";
+        tiles[8][122] = "═";
+        tiles[8][123] = "═";
+        tiles[8][124] = "╝" + Color.ANSI_BRIGHTWHITE.escape();
+        tiles[7][124] = "║";
+        tiles[6][124] = "║";
+        tiles[6][122] = "✞";
     }
 
     private void updateObject(){
-        /*
-        tiles[1][2+ pb.getFaithMarker()*5] = "♔";  //♙
-
-         */
+        int i=4;
+        for(String player : pb.getPlayerList()){
+            tiles[i][2+ pb.getPlayersFaithMarkerPosition().get(player)*5] = "♔";  //♙
+            if(player.equals(pb.getCurrentPlayer()))
+            tiles[i][125] = "YOU";
+            else tiles[i][125] = player;
+            i--;
+        }
     }
 
     public void plot() {
