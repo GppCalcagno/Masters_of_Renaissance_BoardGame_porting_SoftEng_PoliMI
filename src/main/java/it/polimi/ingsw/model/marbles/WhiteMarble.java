@@ -28,16 +28,14 @@ public class WhiteMarble extends Marbles {
     public boolean addToExtraChest(Player p) {
         if(!p.getLeaderCardEffectWhiteMarble().isEmpty()){
             Resources white = p.getLeaderCardEffectWhiteMarble().get(0);
-            if (!p.getWarehouse().getLeaderCardEffect().isEmpty()) {
-                for (int i = 0; i < p.getWarehouse().getLeaderCardEffect().size(); i++) {
-                    if (p.getWarehouse().getLeaderCardEffect().get(i).getResources().getClass().equals(white.getClass())) {
-                        try {
-                            p.getWarehouse().getLeaderCardEffect().get(i).updateResources(1);
-                            return true;
-                        } catch (OverflowQuantityExcepions overflowQuantityExcepions) {
-                            return false;
-                        } catch (NegativeQuantityExceptions ignored) {}
-                    }
+            for (int i = 0; i < p.getWarehouse().getLeaderCardEffect().size(); i++) {
+                if (p.getWarehouse().getLeaderCardEffect().get(i).getResources().getClass().equals(white.getClass())) {
+                    try {
+                        p.getWarehouse().getLeaderCardEffect().get(i).updateResources(1);
+                        return true;
+                    } catch (OverflowQuantityExcepions overflowQuantityExcepions) {
+                        return false;
+                    } catch (NegativeQuantityExceptions ignored) {}
                 }
             }
             return false;

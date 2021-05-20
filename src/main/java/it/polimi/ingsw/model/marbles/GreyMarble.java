@@ -25,16 +25,14 @@ public class GreyMarble extends Marbles {
     @Override
     public boolean addToExtraChest(Player p) {
         Resources grey = new Stones();
-        if (!p.getWarehouse().getLeaderCardEffect().isEmpty()) {
-            for (int i = 0; i < p.getWarehouse().getLeaderCardEffect().size(); i++) {
-                if (p.getWarehouse().getLeaderCardEffect().get(i).getResources().getClass().equals(grey.getClass())) {
-                    try {
-                        p.getWarehouse().getLeaderCardEffect().get(i).updateResources(1);
-                        return true;
-                    } catch (OverflowQuantityExcepions overflowQuantityExcepions) {
-                        return false;
-                    } catch (NegativeQuantityExceptions ignored) {}
-                }
+        for (int i = 0; i < p.getWarehouse().getLeaderCardEffect().size(); i++) {
+            if (p.getWarehouse().getLeaderCardEffect().get(i).getResources().getClass().equals(grey.getClass())) {
+                try {
+                    p.getWarehouse().getLeaderCardEffect().get(i).updateResources(1);
+                    return true;
+                } catch (OverflowQuantityExcepions overflowQuantityExcepions) {
+                    return false;
+                } catch (NegativeQuantityExceptions ignored) {}
             }
         }
         return false;
