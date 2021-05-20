@@ -15,15 +15,15 @@ public class ViewExtraChest {
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
-    public ViewExtraChest(PlayerBoard playerBoard){
+    public ViewExtraChest(PlayerBoard playerBoard) {
         pb = playerBoard;
         fillTiles();
         updateObject();
     }
 
-    private void fillTiles(){
-        for(int i=0; i<MAX_VERT_TILES; i++){
-            for(int j=0; j<MAX_HORIZ_TILES; j++){
+    private void fillTiles() {
+        for (int i = 0; i < MAX_VERT_TILES; i++) {
+            for (int j = 0; j < MAX_HORIZ_TILES; j++) {
                 tiles[i][j] = " ";
             }
         }
@@ -57,35 +57,38 @@ public class ViewExtraChest {
     }
 
     private void updateObject() {
-
-        String color;
-
-        if (pb.getExtrachest().get("Servants")!=null) {
-            color = Color.ANSI_BRIGHTPURPLE.escape();
+        String color = null;
+        for (String resource : pb.getExtrachest().keySet()) {
+            if (resource.equals("Servants")) {
+                color = Color.ANSI_BRIGHTPURPLE.escape();
+                resource = "Servants";
+            } else if (resource.equals("Shields")) {
+                color = Color.ANSI_BRIGHTBLUE.escape();
+                resource = "Shields";
+            } else if (resource.equals("Coins")) {
+                color = Color.ANSI_YELLOW.escape();
+                resource = "Coins";
+            } else if (resource.equals("Stones")) {
+                color = Color.ANSI_BRIGHDARK.escape();
+                resource = "Stones";
+            } else System.out.println(Color.ANSI_RED.escape() + "You don't have an extrachest");
+            for (int i = 0; i < pb.getExtrachest().get(resource); i++) {
+                tiles[1][i * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+            }
+            plot(color);
         }
-        else if(pb.getExtrachest().get("Shields")!=null){
-            color = Color.ANSI_BRIGHTBLUE.escape();
-        }
-        else if(pb.getExtrachest().get("Coins")!=null){
-            color = Color.ANSI_BRIGHTYELLOW.escape();
-        }
-        else if(pb.getExtrachest().get("Stones")!=null){
-            color = Color.ANSI_BRIGHDARK.escape();
-        }
-        else color = Color.ANSI_BRIGHTWHITE.escape();
-
-        tiles[1][2] = color + "●" + Color.ANSI_BRIGHTWHITE.escape();
-        tiles[1][6] = color + "●" + Color.ANSI_BRIGHTWHITE.escape();
     }
 
-
-    public void plot() {
-        System.out.print( Color.ANSI_BRIGHTWHITE.escape());
-        for (int r = 0; r < MAX_VERT_TILES; r++) {
-            System.out.println();
-            for (int c = 0; c < MAX_HORIZ_TILES; c++) {
-                System.out.print(tiles[r][c]);
+    public void plot(String color) {
+        if (color != null) {
+            System.out.print(Color.ANSI_BRIGHTWHITE.escape());
+            for (int r = 0; r < MAX_VERT_TILES; r++) {
+                System.out.println();
+                for (int c = 0; c < MAX_HORIZ_TILES; c++) {
+                    System.out.print(color + tiles[r][c]);
+                }
             }
+            System.out.println(Color.ANSI_BRIGHTWHITE.escape() + "\n");
         }
     }
 }

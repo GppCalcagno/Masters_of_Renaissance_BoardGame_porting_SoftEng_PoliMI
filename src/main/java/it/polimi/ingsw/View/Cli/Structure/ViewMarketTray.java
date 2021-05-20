@@ -207,6 +207,7 @@ public class ViewMarketTray {
                 System.out.print(tiles[r][c]);
             }
         }
+        System.out.println("\n");
     }
 
 

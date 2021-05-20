@@ -327,8 +327,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showExtraChest(){
-        ViewExtraChest viewExtraChest = new ViewExtraChest(playerBoard);
-        viewExtraChest.plot();
+        new ViewExtraChest(playerBoard);
     }
 
     @Override
@@ -344,7 +343,7 @@ public class Cli implements ViewInterface {
     @Override
     public void showMarbleBuffer(){
         out.println("There are " + playerBoard.getMarbleBuffer().size() + " remaining marbles to manage : ");
-        for(String marble : playerBoard.getMarbleBuffer()) out.println(marble);
+        new ViewMarbleBuffer(playerBoard).plot();
     }
 
     @Override

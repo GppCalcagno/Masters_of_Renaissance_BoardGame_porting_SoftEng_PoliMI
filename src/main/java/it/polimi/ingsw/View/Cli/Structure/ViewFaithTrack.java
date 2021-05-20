@@ -163,10 +163,8 @@ public class ViewFaithTrack {
         int i=4;
         for(String player : pb.getPlayerList()){
             tiles[i][2+ pb.getPlayersFaithMarkerPosition().get(player)*5] = "♔";  //♙
-            if(player.equals(pb.getCurrentPlayer()))
-            tiles[i][125] = "YOU";
-            else tiles[i][125] = player;
-            i--;
+            tiles[i][125] = player;
+            i++;
         }
     }
 

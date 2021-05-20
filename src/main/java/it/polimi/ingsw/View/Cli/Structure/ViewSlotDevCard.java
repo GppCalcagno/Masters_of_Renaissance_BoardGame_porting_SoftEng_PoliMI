@@ -101,5 +101,6 @@ public class ViewSlotDevCard {
                 System.out.print(tiles[r][c]);
             }
         }
+        System.out.println("\n");
     }
 }
