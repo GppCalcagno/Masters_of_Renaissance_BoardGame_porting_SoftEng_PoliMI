@@ -226,22 +226,24 @@ public class Game {
             update.onUpdateError(currentPlayer.getNickname(),"You can't choose resources");
             return false;
         }
-        else if (playersList.indexOf(currentPlayer) == 1 || playersList.indexOf(currentPlayer) == 2) {
+
+        if (playersList.indexOf(currentPlayer) == 1 || playersList.indexOf(currentPlayer) == 2) {
+            if(initialResources.size()!=1){
+                update.onUpdateError(currentPlayer.getNickname(),"Wrong Number of Resources!");
+                return false;
+            }
             if (!isRightResource(initialResources.get(0))) {
                 update.onUpdateError(currentPlayer.getNickname(),"Wrong resource");
                 return false;
             }
             currentPlayer.getWarehouse().checkInsertion(0, convertStringToResource(initialResources.get(0)));
-            currentPlayer.setInitialResources(0);
-            update.onUpdateWarehouse(currentPlayer, false);
-            return true;
         }
-        else if (playersList.indexOf(currentPlayer) == 3) {
+
+        if (playersList.indexOf(currentPlayer) == 3) {
             if (!isRightResource(initialResources.get(0)) || !isRightResource(initialResources.get(1))) {
                 update.onUpdateError(currentPlayer.getNickname(),"Wrong resources");
                 return false;
             }
-
             if (initialResources.get(0).equals(initialResources.get(1))) {
                 currentPlayer.getWarehouse().checkInsertion(2, convertStringToResource(initialResources.get(0)));
                 currentPlayer.getWarehouse().checkInsertion(2, convertStringToResource(initialResources.get(1)));
@@ -250,20 +252,13 @@ public class Game {
                 currentPlayer.getWarehouse().checkInsertion(0, convertStringToResource(initialResources.get(0)));
                 currentPlayer.getWarehouse().checkInsertion(1, convertStringToResource(initialResources.get(1)));
             }
-
-
-
-
-            currentPlayer.setInitialResources(0);
-            update.onUpdateWarehouse(currentPlayer, false);
-            gameState = GameState.INGAME;
-            return true;
         }
-        else {
-            update.onUpdateError(currentPlayer.getNickname(),"It's impossible");
-            return false;
-        }
+        currentPlayer.setInitialResources(0);
+        update.onUpdateWarehouse(currentPlayer, false);
+        gameState = GameState.INGAME;
+        return true;
     }
+
 
     public Resources convertStringToResource (String stringResource) {
         Resources[] resources = {new Coins(), new Servants(), new Shields(), new Stones()};

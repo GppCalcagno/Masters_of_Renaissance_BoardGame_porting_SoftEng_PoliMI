@@ -78,7 +78,7 @@ public class MarketStructure {
     public boolean extractMarbles (char direction, int n) {
         // 'c' = colonna, 'r' = riga
 
-        if( direction == 'c' ) {
+        if( direction == 'C' ) {
             if( n >= 0 && n <= sizey ) {
                 for(int i = 0; i < sizex; i++) {
                     this.buffer.add(this.marketTray[i][n]);
@@ -90,7 +90,7 @@ public class MarketStructure {
                 return false;
             }
         }
-        else if ( direction == 'r' ) {
+        else if ( direction == 'R' ) {
             if( n >= 0 && n <= sizex ) {
                 for(int j = 0; j < sizey; j++) {
                     this.buffer.add(this.marketTray[n][j]);
