@@ -381,7 +381,7 @@ class GameTest {
         game.startgame();
 
         assertEquals(2, player.countTotalResources());
-        assertTrue(game.activeBaseProduction('s', "Coins", 's', "Coins", "Servants"));
+        assertTrue(game.activeBaseProduction('S', "Coins", 'S', "Coins", "Servants"));
         assertEquals(1, player.countTotalResources());
     }
 
@@ -411,7 +411,7 @@ class GameTest {
         player.getLeaderActionBox().get(0).doSpecialAbility(player);
 
         assertEquals(2, player.countTotalResources());
-        assertTrue(game.activeLeaderCardProduction("LCPL1", 's', "Coins"));
+        assertTrue(game.activeLeaderCardProduction("LCPL1", 'S', "Coins"));
         assertEquals(1, player.countTotalResources());
         assertEquals(1, player.getSlotDevCards().getBuffer().get("Coins"));
         assertEquals(1, player.getFaithMarker());
@@ -653,6 +653,6 @@ class GameTest {
         game.addPlayersList(player2);
 
         game.endTurn();
-        assertNotEquals(player2, game.getCurrentPlayer());
+        assertEquals(player2, game.getCurrentPlayer());
     }
 }
