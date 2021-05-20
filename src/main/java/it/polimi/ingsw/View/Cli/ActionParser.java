@@ -59,7 +59,6 @@ public class ActionParser {
                         System.out.println(Color.ANSI_RED.escape() +"The command doesn't exist!" + Color.RESET);
                 }
             } catch (ArrayIndexOutOfBoundsException e){
-                    e.printStackTrace();
                     System.out.println(Color.ANSI_RED.escape() +"The command need more parameters, please write it correctly" + Color.RESET);
             } catch (NumberFormatException n){
                 System.out.println(Color.ANSI_RED.escape() +"The command need at least a number, please insert it correctly"+ Color.RESET);
@@ -161,9 +160,7 @@ public class ActionParser {
     }
 
     public void updateLeaderCard(String[] parts){
-        boolean state = false;
-        if(Integer.parseInt(parts[2])==1) state = true;
-        controller.sendMessage(new MessageUpdateStateLeaderAction(playerBoard.getNickname(), parts[1], state));
+        controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), parts[1], Integer.parseInt(parts[2])));
     }
 
     public void endTurn(String[] parts){

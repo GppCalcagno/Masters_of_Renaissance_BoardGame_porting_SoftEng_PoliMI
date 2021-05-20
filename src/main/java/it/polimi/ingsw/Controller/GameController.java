@@ -112,11 +112,10 @@ public class GameController {
         }
         else {
             synchronized (modelLock){
-                for(int i=0;i<game.getPlayersList().size();i++){
-                    if(game.getPlayersList().get(i).getNickname().equals(name))
+                for(int i=0;i<game.getPlayersList().size();i++) {
+                    if (game.getPlayersList().get(i).getNickname().equals(name))
                         game.getPlayersList().get(i).setConnected(false);
-            }
-
+                }
             }
         }
     }
@@ -176,10 +175,4 @@ public class GameController {
         game.endTurn();
     }
 
-    public void setGame(int numPlayers, UpdateCreator updateCreator) throws IOException {
-        if (numPlayers == 1)
-            game = new SinglePlayerGame(updateCreator);
-        else if (numPlayers == 2)
-            game = new Game(updateCreator);
-    }
 }
