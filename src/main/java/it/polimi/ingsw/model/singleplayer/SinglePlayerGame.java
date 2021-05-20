@@ -14,19 +14,9 @@ import java.util.List;
 public class SinglePlayerGame extends Game {
 
     /**
-     * This attribute is the vector that contains the players' references
-     */
-    private List<Player> playersList;
-
-    /**
      * This attribute is the reference to LorenzoIlMagnifico
      */
     private LorenzoIlMagnifico lorenzoIlMagnifico;
-
-    /**
-     * This attribute is the current player's reference
-     */
-    private Player currentPlayer;
 
     /**
      * This attribute indicates if the game is finished
@@ -36,53 +26,12 @@ public class SinglePlayerGame extends Game {
     private boolean playerWin;
 
     /**
-     * This attribute is the development cards' container. It is implemented like a matrix of pile
-     */
-    private DevCardsDeck developmentCardDeck;
-
-    /**
-     * This attribute is a list of the Leader card
-     */
-    private LeaderCardDeck leaderCardDeck;
-
-    /**
-     * This attribute is a reference to the Faith track
-     */
-    private FaithTrack faithTrack;
-
-    /**
-     * This attribute is a reference to the Market Structure
-     */
-    private MarketStructure marketStructure;
-
-    private UpdateCreator update;
-
-    private TurnPhase turnPhase;
-
-    /**
      * This is the constructor method
      */
     public SinglePlayerGame(UpdateCreator update) throws IOException {
         super(update);
-        this.update = update;
-        this.turnPhase = super.getTurnPhase();
-        playersList = super.getPlayersList();
-        finishedGame = super.getFinishedGame();
-        developmentCardDeck = super.getDevelopmentCardDeck();
-        marketStructure = super.getMarketStructure();
-        leaderCardDeck = super.getLeaderCardDeck();
-        faithTrack = super.getFaithTrack();
-        lorenzoIlMagnifico = new LorenzoIlMagnifico(developmentCardDeck);
+        lorenzoIlMagnifico = new LorenzoIlMagnifico(getDevelopmentCardDeck());
         playerWin = false;
-    }
-
-    /**
-     * This method returns the current player
-     * @return current Player
-     */
-    @Override
-    public Player getCurrentPlayer() {
-        return currentPlayer;
     }
 
     /**
@@ -90,18 +39,9 @@ public class SinglePlayerGame extends Game {
      */
     @Override
     public void setCurrentPlayer () throws EndGameException {
-        currentPlayer = playersList.get(0);
+        setCurrentPlayer(getPlayersList().get(0));
         if (isFinishedGame())
             throw new EndGameException();
-    }
-
-    /**
-     * This method adds a Player to playersList
-     * @param player that is to add to the players' list
-     */
-    @Override
-    public void addPlayersList(Player player){
-        playersList.add(player);
     }
 
     /**
@@ -125,7 +65,7 @@ public class SinglePlayerGame extends Game {
     public boolean isFinishedGame() {
         int i = 0;
         while(i< ColorCard.values().length){
-            if(null == developmentCardDeck.getDevelopmentCardDeck()[0][i][0]){
+            if(null == getDevelopmentCardDeck().getDevelopmentCardDeck()[0][i][0]){
                 playerWin = false;
                 finishedGame = true;
                 return true;
@@ -133,13 +73,13 @@ public class SinglePlayerGame extends Game {
             else i++;
         }
 
-        if(lorenzoIlMagnifico.getFaithMarker()==faithTrack.getFaithtracksize()){
+        if(lorenzoIlMagnifico.getFaithMarker()==getFaithTrack().getFaithtracksize()){
             playerWin = false;
             finishedGame = true;
             return true;
         }
 
-        if(currentPlayer.getSlotDevCards().countTotalNumberDevCards()>=7 || currentPlayer.getFaithMarker() == faithTrack.getFaithtracksize()){
+        if(getCurrentPlayer().getSlotDevCards().countTotalNumberDevCards()>=7 || getCurrentPlayer().getFaithMarker() == getFaithTrack().getFaithtracksize()){
             playerWin = true;
             finishedGame = true;
             return true;
@@ -153,11 +93,11 @@ public class SinglePlayerGame extends Game {
     @Override
     public void startgame () {
         // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
-        this.currentPlayer = this.playersList.get(0);
+        setCurrentPlayer(getPlayersList().get(0));
         for (int x = 0; x < 4; x++) {
-            leaderCardDeck.givetoPlayer(0, currentPlayer);
+            getLeaderCardDeck().givetoPlayer(0, getCurrentPlayer());
         }
-        update.onUpdateStartGame(developmentCardDeck.getDevelopmentCardDeck(), playersList, marketStructure.getMarketTray(), marketStructure.getRemainingMarble());
+        getUpdate().onUpdateStartGame(getDevelopmentCardDeck().getDevelopmentCardDeck(), getPlayersList(), getMarketStructure().getMarketTray(), getMarketStructure().getRemainingMarble());
     }
 
     /**
@@ -165,7 +105,7 @@ public class SinglePlayerGame extends Game {
      */
     @Override
     public void givefinalpoints () {
-        currentPlayer.addVictoryPoints(currentPlayer.getSlotDevCards().countVictoryPoints() + currentPlayer.countLeaderActionVictoryPoints() + currentPlayer.countTotalResources()/5 + faithTrack.getPlayerPoint(currentPlayer));
+        getCurrentPlayer().addVictoryPoints(getCurrentPlayer().getSlotDevCards().countVictoryPoints() + getCurrentPlayer().countLeaderActionVictoryPoints() + getCurrentPlayer().countTotalResources()/5 + getFaithTrack().getPlayerPoint(getCurrentPlayer()));
     }
 
     /**
@@ -182,63 +122,21 @@ public class SinglePlayerGame extends Game {
             playLorenzoTurn();
         } catch (ActiveVaticanReportException e) {
             try {
-                faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
+                getFaithTrack().checkPopeSpace(getPlayersList(), getBlackCrossToken());
             } catch (GameFinishedException gameFinishedException) {
                 if (isFinishedGame())
-                    update.onUpdateGameFinished();
+                    getUpdate().onUpdateGameFinished();
             }
         }
-        update.onUpdateSinglePlayer(getBlackCrossToken(), developmentCardDeck.getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken());
-        turnPhase = TurnPhase.DOTURN;
+        getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken());
+        setTurnPhase(TurnPhase.DOTURN);
         setCanDoProductionTrue();
         try {
             setCurrentPlayer();
         } catch (EndGameException e) {
             givefinalpoints();
-            update.onUpdateWinnerSinglePlayer(playerWin, currentPlayer.getVictoryPoints());
+            getUpdate().onUpdateWinnerSinglePlayer(playerWin, getCurrentPlayer().getVictoryPoints());
         }
-    }
-
-    /**
-     * This method returns the marketSructure attribute
-     * @return a Market Structure object
-     */
-    @Override
-    public MarketStructure getMarketStructure(){
-        return this.marketStructure;
-    }
-
-    /**
-     * This method returns the developmentCardDeck attribute
-     * @return a DevCardsDeck object
-     */
-    @Override
-    public DevCardsDeck getDevelopmentCardDeck() {
-        return developmentCardDeck;
-    }
-
-    /**
-     * This method returns the LeaderCardDeck attribute
-     * @return a LeaderCardDeck object
-     */
-    @Override
-    public LeaderCardDeck getLeaderCardDeck() {
-        return leaderCardDeck;
-    }
-
-    @Override
-    public List<Player> getPlayersList() {
-        return playersList;
-    }
-
-    @Override
-    public FaithTrack getFaithTrack() {
-        return faithTrack;
-    }
-
-    @Override
-    public boolean getFinishedGame() {
-        return super.getFinishedGame();
     }
 
     /**

@@ -28,7 +28,7 @@ public class UpdateCreator {
 
     public void onUpdateError(String message) {
         MessageError messageError = new MessageError("server", message);
-        server.sendBroadcastMessage(messageError);
+        server.sendtoPlayer("server", messageError);
     }
 
     public void onUpdateInitialLeaderCards (Player player, List<LeaderAction> leaderActionList) {

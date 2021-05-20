@@ -163,6 +163,11 @@ public class Game {
         // Set the current Player
         Collections.shuffle(this.playersList);
         this.currentPlayer = this.playersList.get(0);
+        this.playersList.get(1).setInitialResources(1);
+        if (playersList.get(2) != null)
+            this.playersList.get(2).setInitialResources(1);
+        if (playersList.get(3) != null)
+            this.playersList.get(3).setInitialResources(2);
         // Assegno solo i punti fede agli altri giocatori. Le Risorse a scelta vengono selezionate tramite il controller
         for(int i = 2; i < this.playersList.size(); i++){
             try {
@@ -223,6 +228,7 @@ public class Game {
                 return false;
             }
             currentPlayer.getWarehouse().checkInsertion(0, convertStringToResource(initialResources.get(0)));
+            currentPlayer.setInitialResources(0);
             update.onUpdateWarehouse(currentPlayer, false);
             return true;
         }
@@ -240,6 +246,7 @@ public class Game {
                 currentPlayer.getWarehouse().checkInsertion(0, convertStringToResource(initialResources.get(0)));
                 currentPlayer.getWarehouse().checkInsertion(1, convertStringToResource(initialResources.get(1)));
             }
+            currentPlayer.setInitialResources(0);
             update.onUpdateWarehouse(currentPlayer, false);
             gameState = GameState.INGAME;
             return true;
@@ -581,7 +588,7 @@ public class Game {
     public boolean isRightResource (String resource) {
         String[] allResources = {"Coins", "Servants", "Shields", "Stones"};
         for (String r : allResources){
-            if (resource.equals(r))
+            if (resource.equals(r) || resource.equals(r.toUpperCase()))
                 return true;
         }
         return false;
@@ -887,16 +894,20 @@ public class Game {
     }
 
     public void endTurn () {
-        turnPhase = TurnPhase.DOTURN;
-        setCanDoProductionTrue();
-        try {
-            setCurrentPlayer();
-        } catch (EndGameException e) {
-            Player winner = playersList.get(getWinner());
-            givefinalpoints();
-            update.onUpdateWinnerMultiplayer(winner, playersList);
+        if (currentPlayer.getLeaderActionBox().size() == 2 && currentPlayer.getInitialResources() == 0) {
+            turnPhase = TurnPhase.DOTURN;
+            setCanDoProductionTrue();
+            try {
+                setCurrentPlayer();
+            } catch (EndGameException e) {
+                Player winner = playersList.get(getWinner());
+                givefinalpoints();
+                update.onUpdateWinnerMultiplayer(winner, playersList);
+            }
+            update.onUpdateCurrentPlayer(currentPlayer);
         }
-        update.onUpdateCurrentPlayer(currentPlayer);
+        else
+            update.onUpdateError("You can't end your turn.");
     }
 
     /**
@@ -985,4 +996,14 @@ public class Game {
     public int getNumPlayers() {
         return numPlayers;
     }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public UpdateCreator getUpdate() {
+        return update;
+    }
+
+
 }

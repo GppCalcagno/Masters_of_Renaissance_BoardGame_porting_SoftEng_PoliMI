@@ -84,6 +84,8 @@ public class Player {
 
     private int columnSlotDevCardToProduce;
 
+    private int initialResources;
+
     /**
      * This is the costructor of Player
      * @param nickname is the Nickname of the player
@@ -110,6 +112,8 @@ public class Player {
 
         this.currentDevCardToProduce = null;
         this.columnSlotDevCardToProduce = -1;
+
+        this.initialResources = 0;
     }
 
     /**
@@ -418,5 +422,13 @@ public class Player {
 
     public void setColumnSlotDevCardToProduce(int columnSlotDevCardToProduce) {
         this.columnSlotDevCardToProduce = columnSlotDevCardToProduce;
+    }
+
+    public int getInitialResources() {
+        return initialResources;
+    }
+
+    public void setInitialResources(int initialResources) {
+        this.initialResources = initialResources;
     }
 }
