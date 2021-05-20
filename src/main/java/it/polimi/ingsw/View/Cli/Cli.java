@@ -169,10 +169,6 @@ public class Cli implements ViewInterface {
         System.out.println(Color.ANSI_RED.escape()+error+Color.RESET);
     }
 
-    @Override
-    public void onUpdateRequestNumPlayers() {
-        askNumPlayer();
-    }
 
     @Override
     public void onUpdateDevCardDeck(String devCard) {
@@ -196,10 +192,6 @@ public class Cli implements ViewInterface {
             }
     }
 
-    @Override
-    public void onUpdateInfo(String info) {
-        System.out.println(info);
-    }
 
     @Override
     public void onUpdateMarketTray() {

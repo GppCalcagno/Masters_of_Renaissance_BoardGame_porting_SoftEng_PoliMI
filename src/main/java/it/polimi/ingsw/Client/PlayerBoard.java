@@ -165,6 +165,11 @@ public class PlayerBoard {
         }
     }
 
+    public void removemarblefromBuffer(boolean action){
+        if(isMyturn() && action)
+            marbleBuffer.remove(0);
+    }
+
     public void removeCardfromDevCardDeck (String ID) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {

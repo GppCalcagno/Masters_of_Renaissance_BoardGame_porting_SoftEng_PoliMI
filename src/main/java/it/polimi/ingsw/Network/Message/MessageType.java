@@ -58,6 +58,7 @@ public enum MessageType {
     UPDATEINITIALLEADERCARDS,
 
 /* ** UTILITY Message ** */
+    RECONNECT,
     FINISHEDGAME,
     ENDGAME,
     PING,

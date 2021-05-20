@@ -99,7 +99,6 @@ public class ClientSocket extends Observable {
                 sendMessage.writeObject(message);
             } catch (IOException e) {
                 CLOGGER.severe("EROOR: CAN'T SEND MESSAGE TO THE CONTROLLER");
-                e.printStackTrace();
             }
         }
     }

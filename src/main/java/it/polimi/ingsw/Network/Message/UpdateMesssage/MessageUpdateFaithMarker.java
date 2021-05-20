@@ -27,10 +27,7 @@ public class MessageUpdateFaithMarker extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.setFaithMarker(playersPosition,playersPopFavoriteTile);
-
-        if(removeMarblefromBuffer){
-            playerBoard.getMarbleBuffer().remove(0);
-        }
+        playerBoard.removemarblefromBuffer(removeMarblefromBuffer);
 
         view.onUpdateFaithMarker();
     }

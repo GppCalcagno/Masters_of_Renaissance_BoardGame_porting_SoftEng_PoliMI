@@ -83,7 +83,6 @@ public class ServerClientHandler implements Runnable, Observer {
         }
         catch (IOException | ClassNotFoundException | NullPointerException  e) {
             SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
-            e.printStackTrace();
             server.disconnect(ID);
         }
     }

@@ -23,10 +23,8 @@ public interface ViewInterface {
     void onUpdateInitialLeaderCards(List<String> leaderCard);
     void onUpdateActivatedDevCardProduction(String devCard);
     void onUpdateError(String error);
-    void onUpdateRequestNumPlayers();
     void onUpdateDevCardDeck(String devCard);
     void onUpdateFaithMarker();
-    void onUpdateInfo(String info);
     void onUpdateMarketTray();
     void onUpdatePlayerState(String nickname, boolean state);
     void onUpdateUpdateResources(); // solo current

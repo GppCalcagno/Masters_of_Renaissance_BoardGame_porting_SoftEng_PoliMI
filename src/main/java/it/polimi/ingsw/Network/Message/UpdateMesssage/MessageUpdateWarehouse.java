@@ -24,8 +24,7 @@ public class MessageUpdateWarehouse extends Message {
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.setWarehouse(warehouse,extraChest);
-        if(removeMarblefromBuffer)
-            playerBoard.getMarbleBuffer().remove(0);
+        playerBoard.removemarblefromBuffer(removeMarblefromBuffer);
         view.onUpdateWarehouse();
     }
 

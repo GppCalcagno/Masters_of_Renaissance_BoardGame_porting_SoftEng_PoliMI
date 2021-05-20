@@ -109,7 +109,7 @@ public class Game {
         } while(!playersList.get(i).getConnected());
 
         currentPlayer=playersList.get(i);
-        update.onUpdateCurrentPlayer(currentPlayer);
+        //update.onUpdateCurrentPlayer(currentPlayer);
     }
 
     /**
@@ -192,11 +192,6 @@ public class Game {
     }
 
     public boolean chooseInitialLeaderCards (int i1, int i2) {
-        if (gameState != GameState.INITGAME) {
-            update.onUpdateError(currentPlayer.getNickname(),"You have already chosen your Leader cards.");
-            return false;
-        }
-
         if (currentPlayer.getLeaderActionBox().size() == 4) {
             if (i1 < 0 || i1 > 3 || i2 < 0 || i2 > 3 || i1 == i2) {
                 update.onUpdateError(currentPlayer.getNickname(),"Wrong indexes.");
@@ -207,7 +202,9 @@ public class Game {
             currentPlayer.getLeaderActionBox().clear();
             currentPlayer.getLeaderActionBox().add(d1);
             currentPlayer.getLeaderActionBox().add(d2);
-            update.onUpdateInitialLeaderCards(currentPlayer, currentPlayer.getLeaderActionBox());
+            if(currentPlayer.getInitialResources()==0)
+
+            update.onUpdateInitialLeaderCards(currentPlayer,currentPlayer.getLeaderActionBox());
             return true;
         }
         else {
@@ -895,20 +892,31 @@ public class Game {
     }
 
     public void endTurn () {
-        if (currentPlayer.getLeaderActionBox().size() == 2 && currentPlayer.getInitialResources() == 0) {
-            turnPhase = TurnPhase.DOTURN;
-            setCanDoProductionTrue();
-            try {
-                setCurrentPlayer();
-            } catch (EndGameException e) {
-                Player winner = playersList.get(getWinner());
-                givefinalpoints();
-                update.onUpdateWinnerMultiplayer(winner, playersList);
+        if (currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
+
+            boolean isINGAME = true;
+            for (Player p : playersList) {
+                if (p.getInitialResources() > 1 || p.getLeaderActionBox().size() == 4)
+                    isINGAME = false;
             }
-            update.onUpdateCurrentPlayer(currentPlayer);
+
+            if (isINGAME) gameState=GameState.INITGAME;
+
+                if (turnPhase == TurnPhase.ENDTURN) {
+                    turnPhase = TurnPhase.DOTURN;
+                    setCanDoProductionTrue();
+                    try {
+                        setCurrentPlayer();
+                    } catch (EndGameException e) {
+                        Player winner = playersList.get(getWinner());
+                        givefinalpoints();
+                        update.onUpdateWinnerMultiplayer(winner, playersList);
+                    }
+                    update.onUpdateCurrentPlayer(currentPlayer);
+                } else
+                    update.onUpdateError(currentPlayer.getNickname(), "You can't end your turn, Choose a Turn Action.");
         }
-        else
-            update.onUpdateError(currentPlayer.getNickname(),"You can't end your turn.");
+
     }
 
     /**
