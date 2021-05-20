@@ -54,13 +54,14 @@ public class ActionParser {
                     case "ENDPRODUCTION": endProduction(parts);                     break;
                     case "SHOW": show(parts);                                       break;
                     case "HELP": help(parts);                                       break;
+                    case "HELPSHOW": helpShow(parts);                               break;
                     default:
-                        System.out.println("The command doesn't exist!");
+                        System.out.println(Color.ANSI_RED.escape() +"The command doesn't exist!" + Color.RESET);
                 }
             } catch (ArrayIndexOutOfBoundsException e){
-                    System.out.println("The command need more parameters, please write it correctly");
+                    System.out.println(Color.ANSI_RED.escape() +"The command need more parameters, please write it correctly" + Color.RESET);
             } catch (NumberFormatException n){
-                System.out.println("The command need at least a number, please insert it correctly");
+                System.out.println(Color.ANSI_RED.escape() +"The command need at least a number, please insert it correctly"+ Color.RESET);
             } catch (MessageFormatErrorException e) {
                 System.out.println(e.getMessage());
             }
@@ -110,7 +111,7 @@ public class ActionParser {
 
     public void payResources(String[] parts) throws MessageFormatErrorException {
         int i=1;
-        if((parts.length-1)%3!=0) throw new MessageFormatErrorException("Command format Error");
+        if((parts.length-1)%3!=0) throw new MessageFormatErrorException(Color.ANSI_RED.escape() +"Command format Error" + Color.RESET);
 
         Map<String,Integer> warehouse=new HashMap<>();
         Map<String,Integer> strongBox=new HashMap<>();
@@ -136,11 +137,11 @@ public class ActionParser {
                                 old=extraChest.get(parts[i+1]);
                             extraChest.put(parts[i+1],old+ Integer.parseInt(parts[i+2]));
                             break;
-                        default: throw new MessageFormatErrorException("Type of Storage not Correct");
+                        default: throw new MessageFormatErrorException(Color.ANSI_RED.escape() +"Type of Storage not Correct" +Color.RESET);
                     }
                 }
                 else
-                    throw new MessageFormatErrorException("Type of Resources not Correct");
+                    throw new MessageFormatErrorException(Color.ANSI_RED.escape() + "Type of Resources not Correct" + Color.RESET);
                 i+=3;
             }//fine while
         controller.sendMessage(new MessagePayResources(playerBoard.getNickname(),warehouse,strongBox,extraChest));
@@ -176,6 +177,7 @@ public class ActionParser {
         cli.help();
     }
 
+    public void helpShow(String[] parts){ cli.helpShow();}
     /**
      * this method call the right cli's method, where it shows what player wants
      * @param parts
@@ -195,7 +197,7 @@ public class ActionParser {
                 case "LEADERCARD": cli.showLeaderAction(parts[2]);break;
                 case "LORENZOTURN": cli.showLorenzoTrun();          break;
                 default:
-                    System.out.println("Nothing to show...");
+                    System.out.println(Color.ANSI_RED.escape() +"Nothing to show..." + Color.RESET);
                     break;
         }
     }

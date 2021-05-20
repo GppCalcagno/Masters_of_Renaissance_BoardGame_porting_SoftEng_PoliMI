@@ -34,7 +34,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void start(){
-        ViewStart viewstart = new ViewStart();
+        new ViewStart();
         askServerInfo();
     }
 
@@ -56,7 +56,7 @@ public class Cli implements ViewInterface {
         try {
             out.print("Please enter server port [\"D\" for default : 1234]: ");
             String bufferPort= in.nextLine();
-            serverPort=1234;;
+            serverPort=1234;
             if(!bufferPort.equals("D"))
                 serverPort= Integer.parseInt(bufferPort);
             repeat=false;
@@ -99,10 +99,10 @@ public class Cli implements ViewInterface {
         clearboard();
 
         out.println("Game is started. You have been assigned 4 leader cards. You have to choose only 2. Use the command: \n" +
-                Color.ANSI_YELLOW.escape()+"\tchooseleadercards <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n"+
-                Color.ANSI_YELLOW.escape()+"\tshow leadercard <String ID>" +  Color.RESET+ " to see the card\n"+
+                Color.ANSI_YELLOW.escape()+"\tCHOOSELEADERCARDS <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n"+
+                Color.ANSI_YELLOW.escape()+"\tSHOW LEADERCARD <String ID>" +  Color.RESET+ " to see the card\n"+
                 "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resourcesUse the command: \n"+
-                Color.ANSI_YELLOW.escape()+"\tchooseresources <String Resources> <String Resources>" +  Color.RESET+ " to seelect the Resources (Stones,Shields,Servants,Coins)\n"
+                Color.ANSI_YELLOW.escape()+"\tCHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to seelect the Resources (Stones,Shields,Servants,Coins)\n"
                 );
         showLeaderActionBox();
 
@@ -113,13 +113,22 @@ public class Cli implements ViewInterface {
         else
         {
             out.println("it's "+playerBoard.getCurrentPlayer()+ " turn!");
+            out.println("Wait until is your turn...");
         }
     }
 
     @Override
     public void onUpdateCurrPlayer() {
         if(playerBoard.isMyturn()){
-            out.println("Is your turn, please insert a command, type HELP to see all commands");
+            out.println("Is your turn, please insert a command, type HELP to see all commands\n");
+            out.println(Color.ANSI_YELLOW.escape()+"\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
+                    "\n -- <r/c> select row or column of the marketTray" +
+                    "\n -- <num> the number or the row or the column\n" +
+                    Color.ANSI_YELLOW.escape()+"\t BUYDEVCARD <ID> <positon>" + Color.RESET +
+                    "\n -- <ID> is the id of the devCard" +
+                    "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
+                    Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
+                    "\n -- <ID> the id of one of yours devCard that can be activated to do a production\n");
         }
         else System.out.println("Is " + playerBoard.getCurrentPlayer() + "'s turn.");
     }
@@ -135,13 +144,29 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateActivatedDevCardProduction(String devCard) {
-        if(playerBoard.isMyturn()) System.out.println("You activated : " + devCard);
+        if(playerBoard.isMyturn()){
+            out.println("You activated : " + devCard);
+            out.println("Now you can activate another production between :" +
+                    Color.ANSI_YELLOW.escape()+"\t ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>" + Color.RESET +
+                    "\n -- <resource wanted> is the resource you want to be produced" +
+                    "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
+                    "\n -- <resource> the resource you want to be as payment for the production\n" +
+                    Color.ANSI_YELLOW.escape()+"\nACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET + "     only if you have a leader card with as effect an extraproduction" +
+                    "\n -- <ID> the id of the leader card" +
+                    "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
+                    "\n -- <resource> the resource you want to be as payment for the production\n" +
+                    Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
+                    "\n -- <ID> the id of one of yours devCard that can be activated to do a production\n");
+            out.println("Or you can type :" +
+                    Color.ANSI_YELLOW.escape()+"\t ENDPRODUCTION  "+Color.RESET+"      to finish your production but not the turn so you can do other actions\n" +
+                    Color.ANSI_YELLOW.escape()+"\t ENDTURN "+Color.RESET+"    to finish your turn\n");
+        }
         else System.out.println(playerBoard.getCurrentPlayer() + " activated " + devCard);
     }
 
     @Override
     public void onUpdateError(String error) {
-        System.out.println(error);
+        System.out.println(Color.ANSI_RED.escape()+error+Color.RESET);
     }
 
     @Override
@@ -153,8 +178,8 @@ public class Cli implements ViewInterface {
     public void onUpdateDevCardDeck(String devCard) {
         if(playerBoard.isMyturn()){
             System.out.println("You selected : " + devCard);
-            System.out.println("Now you have to pay it. " +
-                    "\n PAYRESOURCES <W/S/E> <resource> <number>    repeat all parameters for every different resource or every different structure the resource come from" +
+            System.out.println("Now you have to pay it. \n" +
+                    Color.ANSI_YELLOW.escape() +"\tPAYRESOURCES <W/S/E> <resource> <number> "+Color.RESET+"   repeat all parameters for every different resource or every different structure the resource come from" +
                     "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
                     "\n -- <resource> the resource needed for the payment" +
                     "\n -- <number> how many resources");
@@ -164,8 +189,11 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateFaithMarker() {
-        if (playerBoard.isMyturn()) System.out.println("This is your new faithMarker's position : " + playerBoard.getFaithMarker());
-        else System.out.println(playerBoard.getCurrentPlayer() + "'s faithMarker is now at : " + playerBoard.getPlayersFaithMarkerPosition().get(playerBoard.getCurrentPlayer()));
+            out.println("This is your new faithMarker's position : " + playerBoard.getFaithMarker());
+            for (String nickname : playerBoard.getPlayerList()) {
+                if (!nickname.equals(playerBoard.getNickname()))
+                    out.println(nickname + "'s faithMarker is now at : " + playerBoard.getPlayersFaithMarkerPosition().get(playerBoard.getCurrentPlayer()));
+            }
     }
 
     @Override
@@ -178,8 +206,8 @@ public class Cli implements ViewInterface {
         if(playerBoard.isMyturn()){
             System.out.println("You changed the marketTray");
             if(playerBoard.getMarbleBuffer()!=null)
-            System.out.println("Now you have to manage marbles you extracted" +
-                    "\n MANAGEMARBLE <W/E/D> <row W> <resource>" +
+            System.out.println("You have to manage marbles you extracted\n" +
+                    Color.ANSI_YELLOW.escape() +"\t MANAGEMARBLE <W/E/D> <row W> <resource>" + Color.RESET +
                     "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
                     "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
                     "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want");
@@ -195,7 +223,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateUpdateResources() {
-        if (playerBoard.isMyturn()) System.out.println("You update your Resources");
+        if (playerBoard.isMyturn()) System.out.println("Your resources have changed\n");
     }
 
     @Override
@@ -239,14 +267,14 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateWinnerSinglePlayer() {
-        if(playerBoard.getPlayerWinner()==playerBoard.getCurrentPlayer()) System.out.println("You WIN with " + playerBoard.getPlayersPoints());
+        if(playerBoard.getPlayerWinner().equals(playerBoard.getCurrentPlayer())) System.out.println("You WIN with " + playerBoard.getPlayersPoints());
         else System.out.println("Lorenzo win, try again...");
     }
 
 
     /**
      * this method print the message it receives
-     * @param message
+     * @param message message to print
      */
     @Override
     public void showMessage(String message) {
@@ -329,40 +357,58 @@ public class Cli implements ViewInterface {
      * this method print the allowed command that the player can write from his cli
      */
     public void help(){
-        System.out.println("Please insert a command: " +
-                "\n EXTRACTIONMARBLE <r/c> <num>" +
+        System.out.println("Please insert a command:\n " +
+                Color.ANSI_YELLOW.escape()+"\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
                 "\n -- <r/c> select row or column of the marketTray" +
-                "\n -- <num> the number or the row or the column" +
-                "\n MANAGEMARBLE <W/E/D> <row W> <resource>" +
+                "\n -- <num> the number or the row or the column\n" +
+                Color.ANSI_YELLOW.escape()+"\t MANAGEMARBLE <W/E/D> <row W> <resource>" + Color.RESET +
                 "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
                 "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
-                "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want" +
-                "\n EXCHANGEWAREHOUSE <row1> <row2>" +
-                "\n -- <row1> && <row2> are the rows you want to switch" +
-                "\n BUYDEVCARD <ID> <positon>" +
+                "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want\n" +
+                Color.ANSI_YELLOW.escape()+"\t EXCHANGEWAREHOUSE <row1> <row2>" + Color.RESET +
+                "\n -- <row1> && <row2> are the rows you want to switch\n" +
+                Color.ANSI_YELLOW.escape()+"\t BUYDEVCARD <ID> <positon>" + Color.RESET +
                 "\n -- <ID> is the id of the devCard" +
-                "\n -- <position> where you want to stored the card in your SlotDevCard" +
-                "\n PAYRESOURCES <W/S/E> <resource> <number>    repeat all parameters for every different resource or every different structure the resource come from" +
+                "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
+                Color.ANSI_YELLOW.escape()+"\t PAYRESOURCES <W/S/E> <resource> <number> "+Color.RESET+"   repeat all parameters for every different resource or every different structure the resource come from" +
                 "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
                 "\n -- <resource> the resource needed for the payment" +
-                "\n -- <number> how many resources" +
-                "\n ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>" +
+                "\n -- <number> how many resources\n" +
+                Color.ANSI_YELLOW.escape()+"\t ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>" + Color.RESET +
                 "\n -- <resource wanted> is the resource you want to be produced" +
                 "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
-                "\n -- <resource> the resource you want to be as payment for the production" +
-                "\nACTIVELEADERACTIONPROD <ID> <W/S/E> <resource>      only if you have a leader card with as effect an extraproduction" +
+                "\n -- <resource> the resource you want to be as payment for the production\n" +
+                Color.ANSI_YELLOW.escape()+"\nACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET + "     only if you have a leader card with as effect an extraproduction" +
                 "\n -- <ID> the id of the leader card" +
                 "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
-                "\n -- <resource> the resource you want to be as payment for the production" +
-                "\n ACTIVEDEVCARDPRODUCTION <ID>" +
+                "\n -- <resource> the resource you want to be as payment for the production\n" +
+                Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
                 "\n -- <ID> the id of one of yours devCard that can be activated to do a production" +
-                "\n UPDATELEADERCARD <ID> <0/1>" +
+                Color.ANSI_YELLOW.escape()+"\n UPDATELEADERCARD <ID> <0/1>" + Color.RESET+
                 "\n -- <ID> id of one of your leader card" +
-                "\n -- <0/1> 0=discard, 1=active" +
-                "\n ENDPRODUCTION        when you want to finish your production but not the turn" +
-                "\n ENDTURN     when you want to finish your turn" +
-                "\n SHOW <object> " +
-                "\n -- <object> is something you want to be shown");
+                "\n -- <0/1> 0=discard, 1=active\n" +
+                Color.ANSI_YELLOW.escape()+"\t ENDPRODUCTION  "+Color.RESET+"      when you want to finish your production but not the turn\n" +
+                Color.ANSI_YELLOW.escape()+"\t ENDTURN "+Color.RESET+"    when you want to finish your turn\n" +
+                Color.ANSI_YELLOW.escape()+"\t SHOW <object> " + Color.RESET +
+                "\n -- <object> is something you want to be shown, tipe "+Color.ANSI_YELLOW.escape()+"HELPSHOW"+Color.RESET+" to see what you can show");
+    }
+
+    public void helpShow(){
+        out.println("Type :" +
+                Color.ANSI_YELLOW.escape()+"\t LEADERACTIONBOX " + Color.RESET + " to show your leaderCard and their state \n"+
+                Color.ANSI_YELLOW.escape()+"\t SLOTDEVCARD " + Color.RESET + " to show your slotDevCard \n"+
+                Color.ANSI_YELLOW.escape()+"\t WAREHOUSE " + Color.RESET + " to show your warehouse \n"+
+                Color.ANSI_YELLOW.escape()+"\t STRONGBOX " + Color.RESET + " to show your strongbox \n"+
+                Color.ANSI_YELLOW.escape()+"\t FAITHTRACK " + Color.RESET + " to show your faithMarker in your faithTrack \n"+
+                Color.ANSI_YELLOW.escape()+"\t MARKETTRAY " + Color.RESET + " to show marketTray \n"+
+                Color.ANSI_YELLOW.escape()+"\t DEVCARDDECK " + Color.RESET + " to show the devCardDeck \n"+
+                Color.ANSI_YELLOW.escape()+"\t EXTRACHEST " + Color.RESET + " to show your extraChest, if you have one \n"+
+                Color.ANSI_YELLOW.escape()+"\t DEVCARD <ID> " + Color.RESET + " to show the devCard that has that ID \n"+
+                Color.ANSI_YELLOW.escape()+"\t LEADERCARD <ID> " + Color.RESET + " to show the leaderCard that has that ID \n"+
+                Color.ANSI_YELLOW.escape()+"\t LEADERACTIONBOX " + Color.RESET + " to show your leaderCard and their state \n");
+        if(playerBoard.getplayernumber()==1)
+            out.println(Color.ANSI_YELLOW.escape()+"\t LORENZOTURN " + Color.RESET + " to show Lorenzo's last turn and which token he used \n");
+
     }
 
     public void clearboard(){
