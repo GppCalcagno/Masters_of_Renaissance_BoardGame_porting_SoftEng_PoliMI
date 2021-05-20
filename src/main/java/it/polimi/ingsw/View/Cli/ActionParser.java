@@ -94,12 +94,12 @@ public class ActionParser {
     public void manageMarble(String[] parts){
         String resources=null;
         int row=-1;
-        int structure = -1;
+        char structure;
 
-        structure = Integer.parseInt(parts[1]);
-        if(parts.length>1){
+        structure = parts[1].charAt(0);
+        if(parts.length>2){
             row = Integer.parseInt(parts[2]);
-            if(parts.length>2)
+            if(parts.length>3)
                 resources = parts[3];
         }
         controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), structure, row, resources));

@@ -30,7 +30,7 @@ class MarketStructureTest {
     @Test
     void extractMarblesColumn() throws IOException {
         MarketStructure marketTest = new MarketStructure();
-        assertTrue(marketTest.extractMarbles('c', 2));
+        assertTrue(marketTest.extractMarbles('C', 2));
 
         assertFalse(marketTest.getBuffer().isEmpty());
     }
@@ -38,7 +38,7 @@ class MarketStructureTest {
     @Test
     void extractMarblesRow() throws IOException {
         MarketStructure marketTest = new MarketStructure();
-        assertTrue(marketTest.extractMarbles('r', 2));
+        assertTrue(marketTest.extractMarbles('R', 2));
 
         assertFalse(marketTest.getBuffer().isEmpty());
     }
@@ -47,7 +47,7 @@ class MarketStructureTest {
     void extractMarblesRowError() throws IOException {
         MarketStructure marketTest = new MarketStructure();
         try{
-            assertFalse(marketTest.extractMarbles('r', 3));
+            assertFalse(marketTest.extractMarbles('R', 3));
         }
         catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
     }

@@ -305,7 +305,7 @@ public class Game {
      * @param indexWarehouse row's index in which the client want to add the marble
      * @return true if the add is right
      */
-    public boolean manageMarble(int choice, int indexWarehouse, String resourceWhiteMarble) {
+    public boolean manageMarble(char choice, int indexWarehouse, String resourceWhiteMarble) {
         if (!marketStructure.getBuffer().isEmpty()) {
             if (!currentPlayer.getLeaderCardEffectWhiteMarble().isEmpty()) {
                 if (resourceWhiteMarble == null && indexWarehouse != 2) {
@@ -316,69 +316,67 @@ public class Game {
                     currentPlayer.chooseResourceWhiteMarbleEffect(resourceWhiteMarble);
                 }
             }
-            if (choice == 0) {
-                if (indexWarehouse < 0 || indexWarehouse > 2) {
-                    update.onUpdateError(currentPlayer.getNickname(),"You have put a wrong Warehouse's index.");
-                    return false;
-                }
-                try {
-                    int faithMarker = currentPlayer.getFaithMarker();
-                    if (marketStructure.getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
+            switch (choice) {
+                case 'W' :
+                    if (indexWarehouse < 0 || indexWarehouse > 2) {
+                        update.onUpdateError(currentPlayer.getNickname(),"You have put a wrong Warehouse's index.");
+                        return false;
+                    }
+                    try {
+                        int faithMarker = currentPlayer.getFaithMarker();
+                        if (marketStructure.getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
+                            marketStructure.getBuffer().remove(0);
+                            if (faithMarker == currentPlayer.getFaithMarker())
+                                update.onUpdateWarehouse(currentPlayer, true);
+                            else update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                            return true;
+                        }
+                        else {
+                            update.onUpdateError(currentPlayer.getNickname(),"You can not add a resource into the Warehouse.");
+                            return false;
+                        }
+                    } catch (ActiveVaticanReportException activeVaticanReportException) {
                         marketStructure.getBuffer().remove(0);
-                        if (faithMarker == currentPlayer.getFaithMarker())
-                            update.onUpdateWarehouse(currentPlayer, true);
-                        else update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                        try {
+                            faithTrack.checkPopeSpace(playersList, 0);
+                        } catch (GameFinishedException e) {
+                            if (isFinishedGame())
+                                update.onUpdateGameFinished();
+                        }
+                        update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                        return true;
+                    }
+                case 'E' :
+                    if (marketStructure.getBuffer().get(0).addToExtraChest(currentPlayer)) {
+                        marketStructure.getBuffer().remove(0);
+                        update.onUpdateWarehouse(currentPlayer, true);
                         return true;
                     }
                     else {
-                        update.onUpdateError(currentPlayer.getNickname(),"You can not add a resource into the Warehouse.");
+                        update.onUpdateError(currentPlayer.getNickname(),"You can not add a resource into Extra Chest.");
                         return false;
                     }
-                } catch (ActiveVaticanReportException activeVaticanReportException) {
-                    marketStructure.getBuffer().remove(0);
-                    try {
-                        faithTrack.checkPopeSpace(playersList, 0);
-                    } catch (GameFinishedException e) {
-                        if (isFinishedGame())
-                            update.onUpdateGameFinished();
-                    }
-                    update.onUpdateFaithMarker(currentPlayer, playersList, true);
-                    return true;
-                }
-            }
-            else if (choice == 1) {
-                if (marketStructure.getBuffer().get(0).addToExtraChest(currentPlayer)) {
-                    marketStructure.getBuffer().remove(0);
-                    update.onUpdateWarehouse(currentPlayer, true);
-                    return true;
-                }
-                else {
-                    update.onUpdateError(currentPlayer.getNickname(),"You can not add a resource into Extra Chest.");
-                    return false;
-                }
-            }
-            else if (choice == 2) {
-                marketStructure.discardMarbles(marketStructure.getBuffer().get(0));
-                for (Player p : playersList) {
-                    if (!p.equals(currentPlayer)) {
-                        try {
-                            p.increasefaithMarker();
-                        } catch (ActiveVaticanReportException e) {
+                case 'D' :
+                    marketStructure.discardMarbles(marketStructure.getBuffer().get(0));
+                    for (Player p : playersList) {
+                        if (!p.equals(currentPlayer)) {
                             try {
-                                faithTrack.checkPopeSpace(playersList, 0);
-                            } catch (GameFinishedException gameFinishedException) {
-                                if (isFinishedGame())
-                                    update.onUpdateGameFinished();
+                                p.increasefaithMarker();
+                            } catch (ActiveVaticanReportException e) {
+                                try {
+                                    faithTrack.checkPopeSpace(playersList, 0);
+                                } catch (GameFinishedException gameFinishedException) {
+                                    if (isFinishedGame())
+                                        update.onUpdateGameFinished();
+                                }
                             }
                         }
                     }
-                }
-                update.onUpdateFaithMarker(currentPlayer, playersList, true);
-                return true;
-            }
-            else {
-                update.onUpdateError(currentPlayer.getNickname(),"Wrong choice.");
-                return false;
+                    update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                    return true;
+                default:
+                    update.onUpdateError(currentPlayer.getNickname(),"Wrong choice.");
+                    return false;
             }
         }
         else {

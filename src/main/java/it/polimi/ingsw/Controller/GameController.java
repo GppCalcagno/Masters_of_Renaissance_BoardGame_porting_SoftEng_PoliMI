@@ -133,7 +133,7 @@ public class GameController {
         return game.extractionMarble(colrowextract, numextract);
     }
 
-    public boolean manageMarble(int choice, int indexWarehouse, String resourceWhiteMarble) {
+    public boolean manageMarble(char choice, int indexWarehouse, String resourceWhiteMarble) {
         return game.manageMarble(choice, indexWarehouse, resourceWhiteMarble);
     }
 

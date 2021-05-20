@@ -209,7 +209,7 @@ class GameTest {
         game.addPlayersList(player1);
         game.startgame();
 
-        assertTrue(game.extractionMarble('c', 1));
+        assertTrue(game.extractionMarble('C', 1));
     }
 
     @Test
@@ -240,8 +240,8 @@ class GameTest {
         game.addPlayersList(player1);
         game.startgame();
 
-        assertTrue(game.extractionMarble('c', 1));
-        assertTrue(game.manageMarble(0, 2, " "));
+        assertTrue(game.extractionMarble('C', 1));
+        assertTrue(game.manageMarble('W', 2, " "));
     }
 
     @Test
@@ -251,8 +251,8 @@ class GameTest {
         game.addPlayersList(player1);
         game.startgame();
 
-        assertTrue(game.extractionMarble('c', 1));
-        assertTrue(game.manageMarble(2, 0, " "));
+        assertTrue(game.extractionMarble('C', 1));
+        assertTrue(game.manageMarble('D', 0, " "));
     }
 
     @Test
@@ -260,10 +260,13 @@ class GameTest {
         Game game = new Game(new UpdateCreator(new Server(1234)));
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
+        Player player2 = new Player("Anno");
+        game.addPlayersList(player2);
         game.startgame();
+        //game.setTurnPhase(TurnPhase.DOTURN);
 
-        assertTrue(game.extractionMarble('c', 1));
-        assertTrue(game.manageMarble(0, 0, " "));
+        assertTrue(game.extractionMarble('C', 1));
+        assertTrue(game.manageMarble('W', 0, " "));
         assertTrue(game.exchangeWarehouse(0, 1));
     }
 

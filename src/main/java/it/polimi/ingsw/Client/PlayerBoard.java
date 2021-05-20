@@ -87,6 +87,7 @@ public class PlayerBoard {
             System.out.println("CAN'T LOAD CARD! CHECH GSON FILE");
             System.exit(0);
         }
+        marbleBuffer = new ArrayList<>();
     }
 
     public void setNickname(String name){
@@ -142,7 +143,7 @@ public class PlayerBoard {
     public void updateMarketTray(char direction, int n){
         String temp = remainingMarble;
         switch (direction) {
-            case 'c':
+            case 'C':
                 if (isMyturn()) {
                     for (int i = 0; i < 3; i++) marbleBuffer.add(marketTray[i][n]);
                 }
@@ -151,7 +152,7 @@ public class PlayerBoard {
                 marketTray[1][n] = marketTray[2][n];
                 marketTray[2][n] = temp;
                 break;
-            case 'r':
+            case 'R':
                 if (isMyturn()) {
                     for (int i = 0; i < 4; i++) marbleBuffer.add(marketTray[n][i]);
                 }

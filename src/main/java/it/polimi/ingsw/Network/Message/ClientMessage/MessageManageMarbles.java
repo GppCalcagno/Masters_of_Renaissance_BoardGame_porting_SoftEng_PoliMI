@@ -7,11 +7,11 @@ import it.polimi.ingsw.Network.Message.MessageType;
 public class MessageManageMarbles extends Message {
     private static final long serialVersionUID = 5253235709158532912L;
 
-    private int structure;
+    private char structure;
     private int row;
     private String changeFromWithe;
 
-    public MessageManageMarbles(String nickname, int structure, int row, String changeFromWithe) {
+    public MessageManageMarbles(String nickname, char structure, int row, String changeFromWithe) {
         super(nickname, MessageType.MANAGEMARBLES);
         this.structure = structure;
         this.row = row;
