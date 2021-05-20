@@ -25,4 +25,9 @@ public abstract class Marbles {
      * @return true if the add is successful
      */
     public abstract boolean addToExtraChest (Player p);
+
+
+    public String toString(){
+        return "abstract";
+    }
 }

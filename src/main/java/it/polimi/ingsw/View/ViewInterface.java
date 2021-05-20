@@ -40,7 +40,6 @@ public interface ViewInterface {
 
     /* ************************************ INITGAME PHASE ******************************** */
     /* ************************************ INGAME PHASE ******************************** */
-    void inputFromPlayer();
     /* ************************************ SHOW PHASE ******************************** */
     void showMessage(String message);
 

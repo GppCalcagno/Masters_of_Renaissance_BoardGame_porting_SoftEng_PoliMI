@@ -6,9 +6,7 @@ import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageUpdateStateLeaderAction;
 import it.polimi.ingsw.model.exceptions.MessageFormatErrorException;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class ActionParser {
     /**
@@ -37,9 +35,12 @@ public class ActionParser {
      */
     public void commandParser(String input) {
         String [] parts = input.toUpperCase(Locale.ROOT).split(" ");
+        if(!playerBoard.isMyturn()) return;
         if (parts[0] != "") {
             try {
                 switch (parts[0]) {
+                    case "CHOOSELEADERCARDS": chooseleadercars(parts);              break;
+                    case "CHOOSERESOURCES": chooseresources(parts);                 break;
                     case "EXTRACTIONMARBLE": extractMarble(parts);                  break;
                     case "MANAGEMARBLE":  manageMarble(parts);                      break;
                     case "EXCHANGEWAREHOUSE": exchangeWarehouse(parts);             break;
@@ -54,6 +55,7 @@ public class ActionParser {
                     case "SHOW": show(parts);                                       break;
                     case "HELP": help(parts);                                       break;
                     default:
+                        System.out.println("The command doesn't exist!");
                 }
             } catch (ArrayIndexOutOfBoundsException e){
                     System.out.println("The command need more parameters, please write it correctly");
@@ -64,6 +66,20 @@ public class ActionParser {
             }
         }
     }
+
+    private void chooseresources(String[] parts) {
+        List<String> resources= new ArrayList<>();
+        for(int i=1;i<parts.length;i++){
+            resources.add(parts[i]);
+        }
+        controller.sendMessage(new MessageChooseResourcesFirstTurn(playerBoard.getNickname(),resources));
+    }
+
+    private void chooseleadercars(String[] parts) {
+        controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
+    }
+
+
 
 
     public void extractMarble(String[] parts) {
@@ -165,7 +181,7 @@ public class ActionParser {
      * @param parts
      */
     public void show(String[] parts){
-        if(parts[0]=="SHOW"){
+        System.out.println(parts[1]);
             switch(parts[1].toUpperCase(Locale.ROOT)){
                 case "LEADERACTIONBOX": cli.showLeaderActionBox();  break;
                 case "SLOTDEVCARD": cli.showSlotDevCard();          break;
@@ -176,12 +192,11 @@ public class ActionParser {
                 case "DEVCARDDECK": cli.showDevCardDeck();          break;
                 case "EXTRACHEST": cli.showExtraChest();            break;
                 case "DEVCARD": cli.showDevCard(parts[2]);          break;
-                case "LEADERACTION": cli.showLeaderAction(parts[2]);break;
+                case "LEADERCARD": cli.showLeaderAction(parts[2]);break;
                 case "LORENZOTURN": cli.showLorenzoTrun();          break;
                 default:
                     System.out.println("Nothing to show...");
                     break;
-            }
         }
     }
 

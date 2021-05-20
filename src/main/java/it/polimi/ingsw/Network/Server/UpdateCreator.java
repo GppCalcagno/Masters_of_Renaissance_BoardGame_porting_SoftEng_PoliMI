@@ -41,8 +41,7 @@ public class UpdateCreator {
     }
 
     public void onUpdateStartGame(DevelopmentCard[][][] developmentCardDeck, List<Player> playersList , Marbles[][] marketTray, Marbles remainingMarble){
-        String[][][] stringdevCardDeck = new String[3][4][4];
-        stringdevCardDeck =devCardDeckConvert(developmentCardDeck);
+        String[][][] stringdevCardDeck =devCardDeckConvert(developmentCardDeck);
 
         String [][] stringmarketTray = new String[3][4];
         for (int i = 0; i < 3; i++) {

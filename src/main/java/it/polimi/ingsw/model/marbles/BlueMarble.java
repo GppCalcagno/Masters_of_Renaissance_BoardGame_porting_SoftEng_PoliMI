@@ -38,4 +38,9 @@ public class BlueMarble extends Marbles {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Shields";
+    }
 }

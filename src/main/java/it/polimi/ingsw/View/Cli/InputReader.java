@@ -4,12 +4,11 @@ import java.util.Scanner;
 
 public class InputReader implements Runnable{
 
-    ActionParser parser;
-    Scanner input;
-
+    private ActionParser parser;
+    private Scanner input;
 
     public InputReader(ActionParser parser) {
-        Scanner input = new Scanner(System.in);
+        this.input = new Scanner(System.in);
         this.parser = parser;
     }
 
@@ -18,9 +17,11 @@ public class InputReader implements Runnable{
      */
     @Override
     public void run() {
-        input.reset();
-        String line = input.nextLine();
-        parser.commandParser(line);
+        while (true){
+            String line = input.nextLine();
+            parser.commandParser(line);
+        }
+
     }
 
 

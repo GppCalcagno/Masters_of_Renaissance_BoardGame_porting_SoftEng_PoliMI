@@ -7,6 +7,8 @@ import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.ViewInterface;
 
 import java.io.PrintStream;
+import java.lang.management.ThreadInfo;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +18,7 @@ public class Cli implements ViewInterface {
     private ActionParser parser;
     private final PrintStream out;
     private ClientController controller;
-    private InputReader input;
+    private Thread inThread;
 
     /**
      * @param playerBoard playerìs board
@@ -27,24 +29,13 @@ public class Cli implements ViewInterface {
         this.playerBoard = playerBoard;
         this.controller = controller;
         out = System.out;
-        input = new InputReader(parser);
-        out.println("sono la cli");
+        inThread= new Thread(new InputReader(parser));
     }
+
     @Override
     public void start(){
-        gameStart();
+        ViewStart viewstart = new ViewStart();
         askServerInfo();
-    }
-
-
-    /**
-     * this method calls InputReader and read the input inserted by the player
-     */
-    @Override
-    public void inputFromPlayer() {
-        while (playerBoard.isMyturn()) {
-            input.run();
-        }
     }
 
     /**
@@ -53,22 +44,35 @@ public class Cli implements ViewInterface {
     @Override
     public void askServerInfo() {
         Scanner in= new Scanner(System.in);
-        out.println("\n");
-        out.println("Please enter server IP [default: 127.0.0.1]: ");
+        out.print("Please enter server IP [\"D\" for default: 127.0.0.1]: ");
         String serverAddress = in.nextLine();
-        out.println("\n");
-        out.println("Please enter server port [default : 1234]: ");
-        int serverPort = in.nextInt();
+        if(serverAddress.equals("D"))
+            serverAddress="127.0.0.1";
+        in.reset();
+
+        boolean repeat=true;
+        int serverPort=0;
+        while (repeat)
+        try {
+            out.print("Please enter server port [\"D\" for default : 1234]: ");
+            String bufferPort= in.nextLine();
+            serverPort=1234;;
+            if(!bufferPort.equals("D"))
+                serverPort= Integer.parseInt(bufferPort);
+            repeat=false;
+        }catch (NumberFormatException | InputMismatchException e){out.println("Please write a Number");}
+
+
         controller.connect(serverAddress, serverPort);
     }
 
     @Override
     public void askLogin() {
         Scanner in= new Scanner(System.in);
-        out.println("\n");
-        out.println("Please enter your nickname: ");
+        out.print("Please enter your nickname: ");
         String nickname = in.nextLine();
-        out.println("Welcome : " + nickname);
+        out.println("Welcome : " + nickname + "\n");
+        playerBoard.setNickname(nickname);
         controller.sendMessage(new MessageLogin(nickname));
     }
 
@@ -78,29 +82,54 @@ public class Cli implements ViewInterface {
     @Override
     public void askNumPlayer() {
         Scanner in= new Scanner(System.in);
-        out.println("\n");
-        out.println("Please enter the number of players: ");
-        int numPlayers = in.nextInt();
+        int numPlayers = 0;
+        boolean repeat=true;
+        while(repeat){
+            try{
+                out.print("Please enter the number of players: ");
+                numPlayers = Integer.parseInt(in.nextLine());
+                repeat=false;
+            }catch (NumberFormatException | InputMismatchException e){ out.println("Please write a Number");}
+        }
         controller.sendMessage(new MessageNumPlayers(playerBoard.getNickname(), numPlayers));
     }
 
     @Override
     public void onUpdateStartGame() {
-        System.out.println("Game is started. Have Fun!");
+        clearboard();
+
+        out.println("Game is started. You have been assigned 4 leader cards. You have to choose only 2. Use the command: \n" +
+                Color.ANSI_YELLOW.escape()+"\tchooseleadercards <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n"+
+                Color.ANSI_YELLOW.escape()+"\tshow leadercard <String ID>" +  Color.RESET+ " to see the card\n"+
+                "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resourcesUse the command: \n"+
+                Color.ANSI_YELLOW.escape()+"\tchooseresources <String Resources> <String Resources>" +  Color.RESET+ " to seelect the Resources (Stones,Shields,Servants,Coins)\n"
+                );
+        showLeaderActionBox();
+
+        inThread.start();
+        if(playerBoard.isMyturn()){
+            out.println("it's your turn!");
+        }
+        else
+        {
+            out.println("it's "+playerBoard.getCurrentPlayer()+ " turn!");
+        }
     }
 
     @Override
     public void onUpdateCurrPlayer() {
         if(playerBoard.isMyturn()){
-            System.out.println("Is your turn, please insert a command");
-            System.out.println("type HELP to see all commands");
+            out.println("Is your turn, please insert a command, type HELP to see all commands");
         }
         else System.out.println("Is " + playerBoard.getCurrentPlayer() + "'s turn.");
     }
 
     @Override
     public void onUpdateInitialLeaderCards(List<String> leaderCard) {
-        if(playerBoard.isMyturn()) System.out.println("You selected : " + leaderCard.get(0) + " and " + leaderCard.get(1));
+        if(playerBoard.isMyturn()){
+            System.out.println("You selected : " + leaderCard.get(0) + " and " + leaderCard.get(1));
+            showLeaderActionBox();
+        }
         else System.out.println(playerBoard.getCurrentPlayer() + " selected these leaderCard : " + leaderCard.get(0) + " and " + leaderCard.get(1));
     }
 
@@ -213,12 +242,7 @@ public class Cli implements ViewInterface {
         if(playerBoard.getPlayerWinner()==playerBoard.getCurrentPlayer()) System.out.println("You WIN with " + playerBoard.getPlayersPoints());
         else System.out.println("Lorenzo win, try again...");
     }
-    /**
-     * show the start of the game
-     */
-    public void gameStart(){
-        ViewStart viewstart = new ViewStart();
-    }
+
 
     /**
      * this method print the message it receives
@@ -226,7 +250,6 @@ public class Cli implements ViewInterface {
      */
     @Override
     public void showMessage(String message) {
-        out.println("\n");
         out.println(message);
     }
 
@@ -341,4 +364,11 @@ public class Cli implements ViewInterface {
                 "\n SHOW <object> " +
                 "\n -- <object> is something you want to be shown");
     }
+
+    public void clearboard(){
+        for(int i=0;i<15;i++){
+            System.out.println("\n");
+        }
+    }
+
 }

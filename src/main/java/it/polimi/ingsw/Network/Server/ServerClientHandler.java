@@ -2,12 +2,15 @@ package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessagePing;
+import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageLogin;
 import it.polimi.ingsw.Observer.Observer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Logger;
 
 public class ServerClientHandler implements Runnable, Observer {
@@ -36,7 +39,7 @@ public class ServerClientHandler implements Runnable, Observer {
      * @param clientSocket is the connected socket of the player
      * @param server is the current Game Server
      */
-    public ServerClientHandler(Socket clientSocket, Server server, int ID) {
+    public ServerClientHandler(Socket clientSocket, Server server, int ID) throws IOException {
         SERVERLOGGER= Logger.getLogger(Server.class.getName());
         this.clientSocket = clientSocket;
         this.server=server;
@@ -49,6 +52,8 @@ public class ServerClientHandler implements Runnable, Observer {
         } catch (IOException e) {
             SERVERLOGGER.severe("ERROR: THREAD INITIALIZATION ");
         }
+        output.writeObject(new MessageLogin());
+
     }
 
     /** Thread run method  */
@@ -67,7 +72,7 @@ public class ServerClientHandler implements Runnable, Observer {
                 Message message= (Message) input.readObject();
 
                 if(message!=null){
-                    SERVERLOGGER.info("Messagge recived" + "(from" + message.getNickname()+")"+ ":" + message.getMessageType());
+                    SERVERLOGGER.info("Messagge recived" + "(from " + message.getNickname()+")"+ ":" + message.getMessageType());
                     switch (message.getMessageType()){
                         case PING: sendMessage(new MessagePing()); break;
                         case LOGIN:
@@ -79,7 +84,7 @@ public class ServerClientHandler implements Runnable, Observer {
                 }
             }//finewhile
         }
-        catch (IOException | ClassNotFoundException | NullPointerException e) {
+        catch (IOException | ClassNotFoundException | NullPointerException  e) {
             SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
             server.disconnect(ID);
         }

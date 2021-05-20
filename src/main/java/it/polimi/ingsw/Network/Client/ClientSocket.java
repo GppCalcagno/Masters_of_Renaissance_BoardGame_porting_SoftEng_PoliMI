@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Network.Client;
 
+import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Network.Message.Message;
 
 import it.polimi.ingsw.Network.Message.MessageType;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
 
 public class ClientSocket extends Observable {
 
-    private final static int SOTIMEOUT=20;
+    private final static int SOTIMEOUT=500;
     /** this is the Client Socket */
     private Socket clientSocket;
 
@@ -41,10 +42,11 @@ public class ClientSocket extends Observable {
      * @param address is the address of the server
      * @param port is the server connection port
      */
-    public ClientSocket(String address, int port) {
+    public ClientSocket(String address, int port, ClientController client) {
         //connection to the server
         clientSocket = new Socket();
         LockSending=new Object();
+        addObserver(client);
 
         try {
             clientSocket.connect(new InetSocketAddress(address,port));
@@ -68,6 +70,7 @@ public class ClientSocket extends Observable {
         //pinger
         pinger=new Timer();
         EnablePing(true);
+
     }
 
     /** this method is a Listener of Message from the server */
@@ -75,14 +78,13 @@ public class ClientSocket extends Observable {
         while(true) {
             try {
                 Message message = (Message) reciveMessage.readObject();
-
                 if(message!=null && !message.getMessageType().equals(MessageType.PING)){
-                    CLOGGER.info("recived Message: "+ message.getMessageType());
                     notifyAllObserver(message);
                 }
             }
             catch (IOException | ClassNotFoundException e) {
                 CLOGGER.warning("ERROR: CAN'T READ MESSAGE");
+                System.exit(0);
             }
         }
     }
@@ -107,7 +109,7 @@ public class ClientSocket extends Observable {
      */
     public void EnablePing(boolean state){
         if(state){
-            pinger.schedule(new PingerTimerTask(this),0,5000);
+            pinger.schedule(new PingerTimerTask(this),0,300*1000);
         }
         else
             pinger.cancel();

@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.card.leadereffect.ChestLeader;
 import it.polimi.ingsw.model.card.leadereffect.DiscountLeader;
 import it.polimi.ingsw.model.card.leadereffect.ProductionLeader;
 import it.polimi.ingsw.model.card.leadereffect.TrasformationMarbleLeader;
+import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.producible.*;
 import it.polimi.ingsw.model.requirements.RequestedLevelDevelopmentCards;
 import it.polimi.ingsw.model.requirements.RequestedResources;
@@ -120,20 +121,8 @@ public class PlayerBoard {
     }
 
     public void setLeaderCard(List<String> leaderCard) {
-        this.leaderCards = leaderCard;
-    }
-
-    public void setSlotDevCard(String[][] slotDevCard) {
-        this.slotDevCard = slotDevCard;
-    }
-
-    public void setDevCardDeck(String[][][] devCardDeck) {
-        this.devCardDeck = devCardDeck;
-    }
-
-    public void setMarketTray(String[][] marketTray, String remainingMarble) {
-        this.marketTray = marketTray;
-        this.remainingMarble = remainingMarble;
+        if(isMyturn())
+            this.leaderCards = leaderCard;
     }
 
 
@@ -220,9 +209,7 @@ public class PlayerBoard {
             else {
                 leaderActionMap.remove(ID);
             }
-
         }
-
     }
 
     public void updateWinner(String playerWinner, Map<String, Integer> playersPoints){
@@ -241,6 +228,20 @@ public class PlayerBoard {
     }
 
     public boolean isMyturn(){ return currentPlayer.equals(nickname); }
+
+    public int getNumInitialResources(){
+        switch (playerList.indexOf(nickname)){
+            case 0: return 0;
+            case 1: return 1;
+            case 2: return 1;
+            case 3: return 2;
+            default: return 0;
+        }
+    }
+
+    public int getplayernumber(){
+        return playerList.indexOf(nickname);
+    }
 
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();
@@ -346,7 +347,6 @@ public class PlayerBoard {
             leaderActionMap.put(tl.getID(), tl);
         }
     }
-
 
 
     public DevelopmentCard searchDevCard (String ID) {

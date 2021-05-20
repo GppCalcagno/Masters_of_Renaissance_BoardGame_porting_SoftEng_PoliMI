@@ -30,6 +30,8 @@ public abstract class Message implements Serializable {
 
     public  void action(GameController gameController) {}
 
-    public  void update(PlayerBoard playerBoard, ViewInterface view){}
+    public  void update(PlayerBoard playerBoard, ViewInterface view){
+        System.out.println("gesu");
+    }
 
 }

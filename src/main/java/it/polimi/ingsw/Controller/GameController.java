@@ -103,6 +103,9 @@ public class GameController {
                         game.addPlayersList(new Player(playersNames.get(0)));
                         game.startgame();
                     }
+                    else{
+                        server.sendBroadcastMessage(new MessageWaitingForOtherPlayer());
+                    }
 
                 } catch (IOException e) {
                     server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));

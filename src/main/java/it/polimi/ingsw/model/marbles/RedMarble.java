@@ -29,4 +29,9 @@ public class RedMarble extends Marbles {
     public boolean addToExtraChest(Player p) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "FaithMarker";
+    }
 }

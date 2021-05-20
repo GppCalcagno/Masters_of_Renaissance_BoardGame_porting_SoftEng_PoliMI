@@ -13,14 +13,11 @@ public class ViewStart {
                 "| $$\\  $ | $$| $$  | $$| $$       /$$  \\ $$   | $$   | $$  \\ $$  | $$  \n" +
                 "| $$ \\/  | $$| $$  | $$| $$$$$$$$|  $$$$$$/   | $$   | $$  | $$ /$$$$$$\n" +
                 "|__/     |__/|__/  |__/|________/ \\______/    |__/   |__/  |__/|______/\n" +
-                "                                                                       \n" +
-                "                                                                       \n" +
-                "                                                                       \n" +
-                "");
+                "                                                                       \n" );
         System.out.println("Welcome to Maestri Del Rinascimento!" +
                 "\n" +
                 "A turn model game where you can make multiple action during your turn in order to become the richer and faithful family in Florence" +
                 "\n" +
-                "Type <HELP> during the game phases to view all possible actions,\nLET'S START!\n\n");
+                "Type <HELP> during the game phases to view all possible actions,\nLET'S START!\n");
     }
 }

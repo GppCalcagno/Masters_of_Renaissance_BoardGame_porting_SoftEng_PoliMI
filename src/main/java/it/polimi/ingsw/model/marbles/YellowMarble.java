@@ -39,4 +39,9 @@ public class YellowMarble extends Marbles {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Coins";
+    }
 }

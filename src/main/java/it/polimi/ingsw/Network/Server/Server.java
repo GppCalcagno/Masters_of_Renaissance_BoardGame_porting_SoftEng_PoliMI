@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class Server extends Observable {
-    private final static int SOTIMEOUT=30;
+    private final static int SOTIMEOUT=500;
     private static Logger LOGGER;
 
     private Map<Integer, ServerClientHandler> iDClientMap;
@@ -66,6 +66,7 @@ public class Server extends Observable {
                     ServerClientHandler clientHandler=new ServerClientHandler(clientSocket,this,clientConnected);
 
                     Thread thread= new Thread(clientHandler);
+                    addObserver(clientHandler);
                     addIDClient(clientConnected,clientHandler);
                     thread.start();
 
@@ -124,6 +125,7 @@ public class Server extends Observable {
     public void sendtoPlayer(String player, Message message){
         Integer id=getIDfromName(player);
         if(id!=null){
+
             iDClientMap.get(id).update(message);
             LOGGER.info("Server send to " +player+" a message: "+ message.getMessageType());
         }

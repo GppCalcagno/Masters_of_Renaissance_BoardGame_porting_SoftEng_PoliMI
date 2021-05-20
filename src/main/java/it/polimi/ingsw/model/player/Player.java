@@ -35,6 +35,8 @@ public class Player {
      */
     private boolean connected;
 
+    private int resorcestochoose;
+
     /**
      * this attribute indicates  the location on the FaithTrack
      */

@@ -5,8 +5,6 @@ import it.polimi.ingsw.Network.Message.*;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.View.ViewInterface;
 
-import java.io.IOException;
-
 
 public class ClientController implements Observer {
     ClientSocket clientSocket;
@@ -29,7 +27,8 @@ public class ClientController implements Observer {
     }
 
     public void connect(String address, int port){
-        clientSocket= new ClientSocket(address,port);
+        this.clientSocket= new ClientSocket(address,port,this);
+        clientSocket.readMessage();
     }
 
     public void sendMessage(Message message) {
