@@ -369,7 +369,7 @@ public class Game {
                     update.onUpdateError(currentPlayer.getNickname(),"Wrong choice.");
                     break;
             }
-            if (!marketStructure.getBuffer().isEmpty()) {
+            if (marketStructure.getBuffer().isEmpty()) {
                 turnPhase = TurnPhase.ENDTURN;
             }
             return true;
