@@ -203,14 +203,16 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateMarketTray() {
-        if(playerBoard.isMyturn()){
+        if(playerBoard.isMyturn()) {
             System.out.println("You changed the marketTray");
-            if(playerBoard.getMarbleBuffer()!=null)
-            System.out.println("You have to manage marbles you extracted\n" +
-                    Color.ANSI_YELLOW.escape() +"\t MANAGEMARBLE <W/E/D> <row W> <resource>" + Color.RESET +
-                    "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
-                    "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
-                    "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want");
+            if (!playerBoard.getMarbleBuffer().isEmpty()) {
+                showMarbleBuffer();
+                System.out.println("You have to manage marbles you extracted\n" +
+                        Color.ANSI_YELLOW.escape() + "\t MANAGEMARBLE <W/E/D> <row W> <resource>" + Color.RESET +
+                        "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
+                        "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
+                        "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want");
+            }
         }
         else System.out.println(playerBoard.getCurrentPlayer() + " changed the marketTray");
     }
@@ -223,7 +225,9 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateUpdateResources() {
-        if (playerBoard.isMyturn()) System.out.println("Your resources have changed\n");
+        if (playerBoard.isMyturn()) System.out.println("Your resources have been updated\n");
+        showStrongbox();
+        showWarehouse();
     }
 
     @Override
@@ -257,7 +261,10 @@ public class Cli implements ViewInterface {
 
     public void onUpdateWarehouse() {
         if(playerBoard.isMyturn()) System.out.println("You update your warehouse");
-        if(playerBoard.getMarbleBuffer()!=null) System.out.println("Please continue on manage your marbles...");
+        if(!playerBoard.getMarbleBuffer().isEmpty()){
+            System.out.println("Please continue on manage your marbles...");
+            showMarbleBuffer();
+        }
     }
 
     @Override
@@ -300,6 +307,7 @@ public class Cli implements ViewInterface {
         out.println("\n");
         ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard);
         viewWarehouse.plot();
+        if(!playerBoard.getExtrachest().isEmpty()) showExtraChest();
     }
 
     @Override
@@ -340,17 +348,23 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showDevCard(String ID) {
-        playerBoard.searchDevCard(ID);
+        playerBoard.searchDevCard(ID).toString();
     }
 
     @Override
     public void showLeaderAction(String ID) {
-        System.out.println(playerBoard.searchLeaderCard(ID));
+        playerBoard.searchLeaderCard(ID).showCli();
+    }
+
+    @Override
+    public void showMarbleBuffer(){
+        out.println("There are " + playerBoard.getMarbleBuffer().size() + " remaining marbles to manage : ");
+        for(String marble : playerBoard.getMarbleBuffer()) out.println(marble);
     }
 
     @Override
     public void showLorenzoTrun() {
-        System.out.println(playerBoard.getLastTokenUsed());
+        System.out.println(playerBoard.getLastTokenUsed().toString());
     }
 
     /**

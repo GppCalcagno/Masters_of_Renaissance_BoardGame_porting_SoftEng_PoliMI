@@ -51,6 +51,7 @@ public interface ViewInterface {
     void showExtraChest();
     void showMarketTray();
     void showDevCardDeck();
+    void showMarbleBuffer();
     void showDevCard(String ID);
     void showLeaderAction(String ID);
 

@@ -194,8 +194,9 @@ public class ActionParser {
                 case "DEVCARDDECK": cli.showDevCardDeck();          break;
                 case "EXTRACHEST": cli.showExtraChest();            break;
                 case "DEVCARD": cli.showDevCard(parts[2]);          break;
-                case "LEADERCARD": cli.showLeaderAction(parts[2]);break;
+                case "LEADERCARD": cli.showLeaderAction(parts[2]);  break;
                 case "LORENZOTURN": cli.showLorenzoTrun();          break;
+                case "MARBLEBUFFER": cli.showMarbleBuffer();        break;
                 default:
                     System.out.println(Color.ANSI_RED.escape() +"Nothing to show..." + Color.RESET);
                     break;
