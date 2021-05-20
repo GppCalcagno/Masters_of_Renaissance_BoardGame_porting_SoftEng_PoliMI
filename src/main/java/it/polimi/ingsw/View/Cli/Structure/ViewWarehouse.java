@@ -94,7 +94,7 @@ public class ViewWarehouse {
     private void updateObject(){
 
         for(int i=1; i<6; i=i+2){
-            for(int j=2; j<=i+2;j=j+4){
+            for(int j=2; j<=i*2;j=j+4){
                 if(pb.getWarehouse()[i/2][j/4]!=null) {
                     if (pb.getWarehouse()[i / 2][j / 4].equals("Servants"))
                         tiles[i][j] = Color.ANSI_BRIGHTPURPLE.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
