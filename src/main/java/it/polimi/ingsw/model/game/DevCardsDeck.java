@@ -148,9 +148,8 @@ public class DevCardsDeck {
      * @param y column
      * @return the card
      */
-    public DevelopmentCard getDevCards(int x, int y) throws NoSuchElementException {
-        if(developmentCardDeck[x][y][0]!=null) return developmentCardDeck[x][y][0];
-        else throw new NoSuchElementException();
+    public DevelopmentCard getDevCards(int x, int y) {
+        return developmentCardDeck[x][y][0];
     }
 
     /**

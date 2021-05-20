@@ -22,15 +22,15 @@ public class DiscardDevCards extends Tokens {
      * this method active one particular token, that one where Lorenzo Discard 2 Developement card.
      */
     @Override
-    public void effectTokens(LorenzoIlMagnifico l) throws  NoSuchElementException {
+    public void effectTokens(LorenzoIlMagnifico l) {
         int i = l.getDevelopmentDeck().getDevelopmentCardDeck().length - 1;
         for (int j = 0; j < 2; j++) {
             while (i > 0 && l.getDevelopmentDeck().getDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color)) == null) {
                 i--;
             }
-            if (i < 0) throw new NoSuchElementException();
-            else l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
         }
+        if (i > 0) l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
+        if (i > 0) l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
 
         Tokens[] vec= l.getTokensvet();
         Tokens temp= vec[0];

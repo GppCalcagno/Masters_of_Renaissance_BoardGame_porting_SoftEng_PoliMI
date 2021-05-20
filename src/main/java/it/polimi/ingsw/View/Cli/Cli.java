@@ -101,8 +101,8 @@ public class Cli implements ViewInterface {
         out.println("Game is started. You have been assigned 4 leader cards. You have to choose only 2. Use the command: \n" +
                 Color.ANSI_YELLOW.escape()+"\tCHOOSELEADERCARDS <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n"+
                 Color.ANSI_YELLOW.escape()+"\tSHOW LEADERCARD <String ID>" +  Color.RESET+ " to see the card\n"+
-                "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resourcesUse the command: \n"+
-                Color.ANSI_YELLOW.escape()+"\tCHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to seelect the Resources (Stones,Shields,Servants,Coins)\n"
+                "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resources. Use the command: \n"+
+                Color.ANSI_YELLOW.escape()+"\tCHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to select the Resources (Stones,Shields,Servants,Coins). Use ENDTURN if you are the first player.\n"
                 );
         showLeaderActionBox();
 
@@ -121,8 +121,11 @@ public class Cli implements ViewInterface {
     public void onUpdateCurrPlayer() {
         if(playerBoard.isMyturn()) {
             if (playerBoard.getLeaderCards().size() == 4) {
-                out.println("Your game is started, first of all you have to choose \n" +
-                        Color.ANSI_YELLOW.escape() + "\tCHOOSERESOURCES <String Resources> <String Resources>" + Color.RESET + " to seelect the Resources (Stones,Shields,Servants,Coins)");
+                out.println("You have been assigned 4 leader cards. You have to choose only 2. Use the command: \n" +
+                        Color.ANSI_YELLOW.escape()  +"\tCHOOSELEADERCARDS <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n" +
+                        Color.ANSI_YELLOW.escape() + "\tSHOW LEADERCARD <String ID>" +  Color.RESET+ " to see the card\n"+
+                        "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resources. Use the command: \n"+
+                        Color.ANSI_YELLOW.escape()+"\tCHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to select the Resources (Stones,Shields,Servants,Coins). Use ENDTURN if you are the first player.\n");
             } else {
                 out.println("Is your turn, please insert a command, type HELP to see all commands\n");
                 out.println(Color.ANSI_YELLOW.escape() + "\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
@@ -132,7 +135,12 @@ public class Cli implements ViewInterface {
                         "\n -- <ID> is the id of the devCard" +
                         "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
                         Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
-                        "\n -- <ID> the id of one of yours devCard that can be activated to do a production\n");
+                        "\n -- <ID> the id of one of yours devCard that can be activated to do a production.\n" +
+                        "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
+                showMarketTray();
+                showWarehouse();
+                showDevCardDeck();
+                showSlotDevCard();
             }
         }
         else System.out.println("Is " + playerBoard.getCurrentPlayer() + "'s turn.");
@@ -143,6 +151,9 @@ public class Cli implements ViewInterface {
         if(playerBoard.isMyturn()){
             System.out.println("You selected : " + leaderCard.get(0) + " and " + leaderCard.get(1));
             showLeaderActionBox();
+            if (playerBoard.getplayernumber()+1 == 1)
+                System.out.println("Use ENDTURN to finish your inital turn");
+            else System.out.println("Use CHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to select the Resources (Stones,Shields,Servants,Coins).");
         }
         else System.out.println(playerBoard.getCurrentPlayer() + " selected these leaderCard : " + leaderCard.get(0) + " and " + leaderCard.get(1));
     }
@@ -253,11 +264,24 @@ public class Cli implements ViewInterface {
     @Override
 
     public void onUpdateWarehouse() {
-        if(playerBoard.isMyturn()) System.out.println("You update your warehouse");
+        if(playerBoard.isMyturn()) {
+            System.out.println("You update your warehouse");
+            showWarehouse();
+        }
+
         if(!playerBoard.getMarbleBuffer().isEmpty()){
             System.out.println("Please continue on manage your marbles...");
             showMarbleBuffer();
+            System.out.println("You have to manage marbles you extracted\n" +
+                    Color.ANSI_YELLOW.escape() + "\t MANAGEMARBLE <W/E/D> <row W> <resource>" + Color.RESET +
+                    "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
+                    "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
+                    "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want");
         }
+        if (playerBoard.getLeaderCards().size() == 4)
+            System.out.println("CHOOSELEADERCARDS <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n" +
+                    Color.ANSI_YELLOW.escape() + "\tSHOW LEADERCARD <String ID>" +  Color.RESET+ " to see the card\n");
+
     }
 
     @Override
