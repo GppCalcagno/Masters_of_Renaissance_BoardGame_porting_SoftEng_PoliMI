@@ -189,12 +189,20 @@ public class ViewFaithTrack {
         tiles[6][122] = "✞";
     }
 
-    private void updateObject(){
-        int i=4;
-        for(String player : pb.getPlayerList()){
-            tiles[i][2+ pb.getPlayersFaithMarkerPosition().get(player)*5] = "♔";  //♙
-            tiles[i][125] = player;
-            i--;
+    private void updateObject() {
+        if (pb.getPlayerList().size() > 1) {
+            int i = 4;
+            for (String player : pb.getPlayerList()) {
+                tiles[i][2 + pb.getPlayersFaithMarkerPosition().get(player) * 5] = "♔";  //♙
+                tiles[i][125] = player;
+                i--;
+            }
+        }
+        else if(pb.getPlayerList().size()==1){
+            tiles[4][2 + pb.getPlayersFaithMarkerPosition().get(pb.getCurrentPlayer())*5 ] = "♔";
+            tiles[4][125] = pb.getCurrentPlayer();
+            tiles[3][2 + pb.getBlackCrossToken()*5] = "♔";
+            tiles[3][125] = "Lorenzo";
         }
     }
 
