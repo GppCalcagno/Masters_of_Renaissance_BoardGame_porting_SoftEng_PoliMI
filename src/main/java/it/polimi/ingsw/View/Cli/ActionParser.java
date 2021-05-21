@@ -143,7 +143,7 @@ public class ActionParser {
                 }
                 else
                     throw new MessageFormatErrorException(Color.ANSI_RED.escape() + "Type of Resources not Correct" + Color.RESET);
-                i+=3;
+                i++;
             }//fine while
         controller.sendMessage(new MessagePayResources(playerBoard.getNickname(),warehouse,strongBox,extraChest));
         }
