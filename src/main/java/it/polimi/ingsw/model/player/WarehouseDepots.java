@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class WarehouseDepots {
     /**
      * sizex and sizey represent the size of the warehouse
@@ -50,24 +51,20 @@ public class WarehouseDepots {
      * @param res the type of Resources i want insert
      */
     public boolean checkInsertion(int row, Resources res){
-        boolean already = false;
-        if(warehouse[row][0]!=null) {
-            if (res.getClass().equals(warehouse[row][0].getClass()) && warehouse[row][row]==null) {
-                if(insertResources(row, res)) return true;
-                else return  false;
-            }
-            else return false;
+        //controllo indice
+        if(row>2) return false;
+
+        //controllo che la riga non sia usata da altre biglie
+        if(warehouse[row][0]!=null && !warehouse[row][0].toString().equals(res.toString())) return false;
+
+        //controlla se non esista nessun'altra pallina di quel tipo in altre righe
+        for(int i=0;i<3;i++) {
+            if (row != i && warehouse[i][0] != null && warehouse[i][0].toString().equals(res.toString()))
+                return false;
         }
-        else{
-            for(int i=0; i<warehouse.length; i++){
-                if(warehouse[i][0]!=null && res.getClass().equals(warehouse[i][0].getClass())) already= true;
-            }
-            if(!already) {
-                if(insertResources(row, res)) return true;
-                else return false;
-            }
-            else return false;
-        }
+
+
+        return insertResources(row,res);
     }
 
     /** this method allow to insert a resource in the warehouse matrix
@@ -75,16 +72,16 @@ public class WarehouseDepots {
      * @param res
      * @return
      */
+
     public boolean insertResources (int row, Resources res) {
         int i = 0;
-        while (warehouse[row][i]!=null){
-            i++;
-        }
+        while (i<3 &&warehouse[row][i]!=null){ i++;}
+
         if(i<row+1){
             warehouse[row][i] = res;
             return true;
         }
-        else return false;
+        return false;
     }
 
     /** this method check if the player can do a change of depots in accord with the rules
@@ -92,26 +89,24 @@ public class WarehouseDepots {
      * @param row2 the second row that player want to change
      */
     public boolean checkExchange( int row1, int row2){
-        if(getWarehouseNum(row1)<=row2+1 && getWarehouseNum(row2)<=row1+1){
-            if(getWarehouseNum(row1)>=getWarehouseNum(row2)) exchange(row1, row2);
-            else exchange(row2, row1);
-            return true;
-        }
-        else return false;
-    }
+        int dim1 = 0;
+        int dim2= 0;
 
-    /** this method does the exchange if checkExchange allows it
-     * @param row1 the first row that player want change
-     * @param row2 the second row that player want to change
-     */
-    public void exchange(int row1, int row2){
-        Resources[] vet = new Resources[warehouse[row1].length];
-        for(int i=0; i<getWarehouseNum(row1); i++){
-            vet[i] = warehouse[row1][i];
-            warehouse[row1][i] = warehouse[row2][i];
-            warehouse[row2][i] = vet[i];
-        }
+        while (dim1<3 &&warehouse[row1][dim1]!=null){ dim1++;}
+        while (dim2<3 &&warehouse[row2][dim2]!=null){ dim2++;}
 
+        if(dim1>row2+1 || dim2>row1+1)return false;
+
+        int max;
+        if(dim1>dim2) max=dim1; else  max=dim2;
+
+        for(int i=0; i<max; i++){
+            Resources temp= warehouse[row1][i];
+
+            warehouse[row1][i]=warehouse[row2][i];
+            warehouse[row2][i]= temp;
+        }
+        return true;
     }
 
     /**
@@ -147,7 +142,6 @@ public class WarehouseDepots {
     public int getNumResources(Resources res){
         int sum=0;
         int j=0;
-        int i=0;
         for (ExtraChest chest: leaderCardEffect){
             if(chest.getResources().getClass().equals(res.getClass())){
                 sum+=chest.getnum();

@@ -91,7 +91,7 @@ public class ViewDevCardDeck {
 
         for(int i=1; i<6; i=i+2){
             for(int j=1; j<23; j=j+7){
-                    if(pb.getDevCardDeck()[1/2][j/6][0]!=null) {
+                    if(pb.getDevCardDeck()[i/2][j/6][0]!=null) {
                         tiles[i][j] = String.valueOf(pb.getDevCardDeck()[i / 2][j / 6][0].charAt(0));
                         tiles[i][j + 1] = String.valueOf(pb.getDevCardDeck()[i / 2][j / 6][0].charAt(1));
                         tiles[i][j + 2] = String.valueOf(pb.getDevCardDeck()[i / 2][j / 6][0].charAt(2));
