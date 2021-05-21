@@ -80,18 +80,15 @@ public class DevelopmentCard extends Card {
     public RequirementsProduction getCostProduction(){return costProduction;}
 
     public void showCli(){
-        System.out.println("DEVELOPMENT CARD");
-        System.out.println("ID : " + getID());
+        System.out.println("DEVELOPMENT CARD: "+getID()+". Color: "+colorCard+" Level: "+level+ "\n" +
+                "This card has a production power");
         //costo
-        System.out.println("Cost : ");
+        System.out.print("To Buy this Card you need:");
         this.getCost().showReq();
-        //colore
-        System.out.println("Color : " + colorCard);
-        //livello
-        System.out.println("Level : " + level);
+
         //produzione
         //richieste
-        System.out.println("Resources for the production : ");
+        System.out.print("To active the production you need : ");
         this.getCostProduction().showReq();
         //prodotte
         System.out.println("Resources producted : " + productedResources);

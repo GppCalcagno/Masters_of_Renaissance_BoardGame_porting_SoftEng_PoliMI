@@ -30,16 +30,13 @@ public class ProductionLeader extends LeaderAction {
 
     @Override
     public void showCli() {
-        System.out.println("PRODUCTION LEADER");
-        //cost
-        System.out.println("Requirement : ");
+        System.out.println("PRODUCTION LEADER\n" +
+                "This card activates a production that at the cost of 1 "+getResources()+" gives you 1 choice resource + 1 FaithMarker");
+
+        System.out.print("Requirement : ");
         this.getCost().showReq();
-        //victory points
-        System.out.println("Victory points : ");
-        System.out.println(getVictoryPoints());
-        //nuova produzione
-        System.out.println("Produced what : ");
-        System.out.println(getResources() + " + one FaithMarker");
+        System.out.println("Victory points : "+getVictoryPoints());
+
 
     }
 }

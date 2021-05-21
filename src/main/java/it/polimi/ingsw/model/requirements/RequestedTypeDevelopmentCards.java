@@ -56,19 +56,9 @@ public class RequestedTypeDevelopmentCards extends RequirementsLeader {
 
     @Override
     public void showReq() {
-        String[] color = {Color.ANSI_BRIGHTWHITE.escape()};
-
-        reqDevelopmentCards.entrySet().forEach(entry -> {
-            switch(entry.getKey()){
-            case BLUE: color[0] = Color.ANSI_BRIGHTBLUE.escape();break;
-            case GREEN: color[0] = Color.ANSI_GREEN.escape(); break;
-            case PURPLE: color[0] = Color.ANSI_BRIGHTPURPLE.escape(); break;
-            case YELLOW: color[0] = Color.ANSI_YELLOW.escape(); break;
+        System.out.println("To activate this card you must have a certain number of colored DevCards: " + reqDevelopmentCards);
         }
-            System.out.println("Color : " + color[0] +  entry.getKey() + Color.ANSI_BRIGHTWHITE.escape()+ " " + "Number : " + " " + entry.getValue());
-        });
 
-    }
 
 
     /**

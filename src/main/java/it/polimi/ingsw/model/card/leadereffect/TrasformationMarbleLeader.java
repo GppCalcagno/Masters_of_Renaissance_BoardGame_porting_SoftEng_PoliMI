@@ -31,16 +31,14 @@ public class TrasformationMarbleLeader extends LeaderAction {
 
     @Override
     public void showCli() {
-        System.out.println("TRANSFORM WITHE MARBLE");
+        System.out.println("TRANSFORM WITHE MARBLE\n" +
+                "This card allows you to transform  white marble into a "+getResources()+" Resources marble");
         //cost
-        System.out.println("Requirement : ");
+        System.out.print("Requirement : ");
         this.getCost().showReq();
         //victory points
-        System.out.println("Victory points : ");
-        System.out.println(getVictoryPoints());
-        //become in
-        System.out.println("Become in what : ");
-        System.out.println(getResources());
+        System.out.println("Victory points : "+getVictoryPoints());
+
 
     }
 }

@@ -41,10 +41,7 @@ public class RequestedResources extends RequirementsLeader {
 
     @Override
     public void showReq() {
-
-        System.out.println("Resources : " + reqResources + " " + "Number : " + reqnumResources);
-
-
+        System.out.println("To activate this card you must have "+ reqnumResources +" units of "+ reqResources.toString());
     }
 
 

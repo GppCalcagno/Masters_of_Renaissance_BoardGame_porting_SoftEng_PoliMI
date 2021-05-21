@@ -32,16 +32,12 @@ public class DiscountLeader extends LeaderAction {
     @Override
     public void showCli() {
 
-        System.out.println("DISCOUNT LEADER");
-        //costo
-        System.out.println("Requirement : ");
+        System.out.println("DISCOUNT LEADER\n" +
+                "This card gives you a "+getResources()+" discount when you buy a devCard");
+        System.out.print("Requirement : ");
         this.getCost().showReq();
-        //victory points
-        System.out.println("Victory points : ");
-        System.out.println(getVictoryPoints());
-        //risorsa che disconta
-        System.out.println("Discount what : ");
-        System.out.println(getResources());
+        System.out.println("Victory points : "+getVictoryPoints());
+
 
     }
 }

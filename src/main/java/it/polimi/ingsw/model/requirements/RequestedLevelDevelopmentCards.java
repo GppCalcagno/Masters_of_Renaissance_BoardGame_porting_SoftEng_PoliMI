@@ -60,6 +60,6 @@ public class RequestedLevelDevelopmentCards extends RequirementsLeader {
             case YELLOW: color = Color.ANSI_YELLOW.escape(); break;
         }
 
-        System.out.println("Color : " + color + reqColor + Color.ANSI_BRIGHTWHITE + " " + "Level : " + reqLevel);
+        System.out.println("To activate the card you need a "+ color + reqColor + Color.ANSI_BRIGHTWHITE.escape() + " devCard level: "+  reqLevel);
     }
 }

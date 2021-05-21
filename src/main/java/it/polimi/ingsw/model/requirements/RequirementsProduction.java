@@ -43,9 +43,8 @@ public class RequirementsProduction implements Requirements {
 
     @Override
     public void showReq() {
-        reqMap.entrySet().forEach(entry -> {
-            System.out.println("Color : " + entry.getKey() + " " + "Number : " + " " + entry.getValue());
-        });
+        System.out.println(reqMap);
+
     }
 
     /**
