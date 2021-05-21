@@ -1015,5 +1015,7 @@ public class Game {
         return update;
     }
 
-
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
 }
