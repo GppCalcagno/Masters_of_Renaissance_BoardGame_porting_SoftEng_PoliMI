@@ -42,7 +42,7 @@ public class DiscardDevCards extends Tokens {
         return ID;
     }
 
-    public ColorCard getColor() {
-        return color;
+    public String getColor() {
+        return color.toString();
     }
 }

@@ -145,7 +145,7 @@ public class SinglePlayerGame extends Game {
                         getUpdate().onUpdateGameFinished();
                 }
             }
-            getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken());
+            getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken(), lorenzoIlMagnifico.getCurrentToken().getColor());
             setTurnPhase(TurnPhase.DOTURN);
             setCanDoProductionTrue();
             try {

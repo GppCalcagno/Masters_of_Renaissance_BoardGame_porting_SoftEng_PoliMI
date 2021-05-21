@@ -52,6 +52,7 @@ public class PlayerBoard {
     private Map<String, Integer> playersPoints;
 
     private String lastTokenUsed; //only for singleplayer
+    private String lastTokenUsedColor; //only for singleplayer
     private int blackCrossToken; //only for singleplayer
 
     Map<String, DevelopmentCard> developmentCardMap;
@@ -208,10 +209,11 @@ public class PlayerBoard {
         }
     }
 
-    public void singlePlayerUpdate(String[][][] devCardDeck, int blackCrossToken, String tokenID){
+    public void singlePlayerUpdate(String[][][] devCardDeck, int blackCrossToken, String tokenID, String tokenColor){
         this.devCardDeck=devCardDeck;
         this.blackCrossToken=blackCrossToken;
         this.lastTokenUsed=tokenID;
+        this.lastTokenUsedColor = tokenColor;
     }
 
     public void updateSlotDevCard(String ID, int col){
@@ -464,6 +466,9 @@ public class PlayerBoard {
         return lastTokenUsed;
     }
 
+    public String getLastTokenUsedColor() {
+        return lastTokenUsedColor;
+    }
 
     public int getFaithMarker(){
         return playersFaithMarkerPosition.get(nickname);

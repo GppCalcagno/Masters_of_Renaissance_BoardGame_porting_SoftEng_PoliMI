@@ -17,16 +17,19 @@ public class MessageUpdateSinglePlayerGame extends Message {
      */
     private String ID;
 
-    public MessageUpdateSinglePlayerGame(int blackCrossToken, String id, String [][][] devCardDeck) {
+    private String tokenColor;
+
+    public MessageUpdateSinglePlayerGame(int blackCrossToken, String id, String[][][] devCardDeck, String tokenColor) {
         super("Lollo", MessageType.UPDATESINGLEPLAYER);
         this.blackCrossToken = blackCrossToken;
         this.ID = id;
         this.devCardDeck=devCardDeck;
+        this.tokenColor = tokenColor;
     }
 
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.singlePlayerUpdate(devCardDeck,blackCrossToken,ID);
+        playerBoard.singlePlayerUpdate(devCardDeck,blackCrossToken,ID, tokenColor);
         view.onUpdateSinglePlayerGame();
     }
 }

@@ -1,13 +1,10 @@
 package it.polimi.ingsw.Network.Server;
 
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessagePing;
-import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
+import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
-import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.WarehouseDepots;
@@ -117,8 +114,8 @@ public class UpdateCreator {
 
     }
 
-    public void onUpdateSinglePlayer(int blackCrossToken, DevelopmentCard[][][] devCardsDeck, Tokens tokens){
-        MessageUpdateSinglePlayerGame message= new MessageUpdateSinglePlayerGame(blackCrossToken, tokens.getID(), devCardDeckConvert(devCardsDeck));
+    public void onUpdateSinglePlayer(int blackCrossToken, DevelopmentCard[][][] devCardsDeck, Tokens tokens, String tokenColor){
+        MessageUpdateSinglePlayerGame message= new MessageUpdateSinglePlayerGame(blackCrossToken, tokens.getID(), devCardDeckConvert(devCardsDeck), tokenColor);
         server.sendBroadcastMessage(message);
 
     }

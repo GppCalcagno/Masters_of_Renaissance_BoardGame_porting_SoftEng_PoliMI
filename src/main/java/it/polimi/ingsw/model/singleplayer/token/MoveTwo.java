@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.singleplayer.token;
 
+import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.singleplayer.LorenzoIlMagnifico;
 
@@ -26,5 +27,10 @@ public class MoveTwo extends Tokens {
     @Override
     public String getID() {
         return ID;
+    }
+
+    @Override
+    public String getColor() {
+        return null;
     }
 }

@@ -98,13 +98,18 @@ public class Cli implements ViewInterface {
     public void onUpdateStartGame() {
         clearboard();
 
-        out.println("Game is started. You have been assigned 4 leader cards. You have to choose only 2. Use the command: \n" +
-                Color.ANSI_YELLOW.escape()+"\tCHOOSELEADERCARDS <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n"+
-                Color.ANSI_YELLOW.escape()+"\tSHOW LEADERCARD <String ID>" +  Color.RESET+ " to see the card\n"+
-                "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resources. Use the command: \n"+
-                Color.ANSI_YELLOW.escape()+"\tCHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to select the Resources (Stones,Shields,Servants,Coins). Use ENDTURN if you are the first player.\n"
-                );
-        showLeaderActionBox();
+        if (playerBoard.isMyturn()) {
+            out.println("Game is started. You have been assigned 4 leader cards. You have to choose only 2. Use the command: \n" +
+                    Color.ANSI_YELLOW.escape() + "\tCHOOSELEADERCARDS <int position> <int position>" + Color.RESET + " to select the ones you prefer\n" +
+                    Color.ANSI_YELLOW.escape() + "\tSHOW LEADERCARD <String ID>" + Color.RESET + " to see the card\n" +
+                    "Also, being the " + (playerBoard.getplayernumber() + 1) + " player, you are entitled to " + playerBoard.getNumInitialResources() + " starting resources. Use the command: \n" +
+                    Color.ANSI_YELLOW.escape() + "\tCHOOSERESOURCES <String Resources> <String Resources>" + Color.RESET + " to select the Resources (Stones,Shields,Servants,Coins). Use ENDTURN if you are the first player.\n"
+            );
+            showLeaderActionBox();
+            for (String idCard : playerBoard.getLeaderCards()) {
+                playerBoard.getLeaderActionMap().get(idCard).showCli();
+            }
+        }
 
         inThread.start();
         if(playerBoard.isMyturn()){
@@ -126,6 +131,10 @@ public class Cli implements ViewInterface {
                         Color.ANSI_YELLOW.escape() + "\tSHOW LEADERCARD <String ID>" +  Color.RESET+ " to see the card\n"+
                         "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resources. Use the command: \n"+
                         Color.ANSI_YELLOW.escape()+"\tCHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to select the Resources (Stones,Shields,Servants,Coins). Use ENDTURN if you are the first player.\n");
+                showLeaderActionBox();
+                for (String idCard : playerBoard.getLeaderCards()) {
+                    playerBoard.getLeaderActionMap().get(idCard).showCli();
+                }
             } else {
                 out.println("Is your turn, please insert a command, type HELP to see all commands\n");
                 out.println(Color.ANSI_YELLOW.escape() + "\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
@@ -151,9 +160,6 @@ public class Cli implements ViewInterface {
         if(playerBoard.isMyturn()){
             System.out.println("You selected : " + leaderCard.get(0) + " and " + leaderCard.get(1));
             showLeaderActionBox();
-            if (playerBoard.getplayernumber()+1 == 1)
-                System.out.println("Use ENDTURN to finish your inital turn");
-            else System.out.println("Use CHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to select the Resources (Stones,Shields,Servants,Coins).");
         }
         else System.out.println(playerBoard.getCurrentPlayer() + " selected these leaderCard : " + leaderCard.get(0) + " and " + leaderCard.get(1));
     }
@@ -241,10 +247,35 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateSinglePlayerGame() {
-        System.out.println("Lorenzo played : " + playerBoard.getLastTokenUsed());
+        out.println("Lorenzo played : " + playerBoard.getLastTokenUsed());
+        switch (playerBoard.getLastTokenUsed()) {
+            case "T1":
+                out.println("Move the Black Cross token forward by 2 spaces.");
+                break;
+            case "T2":
+                out.println("Move the Black Cross token forward by 1 space. Then, shuffle all the Solo Action tokens and create a new stack.");
+                break;
+            case "T3":
+                out.println("Discard 2 " + playerBoard.getLastTokenUsedColor() + " Development Cards from the bottom of the grid, from the lowest level to the highest (if there are no more Level I cards, you must discard the Level II cards, and so on).");
+                break;
+        }
         out.println("The Black Cross Token's position is " + playerBoard.getBlackCrossToken());
         showFaithTrack();
         showDevCardDeck();
+        out.println("Is your turn, please insert a command, type HELP to see all commands\n");
+        out.println(Color.ANSI_YELLOW.escape() + "\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
+                "\n -- <r/c> select row or column of the marketTray" +
+                "\n -- <num> the number or the row or the column\n" +
+                Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>" + Color.RESET +
+                "\n -- <ID> is the id of the devCard" +
+                "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
+                Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
+                "\n -- <ID> the id of one of yours devCard that can be activated to do a production.\n" +
+                "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
+        showMarketTray();
+        showWarehouse();
+        showDevCardDeck();
+        showSlotDevCard();
     }
 
     @Override
