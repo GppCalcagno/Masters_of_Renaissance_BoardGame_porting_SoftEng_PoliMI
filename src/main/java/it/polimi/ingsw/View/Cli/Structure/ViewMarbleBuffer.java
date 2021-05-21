@@ -19,29 +19,23 @@ public class ViewMarbleBuffer {
     }
 
     private void updateObject() {
-        int i=0;
-        for(i=0; i<pb.getMarbleBuffer().size(); i++){
-        if(pb.getMarbleBuffer().get(i).equals("Servants")) {
-            color = Color.ANSI_BRIGHTPURPLE.escape();
-        }
-        else if(pb.getMarbleBuffer().get(i).equals("Shields")) {
-            color = Color.ANSI_BRIGHTBLUE.escape();
-        }
-        else if(pb.getMarbleBuffer().get(i).equals("Coins")) {
-            color = Color.ANSI_BRIGHTYELLOW.escape();
-        }
-        else if(pb.getMarbleBuffer().get(i).equals("Stones")) {
-            color = Color.ANSI_BRIGHDARK.escape();
-        }
-        else if(pb.getMarbleBuffer().get(i).equals("FaithMarker")){
-            color = Color.ANSI_RED.escape();
-        }
-        else color =Color.ANSI_BRIGHTWHITE.escape();
+        for(int i=0; i<MAX_HORIZ_TILES; i++) tiles[i] = " ";
+        for(int i=0; i<pb.getMarbleBuffer().size(); i++) {
+           if (pb.getMarbleBuffer().get(i) != null) {
+                if (pb.getMarbleBuffer().get(i).equals("Servants")) {
+                    color = Color.ANSI_BRIGHTPURPLE.escape();
+                } else if (pb.getMarbleBuffer().get(i).equals("Shields")) {
+                    color = Color.ANSI_BRIGHTBLUE.escape();
+                } else if (pb.getMarbleBuffer().get(i).equals("Coins")) {
+                    color = Color.ANSI_BRIGHTYELLOW.escape();
+                } else if (pb.getMarbleBuffer().get(i).equals("Stones")) {
+                    color = Color.ANSI_BRIGHDARK.escape();
+                } else if (pb.getMarbleBuffer().get(i).equals("FaithMarker")) {
+                    color = Color.ANSI_RED.escape();
+                } else color = Color.ANSI_BRIGHTWHITE.escape();
 
-        tiles[i]=color +"●"+Color.ANSI_BRIGHTWHITE.escape();
-        }
-        for(;i<MAX_HORIZ_TILES;i++){
-            tiles[i]="";
+                tiles[i] = color + "●" + Color.ANSI_BRIGHTWHITE.escape();
+            }
         }
     }
 
