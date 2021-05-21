@@ -388,6 +388,10 @@ public class Game {
      * @return true if the client can do the change
      */
     public boolean exchangeWarehouse (int row1, int row2) {
+        if (row1 < 0 || row1 > 2 || row2 < 0 || row2 > 2 || row1 == row2){
+            update.onUpdateError(currentPlayer.getNickname(),"Wrong rows.");
+            return false;
+        }
         if (currentPlayer.getWarehouse().checkExchange(row1, row2)) {
             update.onUpdateWarehouse(currentPlayer, false);
             return true;
