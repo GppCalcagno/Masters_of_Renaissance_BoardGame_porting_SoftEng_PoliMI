@@ -348,22 +348,23 @@ public class Game {
                     break;
                 case 'D' :
                     marketStructure.discardMarbles(marketStructure.getBuffer().get(0));
-                    for (Player p : playersList) {
-                        if (!p.equals(currentPlayer)) {
-                            try {
+                    try {
+                        for (Player p : playersList) {
+                            if (!p.equals(currentPlayer))
                                 p.increasefaithMarker();
-                            } catch (ActiveVaticanReportException e) {
-                                try {
-                                    faithTrack.checkPopeSpace(playersList, 0);
-                                } catch (GameFinishedException gameFinishedException) {
-                                    if (isFinishedGame())
-                                        update.onUpdateGameFinished();
-                                }
-                            }
+                        }
+                        this.increaseLorenzoFaithtrack();
+                    } catch (ActiveVaticanReportException e) {
+                        try {
+                            faithTrack.checkPopeSpace(playersList, 0);
+                        } catch (GameFinishedException gameFinishedException) {
+                            if (isFinishedGame())
+                                update.onUpdateGameFinished();
                         }
                     }
                     update.onUpdateFaithMarker(currentPlayer, playersList, true);
                     break;
+
                 default:
                     update.onUpdateError(currentPlayer.getNickname(),"Wrong choice.");
                     break;
@@ -377,6 +378,7 @@ public class Game {
             update.onUpdateError(currentPlayer.getNickname(),"You can not do this action.");
             return false;
         }
+
     }
 
     /**
@@ -971,6 +973,8 @@ public class Game {
     public int getBlackCrossToken () {
         return 0;
     }
+
+    public void increaseLorenzoFaithtrack() throws ActiveVaticanReportException {}
 
     public void playLorenzoTurn () throws ActiveVaticanReportException {
     }

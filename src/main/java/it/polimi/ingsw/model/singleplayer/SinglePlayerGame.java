@@ -175,4 +175,9 @@ public class SinglePlayerGame extends Game {
     public Tokens getCurrentToken () {
         return lorenzoIlMagnifico.getCurrentToken();
     }
+
+    @Override
+    public void increaseLorenzoFaithtrack() throws ActiveVaticanReportException {
+        lorenzoIlMagnifico.increaseFaithMarker(1);
+    }
 }
