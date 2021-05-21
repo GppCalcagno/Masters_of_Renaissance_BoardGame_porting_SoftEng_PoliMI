@@ -75,7 +75,7 @@ public class WarehouseDepots {
 
     public boolean insertResources (int row, Resources res) {
         int i = 0;
-        while (i<3 &&warehouse[row][i]!=null){ i++;}
+        while (i<3 && warehouse[row][i]!=null){ i++;}
 
         if(i<row+1){
             warehouse[row][i] = res;
@@ -165,16 +165,22 @@ public class WarehouseDepots {
      */
     public int getWarehouseNumResources(Resources res){
         int sum=0;
-        int j=0;
+        int index=-1;
 
-        for(int x=0; x<sizex; x++){
-            if(warehouse[x][0]!= null && warehouse[x][0].getClass().equals(res.getClass())){
-                while(warehouse[x][j]!=null && j<sizey)j++;
-            }
-            sum+=j;
-            j=0;
+        //ho trovato l'indice
+        for(int i=0;i<sizex;i++){
+            if(warehouse[i][0]!= null && warehouse[i][0].toString().equals(res.toString()))
+                index=i;
+
         }
-        return sum;
+
+        System.out.println(index);
+        if(index!=-1)
+            while(warehouse[index][sum]!=null)sum++;
+
+         System.out.println(sum);
+         return sum;
+
     }
 
     public List<ExtraChest> getLeaderCardEffect(){

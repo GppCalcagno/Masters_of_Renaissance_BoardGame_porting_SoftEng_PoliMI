@@ -111,14 +111,14 @@ public class ActionParser {
     }
 
     public void payResources(String[] parts) throws MessageFormatErrorException {
+
         int i=1;
         if((parts.length-1)%3!=0) throw new MessageFormatErrorException(Color.ANSI_RED.escape() +"Command format Error" + Color.RESET);
-
         Map<String,Integer> warehouse=new HashMap<>();
         Map<String,Integer> strongBox=new HashMap<>();
         Map<String,Integer> extraChest=new HashMap<>();
 
-            while (parts[i + 2] != null) {
+            while (i+3<=parts.length) {
                 char structure= parts[i].charAt(0);
                 int old=0;
                 if(isRightResource(parts[i+1])){
@@ -143,7 +143,7 @@ public class ActionParser {
                 }
                 else
                     throw new MessageFormatErrorException(Color.ANSI_RED.escape() + "Type of Resources not Correct" + Color.RESET);
-                i++;
+                i=i+3;
             }//fine while
         controller.sendMessage(new MessagePayResources(playerBoard.getNickname(),warehouse,strongBox,extraChest));
         }
