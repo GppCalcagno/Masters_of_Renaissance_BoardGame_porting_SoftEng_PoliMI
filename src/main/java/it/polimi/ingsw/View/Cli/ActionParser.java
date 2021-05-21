@@ -72,7 +72,8 @@ public class ActionParser {
     private void chooseresources(String[] parts) {
         List<String> resources= new ArrayList<>();
         for(int i=1;i<parts.length;i++){
-            resources.add(parts[i]);
+                resources.add(convertformat(parts[i]));
+
         }
         controller.sendMessage(new MessageChooseResourcesFirstTurn(playerBoard.getNickname(),resources));
     }
@@ -122,21 +123,22 @@ public class ActionParser {
                 char structure= parts[i].charAt(0);
                 int old=0;
                 if(isRightResource(parts[i+1])){
+                    String resources= convertformat(parts[i+1]);
                     switch (structure){
                         case 'W':
-                            if(warehouse.containsKey(parts[i+1]))
-                                old=warehouse.get(parts[i+1]);
-                            warehouse.put(parts[i+1],old+ Integer.parseInt(parts[i+2]));
+                            if(warehouse.containsKey(resources))
+                                old=warehouse.get(resources);
+                            warehouse.put(resources,old+ Integer.parseInt(parts[i+2]));
                             break;
                         case 'S':
-                            if(strongBox.containsKey(parts[i+1]))
-                                old=strongBox.get(parts[i+1]);
-                            strongBox.put(parts[i+1],old+ Integer.parseInt(parts[i+2]));
+                            if(strongBox.containsKey(resources))
+                                old=strongBox.get(resources);
+                            strongBox.put(resources,old+ Integer.parseInt(parts[i+2]));
                             break;
                         case 'E':
-                            if(extraChest.containsKey(parts[i+1]))
-                                old=extraChest.get(parts[i+1]);
-                            extraChest.put(parts[i+1],old+ Integer.parseInt(parts[i+2]));
+                            if(extraChest.containsKey(resources))
+                                old=extraChest.get(resources);
+                            extraChest.put(resources,old+ Integer.parseInt(parts[i+2]));
                             break;
                         default: throw new MessageFormatErrorException(Color.ANSI_RED.escape() +"Type of Storage not Correct" +Color.RESET);
                     }
@@ -145,15 +147,17 @@ public class ActionParser {
                     throw new MessageFormatErrorException(Color.ANSI_RED.escape() + "Type of Resources not Correct" + Color.RESET);
                 i=i+3;
             }//fine while
+
+        System.out.println(warehouse +" "+ strongBox +" "+ extraChest);
         controller.sendMessage(new MessagePayResources(playerBoard.getNickname(),warehouse,strongBox,extraChest));
         }
 
     public void activeBaseProduction(String[] parts){
-        controller.sendMessage(new MessageActiveBaseProduction(playerBoard.getNickname(), parts[1], parts[2].charAt(0), parts[3], parts[4].charAt(0), parts[5]));
+        controller.sendMessage(new MessageActiveBaseProduction(playerBoard.getNickname(), convertformat(parts[1]), parts[2].charAt(0), convertformat(parts[3]), parts[4].charAt(0), convertformat(parts[5])));
     }
 
     public void activeLeaderActionProd(String[] parts){
-            controller.sendMessage(new MessageActiveLeaderCardProduction(playerBoard.getNickname(), parts[1], parts[2].charAt(0), parts[3]));
+            controller.sendMessage(new MessageActiveLeaderCardProduction(playerBoard.getNickname(), parts[1], parts[2].charAt(0), convertformat(parts[3])));
     }
 
     public void activeDevCardProduction(String[] parts){
@@ -208,5 +212,14 @@ public class ActionParser {
                 return true;
         }
         return false;
+    }
+
+
+    public String convertformat(String name){
+        //da tutto maiuscolo a prima maiuscola e altre minuscile
+        name=name.toLowerCase(Locale.ROOT);
+        char[] vet= name.toCharArray();
+        vet[0]= Character.toUpperCase(vet[0]);
+        return  String.copyValueOf(vet);
     }
 }

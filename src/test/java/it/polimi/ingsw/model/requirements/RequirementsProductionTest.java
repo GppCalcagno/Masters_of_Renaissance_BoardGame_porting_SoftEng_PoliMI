@@ -23,6 +23,28 @@ class RequirementsProductionTest {
     }
 
     @Test
+    void production1(){
+        Player player= new Player("lillo");
+        RequirementsProduction tested= new RequirementsProduction();
+        tested.addRequirementsProduction(new Coins(),2);
+        player.getWarehouse().insertResources(1,new Coins());
+        player.getWarehouse().insertResources(1,new Coins());
+
+        HashMap<String,Integer> warehouse= new HashMap<>();
+        HashMap<String,Integer> strongbox= new HashMap<>();
+        HashMap<String,Integer> extrachest= new HashMap<>();
+
+        warehouse.put("Coins",player.getWarehouse().getWarehouseNumResources(new Coins()));
+
+        assertTrue(tested.checkResources(warehouse,strongbox,extrachest));
+
+        assertTrue(tested.checkResources(player));
+
+    }
+
+
+
+    @Test
     void ProductionNoNeededResources1() throws NegativeQuantityExceptions {
         Player player= new Player("lillo");
         player.getStrongbox().updateResources(new Coins(),5);

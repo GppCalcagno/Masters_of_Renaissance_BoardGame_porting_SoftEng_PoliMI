@@ -142,6 +142,7 @@ public class WarehouseDepots {
     public int getNumResources(Resources res){
         int sum=0;
         int j=0;
+
         for (ExtraChest chest: leaderCardEffect){
             if(chest.getResources().getClass().equals(res.getClass())){
                 sum+=chest.getnum();
@@ -150,7 +151,7 @@ public class WarehouseDepots {
 
         for(int x=0;x<sizex;x++){
             if(warehouse[x][0]!= null && warehouse[x][0].getClass().equals(res.getClass())){
-                while(warehouse[x][j]!=null && j<sizey)j++;
+                while(j<sizey && warehouse[x][j]!=null)j++;
             }
             sum+=j;
             j=0;
@@ -163,24 +164,19 @@ public class WarehouseDepots {
      * @param res type of resource
      * @return the number of the selected resouce
      */
-    public int getWarehouseNumResources(Resources res){
-        int sum=0;
-        int index=-1;
+    public int getWarehouseNumResources(Resources res) {
+        int sum = 0;
+        int index = -1;
 
-        //ho trovato l'indice
-        for(int i=0;i<sizex;i++){
-            if(warehouse[i][0]!= null && warehouse[i][0].toString().equals(res.toString()))
-                index=i;
-
+        int j=0;
+        for (int x = 0; x < sizex; x++) {
+            if (warehouse[x][0] != null && warehouse[x][0].getClass().equals(res.getClass())) {
+                while (j < sizey && warehouse[x][j] != null) j++;
+            }
+            sum += j;
+            j = 0;
         }
-
-        System.out.println(index);
-        if(index!=-1)
-            while(warehouse[index][sum]!=null)sum++;
-
-         System.out.println(sum);
-         return sum;
-
+        return sum;
     }
 
     public List<ExtraChest> getLeaderCardEffect(){

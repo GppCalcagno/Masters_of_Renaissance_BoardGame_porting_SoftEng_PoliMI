@@ -110,7 +110,7 @@ public class UpdateCreator {
         Map<String,Integer> stringExtrachest = extrachestConvert(extraChests);
 
         MessageUpdateResources message= new MessageUpdateResources(player.getNickname(),stringWarehouseDepots,stringExtrachest,strongbox);
-        server.sendBroadcastMessage(message);
+        server.sendtoPlayer(player.getNickname(),message);
 
     }
 

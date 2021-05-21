@@ -368,6 +368,8 @@ class GameTest {
         game.addPlayersList(player);
         game.startgame();
 
+
+
         assertTrue(game.deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap));
         assertEquals(1, game.getCurrentPlayer().countTotalResources());
     }

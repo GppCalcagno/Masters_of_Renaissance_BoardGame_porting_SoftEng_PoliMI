@@ -32,6 +32,7 @@ public class PingerTimerTask extends TimerTask {
             } catch (IOException e) {
                 LOGGER.severe("ERROR: CAN'T PING SERVER");
                 socket.notifyAllObserver(new MessageDisconnect("server"));
+
             }
 
         }

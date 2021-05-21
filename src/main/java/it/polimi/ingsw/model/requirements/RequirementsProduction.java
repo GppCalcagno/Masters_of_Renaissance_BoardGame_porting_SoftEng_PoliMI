@@ -4,7 +4,9 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.*;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 
 public class RequirementsProduction implements Requirements {
@@ -138,5 +140,7 @@ public class RequirementsProduction implements Requirements {
 
         return true;
     }
+
+
 
 }

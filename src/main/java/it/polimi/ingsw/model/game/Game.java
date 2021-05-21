@@ -493,11 +493,12 @@ public class Game {
 
         //warehouse
         for(String res: WarehouseRes.keySet()){
-            int index=0;
+            int index;
+            index=0;
             //qui ho hardcodato le risorse
-            Resources[]  ResList={new Coins(),new Shields(), new Servants(), new Servants()};
-            while(!ResList[index].toString().equals(res))index++;
+            Resources[]  ResList={new Coins(),new Shields(), new Servants(), new Stones()};
 
+            while(!ResList[index].toString().equals(res))index++;
             for(int j=0;j<WarehouseRes.get(res);j++)
                 currentPlayer.getWarehouse().delete(ResList[index]);
         }
@@ -513,8 +514,8 @@ public class Game {
         for(String res: ExtrachestMap.keySet()){
             int Resindex=0;
             //qui ho hardcodato le risorse
-            Resources[]  ResList={new Coins(),new Shields(), new Servants(), new Servants()};
-            while(!ResList[Resindex].toString().equals(res))Resindex++;
+            Resources[]  ResList={new Coins(),new Shields(), new Servants(), new Stones()};
+            while(Resindex<ResList.length && !ResList[Resindex].toString().equals(res))Resindex++;
 
             int ChestIndex=0;
             while(!currentPlayer.getWarehouse().getLeaderCardEffect().get(ChestIndex).getResources().toString().equals(res))ChestIndex++;
