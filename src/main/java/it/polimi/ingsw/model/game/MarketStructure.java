@@ -114,14 +114,14 @@ public class MarketStructure {
      */
     public void insertMarble (char direction, int n) {
         // non faccio controlli sulla validità dei parametri, perchè già fatti in extractMarbles
-        if( direction == 'c') {
+        if( direction == 'C') {
             Marbles temp = remainingMarble;
             remainingMarble = marketTray[0][n];
             marketTray[0][n] = marketTray[1][n];
             marketTray[1][n] = marketTray[2][n];
             marketTray[2][n] = temp;
         }
-        else if( direction == 'r') {
+        else if( direction == 'R') {
             Marbles temp = remainingMarble;
             remainingMarble = marketTray[n][0];
             marketTray[n][0] = marketTray[n][1];

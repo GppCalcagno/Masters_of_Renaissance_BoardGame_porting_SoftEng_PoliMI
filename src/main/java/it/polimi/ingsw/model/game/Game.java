@@ -468,7 +468,7 @@ public class Game {
                         return true;
                     }
                     else {
-                        update.onUpdateError(currentPlayer.getNickname(),"Comm sfaccimm è possibil.");
+                        update.onUpdateError(currentPlayer.getNickname(),"The Game is yet not finished.");
                         return false;
                     }
                 }
