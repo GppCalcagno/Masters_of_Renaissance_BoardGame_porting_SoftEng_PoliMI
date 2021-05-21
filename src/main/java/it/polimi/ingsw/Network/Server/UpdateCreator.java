@@ -71,7 +71,7 @@ public class UpdateCreator {
         server.sendBroadcastMessage(message);
     }
 
-    public void onUpdateFaithMarker(Player player, List<Player> playerList, boolean removeMarblefromBuffer){
+    public void onUpdateFaithMarker(Player player, List<Player> playerList, boolean removeMarblefromBuffer, int blackcrosstoken){
         Map<String, Integer> playersPosition= new HashMap<>();
         Map<String, boolean[]> playersPopFavoriteTile= new HashMap<>();
 
@@ -80,7 +80,7 @@ public class UpdateCreator {
             playersPopFavoriteTile.put(p.getNickname(),p.getPopsfavortiles());
         }
 
-        MessageUpdateFaithMarker message = new MessageUpdateFaithMarker(player.getNickname(), playersPosition, playersPopFavoriteTile, removeMarblefromBuffer);
+        MessageUpdateFaithMarker message = new MessageUpdateFaithMarker(player.getNickname(), playersPosition, playersPopFavoriteTile, removeMarblefromBuffer, blackcrosstoken);
         server.sendBroadcastMessage(message);
     }
 

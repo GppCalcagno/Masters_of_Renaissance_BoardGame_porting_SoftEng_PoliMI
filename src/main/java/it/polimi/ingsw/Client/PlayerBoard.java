@@ -133,9 +133,10 @@ public class PlayerBoard {
     }
 
 
-    public void setFaithMarker(Map<String, Integer> playersPosition, Map<String, boolean[]> playersPopFavoriteTile){
+    public void setFaithMarker(Map<String, Integer> playersPosition, Map<String, boolean[]> playersPopFavoriteTile, int blackCrossToken){
         this.playersFaithMarkerPosition=playersPosition;
         this.playersPopFavoriteTile=playersPopFavoriteTile;
+        this.blackCrossToken=blackCrossToken;
 
     }
 
