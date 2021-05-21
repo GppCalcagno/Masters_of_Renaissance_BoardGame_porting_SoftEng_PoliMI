@@ -14,19 +14,22 @@ public class MessageUpdateFaithMarker extends Message {
 
     private Map<String, boolean[]> playersPopFavoriteTile;
 
+    private int blackcrosstoken;
+
     private boolean removeMarblefromBuffer;
 
-    public MessageUpdateFaithMarker(String player, Map<String, Integer> playersPosition, Map<String,boolean[]> playersPopFavoriteTile, boolean removeMarblefromBuffer) {
+    public MessageUpdateFaithMarker(String player, Map<String, Integer> playersPosition, Map<String,boolean[]> playersPopFavoriteTile, boolean removeMarblefromBuffer, int blackcrosstoken) {
         super(player, MessageType.UPDATEFAITHPOINTS);
         this.playersPosition=playersPosition;
         this.playersPopFavoriteTile = playersPopFavoriteTile;
         this.removeMarblefromBuffer=removeMarblefromBuffer;
+        this.blackcrosstoken=blackcrosstoken;
     }
 
 
     @Override
     public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.setFaithMarker(playersPosition,playersPopFavoriteTile);
+        playerBoard.setFaithMarker(playersPosition,playersPopFavoriteTile, blackcrosstoken);
         playerBoard.removemarblefromBuffer(removeMarblefromBuffer);
 
         view.onUpdateFaithMarker();

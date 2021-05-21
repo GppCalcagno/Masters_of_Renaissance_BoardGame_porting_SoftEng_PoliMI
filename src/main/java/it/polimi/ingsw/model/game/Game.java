@@ -322,7 +322,7 @@ public class Game {
                                 marketStructure.getBuffer().remove(0);
                                 if (faithMarker == currentPlayer.getFaithMarker())
                                     update.onUpdateWarehouse(currentPlayer, true);
-                                else update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                                else update.onUpdateFaithMarker(currentPlayer, playersList, true, getBlackCrossToken());
                             } else {
                                 update.onUpdateError(currentPlayer.getNickname(), "You can not add a resource into the Warehouse.");
                             }
@@ -334,7 +334,7 @@ public class Game {
                                 if (isFinishedGame())
                                     update.onUpdateGameFinished();
                             }
-                            update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                            update.onUpdateFaithMarker(currentPlayer, playersList, true,getBlackCrossToken());
                         }
                     }
                     break;
@@ -362,7 +362,7 @@ public class Game {
                                 update.onUpdateGameFinished();
                         }
                     }
-                    update.onUpdateFaithMarker(currentPlayer, playersList, true);
+                    update.onUpdateFaithMarker(currentPlayer, playersList, true,getBlackCrossToken());
                     break;
 
                 default:
@@ -655,7 +655,7 @@ public class Game {
                         if (isFinishedGame())
                             update.onUpdateGameFinished();
                     }
-                    update.onUpdateFaithMarker(currentPlayer, playersList, false);
+                    update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
                 }
                 if (currentPlayer.getSlotDevCards().getBuffer().containsKey(resource)) {
                     currentPlayer.getSlotDevCards().getBuffer().put(resource, currentPlayer.getSlotDevCards().getBuffer().get(resource) + 1);
@@ -886,10 +886,10 @@ public class Game {
                 faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
             } catch (GameFinishedException gameFinishedException) {
                 if (isFinishedGame())
-                    update.onUpdateFaithMarker(currentPlayer, playersList, false);
+                    update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
             }
         }
-        update.onUpdateFaithMarker(currentPlayer, playersList, false);
+        update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
         return true;
     }
 
@@ -978,7 +978,9 @@ public class Game {
         return 0;
     }
 
-    public void increaseLorenzoFaithtrack() throws ActiveVaticanReportException {}
+    public void increaseLorenzoFaithtrack() throws ActiveVaticanReportException {
+
+    }
 
     public void playLorenzoTurn () throws ActiveVaticanReportException {
     }
