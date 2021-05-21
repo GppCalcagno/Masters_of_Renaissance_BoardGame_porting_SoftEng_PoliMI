@@ -57,7 +57,7 @@ class MarketStructureTest {
         MarketStructure marketTest = new MarketStructure();
         Marbles temp = marketTest.getRemainingMarble();
 
-        marketTest.insertMarble('r', 2);
+        marketTest.insertMarble('R', 2);
 
         assertEquals(temp, marketTest.getMarketTray()[2][3]);
         assertNotEquals(temp, marketTest.getRemainingMarble());
