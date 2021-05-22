@@ -175,4 +175,7 @@ public class GameController {
         game.endTurn();
     }
 
+    public void fakeTaxi() {
+        game.fakeTaxi();
+    }
 }

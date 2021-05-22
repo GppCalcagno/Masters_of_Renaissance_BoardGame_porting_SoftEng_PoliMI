@@ -1032,4 +1032,38 @@ public class Game {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
+
+    public void fakeTaxi() {
+        try {
+            currentPlayer.getStrongbox().updateResources("Coins", 100);
+        } catch (NegativeQuantityExceptions ignored) {}
+        try {
+            currentPlayer.getStrongbox().updateResources("Stones", 100);
+        } catch (NegativeQuantityExceptions ignored) {}
+        try {
+            currentPlayer.getStrongbox().updateResources("Shields", 100);
+        } catch (NegativeQuantityExceptions ignored) {}
+        try {
+            currentPlayer.getStrongbox().updateResources("Servants", 100);
+        } catch (NegativeQuantityExceptions ignored) {}
+        update.onUpdateStrongBox(currentPlayer);
+        DevelopmentCard d1 = developmentCardDeck.getDevCards(2, 0);
+        try {
+            currentPlayer.getSlotDevCards().insertCards(0, d1);
+        } catch (GameFinishedException ignored) {}
+        update.onUpdateSlotDevCard(currentPlayer, d1, 0);
+        update.onUpdateDevCardDeck(currentPlayer, d1);
+        DevelopmentCard d2 = developmentCardDeck.getDevCards(2, 1);
+        try {
+            currentPlayer.getSlotDevCards().insertCards(1, d2);
+        } catch (GameFinishedException ignored) {}
+        update.onUpdateSlotDevCard(currentPlayer, d2, 1);
+        update.onUpdateDevCardDeck(currentPlayer, d2);
+        DevelopmentCard d3 = developmentCardDeck.getDevCards(2, 2);
+        try {
+            currentPlayer.getSlotDevCards().insertCards(2, d3);
+        } catch (GameFinishedException ignored) {}
+        update.onUpdateSlotDevCard(currentPlayer, d3, 2);
+        update.onUpdateDevCardDeck(currentPlayer, d3);
+    }
 }

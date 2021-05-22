@@ -56,6 +56,7 @@ public class ActionParser {
                     case "SHOW": show(parts);                                       break;
                     case "HELP": help(parts);                                       break;
                     case "HELPSHOW": helpShow(parts);                               break;
+                    case "FAKETAXI": fake();                                        break;
                     default:
                         System.out.println(Color.ANSI_RED.escape() +"The command doesn't exist!" + Color.RESET);
                 }
@@ -223,5 +224,9 @@ public class ActionParser {
         char[] vet= name.toCharArray();
         vet[0]= Character.toUpperCase(vet[0]);
         return  String.copyValueOf(vet);
+    }
+
+    public void fake() {
+        controller.sendMessage(new MessageFake(playerBoard.getNickname()));
     }
 }
