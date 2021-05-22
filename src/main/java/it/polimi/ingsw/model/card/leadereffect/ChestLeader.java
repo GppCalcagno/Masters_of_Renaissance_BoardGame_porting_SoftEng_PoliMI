@@ -31,7 +31,7 @@ public class ChestLeader extends LeaderAction {
 
     @Override
     public void showCli() {
-        System.out.println("EXTRACHEST\n" +
+        System.out.println("EXTRACHEST " +getID() +" \n" +
                 "This card gives you 2 additional spaces in the warehouse to hold the resource of type:  "+ getResources());
         System.out.print("Requirement : ");
         this.getCost().showReq();

@@ -72,6 +72,7 @@ public class ActionParser {
         }
     }
 
+
     private void chooseresources(String[] parts) {
         List<String> resources= new ArrayList<>();
         for(int i=1;i<parts.length;i++){

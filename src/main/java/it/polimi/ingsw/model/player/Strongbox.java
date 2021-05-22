@@ -62,9 +62,10 @@ public class Strongbox {
      * @param quantity how many resources you want to add (int can be negative for the delete function).
      */
     public void updateResources(String res, int quantity) throws NegativeQuantityExceptions {
-            int oldQuantity= chest.get(res);
-            if(oldQuantity+quantity<0) throw new NegativeQuantityExceptions();
-            chest.put(res,oldQuantity+quantity);
+        int oldQuantity= chest.get(res);
+        if(oldQuantity+quantity<0) throw new NegativeQuantityExceptions();
+        chest.put(res,oldQuantity+quantity);
+
     }
 
     public Map<String, Integer> getChest() {

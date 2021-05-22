@@ -1036,16 +1036,11 @@ public class Game {
     public void fakeTaxi() {
         try {
             currentPlayer.getStrongbox().updateResources("Coins", 100);
-        } catch (NegativeQuantityExceptions ignored) {}
-        try {
             currentPlayer.getStrongbox().updateResources("Stones", 100);
-        } catch (NegativeQuantityExceptions ignored) {}
-        try {
             currentPlayer.getStrongbox().updateResources("Shields", 100);
-        } catch (NegativeQuantityExceptions ignored) {}
-        try {
             currentPlayer.getStrongbox().updateResources("Servants", 100);
         } catch (NegativeQuantityExceptions ignored) {}
+
         update.onUpdateStrongBox(currentPlayer);
         DevelopmentCard d1 = developmentCardDeck.getDevCards(2, 0);
         try {
@@ -1066,4 +1061,5 @@ public class Game {
         update.onUpdateSlotDevCard(currentPlayer, d3, 2);
         update.onUpdateDevCardDeck(currentPlayer, d3);
     }
+
 }

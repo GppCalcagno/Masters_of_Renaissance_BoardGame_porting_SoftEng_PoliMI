@@ -18,7 +18,7 @@ public class ViewLeaderActionBox {
     }
 
     private void checkNumber(){
-        if(pb.getLeaderCard().size()<3){
+        if(pb.getLeaderCards().size()<3){
             fillTilesGame();
             updateObjectGame();
         }
@@ -73,11 +73,11 @@ public class ViewLeaderActionBox {
 
     private void updateObjectinit() {
         for(int j=1; j<20; j=j+6){
-            tiles[1][j] = String.valueOf(pb.getLeaderCard().get(j/6).charAt(0));
-            tiles[1][j+1] = String.valueOf(pb.getLeaderCard().get(j/6).charAt(1));
-            tiles[1][j+2] = String.valueOf(pb.getLeaderCard().get(j/6).charAt(2));
-            tiles[1][j+3] = String.valueOf(pb.getLeaderCard().get(j/6).charAt(3));
-            tiles[1][j+4] = String.valueOf(pb.getLeaderCard().get(j/6).charAt(4));
+            tiles[1][j] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(0));
+            tiles[1][j+1] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(1));
+            tiles[1][j+2] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(2));
+            tiles[1][j+3] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(3));
+            tiles[1][j+4] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(4));
 
         }
     }
@@ -116,13 +116,13 @@ public class ViewLeaderActionBox {
     }
 
     private void updateObjectGame(){
-        if(pb.getLeaderCard().size()!=0) {
+        if(pb.getLeaderCards().size()!=0) {
             for (int j = 1; j < 8; j = j + 6) {
-                    tiles[1][j] = String.valueOf(pb.getLeaderCard().get(j / 6).charAt(0));
-                    tiles[1][j + 1] = String.valueOf(pb.getLeaderCard().get(j / 6).charAt(1));
-                    tiles[1][j + 2] = String.valueOf(pb.getLeaderCard().get(j / 6).charAt(2));
-                    tiles[1][j + 3] = String.valueOf(pb.getLeaderCard().get(j / 6).charAt(3));
-                    tiles[1][j + 4] = String.valueOf(pb.getLeaderCard().get(j / 6).charAt(4));
+                    tiles[1][j] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(0));
+                    tiles[1][j + 1] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(1));
+                    tiles[1][j + 2] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(2));
+                    tiles[1][j + 3] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(3));
+                    tiles[1][j + 4] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(4));
             }
         }
     }

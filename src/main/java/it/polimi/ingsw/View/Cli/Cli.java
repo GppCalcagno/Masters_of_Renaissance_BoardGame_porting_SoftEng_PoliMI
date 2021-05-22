@@ -106,9 +106,6 @@ public class Cli implements ViewInterface {
                     Color.ANSI_YELLOW.escape() + "\tCHOOSERESOURCES <String Resources> <String Resources>" + Color.RESET + " to select the Resources (Stones,Shields,Servants,Coins). Use ENDTURN if you are the first player.\n"
             );
             showLeaderActionBox();
-            for (String idCard : playerBoard.getLeaderCards()) {
-                playerBoard.getLeaderActionMap().get(idCard).showCli();
-            }
         }
 
         inThread.start();
@@ -132,9 +129,6 @@ public class Cli implements ViewInterface {
                         "Also, being the "+(playerBoard.getplayernumber()+1)+" player, you are entitled to "+playerBoard.getNumInitialResources()+" starting resources. Use the command: \n"+
                         Color.ANSI_YELLOW.escape()+"\tCHOOSERESOURCES <String Resources> <String Resources>" +  Color.RESET+ " to select the Resources (Stones,Shields,Servants,Coins). Use ENDTURN if you are the first player.\n");
                 showLeaderActionBox();
-                for (String idCard : playerBoard.getLeaderCards()) {
-                    playerBoard.getLeaderActionMap().get(idCard).showCli();
-                }
             } else {
                 out.println("Is your turn, please insert a command, type HELP to see all commands\n");
                 out.println(Color.ANSI_YELLOW.escape() + "\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
@@ -143,8 +137,8 @@ public class Cli implements ViewInterface {
                         Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>" + Color.RESET +
                         "\n -- <ID> is the id of the devCard" +
                         "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
-                        Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
-                        "\n -- <ID> the id of one of yours devCard that can be activated to do a production.\n" +
+                        Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                        "\n -- <col> the index of the column of the slotdevcard\n" +
                         "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
                 showMarketTray();
                 showWarehouse();
@@ -177,8 +171,8 @@ public class Cli implements ViewInterface {
                     "\n -- <ID> the id of the leader card" +
                     "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
                     "\n -- <resource> the resource you want to be as payment for the production\n" +
-                    Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
-                    "\n -- <ID> the id of one of yours devCard that can be activated to do a production\n");
+                    Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                    "\n -- <col> the index of the column of the slotdevcard  \n");
             out.println("Or you can type :" +
                     Color.ANSI_YELLOW.escape()+"\t ENDPRODUCTION  "+Color.RESET+"      to finish your production but not the turn so you can do other actions\n" +
                     Color.ANSI_YELLOW.escape()+"\t ENDTURN "+Color.RESET+"    to finish your turn\n");
@@ -196,6 +190,7 @@ public class Cli implements ViewInterface {
     public void onUpdateDevCardDeck(String devCard) {
         if(playerBoard.isMyturn()){
             System.out.println("You selected : " + devCard);
+            showDevCard(devCard);
             System.out.println("Now you have to pay it. \n" +
                     Color.ANSI_YELLOW.escape() +"\tPAYRESOURCES <W/S/E> <resource> <number> "+Color.RESET+"   repeat all parameters for every different resource or every different structure the resource come from" +
                     "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
@@ -207,7 +202,15 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateFaithMarker() {
+        if(playerBoard.isMyturn())
+            System.out.println("Current State of Faith Track");
+        else
+            System.out.println(playerBoard.getCurrentPlayer() +" update the State of Faith Track");
             new ViewFaithTrack(playerBoard).plot();
+            if( !playerBoard.getMarbleBuffer().isEmpty() && playerBoard.isMyturn()){
+                System.out.println("Remaining marble :");
+                showMarbleBuffer();
+            }
     }
 
 
@@ -269,8 +272,8 @@ public class Cli implements ViewInterface {
                 Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>" + Color.RESET +
                 "\n -- <ID> is the id of the devCard" +
                 "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
-                Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
-                "\n -- <ID> the id of one of yours devCard that can be activated to do a production.\n" +
+                Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                "\n -- <col> the index of the column of the slotdevcard\n" +
                 "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
         showMarketTray();
         showWarehouse();
@@ -281,6 +284,7 @@ public class Cli implements ViewInterface {
     @Override
     public void onUpdateSlotDevCards() {
         System.out.println("You add a DevCard in your SlotDevCard");
+        showSlotDevCard();
     }
 
     @Override
@@ -298,6 +302,7 @@ public class Cli implements ViewInterface {
     @Override
     public void onUpdateStrongbox() {
         if (playerBoard.isMyturn()) System.out.println("You update your strongbox ");
+        showStrongbox();
     }
 
     @Override
@@ -346,8 +351,12 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showLeaderActionBox() {
+
         ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox(playerBoard);
         viewLeaderActionBox.plot();
+        for (String card: playerBoard.getLeaderCards()){
+            playerBoard.getLeaderActionMap().get(card).showCli();
+        }
     }
 
     @Override
@@ -447,8 +456,8 @@ public class Cli implements ViewInterface {
                 "\n -- <ID> the id of the leader card" +
                 "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
                 "\n -- <resource> the resource you want to be as payment for the production\n" +
-                Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <ID>" + Color.RESET +
-                "\n -- <ID> the id of one of yours devCard that can be activated to do a production" +
+                Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                "\n -- <col> the index of the column of the slotdevcard" +
                 Color.ANSI_YELLOW.escape()+"\n UPDATELEADERCARD <ID> <0/1>" + Color.RESET+
                 "\n -- <ID> id of one of your leader card" +
                 "\n -- <0/1> 0=discard, 1=active\n" +
