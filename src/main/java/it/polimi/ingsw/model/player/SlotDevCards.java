@@ -121,10 +121,9 @@ public class SlotDevCards {
         return  boardDevCards[x][y];
     }
 
-    public DevelopmentCard getDevCards(int col)throws NullPointerException {
+    public DevelopmentCard getDevCards(int col){
         int i=2;
         while(i>-1 && boardDevCards[i][col]==null)i--;
-        if(i<0) throw new NullPointerException();
         return boardDevCards[i][col];
     }
 

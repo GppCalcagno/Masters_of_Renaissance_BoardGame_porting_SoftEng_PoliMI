@@ -683,33 +683,39 @@ public class Game {
 
     public boolean activeDevCardProduction (int col) {
         if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
-            if (canDoProduction[col]) {
-                try {
-                    if (currentPlayer.getSlotDevCards().getDevCards(col) == null) {
-                        update.onUpdateError(currentPlayer.getNickname(),"This card does not exist.");
+            try {
+                if (canDoProduction[col]) {
+                    if (currentPlayer.getCurrentDevCardToProduce() != null) {
+                        update.onUpdateError(currentPlayer.getNickname(), "You have to pay the card already activated.");
                         return false;
                     }
-                }
-                catch (ArrayIndexOutOfBoundsException e) {
-                    update.onUpdateError(currentPlayer.getNickname(),"Wrong column.");
-                    return false;
-                }
-                DevelopmentCard card = currentPlayer.getSlotDevCards().getDevCards(col);
-                if (card.getCostProduction().checkResources(currentPlayer) && currentPlayer.getSlotDevCards().checkUsage(card)) {
-                    currentPlayer.setCurrentDevCardToProduce(currentPlayer.getSlotDevCards().getDevCards(col));
-                    currentPlayer.setColumnSlotDevCardToProduce(col);
-                    canDoProduction[col] = false;
-                    turnPhase = TurnPhase.DOPRODUCTION;
-                    update.onUpdateActivatedDevCardProduction(currentPlayer, card.getID());
-                    return true;
-                }
-                else {
-                    update.onUpdateError(currentPlayer.getNickname(),"You have not the resources to activate this production power.");
+                    try {
+                        if (currentPlayer.getSlotDevCards().getDevCards(col) == null) {
+                            update.onUpdateError(currentPlayer.getNickname(), "This card does not exist.");
+                            return false;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        update.onUpdateError(currentPlayer.getNickname(), "Wrong column.");
+                        return false;
+                    }
+                    DevelopmentCard card = currentPlayer.getSlotDevCards().getDevCards(col);
+                    if (card.getCostProduction().checkResources(currentPlayer) && currentPlayer.getSlotDevCards().checkUsage(card)) {
+                        currentPlayer.setCurrentDevCardToProduce(currentPlayer.getSlotDevCards().getDevCards(col));
+                        canDoProduction[col] = false;
+                        turnPhase = TurnPhase.DOPRODUCTION;
+                        update.onUpdateActivatedDevCardProduction(currentPlayer, card.getID());
+                        return true;
+                    } else {
+                        update.onUpdateError(currentPlayer.getNickname(), "You have not the resources to activate this production power.");
+                        return false;
+                    }
+                } else {
+                    update.onUpdateError(currentPlayer.getNickname(), "You have already do this production.");
                     return false;
                 }
             }
-            else {
-                update.onUpdateError(currentPlayer.getNickname(),"You have already do this production.");
+            catch (ArrayIndexOutOfBoundsException e) {
+                update.onUpdateError(currentPlayer.getNickname(),"Wrong column.");
                 return false;
             }
         }
@@ -736,6 +742,7 @@ public class Game {
 
             //assegno le risorse al buffer giocatore
             currentPlayer.getSlotDevCards().cardProduction(card);
+            currentPlayer.setCurrentDevCardToProduce(null);
             update.onUpdateResources(currentPlayer);
             return true;
     }
@@ -754,7 +761,10 @@ public class Game {
 
     public boolean endProduction () {
         if (!currentPlayer.getSlotDevCards().getBuffer().isEmpty()) {
+           int currentPlayerFaithMarker = currentPlayer.getFaithMarker();
            emptyBuffer();
+           if (currentPlayer.getFaithMarker() != currentPlayerFaithMarker)
+               update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
            turnPhase = TurnPhase.ENDTURN;
            update.onUpdateStrongBox(currentPlayer);
            return true;
@@ -780,9 +790,9 @@ public class Game {
                         try {
                             faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
                         } catch (GameFinishedException gameFinishedException) {
-                            return isFinishedGame();
+                            if (isFinishedGame())
+                                update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
                         }
-                        return true;
                     }
                 }
                 else currentPlayer.getStrongbox().updateResources(res,buffer.get(res));

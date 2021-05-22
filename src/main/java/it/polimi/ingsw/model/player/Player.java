@@ -82,8 +82,6 @@ public class Player {
 
     private DevelopmentCard currentDevCardToProduce;
 
-    private int columnSlotDevCardToProduce;
-
     private int initialResources;
 
     /**
@@ -111,7 +109,6 @@ public class Player {
         this.columnSlotBuyDev = -1;
 
         this.currentDevCardToProduce = null;
-        this.columnSlotDevCardToProduce = -1;
 
         this.initialResources = 0;
     }
@@ -412,16 +409,8 @@ public class Player {
         return currentDevCardToProduce;
     }
 
-    public int getColumnSlotDevCardToProduce() {
-        return columnSlotDevCardToProduce;
-    }
-
     public void setCurrentDevCardToProduce(DevelopmentCard currentDevCardToProduce) {
         this.currentDevCardToProduce = currentDevCardToProduce;
-    }
-
-    public void setColumnSlotDevCardToProduce(int columnSlotDevCardToProduce) {
-        this.columnSlotDevCardToProduce = columnSlotDevCardToProduce;
     }
 
     public int getInitialResources() {
