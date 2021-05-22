@@ -20,7 +20,7 @@ public class MessageUpdateSinglePlayerGame extends Message {
     private String tokenColor;
 
     public MessageUpdateSinglePlayerGame(int blackCrossToken, String id, String[][][] devCardDeck, String tokenColor) {
-        super("Lollo", MessageType.UPDATESINGLEPLAYER);
+        super("Lorenzo", MessageType.UPDATESINGLEPLAYER);
         this.blackCrossToken = blackCrossToken;
         this.ID = id;
         this.devCardDeck=devCardDeck;

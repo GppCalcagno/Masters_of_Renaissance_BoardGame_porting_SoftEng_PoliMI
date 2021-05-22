@@ -2,6 +2,7 @@ package it.polimi.ingsw.View.Cli;
 
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
+import it.polimi.ingsw.model.game.DevCardsDeck;
 import it.polimi.ingsw.model.player.WarehouseDepots;
 import org.junit.jupiter.api.Test;
 
@@ -58,5 +59,53 @@ class CliTest {
         cli.showExtraChest();
 
     }
+
+    @Test
+    public void showWarehouse(){
+        controller = new ClientController();
+        playerBoard = new PlayerBoard();
+
+        Cli cli = new Cli(playerBoard, controller);
+        playerBoard.setNickname("Ludovico");
+        playerBoard.setCurrentPlayer("Ludovico");
+
+        String[][] warehouse = new String[3][3];
+        Map<String, Integer> extrachest = new HashMap<>();
+
+        //vuoto
+        cli.showWarehouse();
+
+        //una biglia in 0
+        warehouse[0][0] = "Coins";
+        playerBoard.setWarehouse(warehouse, extrachest);
+        cli.showWarehouse();
+
+        //una biglia in 1
+        warehouse[1][0] = "Coins";
+        playerBoard.setWarehouse(warehouse, extrachest);
+        cli.showWarehouse();
+
+        //una biglia in 2
+        warehouse[2][0] = "Coins";
+        playerBoard.setWarehouse(warehouse, extrachest);
+        cli.showWarehouse();
+
+    }
+
+    @Test
+    public void showDevCardDeck() throws IOException {
+        controller = new ClientController();
+        playerBoard = new PlayerBoard();
+
+        Cli cli = new Cli(playerBoard, controller);
+        playerBoard.setNickname("Ludovico");
+        playerBoard.setCurrentPlayer("Ludovico");
+
+        DevCardsDeck devCardsDeck = new DevCardsDeck();
+
+
+
+    }
+
 
 }

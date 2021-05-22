@@ -174,11 +174,17 @@ public class PlayerBoard {
     }
 
     public void removeCardfromDevCardDeck (String ID) {
+        int k = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                for (int k = 0; k < devCardDeck[i][j].length; k++) {
-                    if (devCardDeck[i][j][k]!= null && devCardDeck[i][j][k].equals(ID))
+                    if (devCardDeck[i][j][0] != null && devCardDeck[i][j][0].equals(ID)) {
+                        while (k < 3 && devCardDeck[i][j][k + 1] != null)
+                            k++;
+                        for (int z = 0; z< k; z++) {
+                            devCardDeck[i][j][z] = devCardDeck[i][j][z + 1];
+                        }
                         devCardDeck[i][j][k] = null;
+
                 }
             }
         }
@@ -210,10 +216,31 @@ public class PlayerBoard {
     }
 
     public void singlePlayerUpdate(String[][][] devCardDeck, int blackCrossToken, String tokenID, String tokenColor){
+        System.out.println("Ho rimosso 2 carte ! ");
+        System.out.println("Prima: ");
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                for(int k=0; k<4; k++){
+                    System.out.println(devCardDeck[i][j][k]);
+                }
+                System.out.println("nuova colonna");
+            }
+            System.out.println("nuova riga");
+        }
         this.devCardDeck=devCardDeck;
         this.blackCrossToken=blackCrossToken;
         this.lastTokenUsed=tokenID;
         this.lastTokenUsedColor = tokenColor;
+        System.out.println("Dopo: ");
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                for(int k=0; k<4; k++){
+                    System.out.println(devCardDeck[i][j][k]);
+                }
+                System.out.println("nuova colonna");
+            }
+            System.out.println("nuova riga");
+        }
     }
 
     public void updateSlotDevCard(String ID, int col){
