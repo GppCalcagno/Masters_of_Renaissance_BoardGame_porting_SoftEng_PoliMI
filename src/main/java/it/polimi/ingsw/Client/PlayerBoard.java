@@ -216,31 +216,10 @@ public class PlayerBoard {
     }
 
     public void singlePlayerUpdate(String[][][] devCardDeck, int blackCrossToken, String tokenID, String tokenColor){
-        System.out.println("Ho rimosso 2 carte ! ");
-        System.out.println("Prima: ");
-        for(int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                for(int k=0; k<4; k++){
-                    System.out.println(devCardDeck[i][j][k]);
-                }
-                System.out.println("nuova colonna");
-            }
-            System.out.println("nuova riga");
-        }
         this.devCardDeck=devCardDeck;
         this.blackCrossToken=blackCrossToken;
         this.lastTokenUsed=tokenID;
         this.lastTokenUsedColor = tokenColor;
-        System.out.println("Dopo: ");
-        for(int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                for(int k=0; k<4; k++){
-                    System.out.println(devCardDeck[i][j][k]);
-                }
-                System.out.println("nuova colonna");
-            }
-            System.out.println("nuova riga");
-        }
     }
 
     public void updateSlotDevCard(String ID, int col){

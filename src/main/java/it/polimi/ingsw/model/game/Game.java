@@ -448,6 +448,7 @@ public class Game {
             if (deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap)) {
                 try {
                     if (currentPlayer.getSlotDevCards().insertCards(currentPlayer.getColumnSlotBuyDev(), currentPlayer.getCurrentDevCardToBuy())) {
+                        update.onUpdateSlotDevCard(currentPlayer, currentPlayer.getCurrentDevCardToBuy(), currentPlayer.getColumnSlotBuyDev());
                         currentPlayer.setCurrentDevCardToBuy(null);
                         currentPlayer.setColumnSlotBuyDev(-1);
                         update.onUpdateResources(currentPlayer);
@@ -459,6 +460,7 @@ public class Game {
                         return false;
                     }
                 } catch (GameFinishedException e) {
+                    update.onUpdateSlotDevCard(currentPlayer, currentPlayer.getCurrentDevCardToBuy(), currentPlayer.getColumnSlotBuyDev());
                     currentPlayer.setCurrentDevCardToBuy(null);
                     currentPlayer.setColumnSlotBuyDev(-1);
                     update.onUpdateResources(currentPlayer);
@@ -918,6 +920,7 @@ public class Game {
                 Player winner = playersList.get(getWinner());
                 givefinalpoints();
                 update.onUpdateWinnerMultiplayer(winner, playersList);
+                return;
                 //finisci tutto
             }
             update.onUpdateCurrentPlayer(currentPlayer);

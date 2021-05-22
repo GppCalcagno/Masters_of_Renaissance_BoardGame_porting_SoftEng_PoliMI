@@ -33,19 +33,15 @@ class DevCardsDeckTest {
     void removeDevCards() throws IOException {
         DevCardsDeck devCardsDeck = new DevCardsDeck();
 
-
-
         devCardsDeck.removeDevCards(2,0);
         devCardsDeck.removeDevCards(2,0);
         devCardsDeck.removeDevCards(2,0);
         devCardsDeck.removeDevCards(2,0);
         devCardsDeck.removeDevCards(2,0);
 
-        assertEquals(null, devCardsDeck.getDevelopmentCardDeck()[2][0][3]);
-        assertEquals(null, devCardsDeck.getDevelopmentCardDeck()[2][0][2]);
-        assertEquals(null, devCardsDeck.getDevelopmentCardDeck()[2][0][1]);
-
-
+        assertNull(devCardsDeck.getDevelopmentCardDeck()[2][0][3]);
+        assertNull(devCardsDeck.getDevelopmentCardDeck()[2][0][2]);
+        assertNull(devCardsDeck.getDevelopmentCardDeck()[2][0][1]);
     }
 
     @Test

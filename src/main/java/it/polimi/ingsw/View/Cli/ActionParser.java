@@ -65,6 +65,8 @@ public class ActionParser {
                 System.out.println(Color.ANSI_RED.escape() +"The command need at least a number, please insert it correctly"+ Color.RESET);
             } catch (MessageFormatErrorException e) {
                 System.out.println(e.getMessage());
+            } catch (StringIndexOutOfBoundsException e) {
+                System.out.println(Color.ANSI_RED.escape() + "You have inserted to much blank spaces." + Color.RESET);
             }
         }
     }
