@@ -20,6 +20,7 @@ public class Cli implements ViewInterface {
     private ClientController controller;
     private Thread inThread;
 
+    private String nickname;
     /**
      * @param playerBoard playerìs board
      * @param controller client controller
@@ -70,7 +71,7 @@ public class Cli implements ViewInterface {
     public void askLogin() {
         Scanner in= new Scanner(System.in);
         out.print("Please enter your nickname: ");
-        String nickname = in.nextLine();
+        nickname = in.nextLine();
         out.println("Welcome : " + nickname + "\n");
         playerBoard.setNickname(nickname);
         controller.sendMessage(new MessageLogin(nickname));
@@ -206,7 +207,7 @@ public class Cli implements ViewInterface {
             System.out.println("Current State of Faith Track");
         else
             System.out.println(playerBoard.getCurrentPlayer() +" update the State of Faith Track");
-            new ViewFaithTrack(playerBoard).plot();
+            new ViewFaithTrack(playerBoard, nickname).plot();
             if( !playerBoard.getMarbleBuffer().isEmpty() && playerBoard.isMyturn()){
                 System.out.println("Remaining marble :");
                 showMarbleBuffer();
@@ -380,7 +381,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showFaithTrack() {
-        ViewFaithTrack viewFaithTrack = new ViewFaithTrack(playerBoard);
+        ViewFaithTrack viewFaithTrack = new ViewFaithTrack(playerBoard, nickname);
         viewFaithTrack.plot();
     }
 

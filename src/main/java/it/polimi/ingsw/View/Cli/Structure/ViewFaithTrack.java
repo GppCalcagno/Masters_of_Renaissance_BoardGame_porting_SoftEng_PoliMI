@@ -9,6 +9,7 @@ import java.util.List;
 public class ViewFaithTrack {
 
     PlayerBoard pb;
+    String nickname;
 
     private static final int MAX_VERT_TILES = 9; //rows.
     private static final int MAX_HORIZ_TILES = 126; //cols.
@@ -19,7 +20,8 @@ public class ViewFaithTrack {
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
-    public ViewFaithTrack(PlayerBoard playerBoard){
+    public ViewFaithTrack(PlayerBoard playerBoard, String nickname){
+        this.nickname = nickname;
         pb = playerBoard;
         fillTiles();
         updateObject();
@@ -27,10 +29,7 @@ public class ViewFaithTrack {
 
     private void fillTiles(){
 
-        String color = Color.ANSI_BRIGHDARK.escape();
-
         String green = Color.ANSI_GREEN.escape();
-        String gray = Color.ANSI_BRIGHDARK.escape();
         String red = Color.ANSI_BRIGHTRED.escape();
 
 
@@ -65,8 +64,18 @@ public class ViewFaithTrack {
         tiles[0][123] = Color.ANSI_BRIGHTYELLOW.escape() + "0" + Color.ANSI_BRIGHTWHITE.escape();
 
         //pope space 1
-
-        if(pb.getPlayersPopFavoriteTile().get(pb.getCurrentPlayer())[0]) color1 = green;
+        if(pb.getPlayerList().size()>1){
+        for(String name : pb.getPlayerList()){
+            if(pb.getPlayersPopFavoriteTile().get(name)[0]){
+                if(pb.getPlayersPopFavoriteTile().get(nickname)[0]) color1 = green;
+                else color1 = red;
+            }
+        }
+        }
+        else{
+            if(pb.getBlackCrossToken()>=8 && pb.getPlayersPopFavoriteTile().get(nickname)[0]) color1 = green;
+            else if(pb.getBlackCrossToken()>=8 && !pb.getPlayersPopFavoriteTile().get(nickname)[0]) color1 = red;
+        }
 
         tiles[7][34] = Color.ANSI_BRIGHTYELLOW.escape() +"2"+color1;
         tiles[6][25] = color1 + "║";
@@ -98,7 +107,18 @@ public class ViewFaithTrack {
 
         //pope space 2
 
-        if(pb.getPlayersPopFavoriteTile().get(pb.getCurrentPlayer())[1]) color2 = green;
+        if(pb.getPlayerList().size()>1){
+            for(String name : pb.getPlayerList()){
+                if(pb.getPlayersPopFavoriteTile().get(name)[1]){
+                    if(pb.getPlayersPopFavoriteTile().get(nickname)[1]) color2 = green;
+                    else color2 = red;
+                }
+            }
+        }
+        else{
+            if(pb.getBlackCrossToken()>=16 && pb.getPlayersPopFavoriteTile().get(nickname)[1]) color2 = green;
+            else if(pb.getBlackCrossToken()>=16 && !pb.getPlayersPopFavoriteTile().get(nickname)[1]) color2 = red;
+        }
 
         tiles[7][72] = Color.ANSI_BRIGHTYELLOW.escape() +"3" + color2;
         tiles[6][60] = color2 + "║";
@@ -134,7 +154,18 @@ public class ViewFaithTrack {
 
         //pope space 3
 
-        if(pb.getPlayersPopFavoriteTile().get(pb.getCurrentPlayer())[2]) color3 = green;
+        if(pb.getPlayerList().size()>1){
+            for(String name : pb.getPlayerList()){
+                if(pb.getPlayersPopFavoriteTile().get(name)[2]){
+                    if(pb.getPlayersPopFavoriteTile().get(nickname)[2]) color3 = green;
+                    else color3 = red;
+                }
+            }
+        }
+        else{
+            if(pb.getBlackCrossToken()>=24 && pb.getPlayersPopFavoriteTile().get(nickname)[2]) color3 = green;
+            else if(pb.getBlackCrossToken()>=24 && !pb.getPlayersPopFavoriteTile().get(nickname)[2]) color3 = red;
+        }
 
         tiles[7][109] = Color.ANSI_BRIGHTYELLOW.escape() +"4" + color3;
         tiles[6][95] = color3 + "║";
