@@ -11,7 +11,7 @@ public class ViewStrongbox {
     PlayerBoard pb;
 
     private static final int MAX_VERT_TILES = 9; //rows.
-    private static final int MAX_HORIZ_TILES = 9; //cols.
+    private static final int MAX_HORIZ_TILES = 10; //cols.
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
@@ -44,19 +44,19 @@ public class ViewStrongbox {
         tiles[8][0] = "╚";
 
         //second column
-        tiles[0][8] = "╗";
-        tiles[1][8] = "║";
-        tiles[2][8] = "╣";
-        tiles[3][8] = "║";
-        tiles[4][8] = "╣";
-        tiles[5][8] = "║";
-        tiles[6][8] = "╣";
-        tiles[7][8] = "║";
-        tiles[8][8] = "╝";
+        tiles[0][9] = "╗";
+        tiles[1][9] = "║";
+        tiles[2][9] = "╣";
+        tiles[3][9] = "║";
+        tiles[4][9] = "╣";
+        tiles[5][9] = "║";
+        tiles[6][9] = "╣";
+        tiles[7][9] = "║";
+        tiles[8][9] = "╝";
 
         //horizontal separators
         for(int i=0; i<9; i=i+2){
-            for(int j=1; j<8; j++){
+            for(int j=1; j<9; j++){
                 tiles[i][j] = "═";
             }
         }
@@ -77,43 +77,63 @@ public class ViewStrongbox {
 
     private void updateObject(){
 
-        tiles[1][2] = weapons.get(0);
-        tiles[3][2] = weapons.get(1);
-        tiles[5][2] = weapons.get(2);
-        tiles[7][2] = weapons.get(3);
+        tiles[5][2] = weapons.get(0);
+        tiles[7][2] = weapons.get(1);
+        tiles[1][2] = weapons.get(2);
+        tiles[3][2] = weapons.get(3);
 
         if(pb.getStrongbox().get("Servants")!=null){
-            if(pb.getStrongbox().get("Servants")>9) {
-                tiles[1][5] = String.valueOf(pb.getStrongbox().get("Servants") / 10);
-                tiles[1][6] = String.valueOf(pb.getStrongbox().get("Servants") % 10);
+            if(pb.getStrongbox().get("Servants")>99){
+                tiles[1][5] = String.valueOf(pb.getStrongbox().get("Servants") / 100);
+                tiles[1][6] = String.valueOf((pb.getStrongbox().get("Servants") % 100) /10);
+                tiles[1][7] = String.valueOf(pb.getStrongbox().get("Servants") %10);
             }
-            else tiles[1][6] = String.valueOf(pb.getStrongbox().get("Servants"));
+            else if(pb.getStrongbox().get("Servants")>9 && pb.getStrongbox().get("Servants")<=99) {
+                tiles[1][6] = String.valueOf(pb.getStrongbox().get("Servants") / 10);
+                tiles[1][7] = String.valueOf(pb.getStrongbox().get("Servants") % 10);
+            }
+            else tiles[1][7] = String.valueOf(pb.getStrongbox().get("Servants"));
         }
-        else tiles[1][6] = "0";
+        else tiles[1][7] = "0";
         if(pb.getStrongbox().get("Shields")!=null){
-            if(pb.getStrongbox().get("Shields")>9) {
-                tiles[3][5] = String.valueOf(pb.getStrongbox().get("Shields") / 10);
-                tiles[3][6] = String.valueOf(pb.getStrongbox().get("Shields") % 10);
+            if(pb.getStrongbox().get("Shields")>99){
+                tiles[3][5] = String.valueOf(pb.getStrongbox().get("Shields") / 100);
+                tiles[3][6] = String.valueOf((pb.getStrongbox().get("Shields") % 100) /10);
+                tiles[3][7] = String.valueOf(pb.getStrongbox().get("Shields") %10);
             }
-            else tiles[3][6] = String.valueOf(pb.getStrongbox().get("Shields"));
+            else if(pb.getStrongbox().get("Shields")>9 && pb.getStrongbox().get("Shields")<=99) {
+                tiles[3][6] = String.valueOf(pb.getStrongbox().get("Shields") / 10);
+                tiles[3][7] = String.valueOf(pb.getStrongbox().get("Shields") % 10);
+            }
+            else tiles[3][7] = String.valueOf(pb.getStrongbox().get("Shields"));
         }
-        else tiles[3][6] = "0";
+        else tiles[3][7] = "0";
         if(pb.getStrongbox().get("Coins")!=null){
-            if(pb.getStrongbox().get("Coins")>9) {
-                tiles[5][5] = String.valueOf(pb.getStrongbox().get("Coins") / 10);
-                tiles[5][6] = String.valueOf(pb.getStrongbox().get("Coins") % 10);
+            if(pb.getStrongbox().get("Coins")>99){
+                tiles[5][5] = String.valueOf(pb.getStrongbox().get("Coins") / 100);
+                tiles[5][6] = String.valueOf((pb.getStrongbox().get("Coins") % 100) /10);
+                tiles[5][7] = String.valueOf(pb.getStrongbox().get("Coins") %10);
             }
-            else tiles[5][6] = String.valueOf(pb.getStrongbox().get("Coins"));
+            else if(pb.getStrongbox().get("Coins")>9 && pb.getStrongbox().get("Coins")<=99) {
+                tiles[5][6] = String.valueOf(pb.getStrongbox().get("Coins") / 10);
+                tiles[5][7] = String.valueOf(pb.getStrongbox().get("Coins") % 10);
+            }
+            else tiles[5][7] = String.valueOf(pb.getStrongbox().get("Coins"));
         }
-        else tiles[5][6] = "0";
+        else tiles[5][7] = "0";
         if(pb.getStrongbox().get("Stones")!=null){
-            if(pb.getStrongbox().get("Stones")>9) {
-                tiles[7][5] = String.valueOf(pb.getStrongbox().get("Stones") / 10);
-                tiles[7][6] = String.valueOf(pb.getStrongbox().get("Stones") % 10);
+            if(pb.getStrongbox().get("Stones")>99){
+                tiles[7][5] = String.valueOf(pb.getStrongbox().get("Stones") / 100);
+                tiles[7][6] = String.valueOf((pb.getStrongbox().get("Stones") % 100) /10);
+                tiles[7][7] = String.valueOf(pb.getStrongbox().get("Stones") %10);
             }
-            else tiles[7][6] = String.valueOf(pb.getStrongbox().get("Stones"));
+            else if(pb.getStrongbox().get("Stones")>9 && pb.getStrongbox().get("Stones")<=99) {
+                tiles[7][6] = String.valueOf(pb.getStrongbox().get("Stones") / 10);
+                tiles[7][7] = String.valueOf(pb.getStrongbox().get("Stones") % 10);
+            }
+            else tiles[7][7] = String.valueOf(pb.getStrongbox().get("Stones"));
         }
-        else tiles[7][6] = "0";
+        else tiles[7][7] = "0";
 
     }
 
