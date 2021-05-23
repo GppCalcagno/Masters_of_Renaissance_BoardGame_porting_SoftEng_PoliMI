@@ -350,7 +350,7 @@ public class Game {
     public boolean manageMarble(char choice, int indexWarehouse, String resourceWhiteMarble) {
         if (!marketStructure.getBuffer().isEmpty()) {
             if (!currentPlayer.getLeaderCardEffectWhiteMarble().isEmpty()) {
-                if (resourceWhiteMarble == null && indexWarehouse != 2) {
+                if (marketStructure.getBuffer().get(0).toString().equals("") && resourceWhiteMarble == null && indexWarehouse != 2) {
                     update.onUpdateError(currentPlayer.getNickname(),"You have not choose a resource.");
                     return false;
                 }
@@ -656,6 +656,8 @@ public class Game {
     public boolean isRightResource (String resource) {
         String[] allResources = {"Coins", "Servants", "Shields", "Stones"};
         for (String r : allResources){
+            if (resource == null)
+                return true;
             if (resource.equals(r) || resource.equals(r.toUpperCase()))
                 return true;
         }
@@ -936,7 +938,7 @@ public class Game {
             return false;
         }
         //attivo carta
-        card.setActivated();
+        card.doSpecialAbility(currentPlayer);
 
         //potrei fare return true ma lo uso per un "ulteriore controllo"
         return card.getActivated();

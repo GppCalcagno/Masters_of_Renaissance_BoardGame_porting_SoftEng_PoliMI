@@ -268,11 +268,13 @@ public class Player {
 
     public void chooseResourceWhiteMarbleEffect (String resource) {
         for (Resources r : leaderCardEffectWhiteMarble) {
-            if (r.toString().equals(resource)) {
-                if (leaderCardEffectWhiteMarble.indexOf(r) == 1) {
-                    Resources r0 = leaderCardEffectWhiteMarble.get(0);
-                    leaderCardEffectWhiteMarble.set(0, r);
-                    leaderCardEffectWhiteMarble.set(1, r0);
+            if (resource != null) {
+                if (r.toString().equals(resource) || r.toString().equals(resource.toUpperCase())) {
+                    if (leaderCardEffectWhiteMarble.indexOf(r) == 1) {
+                        Resources r0 = leaderCardEffectWhiteMarble.get(0);
+                        leaderCardEffectWhiteMarble.set(0, r);
+                        leaderCardEffectWhiteMarble.set(1, r0);
+                    }
                 }
             }
         }

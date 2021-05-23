@@ -3,10 +3,13 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.Server.UpdateCreator;
 import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.marbles.BlueMarble;
+import it.polimi.ingsw.model.marbles.WhiteMarble;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Coins;
 import it.polimi.ingsw.model.producible.Servants;
 import it.polimi.ingsw.model.producible.Shields;
+import it.polimi.ingsw.model.producible.Stones;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -669,5 +672,23 @@ class GameTest {
 
         game.endTurn();
         assertEquals(player2, game.getCurrentPlayer());
+    }
+
+    @Test
+    void prova() throws IOException, EndGameException {
+        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Player player1 = new Player("Vanessa Leonardi");
+        game.addPlayersList(player1);
+        game.setCurrentPlayer();
+        player1.addleaderCardEffectWhiteMarble(new Coins());
+        player1.addleaderCardEffectWhiteMarble(new Stones());
+        game.getMarketStructure().getBuffer().add(new WhiteMarble());
+        game.getMarketStructure().getBuffer().add(new BlueMarble());
+        game.setGameState(GameState.INGAME);
+        game.setTurnPhase(TurnPhase.DOTURN);
+        assertTrue(game.manageMarble('W', 0, "Stones"));
+        assertTrue(game.manageMarble('W', 1, null));
+        assertEquals(1, player1.getWarehouse().getNumResources(new Stones()));
+        assertEquals(1, player1.getWarehouse().getNumResources(new Shields()));
     }
 }
