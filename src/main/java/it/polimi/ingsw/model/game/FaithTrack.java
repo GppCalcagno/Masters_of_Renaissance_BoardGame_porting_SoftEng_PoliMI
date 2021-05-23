@@ -138,7 +138,6 @@ public class FaithTrack {
                 currentPopTile++;
             }
         }
-        System.out.println("currentPopTile"+currentPopTile);
         if(currentPopTile==3) throw new GameFinishedException();
     }
 
