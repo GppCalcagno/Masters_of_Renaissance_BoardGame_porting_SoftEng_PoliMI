@@ -16,7 +16,7 @@ class ViewSlotDevCardsTest {
         DevCardsDeck d = new DevCardsDeck();
         s.insertCards(0, d.getDevCards(2,0));
 
-        assertFalse(s.maxLevelPurchase(d.getDevCards(0, 0)));
+        assertFalse(s.canBuyDevCard(d.getDevCards(0, 0),0));
     }
 
     @Test

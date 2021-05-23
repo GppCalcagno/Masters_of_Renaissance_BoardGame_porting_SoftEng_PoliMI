@@ -138,7 +138,7 @@ public class Cli implements ViewInterface {
                         Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>" + Color.RESET +
                         "\n -- <ID> is the id of the devCard" +
                         "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
-                        Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                        Color.ANSI_YELLOW.escape() + "\t ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
                         "\n -- <col> the index of the column of the slotdevcard\n" +
                         "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
                 showMarketTray();
@@ -168,11 +168,11 @@ public class Cli implements ViewInterface {
                     "\n -- <resource wanted> is the resource you want to be produced" +
                     "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
                     "\n -- <resource> the resource you want to be as payment for the production\n" +
-                    Color.ANSI_YELLOW.escape()+"\nACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET + "     only if you have a leader card with as effect an extraproduction" +
+                    Color.ANSI_YELLOW.escape()+"\t ACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET + "     only if you have a leader card with as effect an extraproduction" +
                     "\n -- <ID> the id of the leader card" +
                     "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
-                    "\n -- <resource> the resource you want to be as payment for the production\n" +
-                    Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                    "\n -- <resource> the resource you want\n" +
+                    Color.ANSI_YELLOW.escape()+"\t ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
                     "\n -- <col> the index of the column of the slotdevcard  \n");
             out.println("Or you can type :" +
                     Color.ANSI_YELLOW.escape()+"\t ENDPRODUCTION  "+Color.RESET+"      to finish your production but not the turn so you can do other actions\n" +
@@ -273,7 +273,7 @@ public class Cli implements ViewInterface {
                 Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>" + Color.RESET +
                 "\n -- <ID> is the id of the devCard" +
                 "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
-                Color.ANSI_YELLOW.escape() + "\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                Color.ANSI_YELLOW.escape() + "\t ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
                 "\n -- <col> the index of the column of the slotdevcard\n" +
                 "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
         showMarketTray();
@@ -373,10 +373,8 @@ public class Cli implements ViewInterface {
         ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard);
         viewWarehouse.plot();
         if(!playerBoard.getExtrachest().isEmpty()){
-            System.out.println("Non è vuota");
             showExtraChest();
         }
-        else System.out.println("E' vuota");
     }
 
     @Override
@@ -459,13 +457,13 @@ public class Cli implements ViewInterface {
                 "\n -- <resource wanted> is the resource you want to be produced" +
                 "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
                 "\n -- <resource> the resource you want to be as payment for the production\n" +
-                Color.ANSI_YELLOW.escape()+"\nACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET + "     only if you have a leader card with as effect an extraproduction" +
+                Color.ANSI_YELLOW.escape()+"\tACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET + "     only if you have a leader card with as effect an extraproduction" +
                 "\n -- <ID> the id of the leader card" +
                 "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
-                "\n -- <resource> the resource you want to be as payment for the production\n" +
-                Color.ANSI_YELLOW.escape()+"\n ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
-                "\n -- <col> the index of the column of the slotdevcard" +
-                Color.ANSI_YELLOW.escape()+"\n UPDATELEADERCARD <ID> <0/1>" + Color.RESET+
+                "\n -- <resource> the resource you want\n" +
+                Color.ANSI_YELLOW.escape()+"\t ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
+                "\n -- <col> the index of the column of the slotdevcard\n" +
+                Color.ANSI_YELLOW.escape()+"\t UPDATELEADERCARD <ID> <0/1>" + Color.RESET+
                 "\n -- <ID> id of one of your leader card" +
                 "\n -- <0/1> 0=discard, 1=active\n" +
                 Color.ANSI_YELLOW.escape()+"\t ENDPRODUCTION  "+Color.RESET+"      when you want to finish your production but not the turn\n" +

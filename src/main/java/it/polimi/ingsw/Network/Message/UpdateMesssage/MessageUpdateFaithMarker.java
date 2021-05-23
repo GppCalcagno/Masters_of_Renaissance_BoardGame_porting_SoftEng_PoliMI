@@ -31,7 +31,6 @@ public class MessageUpdateFaithMarker extends Message {
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.setFaithMarker(playersPosition,playersPopFavoriteTile, blackcrosstoken);
         playerBoard.removemarblefromBuffer(removeMarblefromBuffer);
-
         view.onUpdateFaithMarker();
     }
 }

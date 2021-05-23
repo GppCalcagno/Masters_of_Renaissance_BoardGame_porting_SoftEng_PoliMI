@@ -464,7 +464,7 @@ public class Game {
                 //catch NullPointerException perché l'ID potrebbe essere errato
                 try {
                     //controllo che il giocatore abbia spazio nello SlotDevCard e che abbia le risorse necessarie
-                    if (currentPlayer.getSlotDevCards().maxLevelPurchase(developmentCardDeck.getDevCardFromID(ID)) && developmentCardDeck.getDevCardFromID(ID).getCost().checkResources(currentPlayer)) {
+                    if (currentPlayer.getSlotDevCards().canBuyDevCard(developmentCardDeck.getDevCardFromID(ID),column) && developmentCardDeck.getDevCardFromID(ID).getCost().checkBuy(currentPlayer)) {
                         currentPlayer.setCurrentDevCardToBuy(developmentCardDeck.getDevCardFromID(ID));
                         currentPlayer.setColumnSlotBuyDev(column);
                         turnPhase = TurnPhase.BUYDEVCARD;
@@ -722,15 +722,17 @@ public class Game {
                         } catch (GameFinishedException gameFinishedException) {
                             if (isFinishedGame())
                                 update.onUpdateGameFinished();
-                            return true;
                         }
-                        update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
                     }
                     if (currentPlayer.getSlotDevCards().getBuffer().containsKey(resource)) {
                         currentPlayer.getSlotDevCards().getBuffer().put(resource, currentPlayer.getSlotDevCards().getBuffer().get(resource) + 1);
                     } else {
                         currentPlayer.getSlotDevCards().getBuffer().put(resource, 1);
                     }
+
+
+                    update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
+                    update.onUpdateResources(currentPlayer);
                     canDoProduction[posLeaderBox + 3] = false;
                     turnPhase = TurnPhase.DOPRODUCTION;
                     return true;
@@ -1122,6 +1124,8 @@ public class Game {
         } catch (NegativeQuantityExceptions ignored) {}
 
         update.onUpdateStrongBox(currentPlayer);
+
+        /*
         DevelopmentCard d1 = developmentCardDeck.getDevCards(2, 0);
         try {
             currentPlayer.getSlotDevCards().insertCards(0, d1);
@@ -1140,6 +1144,7 @@ public class Game {
         } catch (GameFinishedException ignored) {}
         update.onUpdateSlotDevCard(currentPlayer, d3, 2);
         update.onUpdateDevCardDeck(currentPlayer, d3);
+         */
     }
 
 }

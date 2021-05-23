@@ -10,6 +10,7 @@ import java.util.Map;
 public class SlotDevCards {
 
 
+    private static final int size=3;
     /** this is the matrix where the development cards are located
      */
     private DevelopmentCard[][] boardDevCards;
@@ -23,7 +24,7 @@ public class SlotDevCards {
      * buy more than seven cards
      */
     public SlotDevCards() {
-        boardDevCards = new DevelopmentCard[3][3];
+        boardDevCards = new DevelopmentCard[size][size];
         buffer = new HashMap<>();
     }
 
@@ -31,13 +32,13 @@ public class SlotDevCards {
      * @return the maximum level of player's cards
      * @param d the card received that the method check if the player can buy it just for the level, not for the resources
      */
-    public boolean maxLevelPurchase(DevelopmentCard d){
-        boolean b = false;
+    public boolean canBuyDevCard(DevelopmentCard d, int column){
+        int index=0;
+        while (index<size && boardDevCards[index][column]!=null)index++;
 
-        for(int j=0; j<boardDevCards.length; j++){
-            if(boardDevCards[d.getLevel()-1][j]==null && (d.getLevel()-1==0 || boardDevCards[d.getLevel()-2][j]!=null)) b=true;
-        }
-        return b;
+        if((index+1)==d.getLevel())
+            return true;
+        return false;
     }
 
     /** when player buy a development card this method insert the card in the boardCards
@@ -162,8 +163,4 @@ public class SlotDevCards {
      * @return product of the effect of the cards
      */
     public Map<String, Integer> getBuffer() { return buffer; }
-
-    public DevelopmentCard[][] getBoardDevCards() {
-        return boardDevCards;
-    }
 }

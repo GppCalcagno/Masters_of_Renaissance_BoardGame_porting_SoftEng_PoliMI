@@ -28,7 +28,7 @@ public class RequirementsProduction implements Requirements {
         Resources[] type = new Resources[4];
         type[0] = new Coins();
         type[1] = new Servants();
-        type[2] = new Servants();
+        type[2] = new Stones();
         type[3] = new Shields();
 
         for (Resources res : type) {
@@ -46,7 +46,6 @@ public class RequirementsProduction implements Requirements {
     @Override
     public void showReq() {
         System.out.println(reqMap);
-
     }
 
     /**
@@ -88,14 +87,13 @@ public class RequirementsProduction implements Requirements {
         Resources[] type = new Resources[4];
         type[0] = new Coins();
         type[1] = new Servants();
-        type[2] = new Servants();
+        type[2] = new Stones();
         type[3] = new Shields();
 
         for (Resources res : type) {
             currentRes = 0;
             if (tempMap.containsKey(res.toString())) {
                 currentRes = player.getStrongbox().getNumResources(res) + player.getWarehouse().getNumResources(res);
-
                 if (currentRes < tempMap.get(res.toString()))
                     return false;
             }
