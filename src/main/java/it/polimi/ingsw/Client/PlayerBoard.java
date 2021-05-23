@@ -141,6 +141,13 @@ public class PlayerBoard {
         this.playersPopFavoriteTile=playersPopFavoriteTile;
         this.blackCrossToken=blackCrossToken;
 
+        if(this.blackCrossToken>24)this.blackCrossToken=24;
+
+        for(String name: this.playersFaithMarkerPosition.keySet()){
+            if(this.playersFaithMarkerPosition.get(name)>24)
+                this.playersFaithMarkerPosition.put(name,24);
+
+        }
     }
 
     public void updateMarketTray(char direction, int n){
@@ -220,6 +227,8 @@ public class PlayerBoard {
         this.blackCrossToken=blackCrossToken;
         this.lastTokenUsed=tokenID;
         this.lastTokenUsedColor = tokenColor;
+
+        if(this.blackCrossToken>24)this.blackCrossToken=24;
     }
 
     public void updateSlotDevCard(String ID, int col){
@@ -433,11 +442,6 @@ public class PlayerBoard {
 
     public Map<String, Integer> getStrongbox() {
         return strongbox;
-    }
-
-
-    public List<String> getLeaderCard() {
-        return leaderCards;
     }
 
     public String[][] getSlotDevCard() {

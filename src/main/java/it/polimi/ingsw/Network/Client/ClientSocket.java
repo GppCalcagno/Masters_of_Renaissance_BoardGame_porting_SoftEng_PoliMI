@@ -62,7 +62,7 @@ public class ClientSocket extends Observable {
         }
         catch (IOException e) {
             System.out.println(Color.ANSI_RED.escape()+"Can't Open I/O Stream"+ Color.ANSI_BRIGHTWHITE.escape());
-            System.exit(0);
+            disconnect();
         }
 
         //pinger
@@ -107,12 +107,9 @@ public class ClientSocket extends Observable {
             clientSocket.close();
         } catch (IOException ioException) {
             System.out.println(Color.ANSI_RED.escape()+"Can't close the socket"+ Color.ANSI_BRIGHTWHITE.escape());
-            System.exit(0);
         }
+        System.exit(0);
     }
-
-
-
 
 
     /**

@@ -23,6 +23,7 @@ public class Server extends Observable {
     private ServerSocket serverSocket;
     private int clientConnected;
     private int port;
+    private Object serverLocker= new Object();
 
 
     /**
@@ -89,13 +90,14 @@ public class Server extends Observable {
     }
 
     public void addIDname(int ID, String name, Message message){
-        if(iDNameMap.containsValue(name)){
-            iDClientMap.get(ID).update(new MessageError("server","Nickname already Used"));
-            iDClientMap.get(ID).update(new MessageRequestLogin());
-        }else
-        {
-            iDNameMap.put(ID,name);
-            recivedMessage(message);
+        synchronized (serverLocker) {
+            if (iDNameMap.containsValue(name)) {
+                iDClientMap.get(ID).update(new MessageError("server", "Nickname already Used"));
+                iDClientMap.get(ID).update(new MessageRequestLogin());
+            } else {
+                iDNameMap.put(ID, name);
+                recivedMessage(message);
+            }
         }
 
     }
@@ -142,18 +144,23 @@ public class Server extends Observable {
     }
 
     public void disconnect(int ID){
-        LOGGER.info("Player "+iDNameMap.get(ID)+" disconnected");
 
-        if(iDNameMap.containsKey(ID))
-            gameController.disconnect(iDNameMap.get(ID));
+        synchronized (serverLocker) {
+            LOGGER.info("Player " + iDNameMap.get(ID) + " disconnected");
 
-        if(iDClientMap.containsKey(ID))
-            iDClientMap.get(ID).clocsesocket();
+            if (iDNameMap.containsKey(ID))
+                gameController.disconnect(iDNameMap.get(ID));
 
-        iDClientMap.remove(ID);
-        iDNameMap.remove(ID);
+            if (iDClientMap.containsKey(ID))
+                iDClientMap.get(ID).clocsesocket();
 
-        clientConnected--;
+            removeObserver(iDClientMap.get(ID));
+            iDClientMap.remove(ID);
+            iDNameMap.remove(ID);
+
+
+            clientConnected--;
+        }
     }
 
 }

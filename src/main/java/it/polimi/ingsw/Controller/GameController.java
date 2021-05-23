@@ -109,7 +109,8 @@ public class GameController {
     }
 
     public void disconnect(String name){
-        if(game==null){
+
+        if(!game.isDuringGame()){
             playersNames.remove(name);
             if(playersNames.size()==0)
                 numPlayer=0;

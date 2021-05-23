@@ -118,6 +118,12 @@ public class SinglePlayerGame extends Game {
 
     @Override
     public void endTurn() {
+        /* DECOMMENTA SE VUOI FAR FINIRE LA PARTITA AL PRIMO ENDTURN;
+        setDuringGame(false);
+        getUpdate().onUpdateWinnerSinglePlayer(false, getCurrentPlayer().getVictoryPoints());
+        return;
+        */
+
         boolean canEndTurn = false;
         if (getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
             setGameState(GameState.INGAME);

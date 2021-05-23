@@ -57,6 +57,7 @@ public class ActionParser {
                     case "HELP": help(parts);                                       break;
                     case "HELPSHOW": helpShow(parts);                               break;
                     case "FAKETAXI": fake();                                        break;
+                    case "EXIT": exit();                                            break;
                     default:
                         System.out.println(Color.ANSI_RED.escape() +"The command doesn't exist!" + Color.RESET);
                 }
@@ -227,5 +228,9 @@ public class ActionParser {
 
     public void fake() {
         controller.sendMessage(new MessageFake(playerBoard.getNickname()));
+    }
+
+    public void exit(){
+        System.exit(0);
     }
 }
