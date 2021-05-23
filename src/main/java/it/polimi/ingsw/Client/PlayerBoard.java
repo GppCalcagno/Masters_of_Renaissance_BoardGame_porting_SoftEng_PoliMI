@@ -246,6 +246,7 @@ public class PlayerBoard {
             }
             else {
                 leaderActionMap.remove(ID);
+                leaderCards.remove(ID);
             }
         }
     }

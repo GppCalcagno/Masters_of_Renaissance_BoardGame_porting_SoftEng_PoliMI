@@ -9,6 +9,7 @@ import java.util.List;
 public class ViewExtraChest {
 
     PlayerBoard pb;
+    String color = Color.ANSI_BRIGHTWHITE.escape();
 
     private static final int MAX_VERT_TILES = 3; //rows.
     private static final int MAX_HORIZ_TILES = 9; //cols.
@@ -57,29 +58,33 @@ public class ViewExtraChest {
     }
 
     private void updateObject() {
-        String color = null;
-        for (String resource : pb.getExtrachest().keySet()) {
-            if (resource.equals("Servants")) {
-                color = Color.ANSI_BRIGHTPURPLE.escape();
-                resource = "Servants";
-            } else if (resource.equals("Shields")) {
-                color = Color.ANSI_BRIGHTBLUE.escape();
-                resource = "Shields";
-            } else if (resource.equals("Coins")) {
-                color = Color.ANSI_YELLOW.escape();
-                resource = "Coins";
-            } else if (resource.equals("Stones")) {
-                color = Color.ANSI_BRIGHDARK.escape();
-                resource = "Stones";
-            } else System.out.println(Color.ANSI_RED.escape() + "You don't have an extrachest");
-            for (int i = 0; i < pb.getExtrachest().get(resource); i++) {
-                tiles[1][i * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+        String resource = null;
+        if(pb.getExtrachest().isEmpty()) System.out.println(Color.ANSI_RED.escape() + "You don't have an extrachest" + Color.ANSI_BRIGHTWHITE.escape());
+        else {
+            for (int i = 0; i < pb.getExtrachest().size(); i++) {
+                if (pb.getExtrachest().containsKey("Servants")) {
+                    color = Color.ANSI_BRIGHTPURPLE.escape();
+                    resource = "Servants";
+                } else if (pb.getExtrachest().containsKey("Shields")) {
+                    color = Color.ANSI_BRIGHTBLUE.escape();
+                    resource = "Shields";
+                } else if (pb.getExtrachest().containsKey("Coins")) {
+                    color = Color.ANSI_YELLOW.escape();
+                    resource = "Coins";
+                } else if (pb.getExtrachest().containsKey("Stones")) {
+                    color = Color.ANSI_BRIGHDARK.escape();
+                    resource = "Stones";
+                }
+                for (int j = 0; j < pb.getExtrachest().get(resource); j++) {
+                    tiles[1][j * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+                }
+                plot();
             }
-            plot(color);
+
         }
     }
 
-    public void plot(String color) {
+    public void plot() {
         if (color != null) {
             System.out.print(Color.ANSI_BRIGHTWHITE.escape());
             for (int r = 0; r < MAX_VERT_TILES; r++) {

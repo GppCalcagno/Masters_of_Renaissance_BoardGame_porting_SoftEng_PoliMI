@@ -372,7 +372,11 @@ public class Cli implements ViewInterface {
     public void showWarehouse() {
         ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard);
         viewWarehouse.plot();
-        if(!playerBoard.getExtrachest().isEmpty()) showExtraChest();
+        if(!playerBoard.getExtrachest().isEmpty()){
+            System.out.println("Non è vuota");
+            showExtraChest();
+        }
+        else System.out.println("E' vuota");
     }
 
     @Override
