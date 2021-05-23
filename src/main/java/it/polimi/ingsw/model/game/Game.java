@@ -206,19 +206,19 @@ public class Game {
             if (currentPlayer.getInitialResources() == 0)  {
                 switch (playersList.size()) {
                     case 1 :
-                        gameState = GameState.INGAME;
+                        turnPhase = TurnPhase.ENDTURN;
                         break;
                     case 2 :
                         if (playersList.indexOf(currentPlayer) == 1)
-                            gameState = GameState.INGAME;
+                            turnPhase = TurnPhase.ENDTURN;
                         break;
                     case 3 :
                         if (playersList.indexOf(currentPlayer) == 2)
-                            gameState = GameState.INGAME;
+                            turnPhase = TurnPhase.ENDTURN;
                         break;
                     case 4 :
                         if (playersList.indexOf(currentPlayer) == 3)
-                            gameState = GameState.INGAME;
+                            turnPhase = TurnPhase.ENDTURN;
                         break;
                     default:
                         break;
@@ -274,19 +274,19 @@ public class Game {
         if (currentPlayer.getLeaderActionBox().size() == 2)  {
             switch (playersList.size()) {
                 case 1 :
-                    gameState = GameState.INGAME;
+                    turnPhase = TurnPhase.ENDTURN;
                     break;
                 case 2 :
                     if (playersList.indexOf(currentPlayer) == 1)
-                        gameState = GameState.INGAME;
+                        turnPhase = TurnPhase.ENDTURN;
                     break;
                 case 3 :
                     if (playersList.indexOf(currentPlayer) == 2)
-                        gameState = GameState.INGAME;
+                        turnPhase = TurnPhase.ENDTURN;
                     break;
                 case 4 :
                     if (playersList.indexOf(currentPlayer) == 3)
-                        gameState = GameState.INGAME;
+                        turnPhase = TurnPhase.ENDTURN;
                     break;
                 default:
                     break;
@@ -980,8 +980,14 @@ public class Game {
 
     public void endTurn() {
         boolean canEndTurn = false;
-        if (currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0)
+        if (gameState.equals(GameState.INITGAME) && currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
+            gameState = GameState.INGAME;
+            for (Player p : playersList) {
+                if (p.getLeaderActionBox().size() == 4)
+                    gameState = GameState.INITGAME;
+            }
             canEndTurn = true;
+        }
         else {
             if (turnPhase == TurnPhase.ENDTURN) {
                 canEndTurn = true;
@@ -1000,6 +1006,7 @@ public class Game {
                 return;
                 //finisci tutto
             }
+            turnPhase = TurnPhase.DOTURN;
             update.onUpdateCurrentPlayer(currentPlayer);
         }
         else{

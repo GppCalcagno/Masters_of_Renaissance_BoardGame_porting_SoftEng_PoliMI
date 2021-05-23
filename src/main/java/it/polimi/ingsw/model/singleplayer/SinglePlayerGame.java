@@ -119,8 +119,14 @@ public class SinglePlayerGame extends Game {
     @Override
     public void endTurn() {
         boolean canEndTurn = false;
-        if (getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0)
+        if (getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
+            setGameState(GameState.INGAME);
+            for (Player p : getPlayersList()) {
+                if (p.getLeaderActionBox().size() == 4)
+                    setGameState(GameState.INITGAME);
+            }
             canEndTurn = true;
+        }
         else {
             if (getTurnPhase() == TurnPhase.ENDTURN) {
                 canEndTurn = true;
