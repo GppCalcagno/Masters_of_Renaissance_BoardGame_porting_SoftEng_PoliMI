@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
-import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
@@ -16,18 +15,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UpdateCreator {
+public class UpdateCreator implements Updater {
     Server server;
 
     public UpdateCreator(Server server) {
         this.server = server;
     }
 
+    @Override
     public void onUpdateError(String name,String message) {
         MessageError messageError = new MessageError("server", message);
         server.sendtoPlayer(name, messageError);
     }
 
+    @Override
     public void onUpdateInitialLeaderCards (Player player, List<LeaderAction> leaderActionList) {
         List<String> stringList = new ArrayList<>();
         for (LeaderAction l : leaderActionList) {
@@ -37,6 +38,7 @@ public class UpdateCreator {
         server.sendtoPlayer(player.getNickname(), message);
     }
 
+    @Override
     public void onUpdateStartGame(DevelopmentCard[][][] developmentCardDeck, List<Player> playersList , Marbles[][] marketTray, Marbles remainingMarble){
         String[][][] stringdevCardDeck =devCardDeckConvert(developmentCardDeck);
 
@@ -63,11 +65,13 @@ public class UpdateCreator {
         server.sendBroadcastMessage(message);
     }
 
+    @Override
     public void onUpdateCurrentPlayer(Player currPlayer){
         MessageUpdateCurrPlayer message= new MessageUpdateCurrPlayer(currPlayer.getNickname());
         server.sendBroadcastMessage(message);
     }
 
+    @Override
     public void onUpdateFaithMarker(Player player, List<Player> playerList, boolean removeMarblefromBuffer, int blackcrosstoken){
         Map<String, Integer> playersPosition= new HashMap<>();
         Map<String, boolean[]> playersPopFavoriteTile= new HashMap<>();
@@ -81,27 +85,32 @@ public class UpdateCreator {
         server.sendBroadcastMessage(message);
     }
 
+    @Override
     public void onUpdateMarketTray(Player player, char direction, int num){
         MessageUpdateMarketTray message= new MessageUpdateMarketTray(player.getNickname(),direction, num);
         server.sendBroadcastMessage(message);
     }
 
+   @Override
     public void onUpdateDevCardDeck(Player player, DevelopmentCard card){
         MessageUpdateDevCardDeck message= new MessageUpdateDevCardDeck(player.getNickname(),card.getID());
         server.sendBroadcastMessage(message);
 
     }
 
+    @Override
     public void onUpdateActivatedDevCardProduction(Player player, String ID) {
         server.sendBroadcastMessage(new MessageActivatedDevCardProduction(player.getNickname(), ID));
     }
 
+    @Override
     public void onUpdatePlayerState(Player player, boolean state){
         MessageUpdatePlayerState message= new MessageUpdatePlayerState(player.getNickname(),state);
         server.sendBroadcastMessage(message);
 
     }
 
+    @Override
     public void onUpdateResources(Player player){
         WarehouseDepots warehouseDepots= player.getWarehouse();
         List<ExtraChest> extraChests = player.getWarehouse().getLeaderCardEffect();
@@ -114,30 +123,35 @@ public class UpdateCreator {
 
     }
 
+   @Override
     public void onUpdateSinglePlayer(int blackCrossToken, DevelopmentCard[][][] devCardsDeck, Tokens tokens, String tokenColor){
         MessageUpdateSinglePlayerGame message= new MessageUpdateSinglePlayerGame(blackCrossToken, tokens.getID(), devCardDeckConvert(devCardsDeck), tokenColor);
         server.sendBroadcastMessage(message);
 
     }
 
+    @Override
     public void onUpdateSlotDevCard(Player player, DevelopmentCard card, int column){
         MessageUpdateSlotDevCards message= new MessageUpdateSlotDevCards(player.getNickname(),card.getID(),column);
         server.sendBroadcastMessage(message);
 
     }
 
+    @Override
     public void onUpdateLeaderCard(Player player, String IDcard, boolean active){
         MessageUpdateStateLeaderAction message= new MessageUpdateStateLeaderAction(player.getNickname(), IDcard, active);
         server.sendBroadcastMessage(message);
 
     }
 
+    @Override
     public void onUpdateStrongBox(Player player){
         MessageUpdateStrongbox message= new MessageUpdateStrongbox(player.getNickname(), player.getStrongbox().getChest());
         server.sendBroadcastMessage(message);
 
     }
 
+    @Override
     public void onUpdateWarehouse(Player player, boolean removeMarble){
         WarehouseDepots warehouseDepots= player.getWarehouse();
         List<ExtraChest> extraChests= player.getWarehouse().getLeaderCardEffect();
@@ -149,6 +163,7 @@ public class UpdateCreator {
 
     }
 
+    @Override
     public void onUpdateWinnerMultiplayer(Player winner, List<Player> playerList){
         Map<String, Integer> playersPoints = new HashMap<>();
         for (Player p: playerList){
@@ -159,11 +174,13 @@ public class UpdateCreator {
 
     }
 
+    @Override
     public void onUpdateWinnerSinglePlayer(boolean winner, int finalpoint){
         MessageUpdateWinnerSinglePlayer message= new MessageUpdateWinnerSinglePlayer(winner, finalpoint);
         server.sendBroadcastMessage(message);
     }
 
+    @Override
     public void onUpdateGameFinished(){
         server.sendBroadcastMessage(new MessageGameFinished());
     }
@@ -222,7 +239,4 @@ public class UpdateCreator {
         }
         return stringdevCardDeck;
     }
-
-
-
 }

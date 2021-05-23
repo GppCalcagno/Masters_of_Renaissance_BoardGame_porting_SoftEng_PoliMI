@@ -151,12 +151,10 @@ public class ActionParser {
                     throw new MessageFormatErrorException(Color.ANSI_RED.escape() + "Type of Resources not Correct" + Color.RESET);
                 i=i+3;
             }//fine while
-
-        System.out.println(warehouse +" "+ strongBox +" "+ extraChest);
         controller.sendMessage(new MessagePayResources(playerBoard.getNickname(),warehouse,strongBox,extraChest));
         }
 
-    public void activeBaseProduction(String[] parts){
+    public void activeBaseProduction(String[] parts)  {
         controller.sendMessage(new MessageActiveBaseProduction(playerBoard.getNickname(), convertformat(parts[1]), parts[2].charAt(0), convertformat(parts[3]), parts[4].charAt(0), convertformat(parts[5])));
     }
 

@@ -5,8 +5,8 @@ import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.View.ViewInterface;
 
-public class MessageDisconnect extends Message {
-    public MessageDisconnect(String nickname) {
+public class MessageRequestDisconnect extends Message {
+    public MessageRequestDisconnect(String nickname) {
         super(nickname, MessageType.DISCONNECT);
     }
 

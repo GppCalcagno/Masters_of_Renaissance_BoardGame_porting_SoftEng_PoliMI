@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Game {
-    private int numPlayers;
 
     /** This attribute is the vector that contains the players' references */
     private List<Player> playersList;
@@ -58,6 +57,8 @@ public class Game {
 
     private UpdateCreator update;
 
+    private boolean isDuringGame;
+
     /**
      * This is the constructor method
      */
@@ -74,8 +75,8 @@ public class Game {
         this.canDoProduction = new boolean[6];
         setCanDoProductionTrue();
         this.update = update;
-        this.numPlayers = 0;
         this.gameState = GameState.INITGAME;
+        this.isDuringGame=false;
     }
 
     public void setCanDoProductionTrue(){
@@ -153,6 +154,7 @@ public class Game {
      * This method initialized the game. It make draw four Leader Cards to each player, that discards two; it extracts the first player and gives to all players the initial resources and faith points
      */
     public void startgame () {
+        isDuringGame=true;
         // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
         for (Player player : this.playersList) {
             for (int x = 0; x < 4; x++) {
@@ -356,7 +358,7 @@ public class Game {
                         this.increaseLorenzoFaithtrack();
                     } catch (ActiveVaticanReportException e) {
                         try {
-                            faithTrack.checkPopeSpace(playersList, 0);
+                            faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
                         } catch (GameFinishedException gameFinishedException) {
                             if (isFinishedGame())
                                 update.onUpdateGameFinished();
@@ -554,15 +556,22 @@ public class Game {
                         update.onUpdateError(currentPlayer.getNickname(),"You can only choose between W (Warehouse), S (Strongbox), E (ExtraChest).");
                         return false;
                 }
+                int old=0;
                 switch (r2) {
                     case 'W' :
-                        WarehouseRes.put(reqRes2, 1);
+                        if(WarehouseRes.containsKey(reqRes2))
+                            old=1;
+                        WarehouseRes.put(reqRes2, old+1);
                         break;
                     case 'S' :
-                        StrongboxRes.put(reqRes2, 1);
+                        if(StrongboxRes.containsKey(reqRes2))
+                            old=1;
+                        StrongboxRes.put(reqRes2,old+ 1);
                         break;
                     case 'E' :
-                        ExtrachestMap.put(reqRes2, 1);
+                        if(ExtrachestMap.containsKey(reqRes2))
+                            old=1;
+                        ExtrachestMap.put(reqRes2, old+ 1);
                         break;
                     default:
                         update.onUpdateError(currentPlayer.getNickname(),"You can only choose between W (Warehouse), S (Strongbox), E (ExtraChest).");
@@ -657,6 +666,7 @@ public class Game {
                     } catch (GameFinishedException gameFinishedException) {
                         if (isFinishedGame())
                             update.onUpdateGameFinished();
+                            return true;
                     }
                     update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
                 }
@@ -793,6 +803,7 @@ public class Game {
                             if (isFinishedGame())
                                 update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
                         }
+                        return true;
                     }
                 }
                 else currentPlayer.getStrongbox().updateResources(res,buffer.get(res));
@@ -930,6 +941,7 @@ public class Game {
                 Player winner = playersList.get(getWinner());
                 givefinalpoints();
                 update.onUpdateWinnerMultiplayer(winner, playersList);
+                isDuringGame=false;
                 return;
                 //finisci tutto
             }
@@ -1041,6 +1053,14 @@ public class Game {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+    }
+
+    public boolean isDuringGame() {
+        return isDuringGame;
+    }
+
+    public void setDuringGame(boolean duringGame) {
+        isDuringGame = duringGame;
     }
 
     public void fakeTaxi() {

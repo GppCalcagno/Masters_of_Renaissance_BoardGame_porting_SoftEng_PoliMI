@@ -30,5 +30,7 @@ public class MessageUpdateWinnerSinglePlayer extends Message {
     public void update(PlayerBoard playerBoard, ViewInterface view) {
         playerBoard.updateWinner(win,finalpoint);
         view.onUpdateWinnerSinglePlayer();
+        view.onDisconnect();
+
     }
 }
