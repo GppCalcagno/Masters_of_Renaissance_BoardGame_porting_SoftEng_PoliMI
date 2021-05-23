@@ -109,11 +109,21 @@ public class RequirementsProduction implements Requirements {
      * @param strongboxMap list of resources on StrongBox
      * @return
      */
-    public boolean checkResources(Map<String,Integer> warehouseMap, Map<String,Integer> strongboxMap, Map<String,Integer> extraChestMap) {
+    public boolean checkResources(Player player,Map<String,Integer> warehouseMap, Map<String,Integer> strongboxMap, Map<String,Integer> extraChestMap, boolean isBuying) {
         //qui ho hardcodato le risorse
         Resources[] listResources = {new Coins(), new Servants(), new Shields(), new Stones()};
 
         HashMap<String, Integer> tempMap = (HashMap<String, Integer>) reqMap.clone();
+
+
+        if(isBuying) {
+            for (Resources res : player.getLeaderCardEffectDiscount()) {
+                if (tempMap.containsKey(res.toString())) {
+                    if(tempMap.get(res.toString())>0)
+                        tempMap.put(res.toString(), tempMap.get(res.toString()) - 1);
+                }
+            }
+        }
 
         for (String x : tempMap.keySet()) {
             if (warehouseMap.containsKey(x)) tempMap.put(x, tempMap.get(x) - warehouseMap.get(x));
@@ -122,10 +132,13 @@ public class RequirementsProduction implements Requirements {
 
         }
 
+        //tutte le risorse sono state indicate nella giusta quantità
         for (String x : tempMap.keySet()) {
             if (tempMap.get(x) != 0) return false;
         }
 
+
+        //non sono state indicate risorse extra
         for(String x: warehouseMap.keySet()){
             if(!tempMap.containsKey(x))return false;
         }
@@ -137,7 +150,6 @@ public class RequirementsProduction implements Requirements {
         for(String x: extraChestMap.keySet()){
             if(!tempMap.containsKey(x))return false;
         }
-
         return true;
     }
 

@@ -36,7 +36,7 @@ class RequirementsProductionTest {
 
         warehouse.put("Coins",player.getWarehouse().getWarehouseNumResources(new Coins()));
 
-        assertTrue(tested.checkResources(warehouse,strongbox,extrachest));
+        assertTrue(tested.checkResources(player,warehouse,strongbox,extrachest,true));
 
         assertTrue(tested.checkResources(player));
 
@@ -133,7 +133,7 @@ class RequirementsProductionTest {
         WareHouseList.put(new Coins().toString(),3);
         extraChestList.put(new Shields().toString(),1);
 
-        assertTrue(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
+        assertTrue(tested.checkResources(new Player("test"),WareHouseList,StronBoxList,extraChestList,false));
     }
 
     @Test
@@ -150,7 +150,7 @@ class RequirementsProductionTest {
         WareHouseList.put(new Coins().toString(),2);
         StronBoxList.put(new Shields().toString(),1);
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
+        assertFalse(tested.checkResources(new Player("usti"),WareHouseList,StronBoxList,extraChestList,false));
     }
 
     @Test
@@ -168,7 +168,7 @@ class RequirementsProductionTest {
         WareHouseList.put(new Coins().toString(),4);
         StronBoxList.put(new Shields().toString(),1);
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
+        assertFalse(tested.checkResources(new Player("test"),WareHouseList,StronBoxList,extraChestList,false));
     }
 
     @Test
@@ -186,7 +186,7 @@ class RequirementsProductionTest {
 
 
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
+        assertFalse(tested.checkResources(new Player("pino"),WareHouseList,StronBoxList,extraChestList,false));
     }
 
     @Test
@@ -203,7 +203,7 @@ class RequirementsProductionTest {
 
         StronBoxList.put(new Shields().toString(),1);
 
-        assertFalse(tested.checkResources(WareHouseList,StronBoxList,extraChestList));
+        assertFalse(tested.checkResources(new Player("test"),WareHouseList,StronBoxList,extraChestList, true));
     }
 
 }

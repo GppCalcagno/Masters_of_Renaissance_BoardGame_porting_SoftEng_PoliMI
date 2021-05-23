@@ -491,7 +491,7 @@ public class Game {
 
     public boolean payResourcesToBuyDevCard (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
         if (turnPhase.equals(TurnPhase.BUYDEVCARD)) {
-            if (!currentPlayer.getCurrentDevCardToBuy().getCost().checkResources(WarehouseRes, StrongboxRes, ExtrachestMap)) {
+            if (!currentPlayer.getCurrentDevCardToBuy().getCost().checkResources(currentPlayer,WarehouseRes, StrongboxRes, ExtrachestMap,true)) {
                 update.onUpdateError(currentPlayer.getNickname(), "Insufficient resources.");
                 return false;
             }
@@ -801,7 +801,7 @@ public class Game {
             DevelopmentCard card = currentPlayer.getCurrentDevCardToProduce();
 
             //controlla se risorse corrispondono a costo carta
-            if(!card.getCostProduction().checkResources(WarehouseRes,StrongboxRes,ExtrachestMap)) {
+            if(!card.getCostProduction().checkResources(currentPlayer, WarehouseRes,StrongboxRes,ExtrachestMap, false)) {
                 update.onUpdateError(currentPlayer.getNickname(),"Insufficient resources.");
                 return false;
             }
