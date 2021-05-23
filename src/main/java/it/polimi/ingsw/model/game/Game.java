@@ -884,6 +884,8 @@ public class Game {
                 } else if (choice == 1) {
                     if (activeLeaderAction(ID)) {
                         update.onUpdateLeaderCard(currentPlayer, ID, true);
+                        if (ID.equals("LCCL1") || ID.equals("LCCL2") || ID.equals("LCCL3") || ID.equals("LCCL4"))
+                            update.onUpdateWarehouse(currentPlayer, false);
                         return true;
                     } else return false;
                 } else {
