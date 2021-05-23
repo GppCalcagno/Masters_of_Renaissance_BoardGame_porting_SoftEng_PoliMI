@@ -84,7 +84,7 @@ public class LorenzoIlMagnifico {
      */
     public void increaseFaithMarker(int quantity) throws ActiveVaticanReportException{
         this.blackCrossToken += quantity;
-        if (blackCrossToken == 8 || blackCrossToken == 16 || blackCrossToken == 24)  throw new ActiveVaticanReportException();
+        if (blackCrossToken >8)  throw new ActiveVaticanReportException();
 
     }
 

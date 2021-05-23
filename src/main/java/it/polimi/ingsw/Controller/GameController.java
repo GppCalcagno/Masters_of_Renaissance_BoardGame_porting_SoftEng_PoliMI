@@ -19,7 +19,7 @@ public class GameController {
     private Server server;
     private List<String> playersNames;
     private int numPlayer;
-    private Game game=null;
+    private Game game;
     private static Logger LOGGER= Logger.getLogger(Server.class.getName());
 
     private final static Object modelLock = new Object();
@@ -29,52 +29,57 @@ public class GameController {
         this.server = server;
         this.playersNames = new ArrayList<>();
         numPlayer=0;
+        try {
+            this.game=new Game(new UpdateCreator(server)); //mi serve solo per fare all'inizio game.isduringgame
+        } catch (IOException ioException) {
+            LOGGER.severe("FATAL ERROR: can't Read System File");
+            System.exit(0);
+        }
+
     }
 
     public void onRecivedMessage(Message message) {
         synchronized (modelLock){
-            switch (message.getMessageType()){
-                case LOGIN: message.action(this); break;
-                case NUMPLAYERS: message.action(this); break;
-                default:
-                    if(message.getNickname().equals(game.getCurrentPlayer().getNickname()))
-                        message.action(this);
-                    else
-                        server.sendtoPlayer(message.getNickname(),new MessageError("server","This isn't your Turn"));
-            }
+            message.action(this);
         }
     }
 
-    public void onLogin(String name){
-        if(playersNames.size()==0){
+    public void onLoginPhase(String name){
+        if(game.isDuringGame())
+            onLoginDuringGame(name);
+        else
+            onLoginBeforeGame(name);
+    }
+
+    public void onLoginDuringGame(String name){
+        //todo
+    }
+
+
+
+
+
+    public void onLoginBeforeGame(String name) {
+        if (playersNames.size() == 0) {
             playersNames.add(name);
             server.sendtoPlayer(name, new MessageRequestNumPlayers());
-        }
-        else
-        {
-            if (numPlayer==0 || (numPlayer>0 && playersNames.size()>=numPlayer)){
-                server.sendtoPlayer(name, new MessageError("server","Not yet established NumPlayer. Disconnecting..."));
-                server.sendtoPlayer(name, new MessageDisconnect(name));
-            }
-            else {
+        } else {
+            if (numPlayer == 0 || (numPlayer > 0 && playersNames.size() >= numPlayer)) {
+                server.sendtoPlayer(name, new MessageError("server", "Inconsistent number of players. Disconnecting..."));
+                server.sendtoPlayer(name, new MessageRequestDisconnect(name));
+            } else {
                 playersNames.add(name);
-                if(playersNames.size()==numPlayer) {
-                    try {
-                        game= new Game(new UpdateCreator(server));
-                        for(String player: playersNames){
+                if (playersNames.size() == numPlayer) {
+                    synchronized (modelLock) {
+                        for (String player : playersNames) {
                             game.addPlayersList(new Player(player));
                         }
                         game.startgame();
-                    } catch (IOException e) {
-                        server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));
-                        LOGGER.severe("FATAL ERROR: can't Read System File");
-                        System.exit(0);
                     }
-                }
-                else
+                } else
                     server.sendtoPlayer(name, new MessageWaitingForOtherPlayer());
-                }
             }
+        }
     }
 
     public void onNumPlayer(int num){
@@ -87,14 +92,14 @@ public class GameController {
                 numPlayer=num;
                 try {
                     if(num==1) {
-                        game = new SinglePlayerGame(new UpdateCreator(server));
-                        game.addPlayersList(new Player(playersNames.get(0)));
-                        game.startgame();
+                            game = new SinglePlayerGame(new UpdateCreator(server));
+                            game.addPlayersList(new Player(playersNames.get(0)));
+                            game.startgame();
                     }
                     else{
+                        game = new Game(new UpdateCreator(server));
                         server.sendBroadcastMessage(new MessageWaitingForOtherPlayer());
                     }
-
                 } catch (IOException e) {
                     server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));
                     LOGGER.severe("FATAL ERROR: can't Read System File");
@@ -105,7 +110,6 @@ public class GameController {
 
     public void disconnect(String name){
         if(game==null){
-
             playersNames.remove(name);
             if(playersNames.size()==0)
                 numPlayer=0;

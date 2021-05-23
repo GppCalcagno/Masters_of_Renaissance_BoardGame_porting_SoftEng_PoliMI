@@ -125,7 +125,7 @@ public class FaithTrack {
 
         if (currentPopTile < 3) {
             for (Player player : p) {
-                if (player.getFaithMarker() == VaticanReportSection[VaticanReportSectionindex] || blackCrossToken == VaticanReportSection[VaticanReportSectionindex])
+                if (player.getFaithMarker() >= VaticanReportSection[VaticanReportSectionindex] || blackCrossToken >= VaticanReportSection[VaticanReportSectionindex])
                     actived = 1;
             }
 
@@ -138,6 +138,7 @@ public class FaithTrack {
                 currentPopTile++;
             }
         }
+        System.out.println("currentPopTile"+currentPopTile);
         if(currentPopTile==3) throw new GameFinishedException();
     }
 

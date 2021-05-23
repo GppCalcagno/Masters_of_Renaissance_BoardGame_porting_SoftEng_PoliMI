@@ -13,6 +13,6 @@ public class MessageLogin extends Message {
 
     @Override
     public void action(GameController gameController) {
-        gameController.onLogin(super.getNickname());
+        gameController.onLoginPhase(super.getNickname());
     }
 }

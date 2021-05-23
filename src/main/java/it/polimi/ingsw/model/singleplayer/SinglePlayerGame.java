@@ -73,7 +73,7 @@ public class SinglePlayerGame extends Game {
             else i++;
         }
 
-        if(lorenzoIlMagnifico.getFaithMarker()==getFaithTrack().getFaithtracksize()){
+        if(lorenzoIlMagnifico.getFaithMarker()>=getFaithTrack().getFaithtracksize()){
             playerWin = false;
             finishedGame = true;
             return true;
@@ -135,6 +135,7 @@ public class SinglePlayerGame extends Game {
             }
         }
         if(canEndTurn){
+
             try {
                 playLorenzoTurn();
             } catch (ActiveVaticanReportException e) {
@@ -153,6 +154,7 @@ public class SinglePlayerGame extends Game {
             } catch (EndGameException e) {
                 givefinalpoints();
                 getUpdate().onUpdateWinnerSinglePlayer(playerWin, getCurrentPlayer().getVictoryPoints());
+                setDuringGame(false);
             }
         }
         else{

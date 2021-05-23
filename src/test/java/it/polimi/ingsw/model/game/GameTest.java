@@ -384,6 +384,7 @@ class GameTest {
 
         assertEquals(2, player.countTotalResources());
         assertTrue(game.activeBaseProduction('S', "Coins", 'S', "Coins", "Servants"));
+        game.endProduction();
         assertEquals(1, player.countTotalResources());
     }
 
