@@ -11,14 +11,10 @@ public class ClientController implements Observer {
     PlayerBoard board;
     ViewInterface view;
 
-    public ClientController() {
-        board=new PlayerBoard();
+    public ClientController(ViewInterface view) {
+        this.view=view;
+        board=view.getPlayerBoard();
     }
-
-    public void setView(ViewInterface view) {
-        this.view = view;
-    }
-
 
 
     @Override

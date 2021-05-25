@@ -54,4 +54,6 @@ public interface ViewInterface {
     void showLeaderAction(String ID);
 
     void showLorenzoTrun();
+
+    PlayerBoard getPlayerBoard();
 }

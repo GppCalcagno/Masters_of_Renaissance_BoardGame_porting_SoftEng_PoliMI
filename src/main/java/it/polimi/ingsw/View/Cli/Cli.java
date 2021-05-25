@@ -21,14 +21,13 @@ public class Cli implements ViewInterface {
     private Thread inThread;
 
     private String nickname;
-    /**
-     * @param playerBoard playerìs board
-     * @param controller client controller
-     */
-    public Cli(PlayerBoard playerBoard, ClientController controller) {
+
+
+    public Cli() {
+        this.playerBoard = new PlayerBoard();
+        this.controller = new ClientController(this);
         parser= new ActionParser(this,controller,playerBoard);
-        this.playerBoard = playerBoard;
-        this.controller = controller;
+
         out = System.out;
         inThread= new Thread(new InputReader(parser));
     }
@@ -142,6 +141,7 @@ public class Cli implements ViewInterface {
                         "\n -- <col> the index of the column of the slotdevcard\n" +
                         "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
                 showMarketTray();
+                showStrongbox();
                 showWarehouse();
                 showDevCardDeck();
                 showSlotDevCard();
@@ -488,6 +488,10 @@ public class Cli implements ViewInterface {
         if(playerBoard.getplayernumber()==1)
             out.println(Color.ANSI_YELLOW.escape()+"\t LORENZOTURN " + Color.RESET + " to show Lorenzo's last turn and which token he used \n");
 
+    }
+
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
     }
 
     public void clearboard(){
