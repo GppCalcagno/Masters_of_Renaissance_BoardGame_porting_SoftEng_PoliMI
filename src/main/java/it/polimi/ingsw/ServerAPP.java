@@ -21,7 +21,6 @@ public class ServerAPP {
                     LOGGER.severe("ERROR: WRONG PORT PARAMETER");
                     System.exit(2);
                 }
-
         }
 
         Server server= new Server(ServerPort);

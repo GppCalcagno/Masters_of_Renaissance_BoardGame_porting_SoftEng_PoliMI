@@ -113,7 +113,16 @@ public class ActionParser {
     }
 
     public void buyDevCard(String[] parts){
-            controller.sendMessage(new MessageBuyDevCard(playerBoard.getNickname(), parts[1], Integer.parseInt(parts[2])));
+        boolean flag = false;
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                for(int k=0; k<4; k++){
+                    if(playerBoard.getDevCardDeck()[i][j][k]!=null && playerBoard.getDevCardDeck()[i][j][k].equals(parts[1])) flag = true;
+                }
+            }
+        }
+        if(flag) controller.sendMessage(new MessageBuyDevCard(playerBoard.getNickname(), parts[1], Integer.parseInt(parts[2])));
+        else System.out.println(Color.ANSI_RED.escape() + "This card have been alredy bought! " + Color.ANSI_BRIGHTWHITE.escape());
     }
 
     public void payResources(String[] parts) throws MessageFormatErrorException {

@@ -33,7 +33,7 @@ public class Cli implements ViewInterface {
     }
 
     @Override
-    public void start(){
+    public void init(){
         new ViewStart();
         askServerInfo();
     }
@@ -492,6 +492,11 @@ public class Cli implements ViewInterface {
 
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
+    }
+
+    @Override
+    public ClientController getController() {
+        return controller;
     }
 
     public void clearboard(){

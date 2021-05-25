@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.View.Cli.Cli;
 import it.polimi.ingsw.View.Gui.Gui;
+import it.polimi.ingsw.View.Gui.GuiJavaFX;
 import it.polimi.ingsw.View.ViewInterface;
 
 public class ClientAPP2 {
@@ -15,11 +16,12 @@ public class ClientAPP2 {
             }
             else{
                 if(args[0].equals("--gui")||args[0].equals("-gui")){
-                    Gui.main(args);
+                    //view = new Gui();
+
                 }
             }
         }
-        view.start();
+        view.init();
 
     }
 }

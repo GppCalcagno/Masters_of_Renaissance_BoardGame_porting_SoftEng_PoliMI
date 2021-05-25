@@ -13,7 +13,7 @@ public interface ViewInterface {
     void askServerInfo();
     void askLogin();
     void askNumPlayer();
-    void start();
+    void init();
 
 
 
@@ -56,4 +56,5 @@ public interface ViewInterface {
     void showLorenzoTrun();
 
     PlayerBoard getPlayerBoard();
+    ClientController getController();
 }

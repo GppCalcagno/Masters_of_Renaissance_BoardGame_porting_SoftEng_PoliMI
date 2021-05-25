@@ -2,7 +2,9 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.View.Cli.Cli;
 import it.polimi.ingsw.View.Gui.Gui;
+import it.polimi.ingsw.View.Gui.GuiJavaFX;
 import it.polimi.ingsw.View.ViewInterface;
+import javafx.application.Application;
 
 public class ClientAPP {
 
@@ -15,11 +17,12 @@ public class ClientAPP {
             }
             else{
                 if(args[0].equals("--gui")||args[0].equals("-gui")){
-                    Gui.main(args);
+                    Application.launch(GuiJavaFX.class);
+                   // view = new Gui();
                 }
             }
         }
-        view.start();
+        view.init();
 
     }
 }
