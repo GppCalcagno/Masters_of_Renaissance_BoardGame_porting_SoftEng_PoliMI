@@ -858,16 +858,17 @@ public class Game {
         for (String res: buffer.keySet()){
             try {
                 if (res.equals("FaithMarker")) {
-                    try {
-                        currentPlayer.increasefaithMarker();
-                    } catch (ActiveVaticanReportException e) {
+                    for (int i = 0; i < buffer.get(res); i++) {
                         try {
-                            faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
-                        } catch (GameFinishedException gameFinishedException) {
-                            if (isFinishedGame())
-                                update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
+                            currentPlayer.increasefaithMarker();
+                        } catch (ActiveVaticanReportException e) {
+                            try {
+                                faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
+                            } catch (GameFinishedException gameFinishedException) {
+                                if (isFinishedGame())
+                                    update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
+                            }
                         }
-                        return true;
                     }
                 }
                 else currentPlayer.getStrongbox().updateResources(res,buffer.get(res));

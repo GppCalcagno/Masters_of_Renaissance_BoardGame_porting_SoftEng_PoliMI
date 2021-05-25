@@ -675,7 +675,7 @@ class GameTest {
     }
 
     @Test
-    void prova() throws IOException, EndGameException {
+    void addWhiteMarbleWithEffect() throws IOException, EndGameException {
         Game game = new Game(new UpdateCreator(new Server(1234)));
         Player player1 = new Player("Vanessa Leonardi");
         game.addPlayersList(player1);
@@ -691,4 +691,23 @@ class GameTest {
         assertEquals(1, player1.getWarehouse().getNumResources(new Stones()));
         assertEquals(1, player1.getWarehouse().getNumResources(new Shields()));
     }
+
+    @Test
+    void endProductionTest() throws IOException, EndGameException {
+        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Player player1 = new Player("Vanessa Leonardi");
+        game.addPlayersList(player1);
+        game.setCurrentPlayer();
+        player1.getSlotDevCards().getBuffer().put("FaithMarker", 4);
+        player1.getSlotDevCards().getBuffer().put("Coins", 5);
+        player1.getSlotDevCards().getBuffer().put("Servants", 3);
+        player1.getSlotDevCards().getBuffer().put("Shields", 1);
+        assertTrue(game.endProduction());
+        assertEquals(4, player1.getFaithMarker());
+        assertEquals(5, player1.getStrongbox().getNumResources("Coins"));
+        assertEquals(3, player1.getStrongbox().getNumResources("Servants"));
+        assertEquals(1, player1.getStrongbox().getNumResources("Shields"));
+    }
+
+
 }
