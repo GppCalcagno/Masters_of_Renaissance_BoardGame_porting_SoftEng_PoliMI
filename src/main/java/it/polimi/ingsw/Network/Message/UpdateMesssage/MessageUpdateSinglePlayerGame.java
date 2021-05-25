@@ -28,8 +28,8 @@ public class MessageUpdateSinglePlayerGame extends Message {
     }
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.singlePlayerUpdate(devCardDeck,blackCrossToken,ID, tokenColor);
+    public void update(ViewInterface view) {
+        view.getPlayerBoard().singlePlayerUpdate(devCardDeck,blackCrossToken,ID, tokenColor);
         view.onUpdateSinglePlayerGame();
     }
 }

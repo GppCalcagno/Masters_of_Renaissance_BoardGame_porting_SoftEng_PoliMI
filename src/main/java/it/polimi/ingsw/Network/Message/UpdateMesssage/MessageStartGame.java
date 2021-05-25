@@ -32,8 +32,8 @@ public class MessageStartGame extends Message {
 
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.onGameStart(playersNameList,leaderCardsToChoose,devCardDeckMethod,marketTray,remainingMarble);
+    public void update(ViewInterface view) {
+        view.getPlayerBoard().onGameStart(playersNameList,leaderCardsToChoose,devCardDeckMethod,marketTray,remainingMarble);
         view.onUpdateStartGame();
     }
 }

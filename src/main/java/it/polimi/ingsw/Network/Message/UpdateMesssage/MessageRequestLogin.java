@@ -12,7 +12,7 @@ public class MessageRequestLogin extends Message {
     }
 
     @Override
-    public  void update(PlayerBoard playerBoard, ViewInterface view){
+    public  void update(ViewInterface view){
         view.askLogin();
     }
 }

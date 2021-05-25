@@ -22,8 +22,8 @@ public class MessageUpdateWinnerMultiplayer extends Message {
 
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.updateWinner(playerWinner,playersPoints);
+    public void update(ViewInterface view) {
+        view.getPlayerBoard().updateWinner(playerWinner,playersPoints);
         view.onUpdateWinnerMultiplayer();
         view.onDisconnect();
     }

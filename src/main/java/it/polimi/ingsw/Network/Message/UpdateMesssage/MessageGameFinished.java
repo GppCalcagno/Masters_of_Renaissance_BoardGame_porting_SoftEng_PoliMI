@@ -13,7 +13,7 @@ public class MessageGameFinished extends Message {
 
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
+    public void update(ViewInterface view) {
         view.showMessage("the game will end on the next turn");
     }
 }

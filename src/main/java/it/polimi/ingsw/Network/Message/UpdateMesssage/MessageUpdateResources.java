@@ -22,8 +22,8 @@ public class MessageUpdateResources extends Message {
     }
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.updateresoruces(warehouse,extraChest,strongbox);
+    public void update(ViewInterface view) {
+        view.getPlayerBoard().updateresoruces(warehouse,extraChest,strongbox);
         view.onUpdateUpdateResources();
     }
 }

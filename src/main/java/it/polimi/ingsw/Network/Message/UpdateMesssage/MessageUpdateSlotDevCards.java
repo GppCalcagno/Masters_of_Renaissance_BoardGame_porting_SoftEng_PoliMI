@@ -18,8 +18,8 @@ public class MessageUpdateSlotDevCards extends Message {
     }
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.updateSlotDevCard(ID,column);
+    public void update(ViewInterface view) {
+        view.getPlayerBoard().updateSlotDevCard(ID,column);
         view.onUpdateSlotDevCards();
     }
 }

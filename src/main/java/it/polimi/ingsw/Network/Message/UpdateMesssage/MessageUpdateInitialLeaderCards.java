@@ -18,8 +18,8 @@ public class MessageUpdateInitialLeaderCards extends Message {
     }
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.setLeaderCard(leaderCardsID);
+    public void update(ViewInterface view) {
+        view.getPlayerBoard().setLeaderCard(leaderCardsID);
         view.onUpdateInitialLeaderCards(leaderCardsID);
     }
 }

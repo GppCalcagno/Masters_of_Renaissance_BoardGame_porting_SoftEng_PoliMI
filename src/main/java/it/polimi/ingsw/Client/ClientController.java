@@ -8,18 +8,16 @@ import it.polimi.ingsw.View.ViewInterface;
 
 public class ClientController implements Observer {
     ClientSocket clientSocket;
-    PlayerBoard board;
     ViewInterface view;
 
     public ClientController(ViewInterface view) {
         this.view=view;
-        board=view.getPlayerBoard();
     }
 
 
     @Override
     public void update(Message message) {
-        message.update(board,view);
+        message.update(view);
     }
 
     public void connect(String address, int port){
@@ -37,7 +35,4 @@ public class ClientController implements Observer {
         clientSocket.sendMessage(message);
     }
 
-    public PlayerBoard getBoard() {
-        return board;
-    }
 }

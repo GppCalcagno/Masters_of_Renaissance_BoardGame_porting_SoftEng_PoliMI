@@ -14,8 +14,8 @@ public class MessageUpdateCurrPlayer extends Message {
 
 
     @Override
-    public void update(PlayerBoard playerBoard, ViewInterface view) {
-        playerBoard.setCurrentPlayer(getNickname());
+    public void update(ViewInterface view) {
+        view.getPlayerBoard().setCurrentPlayer(getNickname());
         view.onUpdateCurrPlayer();
     }
 }
