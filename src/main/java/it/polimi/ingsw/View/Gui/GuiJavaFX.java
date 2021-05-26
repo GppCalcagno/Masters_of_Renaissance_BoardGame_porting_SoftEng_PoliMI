@@ -1,29 +1,34 @@
 package it.polimi.ingsw.View.Gui;
 
-import it.polimi.ingsw.Client.ClientController;
+import it.polimi.ingsw.Network.Message.ClientMessage.MessageLogin;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GuiJavaFX extends Application {
     private Gui gui;
-    private Stage window;
+    private static Stage window;
+
+    public static Stage getWindow() {
+        return window;
+    }
 
 
     @Override
-    public void start(Stage stage) throws Exception {
-        this.gui = new Gui(this);
-        gui.init();
-
+    public void start(Stage stage) {
+        window = stage;
+        window.setScene(login());
+        window.show();
     }
 
-    public void login(){
-        window = new Stage();
+    public Scene login(){
         window.setTitle("Login");
         window.setMinWidth(250);
         window.setMinHeight(300);
@@ -53,8 +58,6 @@ public class GuiJavaFX extends Application {
 
         grid.getChildren().addAll(address, addressIn, port, portIn, loginButton);
 
-        Scene scene = new Scene(grid, 600, 400);
-        window.setScene(scene);
-        window.show();
+        return new Scene(grid, 600, 400);
     }
 }

@@ -51,7 +51,7 @@
     "level" : 1,
     "costProduction" : {
       "reqMap" : {
-        "Shields" : 2
+        "Stones" : 2
       }
     },
     "productedResources" : {

@@ -3,6 +3,7 @@ package it.polimi.ingsw.View.Gui;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.View.ViewInterface;
+import javafx.application.Platform;
 
 import java.util.List;
 
@@ -11,31 +12,35 @@ public class Gui implements ViewInterface {
     private PlayerBoard playerBoard;
     private ClientController clientController;
     private GuiJavaFX guiJavaFX;
+    private SceneLauncher sceneLauncher;
 
     public Gui(GuiJavaFX guiJavaFX){
         playerBoard = new PlayerBoard();
         clientController = new ClientController(this);
         this.guiJavaFX = guiJavaFX;
+        this.sceneLauncher = new SceneLauncher(clientController);
     }
 
     @Override
-    public void askServerInfo() {
-        Login.display();
-    }
+    public void askServerInfo() {}
 
     @Override
     public void askLogin() {
-
+        Platform.runLater(()-> {
+            GuiJavaFX.getWindow().setScene(sceneLauncher.askLogin());
+        });
     }
 
     @Override
     public void askNumPlayer() {
-
+        Platform.runLater(()-> {
+            GuiJavaFX.getWindow().setScene(sceneLauncher.askNumPlayer());
+        });
     }
 
     @Override
     public void init() {
-        askServerInfo();
+        //askServerInfo();
     }
 
     @Override
