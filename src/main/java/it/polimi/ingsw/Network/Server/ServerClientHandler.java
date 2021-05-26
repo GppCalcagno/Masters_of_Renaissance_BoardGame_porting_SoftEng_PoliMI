@@ -52,6 +52,7 @@ public class ServerClientHandler implements Runnable, Observer {
         } catch (IOException e) {
             SERVERLOGGER.severe("ERROR: THREAD INITIALIZATION ");
         }
+        SERVERLOGGER.info("server send a message: asklogin");
         output.writeObject(new MessageRequestLogin());
 
     }

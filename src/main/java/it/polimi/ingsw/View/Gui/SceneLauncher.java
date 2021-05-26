@@ -17,8 +17,9 @@ public class SceneLauncher {
     private ClientController controller;
     private PlayerBoard playerBoard;
 
-    public SceneLauncher(ClientController controller) {
+    public SceneLauncher(ClientController controller, PlayerBoard playerBoard) {
         this.controller = controller;
+        this.playerBoard = playerBoard;
     }
 
     public Scene askLogin(){
@@ -32,12 +33,12 @@ public class SceneLauncher {
 
         TextField nickname = new TextField();
         GridPane.setConstraints(nickname, 1,0);
-        String nic = nickname.getText();
 
         Button nickButton = new Button("Go");
         GridPane.setConstraints(nickButton, 1, 2);
         nickButton.setOnAction(e->{
-            controller.sendMessage(new MessageLogin(nic));
+            playerBoard.setNickname(nickname.getText());
+            controller.sendMessage(new MessageLogin(nickname.getText()));
         });
 
         grid.getChildren().addAll(nickLabel, nickname, nickButton);
@@ -56,16 +57,46 @@ public class SceneLauncher {
 
         TextField numPlayersField = new TextField();
         GridPane.setConstraints(numPlayersField, 1,0);
-        int numPlayers = parseInt(numPlayersField.getText());
 
-        Button nickButton = new Button("Go");
-        GridPane.setConstraints(nickButton, 1, 2);
-        nickButton.setOnAction(e->{
-            controller.sendMessage(new MessageNumPlayers(playerBoard.getNickname(), numPlayers));
+
+        Button numButton = new Button("Go");
+        GridPane.setConstraints(numButton, 1, 2);
+        numButton.setOnAction(e->{
+            try{
+                controller.sendMessage(new MessageNumPlayers(playerBoard.getNickname(), Integer.parseInt(numPlayersField.getText())));
+            }catch (NumberFormatException ignore){}
         });
 
-        grid.getChildren().addAll(numPlayersLabel, numPlayersField, nickButton);
+        grid.getChildren().addAll(numPlayersLabel, numPlayersField, numButton);
 
+        return new Scene(grid, 600, 400);
+    }
+
+    public Scene askServerInfo() {
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
+
+        Label address = new Label("Server address: ");
+        GridPane.setConstraints(address, 0, 0);
+
+        TextField addressIn = new TextField("127.0.0.1");
+        GridPane.setConstraints(addressIn, 1,0);
+
+        Label port = new Label("Port: ");
+        GridPane.setConstraints(port, 0,1);
+
+        TextField portIn = new TextField("1234");
+        GridPane.setConstraints(portIn, 1,1);
+
+        Button loginButton = new Button("Login");
+        GridPane.setConstraints(loginButton, 1, 2);
+        loginButton.setOnAction(e->{
+            controller.connect(addressIn.getText(), Integer.parseInt(portIn.getText()));
+        });
+
+        grid.getChildren().addAll(address, addressIn, port, portIn, loginButton);
         return new Scene(grid, 600, 400);
     }
 }

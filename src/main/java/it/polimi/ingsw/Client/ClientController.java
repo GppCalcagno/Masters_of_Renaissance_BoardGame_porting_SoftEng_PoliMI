@@ -14,7 +14,6 @@ public class ClientController implements Observer {
         this.view=view;
     }
 
-
     @Override
     public void update(Message message) {
         message.update(view);
@@ -22,7 +21,6 @@ public class ClientController implements Observer {
 
     public void connect(String address, int port){
         this.clientSocket= new ClientSocket(address,port,this);
-        clientSocket.readMessage();
     }
 
     public void disconnect(){
@@ -33,6 +31,10 @@ public class ClientController implements Observer {
 
     public void sendMessage(Message message) {
         clientSocket.sendMessage(message);
+    }
+
+    public void readMessage(){
+        clientSocket.readMessage();
     }
 
 }

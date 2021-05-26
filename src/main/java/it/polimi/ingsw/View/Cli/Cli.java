@@ -27,8 +27,8 @@ public class Cli implements ViewInterface {
         this.playerBoard = new PlayerBoard();
         this.controller = new ClientController(this);
         parser= new ActionParser(this,controller,playerBoard);
-
         out = System.out;
+        init();
         inThread= new Thread(new InputReader(parser));
     }
 
@@ -64,6 +64,7 @@ public class Cli implements ViewInterface {
 
 
         controller.connect(serverAddress, serverPort);
+        controller.readMessage();
     }
 
     @Override

@@ -1,15 +1,12 @@
 package it.polimi.ingsw.View.Gui;
 
-import it.polimi.ingsw.Network.Message.ClientMessage.MessageLogin;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GuiJavaFX extends Application {
@@ -23,16 +20,13 @@ public class GuiJavaFX extends Application {
 
     @Override
     public void start(Stage stage) {
+        gui= new Gui();
         window = stage;
-        window.setScene(login());
+        window.setScene(ServerInfo());
         window.show();
     }
 
-    public Scene login(){
-        window.setTitle("Login");
-        window.setMinWidth(250);
-        window.setMinHeight(300);
-
+    public Scene ServerInfo(){
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
         grid.setHgap(10);
@@ -53,10 +47,13 @@ public class GuiJavaFX extends Application {
         Button loginButton = new Button("Login");
         GridPane.setConstraints(loginButton, 1, 2);
         loginButton.setOnAction(e->{
+            Thread guiThread= new Thread(gui);
             gui.getController().connect(addressIn.getText(), Integer.parseInt(portIn.getText()));
+            guiThread.start();
         });
 
         grid.getChildren().addAll(address, addressIn, port, portIn, loginButton);
+
 
         return new Scene(grid, 600, 400);
     }

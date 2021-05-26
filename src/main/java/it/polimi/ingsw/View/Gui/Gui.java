@@ -7,22 +7,26 @@ import javafx.application.Platform;
 
 import java.util.List;
 
-public class Gui implements ViewInterface {
+public class Gui implements ViewInterface, Runnable{
 
     private PlayerBoard playerBoard;
     private ClientController clientController;
-    private GuiJavaFX guiJavaFX;
     private SceneLauncher sceneLauncher;
 
-    public Gui(GuiJavaFX guiJavaFX){
+    public Gui(){
         playerBoard = new PlayerBoard();
         clientController = new ClientController(this);
-        this.guiJavaFX = guiJavaFX;
-        this.sceneLauncher = new SceneLauncher(clientController);
+        this.sceneLauncher = new SceneLauncher(clientController, playerBoard);
     }
 
     @Override
-    public void askServerInfo() {}
+    public void run(){
+        clientController.readMessage();
+    }
+
+    @Override
+    public void askServerInfo() {
+    }
 
     @Override
     public void askLogin() {
