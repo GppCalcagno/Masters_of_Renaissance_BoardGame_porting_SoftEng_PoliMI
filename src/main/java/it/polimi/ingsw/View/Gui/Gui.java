@@ -49,6 +49,9 @@ public class Gui implements ViewInterface, Runnable{
 
     @Override
     public void onUpdateStartGame() {
+        Platform.runLater(()->{
+            GuiJavaFX.getWindow().setScene(sceneLauncher.mainboard());
+        });
 
     }
 

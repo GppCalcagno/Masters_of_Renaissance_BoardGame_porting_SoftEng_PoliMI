@@ -23,6 +23,8 @@ public class GuiJavaFX extends Application {
         gui= new Gui();
         window = stage;
         window.setScene(ServerInfo());
+        window.setTitle("Maestri del Rinascimento");
+        window.setMaximized(true);
         window.show();
     }
 
