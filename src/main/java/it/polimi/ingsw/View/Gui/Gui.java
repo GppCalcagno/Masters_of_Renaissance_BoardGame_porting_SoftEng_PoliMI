@@ -55,6 +55,9 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateStartGame() {
+        Platform.runLater(()->{
+            sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+        });
     }
 
     @Override
