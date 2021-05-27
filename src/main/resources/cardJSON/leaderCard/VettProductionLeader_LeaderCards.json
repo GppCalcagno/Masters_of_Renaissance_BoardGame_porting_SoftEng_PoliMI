@@ -1,0 +1,58 @@
+[
+{
+	"ID" : "LCPL1",
+	"cost" : 
+	{
+		"type" : "RequestedLevelDevelopmentCards",
+		"reqColor" : "YELLOW",
+		"reqLevel" : 2
+	},
+	"victoryPoints" : 4,
+	"resources" : {
+		"type" : "Shields"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCPL2",
+	"cost" : 
+	{
+		"type" : "RequestedLevelDevelopmentCards",
+		"reqColor" : "BLUE",
+		"reqLevel" : 2
+	},
+	"victoryPoints" : 4,
+	"resources" : {
+		"type" : "Servants"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCPL3",
+	"cost" : 
+	{
+		"type" : "RequestedLevelDevelopmentCards",
+		"reqColor" : "PURPLE",
+		"reqLevel" : 2
+	},
+	"victoryPoints" : 4,
+	"resources" : {
+		"type" : "Stones"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCPL4",
+	"cost" : 
+	{
+		"type" : "RequestedLevelDevelopmentCards",
+		"reqColor" : "GREEN",
+		"reqLevel" : 2
+	},
+	"victoryPoints" : 4,
+	"resources" : {
+		"type" : "Coins"
+	},
+	"activated" : false
+}
+]

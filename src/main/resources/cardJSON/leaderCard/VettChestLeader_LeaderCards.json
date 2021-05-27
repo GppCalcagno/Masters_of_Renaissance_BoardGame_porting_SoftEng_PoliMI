@@ -1,0 +1,66 @@
+[
+{
+	"ID" : "LCCL1",
+	"cost" : 
+	{
+		"type" : "RequestedResources",
+		"reqResources" : {
+			"type" : "Coins"
+		},
+		"reqnumResources" : 5
+	},
+	"victoryPoints" : 3,
+	"resources" : {
+		"type" : "Stones"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCCL2",
+	"cost" : 
+	{
+		"type" : "RequestedResources",
+		"reqResources" : {
+			"type" : "Stones"
+		},
+		"reqnumResources" : 5
+	},
+	"victoryPoints" : 3,
+	"resources" : {
+		"type" : "Servants"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCCL3",
+	"cost" : 
+	{
+		"type" : "RequestedResources",
+		"reqResources" : {
+			"type" : "Servants"
+		},
+		"reqnumResources" : 5
+	},
+	"victoryPoints" : 3,
+	"resources" : {
+		"type" : "Shields"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCCL4",
+	"cost" : 
+	{
+		"type" : "RequestedResources",
+		"reqResources" : {
+			"type" : "Shields"
+		},
+		"reqnumResources" : 5
+	},
+	"victoryPoints" : 3,
+	"resources" : {
+		"type" : "Coins"
+	},
+	"activated" : false
+}
+]

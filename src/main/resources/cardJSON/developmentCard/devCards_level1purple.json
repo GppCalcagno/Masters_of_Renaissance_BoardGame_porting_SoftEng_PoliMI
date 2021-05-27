@@ -1,0 +1,85 @@
+[
+  {
+    "ID" : "DCL1P1",
+    "cost" : {
+      "reqMap": {
+        "Servants" : 2
+      }
+    },
+    "colorCard" : "PURPLE",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap": {
+        "Stones": 1
+      }
+    },
+    "productedResources" : {
+      "FaithMarker" : 1
+    },
+    "victoryPoints" : 1
+  },
+  {
+    "ID" : "DCL1P2",
+    "cost" : {
+      "reqMap" : {
+        "Shields" : 1,
+        "Servants" : 1,
+        "Coins" : 1
+      }
+    },
+    "colorCard" : "PURPLE",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap" : {
+        "Coins" : 1
+      }
+    },
+    "productedResources" : {
+      "Shields" : 1
+    },
+    "victoryPoints" : 2
+  },
+  {
+    "ID" : "DCL1P3",
+    "cost" : {
+      "reqMap" : {
+        "Servants" : 3
+      }
+    },
+    "colorCard" : "PURPLE",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap" : {
+        "Coins" : 2
+      }
+    },
+    "productedResources" : {
+      "Servants" : 1,
+      "Shields" : 1,
+      "Stones" : 1
+    },
+    "victoryPoints" : 3
+  },
+  {
+    "ID" : "DCL1P4",
+    "cost" : {
+      "reqMap" : {
+        "Servants" : 2,
+        "Stones" : 2
+      }
+    },
+    "colorCard" : "PURPLE",
+    "level" : 1,
+    "costProduction" : {
+      "reqMap" : {
+        "Coins" : 1,
+        "Shields" : 1
+      }
+    },
+    "productedResources" : {
+      "Stones" : 2,
+      "FaithMarker" : 1
+    },
+    "victoryPoints" : 4
+  }
+]

@@ -52,7 +52,7 @@ public class MarketStructure {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(marblesRuntimeTypeAdapterFactory)
                 .create();
-        String marblesString = Files.readString(Paths.get("src/cardJSON/Marbles.json"));
+        String marblesString = Files.readString(Paths.get("src/main/resources/cardJSON/Marbles.json"));
         Marbles[] marblesvet = gson.fromJson(marblesString, Marbles[].class);
         List<Marbles> marblesList = Arrays.asList(marblesvet);
 

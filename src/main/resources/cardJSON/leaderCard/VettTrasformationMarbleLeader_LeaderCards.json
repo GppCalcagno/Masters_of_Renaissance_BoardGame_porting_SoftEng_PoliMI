@@ -1,0 +1,66 @@
+[
+{
+	"ID" : "LCTL1",
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"YELLOW" : 2,
+			"BLUE" : 1
+		}
+	},
+	"victoryPoints" : 5,
+	"resources" : {
+		"type" : "Servants"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCTL2",
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"GREEN" : 2,
+			"PURPLE" : 1
+		}
+	},
+	"victoryPoints" : 5,
+	"resources" : {
+		"type" : "Shields"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCTL3",
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"BLUE" : 2,
+			"YELLOW" : 1
+		}
+	},
+	"victoryPoints" : 5,
+	"resources" : {
+		"type" : "Stones"
+	},
+	"activated" : false
+},
+{
+	"ID" : "LCTL4",
+	"cost" : 
+	{
+		"type" : "RequestedTypeDevelopmentCards",
+		"reqDevelopmentCards" : {
+			"PURPLE" : 2,
+			"GREEN" : 1
+		}
+	},
+	"victoryPoints" : 5,
+	"resources" : {
+		"type" : "Coins"
+	},
+	"activated" : false
+}
+]
