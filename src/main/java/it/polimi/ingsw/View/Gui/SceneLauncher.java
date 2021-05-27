@@ -2,24 +2,27 @@ package it.polimi.ingsw.View.Gui;
 
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.ClientMessage.MessageExchangeWarehouse;
-import it.polimi.ingsw.Network.Message.ClientMessage.MessageLogin;
-import it.polimi.ingsw.Network.Message.ClientMessage.MessageNumPlayers;
+import it.polimi.ingsw.Network.Message.ClientMessage.*;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.*;
-import java.util.Locale;
+
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -140,8 +143,12 @@ public class SceneLauncher {
         //bottoni show
         Button  showMarketTray = new Button("Show\nMarket Tray");
         Button showDevDeck = new Button("Show\nDevDeck");
+        Button endTurnButton = new Button("End Turn");
+        endTurnButton.setOnAction(e->{
+            controller.sendMessage(new MessageEndTurn(playerBoard.getNickname()));
+        });
 
-        tilePane.getChildren().addAll(actionMarketTray, actionActiveProduction, actionBuyDevCard, showDevDeck, showMarketTray);
+        tilePane.getChildren().addAll(actionMarketTray, actionActiveProduction, actionBuyDevCard, showDevDeck, showMarketTray, endTurnButton);
 
         //layout leadercard
         VBox leadercard = new VBox();
@@ -375,4 +382,216 @@ public class SceneLauncher {
         }
     }
 
+
+    public Scene chooseInitialLeaderCards() {
+        HBox box1 = new HBox();
+        ImageView[] leaderCardImgView = new ImageView[4];
+        int i = 0;
+
+        for (String leaderCard : playerBoard.getLeaderCards()) {
+            Image leaderCardImage = new Image("front/" + leaderCard + ".png");
+            leaderCardImgView[i] = new ImageView(leaderCardImage);
+            leaderCardImgView[i].setX(50 + i*10);
+            leaderCardImgView[i].setY(20);
+            leaderCardImgView[i].setFitHeight(200);
+            leaderCardImgView[i].setFitWidth(200);
+            leaderCardImgView[i].setPreserveRatio(true);
+            i++;
+        }
+        box1.getChildren().addAll(leaderCardImgView);
+
+        HBox box2 = new HBox();
+        int[] chosenLeaderCards = new int[2];
+
+        Label labelLeaderCard1 = new Label("First Leader card: ");
+        ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList(
+                "1", "2", "3", "4")
+        );
+
+        Label labelLeaderCard2 = new Label("Second Leader card: ");
+        ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList(
+                "1", "2", "3", "4")
+        );
+        cb1.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                    Number old_value, Number new_val) -> {
+                        chosenLeaderCards[0] = new_val.intValue();
+                });
+
+        cb2.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    chosenLeaderCards[1] = new_val.intValue();
+                });
+        Button enterCards = new Button("Enter");
+        enterCards.setOnAction(e->{
+            controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), chosenLeaderCards[0], chosenLeaderCards[1]));
+        });
+        box2.getChildren().addAll(labelLeaderCard1, cb1, labelLeaderCard2, cb2, enterCards);
+        BorderPane total =new BorderPane();
+        total.setTop(box1);
+        total.setCenter(box2);
+        return new Scene(total, 1000, 1000);
+    }
+
+    public Scene chooseInitialResources(){
+        HBox boxResources = new HBox();
+        List<ImageView> resourcesView = new ArrayList<>();
+        String[] resourcePath = {"coin.png", "servant.png", "shield.png", "stone.png"};
+        List<String> resourcesToSend = new ArrayList<>();
+
+        for (String r : resourcePath){
+            ImageView resourceView = new ImageView(new Image("punchboard/" + r));
+            resourceView.setFitWidth(100);
+            resourceView.setFitHeight(100);
+            resourcesView.add(resourceView);
+        }
+
+        boxResources.getChildren().addAll(resourcesView);
+
+        HBox boxChoice = new HBox();
+        String[] resourcesVett = {"Coins", "Servants", "Shields", "Stones"};
+
+        Label labelResources1 = new Label("First Resource: ");
+        ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList(
+                "Coin", "Servant", "Shield", "Stone")
+        );
+
+        Label labelResources2 = new Label("Second Resource: ");
+        ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList(
+                "Coin", "Servant", "Shield", "Stone")
+        );
+        cb1.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    resourcesToSend.add(resourcesVett[new_val.intValue()]);
+                });
+
+        cb2.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    resourcesToSend.add(resourcesVett[new_val.intValue()]);
+                });
+        Button enterCards = new Button("Enter");
+        enterCards.setOnAction(e->{
+            controller.sendMessage(new MessageChooseResourcesFirstTurn(playerBoard.getNickname(), resourcesToSend));
+        });
+        if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 1 || playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 2)
+            boxChoice.getChildren().addAll(labelResources1, cb1, enterCards);
+        else if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 4)
+            boxChoice.getChildren().addAll(labelResources1, cb1, labelResources2, cb2, enterCards);
+
+        BorderPane total =new BorderPane();
+        total.setTop(boxResources);
+        total.setCenter(boxChoice);
+        return new Scene(total, 1000, 1000);
+    }
+
+    public Scene showMessage(String message) {
+        TextFlow textFlow = new TextFlow();
+        Text text = new Text(message);
+        textFlow.getChildren().addAll(text);
+        Group group = new Group(textFlow);
+        return new Scene(group, 650, 150);
+    }
+
+    public void showErrorMessage(String errorMessage) {
+        Stage stage1 = new Stage();
+        TextFlow textFlow = new TextFlow();
+        Text text = new Text(errorMessage);
+        textFlow.getChildren().addAll(text);
+        Group group = new Group(textFlow);
+        stage1.setTitle("Error");
+        stage1.setScene(new Scene(group, 650, 150));
+        stage1.show();
+    }
+
+    public void payResourcesScene() {
+        HBox boxWarehouse = new HBox();
+
+        Label labelWarehouse = new Label("Warehouse: ");
+        boxWarehouse.getChildren().addAll(labelWarehouse);
+
+        HBox boxTop1 = new HBox();
+
+        Label labelCoinW = new Label("Coins: ");
+        TextField numCoinsWarehouse = new TextField();
+        Label labelServantW = new Label("Servants: ");
+        TextField numServantsWarehouse = new TextField();
+        Label labelShieldW = new Label("Shields: ");
+        TextField numShieldsWarehouse = new TextField();
+        Label labelStonesW = new Label("Stones: ");
+        TextField numStonesWarehouse = new TextField();
+        boxTop1.getChildren().addAll(labelCoinW, numCoinsWarehouse, labelServantW, numServantsWarehouse, labelShieldW, numShieldsWarehouse, labelStonesW, numStonesWarehouse);
+
+        HBox boxStrongbox = new HBox();
+
+        Label labelStrongbox = new Label("Strongbox: ");
+        boxStrongbox.getChildren().addAll(labelStrongbox);
+
+        HBox boxTop2 = new HBox();
+
+        Label labelCoinS = new Label("Coins: ");
+        TextField numCoinsStrongbox = new TextField();
+        Label labelServantS = new Label("Servants: ");
+        TextField numServantsStrongbox = new TextField();
+        Label labelShieldS = new Label("Shields: ");
+        TextField numShieldsStrongbox = new TextField();
+        Label labelStonesS = new Label("Stones: ");
+        TextField numStonesStrongbox = new TextField();
+        boxTop2.getChildren().addAll(labelCoinS, numCoinsStrongbox, labelServantS, numServantsStrongbox, labelShieldS, numShieldsStrongbox, labelStonesS, numStonesStrongbox);
+
+        HBox boxExtraChest = new HBox();
+
+        Label labelExtraChest = new Label("ExtraChest: ");
+        boxExtraChest.getChildren().addAll(labelExtraChest);
+
+        HBox boxTop3 = new HBox();
+
+        Label labelCoinE = new Label("Coins: ");
+        TextField numCoinsExtraChest = new TextField();
+        Label labelServantE = new Label("Servants: ");
+        TextField numServantsExtraChest = new TextField();
+        Label labelShieldE = new Label("Shields: ");
+        TextField numShieldsExtraChest = new TextField();
+        Label labelStonesE = new Label("Stones: ");
+        TextField numStonesExtraChest = new TextField();
+        boxTop3.getChildren().addAll(labelCoinE, numCoinsExtraChest, labelServantE, numServantsExtraChest, labelShieldE, numShieldsExtraChest, labelStonesE, numStonesExtraChest);
+
+        HBox boxEnter = new HBox();
+
+        Button enterButton = new Button("Enter");
+        enterButton.setOnAction(e->{
+            Map<String, Integer> warehouseMap = new HashMap<>();
+            Map<String, Integer> strongboxMap = new HashMap<>();
+            Map<String, Integer> extraChestMap = new HashMap<>();
+            if (numCoinsWarehouse.getText() != null)
+                warehouseMap.put("Coins", Integer.parseInt(numCoinsWarehouse.getText()));
+            if (numServantsWarehouse.getText() != null)
+                warehouseMap.put("Servants", Integer.parseInt(numServantsWarehouse.getText()));
+            if (numShieldsWarehouse.getText() != null)
+                warehouseMap.put("Shields", Integer.parseInt(numShieldsWarehouse.getText()));
+            if (numStonesWarehouse.getText() != null)
+                warehouseMap.put("Stones", Integer.parseInt(numStonesWarehouse.getText()));
+            if (numCoinsStrongbox.getText() != null)
+                strongboxMap.put("Coins", Integer.parseInt(numCoinsStrongbox.getText()));
+            if (numServantsStrongbox.getText() != null)
+                strongboxMap.put("Servants", Integer.parseInt(numServantsStrongbox.getText()));
+            if (numShieldsStrongbox.getText() != null)
+                strongboxMap.put("Shields", Integer.parseInt(numShieldsStrongbox.getText()));
+            if (numStonesStrongbox.getText() != null)
+                strongboxMap.put("Stones", Integer.parseInt(numStonesStrongbox.getText()));
+            if (numCoinsExtraChest.getText() != null)
+                extraChestMap.put("Coins", Integer.parseInt(numCoinsExtraChest.getText()));
+            if (numServantsExtraChest.getText() != null)
+                extraChestMap.put("Servants", Integer.parseInt(numServantsExtraChest.getText()));
+            if (numShieldsExtraChest.getText() != null)
+                extraChestMap.put("Shields", Integer.parseInt(numShieldsExtraChest.getText()));
+            if (numStonesExtraChest.getText() != null)
+                extraChestMap.put("Stones", Integer.parseInt(numStonesExtraChest.getText()));
+            controller.sendMessage(new MessagePayResources(playerBoard.getNickname(), warehouseMap, strongboxMap, extraChestMap));
+        });
+        boxEnter.getChildren().addAll(enterButton);
+        //Scene scene = new Scene(boxWarehouse, boxTop1, boxStrongbox, boxTop2, boxExtraChest, boxTop3, boxEnter);
+    }
 }

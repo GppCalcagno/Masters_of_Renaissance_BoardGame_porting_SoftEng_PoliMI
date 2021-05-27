@@ -55,19 +55,58 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateStartGame() {
-        Platform.runLater(()->{
-            sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
-        });
+        if (playerBoard.isMyturn()) {
+            Platform.runLater(() -> {
+                sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialLeaderCards());
+            });
+        }
+        else {
+            Platform.runLater(() -> {
+                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+            });
+        }
     }
 
     @Override
     public void onUpdateCurrPlayer() {
-
+        if(playerBoard.isMyturn()) {
+            if (playerBoard.getLeaderCards().size() == 4) {
+                Platform.runLater(() -> {
+                    sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialLeaderCards());
+                });
+            }
+            else {
+                Platform.runLater(() -> {
+                    sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+                });
+            }
+        }
+        else {
+            Platform.runLater(() -> {
+                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+            });
+        }
     }
 
     @Override
     public void onUpdateInitialLeaderCards(List<String> leaderCard) {
-
+        if (playerBoard.isMyturn()) {
+            if (playerBoard.getPlayerList().indexOf(playerBoard.getCurrentPlayer()) == 0) {
+                Platform.runLater(() -> {
+                    sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+                });
+            }
+            else {
+                Platform.runLater(() -> {
+                    sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialResources());
+                });
+            }
+        }
+        else {
+            Platform.runLater(() -> {
+                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+            });
+        }
     }
 
     @Override
@@ -77,7 +116,9 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateError(String error) {
-
+        Platform.runLater(() -> {
+            sceneLauncher.showErrorMessage(error);
+        });
     }
 
     @Override
@@ -127,7 +168,17 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateWarehouse() {
-
+        //provvisorio
+        if (playerBoard.isMyturn()) {
+            Platform.runLater(() -> {
+                sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+            });
+        }
+        else {
+            Platform.runLater(() -> {
+                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+            });
+        }
     }
 
     @Override
@@ -147,7 +198,9 @@ public class Gui implements ViewInterface{
 
     @Override
     public void showMessage(String message) {
-
+        Platform.runLater(() -> {
+            sceneLauncher.getStage().setScene(sceneLauncher.showMessage("Wait for other players"));
+        });
     }
 
     @Override
