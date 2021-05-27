@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network.Server;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageError;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestLogin;
+import it.polimi.ingsw.Network.Server.UpdateSender.ServerUpdate;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Controller.GameController;
 
@@ -31,7 +32,7 @@ public class Server extends Observable {
      * @param port is the port of the Server
      */
     public Server(int port){
-        this.gameController= new GameController(this);
+        this.gameController= new GameController(new ServerUpdate(this),true);
         iDClientMap = new HashMap<>();
         iDNameMap = new HashMap<>();
 

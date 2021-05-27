@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.game;
 
-import it.polimi.ingsw.Network.Server.JavaSerUpdateCreator;
+import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
 import it.polimi.ingsw.Network.Server.Server;
-import it.polimi.ingsw.Network.Server.ServerUpdate;
+import it.polimi.ingsw.Network.Server.UpdateSender.ServerUpdate;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.marbles.BlueMarble;
 import it.polimi.ingsw.model.marbles.WhiteMarble;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.game;
 
-import it.polimi.ingsw.Network.Server.UpdateCreator;
+import it.polimi.ingsw.Network.Server.UpdateCreator.UpdateCreator;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.exceptions.*;

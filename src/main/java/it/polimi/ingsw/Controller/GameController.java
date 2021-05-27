@@ -4,6 +4,9 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.Network.Server.*;
+import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
+import it.polimi.ingsw.Network.Server.UpdateCreator.UpdateCreator;
+import it.polimi.ingsw.Network.Server.UpdateSender.SenderUpdateInterface;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
@@ -20,16 +23,17 @@ public class GameController {
     private List<String> playersNames;
     private int numPlayer;
     private Game game;
+    private boolean isOnline;
+
     private static Logger LOGGER= Logger.getLogger(Server.class.getName());
 
     private final static Object modelLock = new Object();
 
 
-    public GameController (Server server){
-
-        sender= new ServerUpdate(server); //va cambiato
+    public GameController (SenderUpdateInterface sender,boolean isOnline){
+        this.isOnline=isOnline;
+        this.sender=sender;
         updateCreator= new JavaSerUpdateCreator(sender);
-
         this.playersNames = new ArrayList<>();
         numPlayer=0;
 
@@ -64,25 +68,43 @@ public class GameController {
 
 
     public void onLoginBeforeGame(String name) {
-        if (playersNames.size() == 0) {
-            playersNames.add(name);
-            sender.sendtoPlayer(name, new MessageRequestNumPlayers());
-        } else {
-            if (numPlayer == 0 || (numPlayer > 0 && playersNames.size() >= numPlayer)) {
-                updateCreator.onUpdateError(name,"Inconsistent number of players. Disconnecting...");
-                updateCreator.onRequestDisconnect(name);
-            } else {
+        if(isOnline) {
+            if (playersNames.size() == 0) {
                 playersNames.add(name);
-                if (playersNames.size() == numPlayer) {
-                    synchronized (modelLock) {
-                        for (String player : playersNames) {
-                            game.addPlayersList(new Player(player));
+                updateCreator.onRequestNumPlayer();
+             //   sender.sendtoPlayer(name, new MessageRequestNumPlayers());
+            } else {
+                if (numPlayer == 0 || (numPlayer > 0 && playersNames.size() >= numPlayer)) {
+                    updateCreator.onUpdateError(name, "Inconsistent number of players. Disconnecting...");
+                    updateCreator.onRequestDisconnect(name);
+                } else {
+                    playersNames.add(name);
+                    if (playersNames.size() == numPlayer) {
+                        synchronized (modelLock) {
+                            for (String player : playersNames) {
+                                game.addPlayersList(new Player(player));
+                            }
+                            game.startgame();
                         }
-                        game.startgame();
-                    }
-                } else
-                    updateCreator.onWaitingForOtherPlayer(name);
+                    } else
+                        updateCreator.onWaitingForOtherPlayer(name);
+                }
             }
+        }
+        else
+        {
+            playersNames.add(name);
+            try {
+                game = new SinglePlayerGame(new JavaSerUpdateCreator(sender));
+                game.addPlayersList(new Player(playersNames.get(0)));
+                game.startgame();
+            } catch (IOException ioException) {
+                updateCreator.onUpdateError("FATAL ERROR: can't Read System File");
+                LOGGER.severe("FATAL ERROR: can't Read System File");
+                System.exit(0);
+            }
+
+
         }
     }
 

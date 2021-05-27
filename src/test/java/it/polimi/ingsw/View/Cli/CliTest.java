@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.Cli;
 
+import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.model.game.DevCardsDeck;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,7 @@ class CliTest {
 
     @Test
     public void showExtrachest(){
+
         Cli cli = new Cli();
 
         String[][] warehouse = new String[3][3];

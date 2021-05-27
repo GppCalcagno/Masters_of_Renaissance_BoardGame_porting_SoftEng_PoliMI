@@ -1,6 +1,7 @@
-package it.polimi.ingsw.Network.Server;
+package it.polimi.ingsw.Network.Server.UpdateCreator;
 
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
+import it.polimi.ingsw.Network.Server.UpdateSender.SenderUpdateInterface;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Network.Client;
 
 import it.polimi.ingsw.Client.ClientController;
+import it.polimi.ingsw.Network.Client.ClientSender.SendtoServer;
 import it.polimi.ingsw.Network.Message.Message;
 
 import it.polimi.ingsw.Network.Message.MessageType;
@@ -45,6 +46,8 @@ public class ClientSocket extends Observable {
         LockSending=new Object();
         addObserver(client);
 
+        client.setSender(new SendtoServer(this));
+
         try {
             clientSocket.connect(new InetSocketAddress(address,port));
             clientSocket.setSoTimeout(SOTIMEOUT*1000);
@@ -63,6 +66,7 @@ public class ClientSocket extends Observable {
             System.out.println(Color.ANSI_RED.escape()+"Can't Open I/O Stream"+ Color.ANSI_BRIGHTWHITE.escape());
             disconnect();
         }
+
 
         //pinger
         pinger=new Timer();

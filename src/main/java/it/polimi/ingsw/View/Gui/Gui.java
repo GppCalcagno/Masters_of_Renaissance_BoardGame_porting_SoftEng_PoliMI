@@ -3,53 +3,58 @@ package it.polimi.ingsw.View.Gui;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.View.ViewInterface;
+import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.stage.Stage;
 
 import java.util.List;
 
-public class Gui implements ViewInterface, Runnable{
+public class Gui implements ViewInterface{
 
     private PlayerBoard playerBoard;
     private ClientController clientController;
     private SceneLauncher sceneLauncher;
+    private GuiJavaFX guiJavaFX;
 
-    public Gui(){
+    public Gui(ClientController controller){
+        this.clientController=controller;
         playerBoard = new PlayerBoard();
-        clientController = new ClientController(this);
+        guiJavaFX= new GuiJavaFX();
+
         this.sceneLauncher = new SceneLauncher(clientController, playerBoard);
+
+        Platform.startup(()->sceneLauncher.setStage());
+        Platform.runLater(()->guiJavaFX.start(sceneLauncher.getStage()));
     }
 
-    @Override
-    public void run(){
-        clientController.readMessage();
-    }
 
     @Override
     public void askServerInfo() {
+        Platform.runLater(()-> {
+            sceneLauncher.getStage().setScene(sceneLauncher.askServerInfo());
+        });
     }
 
     @Override
     public void askLogin() {
         Platform.runLater(()-> {
-            GuiJavaFX.getWindow().setScene(sceneLauncher.askLogin());
+            sceneLauncher.getStage().setScene(sceneLauncher.askLogin());
         });
     }
 
     @Override
     public void askNumPlayer() {
         Platform.runLater(()-> {
-            GuiJavaFX.getWindow().setScene(sceneLauncher.askNumPlayer());
+            sceneLauncher.getStage().setScene(sceneLauncher.askNumPlayer());
         });
     }
 
     @Override
     public void init() {
-        //askServerInfo();
     }
 
     @Override
     public void onUpdateStartGame() {
-
     }
 
     @Override

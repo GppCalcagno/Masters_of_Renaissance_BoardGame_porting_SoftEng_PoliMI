@@ -7,7 +7,6 @@ import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.ViewInterface;
 
 import java.io.PrintStream;
-import java.lang.management.ThreadInfo;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -23,21 +22,26 @@ public class Cli implements ViewInterface {
     private String nickname;
 
 
-    public Cli() {
+    public Cli(ClientController controller) {
+        this.controller= controller;
         this.playerBoard = new PlayerBoard();
-        this.controller = new ClientController(this);
+
         parser= new ActionParser(this,controller,playerBoard);
-        out = System.out;
 
         inThread= new Thread(new InputReader(parser));
+        out = System.out;
         init();
+    }
 
+    //only for test
+    public Cli(){
+        this.playerBoard= new PlayerBoard();
+        out = System.out;
     }
 
     @Override
     public void init(){
         new ViewStart();
-        askServerInfo();
     }
 
     /**
@@ -66,7 +70,6 @@ public class Cli implements ViewInterface {
 
 
         controller.connect(serverAddress, serverPort);
-        controller.readMessage();
     }
 
     @Override

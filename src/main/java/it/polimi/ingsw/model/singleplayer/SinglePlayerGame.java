@@ -1,15 +1,14 @@
 package it.polimi.ingsw.model.singleplayer;
 
+import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
 import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.*;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.Network.Server.UpdateCreator;
 import it.polimi.ingsw.model.singleplayer.token.Tokens;
 
 
 import java.io.IOException;
-import java.util.List;
 
 public class SinglePlayerGame extends Game {
 
@@ -28,7 +27,7 @@ public class SinglePlayerGame extends Game {
     /**
      * This is the constructor method
      */
-    public SinglePlayerGame(UpdateCreator update) throws IOException {
+    public SinglePlayerGame(JavaSerUpdateCreator update) throws IOException {
         super(update);
         lorenzoIlMagnifico = new LorenzoIlMagnifico(getDevelopmentCardDeck());
         playerWin = false;

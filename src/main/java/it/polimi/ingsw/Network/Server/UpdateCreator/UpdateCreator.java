@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Network.Server;
+package it.polimi.ingsw.Network.Server.UpdateCreator;
 
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
