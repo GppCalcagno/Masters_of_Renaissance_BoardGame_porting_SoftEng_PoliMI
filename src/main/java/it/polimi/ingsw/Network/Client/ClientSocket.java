@@ -13,7 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Timer;
-import java.util.logging.Logger;
 
 public class ClientSocket extends Observable {
 

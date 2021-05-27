@@ -3,8 +3,7 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
-import it.polimi.ingsw.Network.Server.Server;
-import it.polimi.ingsw.Network.Server.UpdateCreator;
+import it.polimi.ingsw.Network.Server.*;
 import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
@@ -16,7 +15,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class GameController {
-    private Server server;
+    private UpdateCreator updateCreator;
+    private SenderUpdateInterface sender;
     private List<String> playersNames;
     private int numPlayer;
     private Game game;
@@ -26,11 +26,15 @@ public class GameController {
 
 
     public GameController (Server server){
-        this.server = server;
+
+        sender= new ServerUpdate(server); //va cambiato
+        updateCreator= new JavaSerUpdateCreator(sender);
+
         this.playersNames = new ArrayList<>();
         numPlayer=0;
+
         try {
-            this.game=new Game(new UpdateCreator(server)); //mi serve solo per fare all'inizio game.isduringgame
+            this.game=new Game(updateCreator); //mi serve solo per fare all'inizio game.isduringgame
         } catch (IOException ioException) {
             LOGGER.severe("FATAL ERROR: can't Read System File");
             System.exit(0);
@@ -62,11 +66,11 @@ public class GameController {
     public void onLoginBeforeGame(String name) {
         if (playersNames.size() == 0) {
             playersNames.add(name);
-            server.sendtoPlayer(name, new MessageRequestNumPlayers());
+            sender.sendtoPlayer(name, new MessageRequestNumPlayers());
         } else {
             if (numPlayer == 0 || (numPlayer > 0 && playersNames.size() >= numPlayer)) {
-                server.sendtoPlayer(name, new MessageError("server", "Inconsistent number of players. Disconnecting..."));
-                server.sendtoPlayer(name, new MessageRequestDisconnect(name));
+                updateCreator.onUpdateError(name,"Inconsistent number of players. Disconnecting...");
+                updateCreator.onRequestDisconnect(name);
             } else {
                 playersNames.add(name);
                 if (playersNames.size() == numPlayer) {
@@ -77,31 +81,31 @@ public class GameController {
                         game.startgame();
                     }
                 } else
-                    server.sendtoPlayer(name, new MessageWaitingForOtherPlayer());
+                    updateCreator.onWaitingForOtherPlayer(name);
             }
         }
     }
 
     public void onNumPlayer(int num){
         if(num<1 ||num>4){
-            server.sendBroadcastMessage(new MessageError("server", "Number of Player is Not Correct"));
-            server.sendBroadcastMessage(new MessageRequestNumPlayers());
+            updateCreator.onUpdateError("Number of Player is Not Correct");
+            updateCreator.onRequestNumPlayer();
         }
         else{
             if(numPlayer==0)
                 numPlayer=num;
                 try {
                     if(num==1) {
-                            game = new SinglePlayerGame(new UpdateCreator(server));
+                            game = new SinglePlayerGame(new JavaSerUpdateCreator(sender));
                             game.addPlayersList(new Player(playersNames.get(0)));
                             game.startgame();
                     }
                     else{
-                        game = new Game(new UpdateCreator(server));
-                        server.sendBroadcastMessage(new MessageWaitingForOtherPlayer());
+                        game = new Game(new JavaSerUpdateCreator(sender));
+                        updateCreator.onWaitingForOtherPlayer();
                     }
                 } catch (IOException e) {
-                    server.sendBroadcastMessage(new MessageError("server", "FATAL ERROR: can't Read System File"));
+                    updateCreator.onUpdateError("FATAL ERROR: can't Read System File");
                     LOGGER.severe("FATAL ERROR: can't Read System File");
                     System.exit(0);
                 }

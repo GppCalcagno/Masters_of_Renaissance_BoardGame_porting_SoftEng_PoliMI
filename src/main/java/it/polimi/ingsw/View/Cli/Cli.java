@@ -28,8 +28,10 @@ public class Cli implements ViewInterface {
         this.controller = new ClientController(this);
         parser= new ActionParser(this,controller,playerBoard);
         out = System.out;
-        init();
+
         inThread= new Thread(new InputReader(parser));
+        init();
+
     }
 
     @Override
@@ -69,6 +71,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void askLogin() {
+
         Scanner in= new Scanner(System.in);
         out.print("Please enter your nickname: ");
         nickname = in.nextLine();
@@ -97,6 +100,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateStartGame() {
+        inThread.start();
         clearboard();
 
         if (playerBoard.isMyturn()) {
@@ -109,7 +113,8 @@ public class Cli implements ViewInterface {
             showLeaderActionBox();
         }
 
-        inThread.start();
+
+
         if(playerBoard.isMyturn()){
             out.println("it's your turn!");
         }

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.game;
 
+import it.polimi.ingsw.Network.Server.JavaSerUpdateCreator;
 import it.polimi.ingsw.Network.Server.Server;
-import it.polimi.ingsw.Network.Server.UpdateCreator;
+import it.polimi.ingsw.Network.Server.ServerUpdate;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.marbles.BlueMarble;
 import it.polimi.ingsw.model.marbles.WhiteMarble;
@@ -22,7 +23,7 @@ class GameTest {
 
     @Test
     void setCurrentPlayer() throws IOException, EndGameException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
         Player player1 = new Player("Rene");
         Player player2 = new Player("Caterina");
 
@@ -40,7 +41,8 @@ class GameTest {
 
     @Test
     void getWinnerWithoutSame() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
         Player player3 = new Player("Qua");
@@ -59,7 +61,8 @@ class GameTest {
 
     @Test
     void getWinnerWithSame() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
         Player player3 = new Player("Qua");
@@ -80,7 +83,8 @@ class GameTest {
 
     @Test
     void isFinishedGame25() throws IOException, ActiveVaticanReportException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Augusto");
         for(int i = 0; i < 25; i++){
             try {
@@ -97,7 +101,8 @@ class GameTest {
 
     @Test
     void isFinishedGame7() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Ottaviano");
         game.addPlayersList(player);
         try {
@@ -115,7 +120,8 @@ class GameTest {
 
     @Test
     void startgameLeaderActionBox() throws IOException{
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
         Player player3 = new Player("Qua");
@@ -134,7 +140,8 @@ class GameTest {
 
     @Test
     void startgameIncreaseFaithMarker4() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
         Player player3 = new Player("Qua");
@@ -152,7 +159,8 @@ class GameTest {
 
     @Test
     void startgameIncreaseFaithMarker2() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Qui");
         Player player2 = new Player("Quo");
         game.addPlayersList(player1);
@@ -166,7 +174,8 @@ class GameTest {
 
     @Test
     void givefinalpoints() throws IOException, NegativeQuantityExceptions, GameFinishedException, ActiveVaticanReportException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Caterina");
 
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCards(2, 0));
@@ -186,7 +195,8 @@ class GameTest {
 
     @Test
     void givefinalpoints0() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Caterina");
 
         game.addPlayersList(player);
@@ -197,7 +207,8 @@ class GameTest {
 
     @Test
     void addPlayersList() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
 
         assertTrue(game.getPlayersList().isEmpty());
@@ -207,7 +218,8 @@ class GameTest {
 
     @Test
     void takeResourcesMarketRight() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
@@ -218,7 +230,8 @@ class GameTest {
 
     @Test
     void takeResourcesMarketWrongColRow() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
@@ -229,7 +242,8 @@ class GameTest {
 
     @Test
     void takeResourcesMarketWrongNum() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
@@ -239,7 +253,8 @@ class GameTest {
 
     @Test
     void AddMarbleToWarehouse() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
@@ -251,7 +266,8 @@ class GameTest {
 
     @Test
     void DiscardMarble() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
@@ -263,7 +279,8 @@ class GameTest {
 
     @Test
     void exchangeWarehouse() throws IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         Player player2 = new Player("Anno");
@@ -278,7 +295,8 @@ class GameTest {
 
     @Test
     void selectDevCardTestRight() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         player1.getStrongbox().updateResources("Coins", 2);
         game.addPlayersList(player1);
@@ -296,7 +314,8 @@ class GameTest {
 
     @Test
     void selectDevCardTestWrongID() throws NegativeQuantityExceptions, IOException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Anna");
         player1.getStrongbox().updateResources("Coins", 2);
         game.addPlayersList(player1);
@@ -307,7 +326,8 @@ class GameTest {
 
     @Test
     void deleteResRight() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         player.getWarehouse().checkInsertion(0, new Coins());
         player.getStrongbox().updateResources(new Coins(), 1);
@@ -330,7 +350,7 @@ class GameTest {
 
     @Test
     void deleteResWrongChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
 
         Player player = new Player("Angelo");
         player.getWarehouse().checkInsertion(0, new Coins());
@@ -354,7 +374,7 @@ class GameTest {
 
     @Test
     void deleteResRightWithSecondChest() throws IOException, NegativeQuantityExceptions, OverflowQuantityExcepions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
 
         Player player = new Player("Angelo");
         player.getWarehouse().checkInsertion(0, new Coins());
@@ -383,7 +403,8 @@ class GameTest {
 
     @Test
     void activeBaseProductionTestRight() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         player.getStrongbox().updateResources("Coins", 2);
         game.addPlayersList(player);
@@ -398,7 +419,8 @@ class GameTest {
 
     @Test
     void activeBaseProductionTestWrongChar() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         player.getStrongbox().updateResources("Coins", 2);
         game.addPlayersList(player);
@@ -411,7 +433,8 @@ class GameTest {
 
     @Test
     void activeLeaderCardProductionRight() throws IOException, NegativeQuantityExceptions, GameFinishedException, EndGameException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         player.getStrongbox().updateResources("Shields", 2);
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
@@ -431,7 +454,8 @@ class GameTest {
 
     @Test
     void activeLeaderCardProductionWrongID() throws IOException, NegativeQuantityExceptions, GameFinishedException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         game.addPlayersList(player);
         game.startgame();
@@ -441,7 +465,8 @@ class GameTest {
 
     @Test
     void activeLeaderCardProductionWrongChest() throws IOException, NegativeQuantityExceptions, GameFinishedException, EndGameException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         player.getStrongbox().updateResources("Shields", 2);
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
@@ -460,7 +485,8 @@ class GameTest {
 
     @Test
     void activeLeaderCardProductionResource() throws IOException, NegativeQuantityExceptions, GameFinishedException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         player.getStrongbox().updateResources("Shields", 2);
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
@@ -479,7 +505,8 @@ class GameTest {
 
     @Test
     void activeLeaderCardProductionWrongxtraChest() throws IOException, NegativeQuantityExceptions, GameFinishedException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo");
         player.getStrongbox().updateResources("Shields", 2);
         player.getSlotDevCards().insertCards(0, game.getDevelopmentCardDeck().getDevCardFromID("DCL1B1"));
@@ -498,7 +525,8 @@ class GameTest {
 
     @Test
     void activeDevCardProductionTestRight() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Angelo Mangiante");
         player.getStrongbox().updateResources("Coins", 2);
         player.getStrongbox().updateResources("Shields", 1);
@@ -532,7 +560,8 @@ class GameTest {
 
     @Test
     void activeDevCardProductionTestWrongColumn() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Giovanni Guardala");
         player.getStrongbox().updateResources("Coins", 2);
         player.getStrongbox().updateResources("Shields", 1);
@@ -558,7 +587,8 @@ class GameTest {
 
     @Test
     void activeDevCardProductionTestWrongResourcesProduction() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Giovanni Guardala");
         player.getStrongbox().updateResources("Coins", 2);
         player.getStrongbox().updateResources("Servants", 1);
@@ -584,7 +614,8 @@ class GameTest {
 
     @Test
     void activeDevCardProductionTestWrongResourcesProduction2() throws IOException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Giovanni Guardala");
         player.getStrongbox().updateResources("Coins", 2);
         player.getStrongbox().updateResources("Servants", 1);
@@ -611,7 +642,8 @@ class GameTest {
 
     @Test
     void updateLeaderCardTestRightActivation() throws IOException, EndGameException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Paolo Condo");
         player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
         player.getStrongbox().updateResources("Coins", 5);
@@ -625,7 +657,8 @@ class GameTest {
 
     @Test
     void updateLeaderCardTestRightDiscard() throws IOException, EndGameException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Paolo Condo");
         player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
         player.getStrongbox().updateResources("Coins", 5);
@@ -639,7 +672,8 @@ class GameTest {
 
     @Test
     void updateLeaderCardTestWrongID() throws IOException, EndGameException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Paolo Condo");
         player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
         player.getStrongbox().updateResources("Coins", 5);
@@ -651,7 +685,8 @@ class GameTest {
 
     @Test
     void updateLeaderCardTestWrongChoice() throws IOException, EndGameException, NegativeQuantityExceptions {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player = new Player("Paolo Condo");
         player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCCL1"));
         player.getStrongbox().updateResources("Coins", 5);
@@ -663,7 +698,8 @@ class GameTest {
 
     @Test
     void endTurnTestMultiPlayer() throws IOException, EndGameException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Vanessa Leonardi");
         game.addPlayersList(player1);
         game.setCurrentPlayer();
@@ -676,7 +712,8 @@ class GameTest {
 
     @Test
     void addWhiteMarbleWithEffect() throws IOException, EndGameException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Vanessa Leonardi");
         game.addPlayersList(player1);
         game.setCurrentPlayer();
@@ -694,7 +731,8 @@ class GameTest {
 
     @Test
     void endProductionTest() throws IOException, EndGameException {
-        Game game = new Game(new UpdateCreator(new Server(1234)));
+        Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
         Player player1 = new Player("Vanessa Leonardi");
         game.addPlayersList(player1);
         game.setCurrentPlayer();
