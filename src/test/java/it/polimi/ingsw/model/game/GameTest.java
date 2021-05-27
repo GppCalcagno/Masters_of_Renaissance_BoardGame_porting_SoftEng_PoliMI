@@ -223,7 +223,7 @@ class GameTest {
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.extractionMarble('C', 1));
     }
@@ -258,7 +258,7 @@ class GameTest {
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.extractionMarble('C', 1));
         assertTrue(game.manageMarble('W', 2, " "));
@@ -271,7 +271,7 @@ class GameTest {
         Player player1 = new Player("Anna");
         game.addPlayersList(player1);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.extractionMarble('C', 1));
         assertTrue(game.manageMarble('D', 0, " "));
@@ -286,7 +286,7 @@ class GameTest {
         Player player2 = new Player("Anno");
         game.addPlayersList(player2);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.extractionMarble('C', 1));
         assertTrue(game.manageMarble('W', 0, " "));
@@ -301,7 +301,7 @@ class GameTest {
         player1.getStrongbox().updateResources("Coins", 2);
         game.addPlayersList(player1);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.selectDevCard("DCL1B1", 0));
 
@@ -409,7 +409,7 @@ class GameTest {
         player.getStrongbox().updateResources("Coins", 2);
         game.addPlayersList(player);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertEquals(2, player.countTotalResources());
         assertTrue(game.activeBaseProduction('S', "Coins", 'S', "Coins", "Servants"));
@@ -443,7 +443,7 @@ class GameTest {
         game.setCurrentPlayer();
         player.addLeaderAction(game.getLeaderCardDeck().getLeaderCardFromID("LCPL1"));
         player.getLeaderActionBox().get(0).doSpecialAbility(player);
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertEquals(2, player.countTotalResources());
         assertTrue(game.activeLeaderCardProduction("LCPL1", 'S', "Coins"));
@@ -532,7 +532,7 @@ class GameTest {
         player.getStrongbox().updateResources("Shields", 1);
         game.addPlayersList(player);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.selectDevCard("DCL1B1", 0));
 
@@ -547,7 +547,7 @@ class GameTest {
         StrongboxRes.put("Shields", 1);
         assertEquals(1, player.countTotalResources());
 
-        game.setTurnPhase(TurnPhase.DOTURN);
+        game.getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
         assertTrue(game.activeDevCardProduction(0));
 
         assertTrue(game.payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap));
@@ -567,7 +567,7 @@ class GameTest {
         player.getStrongbox().updateResources("Shields", 1);
         game.addPlayersList(player);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.selectDevCard("DCL1B1", 0));
 
@@ -594,7 +594,7 @@ class GameTest {
         player.getStrongbox().updateResources("Servants", 1);
         game.addPlayersList(player);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.selectDevCard("DCL1B1", 0));
 
@@ -621,7 +621,7 @@ class GameTest {
         player.getStrongbox().updateResources("Servants", 1);
         game.addPlayersList(player);
         game.startgame();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.selectDevCard("DCL1B1", 0));
 
@@ -649,7 +649,7 @@ class GameTest {
         player.getStrongbox().updateResources("Coins", 5);
         game.addPlayersList(player);
         game.setCurrentPlayer();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.updateLeaderCard("LCCL1", 1));
         assertTrue(player.getLeaderActionBox().get(0).getActivated());
@@ -664,7 +664,7 @@ class GameTest {
         player.getStrongbox().updateResources("Coins", 5);
         game.addPlayersList(player);
         game.setCurrentPlayer();
-        game.setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
 
         assertTrue(game.updateLeaderCard("LCCL1", 0));
         assertTrue(player.getLeaderActionBox().isEmpty());
@@ -721,8 +721,8 @@ class GameTest {
         player1.addleaderCardEffectWhiteMarble(new Stones());
         game.getMarketStructure().getBuffer().add(new WhiteMarble());
         game.getMarketStructure().getBuffer().add(new BlueMarble());
-        game.setGameState(GameState.INGAME);
-        game.setTurnPhase(TurnPhase.DOTURN);
+        game.getCurrentPlayer().setGameState(GameState.INGAME);
+        game.getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
         assertTrue(game.manageMarble('W', 0, "Stones"));
         assertTrue(game.manageMarble('W', 1, null));
         assertEquals(1, player1.getWarehouse().getNumResources(new Stones()));

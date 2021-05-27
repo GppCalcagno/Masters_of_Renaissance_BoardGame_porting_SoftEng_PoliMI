@@ -124,18 +124,18 @@ public class SinglePlayerGame extends Game {
         */
 
         boolean canEndTurn = false;
-        if (getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
-            setGameState(GameState.INGAME);
+        if (getCurrentPlayer().getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
+            getCurrentPlayer().setGameState(GameState.INGAME);
             for (Player p : getPlayersList()) {
                 if (p.getLeaderActionBox().size() == 4)
-                    setGameState(GameState.INITGAME);
+                    getCurrentPlayer().setGameState(GameState.INITGAME);
             }
             canEndTurn = true;
         }
         else {
-            if (getTurnPhase() == TurnPhase.ENDTURN) {
+            if (getCurrentPlayer().getTurnPhase().equals(TurnPhase.ENDTURN)) {
                 canEndTurn = true;
-                setTurnPhase(TurnPhase.DOTURN);
+                getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
                 setCanDoProductionTrue();
             }
         }
@@ -151,7 +151,7 @@ public class SinglePlayerGame extends Game {
                 }
             }
             getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken(), lorenzoIlMagnifico.getCurrentToken().getColor());
-            setTurnPhase(TurnPhase.DOTURN);
+            getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
             setCanDoProductionTrue();
             try {
                 setCurrentPlayer();

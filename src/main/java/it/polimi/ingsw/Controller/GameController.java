@@ -146,6 +146,8 @@ public class GameController {
                 for(int i=0;i<game.getPlayersList().size();i++) {
                     if (game.getPlayersList().get(i).getNickname().equals(name))
                         game.getPlayersList().get(i).setConnected(false);
+                        if(game.getCurrentPlayer().getNickname().equals(name))
+                            endTurn();
                 }
             }
         }

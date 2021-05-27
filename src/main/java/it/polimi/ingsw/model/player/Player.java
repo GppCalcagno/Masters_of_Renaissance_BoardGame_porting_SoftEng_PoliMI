@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.exceptions.ActiveVaticanReportException;
 import it.polimi.ingsw.model.exceptions.NoSelectedLeaderActionExceptions;
+import it.polimi.ingsw.model.game.Game;
+import it.polimi.ingsw.model.game.GameState;
 import it.polimi.ingsw.model.game.TurnPhase;
 import it.polimi.ingsw.model.producible.*;
 
@@ -35,7 +37,6 @@ public class Player {
      */
     private boolean connected;
 
-    private int resorcestochoose;
 
     /**
      * this attribute indicates  the location on the FaithTrack
@@ -84,6 +85,10 @@ public class Player {
 
     private int initialResources;
 
+    private GameState gameState;
+
+    private TurnPhase turnPhase;
+
     /**
      * This is the costructor of Player
      * @param nickname is the Nickname of the player
@@ -111,6 +116,9 @@ public class Player {
         this.currentDevCardToProduce = null;
 
         this.initialResources = 0;
+
+        this.gameState=GameState.INITGAME;
+        this.turnPhase=TurnPhase.DOTURN;
     }
 
     /**
@@ -421,5 +429,21 @@ public class Player {
 
     public void setInitialResources(int initialResources) {
         this.initialResources = initialResources;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    public TurnPhase getTurnPhase() {
+        return turnPhase;
+    }
+
+    public void setTurnPhase(TurnPhase turnPhase) {
+        this.turnPhase = turnPhase;
     }
 }

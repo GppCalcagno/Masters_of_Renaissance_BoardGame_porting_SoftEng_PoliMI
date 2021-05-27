@@ -44,10 +44,6 @@ public class Game {
 
     private Player lastPlayer;
 
-    private GameState gameState;
-
-    private TurnPhase turnPhase;
-
     /**
      * 0-2 slotDevCard Production
      * 3-4 leaderCard Production
@@ -71,11 +67,9 @@ public class Game {
         this.faithTrack = new FaithTrack();
         this.finishedGame = false;
         this.lastPlayer = null;
-        this.turnPhase = TurnPhase.DOTURN;
         this.canDoProduction = new boolean[6];
         setCanDoProductionTrue();
         this.update = update;
-        this.gameState = GameState.INITGAME;
         this.isDuringGame=false;
     }
 
@@ -155,7 +149,7 @@ public class Game {
      */
     public void startgame () {
         isDuringGame=true;
-        // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
+        // gives 4 leaderActions to each player
         for (Player player : this.playersList) {
             for (int x = 0; x < 4; x++) {
                 this.leaderCardDeck.givetoPlayer(0, player);
@@ -163,17 +157,20 @@ public class Game {
         }
         // Set the current Player
         Collections.shuffle(this.playersList);
+        currentPlayer=playersList.get(0);
+
+        //set Initial Resources
         for(int i=0;i<playersList.size();i++){
             switch (i){
-                case 1:playersList.get(i).setInitialResources(1);
-                case 2:playersList.get(i).setInitialResources(1);
-                case 3:playersList.get(i).setInitialResources(2);
+                case 1:playersList.get(i).setInitialResources(1); break;
+                case 2:playersList.get(i).setInitialResources(1); break;
+                case 3:playersList.get(i).setInitialResources(2); break;
                 default:
-                    playersList.get(i).setInitialResources(0);
+                    playersList.get(i).setInitialResources(0); break;
             }
         }
-        currentPlayer=playersList.get(0);
-        // Assegno solo i punti fede agli altri giocatori. Le Risorse a scelta vengono selezionate tramite il controller
+
+        // Set Initial FaithPoints
         for(int i = 2; i < this.playersList.size(); i++){
             try {
                 this.playersList.get(i).increasefaithMarker();
@@ -192,8 +189,16 @@ public class Game {
         }
     }
 
+
+    /**
+     * this method is used to make the player choose the starting LeaderActions
+     * @param i1 is the index of the first LeaderAction
+     * @param i2 is the index of the first LeaderAction
+     * @return true if the command was successful
+     */
     public boolean chooseInitialLeaderCards (int i1, int i2) {
         if (currentPlayer.getLeaderActionBox().size() == 4) {
+
             if (i1 < 0 || i1 > 3 || i2 < 0 || i2 > 3 || i1 == i2) {
                 update.onUpdateError(currentPlayer.getNickname(),"Wrong indexes.");
                 return false;
@@ -203,27 +208,12 @@ public class Game {
             currentPlayer.getLeaderActionBox().clear();
             currentPlayer.getLeaderActionBox().add(d1);
             currentPlayer.getLeaderActionBox().add(d2);
+
             if (currentPlayer.getInitialResources() == 0)  {
-                switch (playersList.size()) {
-                    case 1 :
-                        turnPhase = TurnPhase.ENDTURN;
-                        break;
-                    case 2 :
-                        if (playersList.indexOf(currentPlayer) == 1)
-                            turnPhase = TurnPhase.ENDTURN;
-                        break;
-                    case 3 :
-                        if (playersList.indexOf(currentPlayer) == 2)
-                            turnPhase = TurnPhase.ENDTURN;
-                        break;
-                    case 4 :
-                        if (playersList.indexOf(currentPlayer) == 3)
-                            turnPhase = TurnPhase.ENDTURN;
-                        break;
-                    default:
-                        break;
-                }
+                System.out.println("USTIIIIIIIIIIIII");
+                currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
             }
+
             update.onUpdateInitialLeaderCards(currentPlayer,currentPlayer.getLeaderActionBox());
             return true;
         }
@@ -233,13 +223,13 @@ public class Game {
         }
     }
 
+    /**
+     * this method is used to make the player choose the starting resources
+     * @param initialResources resources chosen by the player
+     * @return true if the command was successful
+     */
     public boolean chooseInitialResources (List<String> initialResources) {
-        if (gameState != GameState.INITGAME) {
-            update.onUpdateError(currentPlayer.getNickname(),"You can not choose the initial resources.");
-            return false;
-        }
-
-        if (playersList.indexOf(currentPlayer) == 0) {
+        if (currentPlayer.getGameState() != GameState.INITGAME || playersList.indexOf(currentPlayer) == 0) {
             update.onUpdateError(currentPlayer.getNickname(),"You can not choose the initial resources.");
             return false;
         }
@@ -271,42 +261,16 @@ public class Game {
             }
         }
 
+        currentPlayer.setInitialResources(0);
+
         if (currentPlayer.getLeaderActionBox().size() == 2)  {
-            switch (playersList.size()) {
-                case 1 :
-                    turnPhase = TurnPhase.ENDTURN;
-                    break;
-                case 2 :
-                    if (playersList.indexOf(currentPlayer) == 1)
-                        turnPhase = TurnPhase.ENDTURN;
-                    break;
-                case 3 :
-                    if (playersList.indexOf(currentPlayer) == 2)
-                        turnPhase = TurnPhase.ENDTURN;
-                    break;
-                case 4 :
-                    if (playersList.indexOf(currentPlayer) == 3)
-                        turnPhase = TurnPhase.ENDTURN;
-                    break;
-                default:
-                    break;
-            }
+            currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
         }
 
-        currentPlayer.setInitialResources(0);
         update.onUpdateWarehouse(currentPlayer, false);
         return true;
     }
 
-
-    public Resources convertStringToResource (String stringResource) {
-        Resources[] resources = {new Coins(), new Servants(), new Shields(), new Stones()};
-        for (Resources r : resources) {
-            if (stringResource.equals(r.toString()) || stringResource.equals(r.toString().toUpperCase()))
-                return r;
-        }
-        return null;
-    }
 
     /**
      * This method translates the TakeMarbles message
@@ -315,23 +279,17 @@ public class Game {
      * @return true if the extraction is right
      */
     public boolean extractionMarble(char colrowextract, int numextract) {
-        if (gameState.equals(GameState.INGAME)) {
-            if (turnPhase.equals(TurnPhase.DOTURN)) {
-                try {
-                    if (marketStructure.extractMarbles(colrowextract, numextract)) {
-                        turnPhase = TurnPhase.EXTRACTMARBLES;
-                        update.onUpdateMarketTray(currentPlayer, colrowextract, numextract);
-                        return true;
-                    } else {
-                        update.onUpdateError(currentPlayer.getNickname(), "Wrong message");
-                        return false;
-                    }
-                } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
-                    update.onUpdateError(currentPlayer.getNickname(), "Wrong number of column or row");
-                    return false;
+        if (currentPlayer.getGameState().equals(GameState.INGAME) && currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN)) {
+            try {
+                if (marketStructure.extractMarbles(colrowextract, numextract)) {
+                    currentPlayer.setTurnPhase(TurnPhase.EXTRACTMARBLES);
+                    update.onUpdateMarketTray(currentPlayer, colrowextract, numextract);
+                    return true;
                 }
-            } else {
-                update.onUpdateError(currentPlayer.getNickname(), "You can't do this action");
+                update.onUpdateError(currentPlayer.getNickname(), "Wrong message");
+                return false;
+            } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+                update.onUpdateError(currentPlayer.getNickname(), "Wrong number of column or row");
                 return false;
             }
         }
@@ -416,7 +374,7 @@ public class Game {
                     break;
             }
             if (marketStructure.getBuffer().isEmpty()) {
-                turnPhase = TurnPhase.ENDTURN;
+                currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
             }
             return true;
         }
@@ -455,8 +413,7 @@ public class Game {
      * @return true if there are no errors
      */
     public boolean selectDevCard(String ID, int column){
-        if (gameState.equals(GameState.INGAME)) {
-            if (turnPhase.equals(TurnPhase.DOTURN)) {
+        if (currentPlayer.getGameState().equals(GameState.INGAME) && currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN )){
                 if (column < 0 || column > 2) {
                     update.onUpdateError(currentPlayer.getNickname(), "Wrong column.");
                     return false;
@@ -467,7 +424,7 @@ public class Game {
                     if (currentPlayer.getSlotDevCards().canBuyDevCard(developmentCardDeck.getDevCardFromID(ID),column) && developmentCardDeck.getDevCardFromID(ID).getCost().checkBuy(currentPlayer)) {
                         currentPlayer.setCurrentDevCardToBuy(developmentCardDeck.getDevCardFromID(ID));
                         currentPlayer.setColumnSlotBuyDev(column);
-                        turnPhase = TurnPhase.BUYDEVCARD;
+                        currentPlayer.setTurnPhase(TurnPhase.BUYDEVCARD);
                         update.onUpdateDevCardDeck(currentPlayer, currentPlayer.getCurrentDevCardToBuy());
                         return true;
                     } else {
@@ -478,10 +435,6 @@ public class Game {
                     update.onUpdateError(currentPlayer.getNickname(), "Wrong ID");
                     return false;
                 }
-            } else {
-                update.onUpdateError(currentPlayer.getNickname(), "You can not do this action.");
-                return false;
-            }
         }
         else {
             update.onUpdateError(currentPlayer.getNickname(), "You can't do this action at the moment.");
@@ -490,7 +443,7 @@ public class Game {
     }
 
     public boolean payResourcesToBuyDevCard (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
-        if (turnPhase.equals(TurnPhase.BUYDEVCARD)) {
+        if (currentPlayer.getTurnPhase().equals(TurnPhase.BUYDEVCARD)) {
             if (!currentPlayer.getCurrentDevCardToBuy().getCost().checkResources(currentPlayer,WarehouseRes, StrongboxRes, ExtrachestMap,true)) {
                 update.onUpdateError(currentPlayer.getNickname(), "Insufficient resources.");
                 return false;
@@ -502,7 +455,7 @@ public class Game {
                         currentPlayer.setCurrentDevCardToBuy(null);
                         currentPlayer.setColumnSlotBuyDev(-1);
                         update.onUpdateResources(currentPlayer);
-                        turnPhase = TurnPhase.ENDTURN;
+                        currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
                         return true;
                     } else {
                         update.onUpdateError(currentPlayer.getNickname(), "You can't insert the Development card.");
@@ -513,7 +466,7 @@ public class Game {
                     currentPlayer.setCurrentDevCardToBuy(null);
                     currentPlayer.setColumnSlotBuyDev(-1);
                     update.onUpdateResources(currentPlayer);
-                    turnPhase = TurnPhase.ENDTURN;
+                    currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
                     if (isFinishedGame()) {
                         update.onUpdateGameFinished();
                         return true;
@@ -583,12 +536,12 @@ public class Game {
     }
 
     public boolean activeBaseProduction (char r1, String reqRes1, char r2, String reqRes2, String chosenResource) {
-        if (gameState.equals(GameState.INGAME)) {
+        if (currentPlayer.getGameState().equals(GameState.INGAME)) {
             if (!isRightResource(reqRes1) || !isRightResource(reqRes2) || !isRightResource(chosenResource)) {
                 update.onUpdateError(currentPlayer.getNickname(),"Wrong resources.");
                 return false;
             }
-            if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
+            if (currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN) || currentPlayer.getTurnPhase().equals(TurnPhase.DOPRODUCTION)) {
                 if (canDoProduction[5]) {
                     Map<String, Integer> WarehouseRes = new HashMap<>();
                     Map<String, Integer> StrongboxRes = new HashMap<>();
@@ -631,7 +584,7 @@ public class Game {
                     if (deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap)) {
                         currentPlayer.getSlotDevCards().baseProduction(chosenResource);
                         canDoProduction[5] = false;
-                        turnPhase = TurnPhase.DOPRODUCTION;
+                        currentPlayer.setTurnPhase(TurnPhase.DOPRODUCTION);
                         update.onUpdateResources(currentPlayer);
                         return true;
                     } else {
@@ -665,8 +618,8 @@ public class Game {
     }
 
     public boolean activeLeaderCardProduction (String ID, char r, String resource) {
-        if (gameState.equals(GameState.INGAME)) {
-            if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
+        if (currentPlayer.getGameState().equals(GameState.INGAME)) {
+            if (currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN) || currentPlayer.getTurnPhase().equals(TurnPhase.DOPRODUCTION)) {
                 if (!isRightResource(resource)) {
                     update.onUpdateError(currentPlayer.getNickname(), "Wrong resource.");
                     return false;
@@ -734,7 +687,7 @@ public class Game {
                     update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
                     update.onUpdateResources(currentPlayer);
                     canDoProduction[posLeaderBox + 3] = false;
-                    turnPhase = TurnPhase.DOPRODUCTION;
+                    currentPlayer.setTurnPhase(TurnPhase.DOPRODUCTION);
                     return true;
                 } else {
                     update.onUpdateError(currentPlayer.getNickname(), "You can not delete these resources to do this action.");
@@ -752,8 +705,8 @@ public class Game {
     }
 
     public boolean activeDevCardProduction (int col) {
-        if (gameState.equals(GameState.INGAME)) {
-            if (turnPhase.equals(TurnPhase.DOTURN) || turnPhase.equals(TurnPhase.DOPRODUCTION)) {
+        if (currentPlayer.getGameState().equals(GameState.INGAME)) {
+            if (currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN) || currentPlayer.getTurnPhase().equals(TurnPhase.DOPRODUCTION)) {
                 try {
                     if (canDoProduction[col]) {
                         if (currentPlayer.getCurrentDevCardToProduce() != null) {
@@ -773,7 +726,7 @@ public class Game {
                         if (card.getCostProduction().checkResources(currentPlayer) && currentPlayer.getSlotDevCards().checkUsage(card)) {
                             currentPlayer.setCurrentDevCardToProduce(currentPlayer.getSlotDevCards().getDevCards(col));
                             canDoProduction[col] = false;
-                            turnPhase = TurnPhase.DOPRODUCTION;
+                            currentPlayer.setTurnPhase(TurnPhase.DOPRODUCTION);
                             update.onUpdateActivatedDevCardProduction(currentPlayer, card.getID());
                             return true;
                         } else {
@@ -839,7 +792,7 @@ public class Game {
            emptyBuffer();
            if (currentPlayer.getFaithMarker() != currentPlayerFaithMarker)
                update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
-           turnPhase = TurnPhase.ENDTURN;
+            currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
            update.onUpdateStrongBox(currentPlayer);
            return true;
         }
@@ -880,7 +833,7 @@ public class Game {
 
     public boolean updateLeaderCard (String ID, int choice) {
         if (!currentPlayer.getLeaderActionBox().isEmpty()) {
-            if (gameState.equals(GameState.INGAME)) {
+            if (currentPlayer.getGameState().equals(GameState.INGAME)) {
                 if (choice == 0) {
                     if (discardLeaderAction(ID)) {
                         update.onUpdateLeaderCard(currentPlayer, ID, false);
@@ -986,19 +939,16 @@ public class Game {
     }
 
     public void endTurn() {
+
         boolean canEndTurn = false;
-        if (gameState.equals(GameState.INITGAME) && currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
-            gameState = GameState.INGAME;
-            for (Player p : playersList) {
-                if (p.getLeaderActionBox().size() == 4)
-                    gameState = GameState.INITGAME;
-            }
+        if (currentPlayer.getGameState().equals(GameState.INITGAME) && currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
+            currentPlayer.setGameState(GameState.INGAME);
             canEndTurn = true;
         }
         else {
-            if (turnPhase == TurnPhase.ENDTURN) {
+            if (currentPlayer.getTurnPhase().equals(TurnPhase.ENDTURN)) {
                 canEndTurn = true;
-                turnPhase = TurnPhase.DOTURN;
+                currentPlayer.setTurnPhase(TurnPhase.DOTURN);
                 setCanDoProductionTrue();
             }
         }
@@ -1013,12 +963,22 @@ public class Game {
                 return;
                 //finisci tutto
             }
-            turnPhase = TurnPhase.DOTURN;
+            currentPlayer.setTurnPhase(TurnPhase.DOTURN);
             update.onUpdateCurrentPlayer(currentPlayer);
         }
         else{
             update.onUpdateError(currentPlayer.getNickname(),"Take your turn before you finish it");
         }
+    }
+
+
+    public Resources convertStringToResource (String stringResource) {
+        Resources[] resources = {new Coins(), new Servants(), new Shields(), new Stones()};
+        for (Resources r : resources) {
+            if (stringResource.equals(r.toString()) || stringResource.equals(r.toString().toUpperCase()))
+                return r;
+        }
+        return null;
     }
 
     /**
@@ -1084,17 +1044,6 @@ public class Game {
         return null;
     }
 
-    public GameState getGameState() {
-        return gameState;
-    }
-
-    public TurnPhase getTurnPhase() {
-        return turnPhase;
-    }
-
-    public void setTurnPhase(TurnPhase turnPhase) {
-        this.turnPhase = turnPhase;
-    }
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -1102,10 +1051,6 @@ public class Game {
 
     public UpdateCreator getUpdate() {
         return update;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
     }
 
     public boolean isDuringGame() {
@@ -1125,27 +1070,6 @@ public class Game {
         } catch (NegativeQuantityExceptions ignored) {}
 
         update.onUpdateStrongBox(currentPlayer);
-
-        /*
-        DevelopmentCard d1 = developmentCardDeck.getDevCards(2, 0);
-        try {
-            currentPlayer.getSlotDevCards().insertCards(0, d1);
-        } catch (GameFinishedException ignored) {}
-        update.onUpdateSlotDevCard(currentPlayer, d1, 0);
-        update.onUpdateDevCardDeck(currentPlayer, d1);
-        DevelopmentCard d2 = developmentCardDeck.getDevCards(2, 1);
-        try {
-            currentPlayer.getSlotDevCards().insertCards(1, d2);
-        } catch (GameFinishedException ignored) {}
-        update.onUpdateSlotDevCard(currentPlayer, d2, 1);
-        update.onUpdateDevCardDeck(currentPlayer, d2);
-        DevelopmentCard d3 = developmentCardDeck.getDevCards(2, 2);
-        try {
-            currentPlayer.getSlotDevCards().insertCards(2, d3);
-        } catch (GameFinishedException ignored) {}
-        update.onUpdateSlotDevCard(currentPlayer, d3, 2);
-        update.onUpdateDevCardDeck(currentPlayer, d3);
-         */
     }
 
 }

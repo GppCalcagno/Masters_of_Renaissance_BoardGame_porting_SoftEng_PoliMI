@@ -1,7 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Client.ClientController;
-import javafx.application.Application;
 
 public class ClientAPP {
 
