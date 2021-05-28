@@ -6,25 +6,20 @@ import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import javafx.scene.layout.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
-
-import java.util.*;
-
-import static java.lang.Integer.parseInt;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SceneLauncher {
     private ClientController controller;
@@ -144,6 +139,9 @@ public class SceneLauncher {
         Button actionMarketTray = new Button("Extraction\nMarble");
         Button actionBuyDevCard = new Button("Buy DevCard");
         Button actionActiveProduction = new Button("Active\nProduction");
+        actionActiveProduction.setOnAction(e->{
+            activeProductions();
+        });
         //bottoni show
         Button  showMarketTray = new Button("Show\nMarket Tray");
         Button showDevDeck = new Button("Show\nDevDeck");
@@ -528,59 +526,214 @@ public class SceneLauncher {
         stage1.show();
     }
 
-    public void payResourcesScene() {
-        HBox boxWarehouse = new HBox();
+    public void activeProductions() {
+        Stage stage1 = new Stage();
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
+
+        Label labelChoice = new Label("Choose the type of production: ");
+        GridPane.setConstraints(labelChoice, 0, 0);
+
+        Button baseProductionButton = new Button("Base\nProduction");
+        GridPane.setConstraints(baseProductionButton, 0, 1);
+        baseProductionButton.setOnAction(e->{
+            baseProductionScene(stage1);
+        });
+        Button devCardProductionButton = new Button("Development Card\nProduction");
+        /*
+        devCardProductionButton.setOnAction(e->{
+
+        });
+
+         */
+        GridPane.setConstraints(devCardProductionButton, 1, 1);
+        Button leaderCardProductionButton = new Button("Leader Card\nProduction");
+        /*
+        leaderCardProductionButton.setOnAction(e->{
+
+        });
+
+         */
+        GridPane.setConstraints(leaderCardProductionButton, 2, 1);
+        grid.getChildren().addAll(labelChoice, baseProductionButton, devCardProductionButton, leaderCardProductionButton);
+        Scene scene = new Scene(grid, 1000, 1000);
+        stage1.setScene(scene);
+        stage1.setTitle("Active Production");
+        stage1.setMaximized(true);
+        stage1.show();
+    }
+
+    public void baseProductionScene(Stage stage1) {
+        char[] chosenStructures = new char[2];
+        String[] resourcesVett = {"Coins", "Servants", "Shields", "Stones"};
+        String[] chosenResources = new String[3];
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
+
+        Label explanationLabel1 = new Label("Choose from which do you want to take Resources: ");
+        GridPane.setConstraints(explanationLabel1, 0, 0);
+
+        ChoiceBox cbStructure1 = new ChoiceBox(FXCollections.observableArrayList(
+                "Warehouse", "Strongbox", "Extra chest")
+        );
+        GridPane.setConstraints(cbStructure1, 0, 3);
+        cbStructure1.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    switch (new_val.intValue()) {
+                        case 0 :
+                            chosenStructures[0] = 'W';
+                            break;
+                        case 1 :
+                            chosenStructures[0] = 'S';
+                            break;
+                        case 2 :
+                            chosenStructures[0] = 'E';
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+        ChoiceBox cbResources1 = new ChoiceBox(FXCollections.observableArrayList(
+                "Coin", "Servant", "Shield", "Stone")
+        );
+        GridPane.setConstraints(cbResources1, 1, 3);
+        cbResources1.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    chosenResources[0] = resourcesVett[new_val.intValue()];
+                });
+
+        ChoiceBox cbStructure2 = new ChoiceBox(FXCollections.observableArrayList(
+                "Warehouse", "Strongbox", "Extra chest")
+        );
+        GridPane.setConstraints(cbStructure2, 0, 5);
+        cbStructure2.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    switch (new_val.intValue()) {
+                        case 0 :
+                            chosenStructures[1] = 'W';
+                            break;
+                        case 1 :
+                            chosenStructures[1] = 'S';
+                            break;
+                        case 2 :
+                            chosenStructures[1] = 'E';
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+        ChoiceBox cbResources2 = new ChoiceBox(FXCollections.observableArrayList(
+                "Coin", "Servant", "Shield", "Stone")
+        );
+        GridPane.setConstraints(cbResources2, 1, 5);
+        cbResources1.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    chosenResources[1] = resourcesVett[new_val.intValue()];
+                });
+
+        Label explanationLabel2 = new Label("Choose the produced Resources: ");
+        GridPane.setConstraints(explanationLabel2, 0, 7);
+
+        ChoiceBox cbResources3 = new ChoiceBox(FXCollections.observableArrayList(
+                "Coin", "Servant", "Shield", "Stone")
+        );
+        GridPane.setConstraints(cbResources3, 0, 9);
+        cbResources3.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    chosenResources[2] = resourcesVett[new_val.intValue()];
+                });
+
+        Button enterButton = new Button("Enter");
+        GridPane.setConstraints(enterButton, 0, 11);
+        enterButton.setOnAction(e->{
+            controller.sendMessage(new MessageActiveBaseProduction(playerBoard.getNickname(), chosenResources[2], chosenStructures[0], chosenResources[0], chosenStructures[1], chosenResources[1]));
+        });
+        grid.getChildren().addAll(explanationLabel1, cbStructure1, cbResources1, cbStructure2, cbResources2, explanationLabel2, cbResources3, enterButton);
+
+        Scene scene = new Scene(grid, 1000, 1000);
+        stage1.setScene(scene);
+        stage1.setMaximized(true);
+        stage1.show();
+    }
+
+    public Scene payResourcesScene() {
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
 
         Label labelWarehouse = new Label("Warehouse: ");
-        boxWarehouse.getChildren().addAll(labelWarehouse);
-
-        HBox boxTop1 = new HBox();
+        GridPane.setConstraints(labelWarehouse, 0, 0);
 
         Label labelCoinW = new Label("Coins: ");
+        GridPane.setConstraints(labelCoinW, 0, 1);
         TextField numCoinsWarehouse = new TextField();
+        GridPane.setConstraints(numCoinsWarehouse, 1, 1);
         Label labelServantW = new Label("Servants: ");
+        GridPane.setConstraints(labelServantW, 2, 1);
         TextField numServantsWarehouse = new TextField();
+        GridPane.setConstraints(numServantsWarehouse, 3, 1);
         Label labelShieldW = new Label("Shields: ");
+        GridPane.setConstraints(labelShieldW, 4, 1);
         TextField numShieldsWarehouse = new TextField();
+        GridPane.setConstraints(numShieldsWarehouse, 5, 1);
         Label labelStonesW = new Label("Stones: ");
+        GridPane.setConstraints(labelStonesW, 6, 1);
         TextField numStonesWarehouse = new TextField();
-        boxTop1.getChildren().addAll(labelCoinW, numCoinsWarehouse, labelServantW, numServantsWarehouse, labelShieldW, numShieldsWarehouse, labelStonesW, numStonesWarehouse);
-
-        HBox boxStrongbox = new HBox();
+        GridPane.setConstraints(numStonesWarehouse, 7, 1);
 
         Label labelStrongbox = new Label("Strongbox: ");
-        boxStrongbox.getChildren().addAll(labelStrongbox);
-
-        HBox boxTop2 = new HBox();
+        GridPane.setConstraints(labelStrongbox, 0, 2);
 
         Label labelCoinS = new Label("Coins: ");
+        GridPane.setConstraints(labelCoinS, 0, 3);
         TextField numCoinsStrongbox = new TextField();
+        GridPane.setConstraints(numCoinsStrongbox, 1, 3);
         Label labelServantS = new Label("Servants: ");
+        GridPane.setConstraints(labelServantS, 2, 3);
         TextField numServantsStrongbox = new TextField();
+        GridPane.setConstraints(numServantsStrongbox, 3, 3);
         Label labelShieldS = new Label("Shields: ");
+        GridPane.setConstraints(labelShieldS, 4, 3);
         TextField numShieldsStrongbox = new TextField();
+        GridPane.setConstraints(numShieldsStrongbox, 5, 3);
         Label labelStonesS = new Label("Stones: ");
+        GridPane.setConstraints(labelStonesS, 6, 3);
         TextField numStonesStrongbox = new TextField();
-        boxTop2.getChildren().addAll(labelCoinS, numCoinsStrongbox, labelServantS, numServantsStrongbox, labelShieldS, numShieldsStrongbox, labelStonesS, numStonesStrongbox);
-
-        HBox boxExtraChest = new HBox();
+        GridPane.setConstraints(numStonesStrongbox, 7, 3);
 
         Label labelExtraChest = new Label("ExtraChest: ");
-        boxExtraChest.getChildren().addAll(labelExtraChest);
-
-        HBox boxTop3 = new HBox();
+        GridPane.setConstraints(labelExtraChest, 0, 4);
 
         Label labelCoinE = new Label("Coins: ");
+        GridPane.setConstraints(labelCoinE, 0, 5);
         TextField numCoinsExtraChest = new TextField();
+        GridPane.setConstraints(numCoinsExtraChest, 1, 5);
         Label labelServantE = new Label("Servants: ");
+        GridPane.setConstraints(labelServantE, 2, 5);
         TextField numServantsExtraChest = new TextField();
+        GridPane.setConstraints(numServantsExtraChest, 3, 5);
         Label labelShieldE = new Label("Shields: ");
+        GridPane.setConstraints(labelShieldE, 4, 5);
         TextField numShieldsExtraChest = new TextField();
+        GridPane.setConstraints(numShieldsExtraChest, 5, 5);
         Label labelStonesE = new Label("Stones: ");
+        GridPane.setConstraints(labelStonesE, 6, 5);
         TextField numStonesExtraChest = new TextField();
-        boxTop3.getChildren().addAll(labelCoinE, numCoinsExtraChest, labelServantE, numServantsExtraChest, labelShieldE, numShieldsExtraChest, labelStonesE, numStonesExtraChest);
-
-        HBox boxEnter = new HBox();
+        GridPane.setConstraints(numStonesExtraChest, 7, 5);
 
         Button enterButton = new Button("Enter");
         enterButton.setOnAction(e->{
@@ -613,7 +766,13 @@ public class SceneLauncher {
                 extraChestMap.put("Stones", Integer.parseInt(numStonesExtraChest.getText()));
             controller.sendMessage(new MessagePayResources(playerBoard.getNickname(), warehouseMap, strongboxMap, extraChestMap));
         });
-        boxEnter.getChildren().addAll(enterButton);
-        //Scene scene = new Scene(boxWarehouse, boxTop1, boxStrongbox, boxTop2, boxExtraChest, boxTop3, boxEnter);
+        GridPane.setConstraints(enterButton, 0, 6);
+        grid.getChildren().addAll(labelWarehouse, labelCoinW, numCoinsWarehouse, labelServantW, numServantsWarehouse,
+                labelShieldW, numShieldsWarehouse, labelStonesW, numStonesWarehouse, labelStrongbox,
+                labelCoinS, numCoinsStrongbox, labelServantS, numServantsStrongbox, labelShieldS, numShieldsStrongbox,
+                labelStonesS, numStonesStrongbox, labelExtraChest, labelCoinE, numCoinsExtraChest, labelServantE,
+                numServantsExtraChest, labelShieldE, numShieldsExtraChest, labelStonesE, numStonesExtraChest, enterButton
+        );
+        return new Scene(grid, 1000, 1000);
     }
 }
