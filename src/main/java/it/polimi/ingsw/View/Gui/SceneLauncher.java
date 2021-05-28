@@ -67,7 +67,7 @@ public class SceneLauncher {
             });
 
         grid.getChildren().addAll(address, addressIn, port, portIn, loginButton);
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
 
         return new Scene(grid, 600, 400);
     }
@@ -94,7 +94,7 @@ public class SceneLauncher {
 
         grid.getChildren().addAll(nickLabel, nickname, nickButton);
         Scene scene = new Scene(grid);
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
 
         return scene;
     }
@@ -123,7 +123,7 @@ public class SceneLauncher {
         grid.getChildren().addAll(numPlayersLabel, numPlayersField, numButton);
         Scene scene = new Scene(grid);
         //stage.sizeToScene();
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
         return scene;
     }
 
@@ -131,8 +131,8 @@ public class SceneLauncher {
 
         //layout comandi bottoni
         TilePane tilePane = new TilePane();
-        tilePane.setVgap(10);
-        tilePane.setHgap(20);
+        tilePane.setVgap(3);
+        tilePane.setHgap(2);
         tilePane.setPrefColumns(2);
 
         //bottoni azione
@@ -158,42 +158,45 @@ public class SceneLauncher {
         Image leaderCard2;
 
         if(playerBoard.getLeaderCards().get(0)!=null){
-            leaderCard1 = new Image("front/"+playerBoard.getLeaderCards().get(1)+".png");
+            leaderCard1 = new Image("front/"+playerBoard.getLeaderCards().get(0)+".png");
         }
         else leaderCard1 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
 
         ImageView leaderCard1View = new ImageView(leaderCard1);
-        leaderCard1View.setFitHeight(350);
-        leaderCard1View.setFitWidth(200);
+        leaderCard1View.setFitHeight(210);
+        leaderCard1View.setFitWidth(170);
 
         if(playerBoard.getLeaderCards().get(1)!=null) {
             leaderCard2 = new Image("front/"+playerBoard.getLeaderCards().get(1)+".png");
         }
         else leaderCard2 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
         ImageView leaderCard2View = new ImageView(leaderCard2);
-        leaderCard2View.setFitHeight(350);
-        leaderCard2View.setFitWidth(200);
+        leaderCard2View.setFitHeight(210);
+        leaderCard2View.setFitWidth(170);
 
         leadercard.getChildren().addAll(leaderCard1View, leaderCard2View);
 
+        //################################################################################################################
         //layout for boardMain
         Pane boardMain = new Pane();
 
         Image board = new Image("board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
 
         ImageView boardView = new ImageView(board);
-        //boardView.setFitWidth(1000);
-        //boardView.setFitHeight(800);
-        boardView.fitWidthProperty().bind(boardMain.widthProperty());
-        boardView.fitHeightProperty().bind(boardMain.heightProperty());
+        boardView.setFitHeight(550);
+        boardView.setFitWidth(750);
+        //boardView.fitHeightProperty().bind(stage.heightProperty());
+        //boardView.fitWidthProperty().bind(stage.widthProperty());
+
+
         boardMain.getChildren().add(boardView);
 
         //move the faithmarker
         Image faithMarker = new Image("punchboard/faithMarker.png");
         ImageView faithMarkerView = new ImageView(faithMarker);
-        /*faithMarkerView.maxHeight(45);
+        faithMarkerView.maxHeight(45);
         faithMarkerView.maxWidth(50);
-        faithMarkerView.fitWidthProperty().bind(boardMain.widthProperty());
+        /*faithMarkerView.fitWidthProperty().bind(boardMain.widthProperty());
         faithMarkerView.fitHeightProperty().bind(boardMain.heightProperty());*/
         faithMarkerView.setFitHeight(45);
         faithMarkerView.setFitWidth(50);
@@ -226,11 +229,11 @@ public class SceneLauncher {
         popeSpaceView3.setY(112);
 
 
-        if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getCurrentPlayer())[0])
+        //if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getCurrentPlayer())[0])
             boardMain.getChildren().add(popeSpaceView1);
-        if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getCurrentPlayer())[1])
+        //if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getCurrentPlayer())[1])
             boardMain.getChildren().add(popeSpaceView2);
-        if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getCurrentPlayer())[2])
+        //if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getCurrentPlayer())[2])
             boardMain.getChildren().add(popeSpaceView3);
 
 
@@ -295,18 +298,23 @@ public class SceneLauncher {
         CheckBox row3 = new CheckBox();
         Button confirmExchange = new Button("Exchange");
 
-        /*row1.setLayoutX(40);
+        row1.setLayoutX(40);
         row1.setLayoutY(350);
         row2.setLayoutX(40);
         row2.setLayoutY(420);
         row3.setLayoutX(40);
         row3.setLayoutY(495);
         confirmExchange.setLayoutX(40);
-        confirmExchange.setLayoutY(540);*/
-        AnchorPane button = new AnchorPane(row1, row2, row3, confirmExchange);
-        AnchorPane.setTopAnchor(row1, 350.0);
-        AnchorPane.setLeftAnchor(row1, 40.0);
-        boardMain.getChildren().addAll(button);
+        confirmExchange.setLayoutY(540);
+        //AnchorPane button = new AnchorPane(boardView, faithMarkerView, popeSpaceView1, popeSpaceView2, popeSpaceView3 ,row1, row2, row3, confirmExchange);
+
+        /*AnchorPane.setTopAnchor(row1, 350.0);
+        AnchorPane.setLeftAnchor(row1, 40.0);*/
+        //button.computeAreaInScreen();
+        //boardView.fitHeightProperty().bind(boardMain.heightProperty());
+
+        boardMain.getChildren().addAll(row1, row2, row3, confirmExchange);
+
         confirmExchange.setOnAction(e->{
             if(row1.isSelected() && row2.isSelected() && !row3.isSelected())
             controller.sendMessage(new MessageExchangeWarehouse(playerBoard.getNickname(), 0, 1));
@@ -316,7 +324,7 @@ public class SceneLauncher {
                 controller.sendMessage(new MessageExchangeWarehouse(playerBoard.getNickname(), 1, 2));
         });
 
-
+        //###############################################################################################################
 
         //layout generale
         VBox left = new VBox();
@@ -329,9 +337,12 @@ public class SceneLauncher {
         total.prefWidthProperty().bind(total.widthProperty());
         total.prefHeightProperty().bind(total.heightProperty());
 
-        Scene scene = new Scene(total);
-        //stage.sizeToScene();
-        stage.setMaximized(true);
+       // total.minWidth(tilePane.getWidth()+1000);
+        //total.minHeight(800);
+
+        Scene scene = new Scene(total, 918, 550 );
+        //(tilePane.getWidth() + 1000);
+        //stage.setMaximized(true);
 
 
         return scene;
@@ -372,7 +383,7 @@ public class SceneLauncher {
 
     public double getFaithMarkerWidht(){
         switch(playerBoard.getFaithMarker()){
-            case 0: return 35;
+            case 0: return 40;
             case 1: return 87;
             case 2:
             case 3:
@@ -448,10 +459,11 @@ public class SceneLauncher {
             controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), chosenLeaderCards[0], chosenLeaderCards[1]));
         });
         box2.getChildren().addAll(labelLeaderCard1, cb1, labelLeaderCard2, cb2, enterCards);
+
         BorderPane total =new BorderPane();
         total.setTop(box1);
         total.setCenter(box2);
-        return new Scene(total, 1000, 1000);
+        return new Scene(total);
     }
 
     public Scene chooseInitialResources(){
