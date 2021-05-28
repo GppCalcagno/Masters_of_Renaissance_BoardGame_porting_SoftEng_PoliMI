@@ -72,6 +72,7 @@ public class SceneLauncher {
             });
 
         grid.getChildren().addAll(address, addressIn, port, portIn, loginButton);
+        stage.setMaximized(true);
 
         return new Scene(grid, 600, 400);
     }
@@ -97,9 +98,10 @@ public class SceneLauncher {
         });
 
         grid.getChildren().addAll(nickLabel, nickname, nickButton);
+        Scene scene = new Scene(grid);
+        stage.setMaximized(true);
 
-
-        return new Scene(grid, 600, 400);
+        return scene;
     }
 
     public Scene askNumPlayer() {
@@ -124,8 +126,10 @@ public class SceneLauncher {
         });
 
         grid.getChildren().addAll(numPlayersLabel, numPlayersField, numButton);
-
-        return new Scene(grid, 600, 400);
+        Scene scene = new Scene(grid);
+        //stage.sizeToScene();
+        stage.setMaximized(true);
+        return scene;
     }
 
     public Scene mainboard(){
@@ -176,19 +180,28 @@ public class SceneLauncher {
 
         //layout for boardMain
         Pane boardMain = new Pane();
-        //boardmain in background
+
         Image board = new Image("board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
 
         ImageView boardView = new ImageView(board);
-        boardView.setFitWidth(1000);
-        boardView.setFitHeight(800);
+        //boardView.setFitWidth(1000);
+        //boardView.setFitHeight(800);
+        boardView.fitWidthProperty().bind(boardMain.widthProperty());
+        boardView.fitHeightProperty().bind(boardMain.heightProperty());
         boardMain.getChildren().add(boardView);
 
         //move the faithmarker
         Image faithMarker = new Image("punchboard/faithMarker.png");
         ImageView faithMarkerView = new ImageView(faithMarker);
-        faithMarkerView.setFitWidth(45);
-        faithMarkerView.setFitHeight(50);
+        /*faithMarkerView.maxHeight(45);
+        faithMarkerView.maxWidth(50);
+        faithMarkerView.fitWidthProperty().bind(boardMain.widthProperty());
+        faithMarkerView.fitHeightProperty().bind(boardMain.heightProperty());*/
+        faithMarkerView.setFitHeight(45);
+        faithMarkerView.setFitWidth(50);
+        faithMarkerView.setPreserveRatio(true);
+
+
         faithMarkerView.setX(getFaithMarkerWidht());
         faithMarkerView.setY(getFaithMarkerHeight());
         boardMain.getChildren().add(faithMarkerView);
@@ -284,15 +297,18 @@ public class SceneLauncher {
         CheckBox row3 = new CheckBox();
         Button confirmExchange = new Button("Exchange");
 
-        row1.setLayoutX(40);
+        /*row1.setLayoutX(40);
         row1.setLayoutY(350);
         row2.setLayoutX(40);
         row2.setLayoutY(420);
         row3.setLayoutX(40);
         row3.setLayoutY(495);
         confirmExchange.setLayoutX(40);
-        confirmExchange.setLayoutY(540);
-        boardMain.getChildren().addAll(row1, row2, row3, confirmExchange);
+        confirmExchange.setLayoutY(540);*/
+        AnchorPane button = new AnchorPane(row1, row2, row3, confirmExchange);
+        AnchorPane.setTopAnchor(row1, 350.0);
+        AnchorPane.setLeftAnchor(row1, 40.0);
+        boardMain.getChildren().addAll(button);
         confirmExchange.setOnAction(e->{
             if(row1.isSelected() && row2.isSelected() && !row3.isSelected())
             controller.sendMessage(new MessageExchangeWarehouse(playerBoard.getNickname(), 0, 1));
@@ -312,8 +328,14 @@ public class SceneLauncher {
         total.setLeft(left);
         total.setCenter(boardMain);
 
+        total.prefWidthProperty().bind(total.widthProperty());
+        total.prefHeightProperty().bind(total.heightProperty());
 
         Scene scene = new Scene(total);
+        //stage.sizeToScene();
+        stage.setMaximized(true);
+
+
         return scene;
     }
 

@@ -77,6 +77,7 @@ public class Gui implements ViewInterface{
             }
             else {
                 Platform.runLater(() -> {
+                    sceneLauncher.getStage().setFullScreen(true);
                     sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
                 });
             }
@@ -93,6 +94,7 @@ public class Gui implements ViewInterface{
         if (playerBoard.isMyturn()) {
             if (playerBoard.getPlayerList().indexOf(playerBoard.getCurrentPlayer()) == 0) {
                 Platform.runLater(() -> {
+                    sceneLauncher.getStage().setFullScreen(true);
                     sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
                 });
             }
