@@ -210,7 +210,7 @@ public class Game {
             currentPlayer.getLeaderActionBox().add(d2);
 
             if (currentPlayer.getInitialResources() == 0)  {
-                System.out.println("USTIIIIIIIIIIIII");
+
                 currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
             }
 
