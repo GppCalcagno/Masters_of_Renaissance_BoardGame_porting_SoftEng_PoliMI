@@ -131,8 +131,8 @@ public class SceneLauncher {
 
         //layout comandi bottoni
         TilePane tilePane = new TilePane();
-        tilePane.setVgap(10);
-        tilePane.setHgap(5);
+        tilePane.setVgap(3);
+        tilePane.setHgap(2);
         tilePane.setPrefColumns(2);
 
         //bottoni azione
@@ -163,16 +163,16 @@ public class SceneLauncher {
         else leaderCard1 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
 
         ImageView leaderCard1View = new ImageView(leaderCard1);
-        leaderCard1View.setFitHeight(280);
-        leaderCard1View.setFitWidth(173);
+        leaderCard1View.setFitHeight(210);
+        leaderCard1View.setFitWidth(170);
 
         if(playerBoard.getLeaderCards().get(1)!=null) {
             leaderCard2 = new Image("front/"+playerBoard.getLeaderCards().get(1)+".png");
         }
         else leaderCard2 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
         ImageView leaderCard2View = new ImageView(leaderCard2);
-        leaderCard2View.setFitHeight(280);
-        leaderCard2View.setFitWidth(173);
+        leaderCard2View.setFitHeight(210);
+        leaderCard2View.setFitWidth(170);
 
         leadercard.getChildren().addAll(leaderCard1View, leaderCard2View);
 
@@ -183,8 +183,8 @@ public class SceneLauncher {
         Image board = new Image("board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
 
         ImageView boardView = new ImageView(board);
-        boardView.setFitHeight(700);
-        boardView.setFitWidth(1030);
+        boardView.setFitHeight(550);
+        boardView.setFitWidth(750);
         //boardView.fitHeightProperty().bind(stage.heightProperty());
         //boardView.fitWidthProperty().bind(stage.widthProperty());
 
@@ -340,7 +340,7 @@ public class SceneLauncher {
        // total.minWidth(tilePane.getWidth()+1000);
         //total.minHeight(800);
 
-        Scene scene = new Scene(total, 1200, 700 );
+        Scene scene = new Scene(total, 918, 550 );
         //(tilePane.getWidth() + 1000);
         //stage.setMaximized(true);
 
