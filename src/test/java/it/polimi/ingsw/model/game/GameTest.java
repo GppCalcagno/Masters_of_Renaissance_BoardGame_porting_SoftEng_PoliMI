@@ -719,8 +719,8 @@ class GameTest {
         game.setCurrentPlayer();
         player1.addleaderCardEffectWhiteMarble(new Coins());
         player1.addleaderCardEffectWhiteMarble(new Stones());
-        game.getMarketStructure().getBuffer().add(new WhiteMarble());
-        game.getMarketStructure().getBuffer().add(new BlueMarble());
+        game.getCurrentPlayer().getWarehouse().getBuffer().add(new WhiteMarble());
+        game.getCurrentPlayer().getWarehouse().getBuffer().add(new BlueMarble());
         game.getCurrentPlayer().setGameState(GameState.INGAME);
         game.getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
         assertTrue(game.manageMarble('W', 0, "Stones"));

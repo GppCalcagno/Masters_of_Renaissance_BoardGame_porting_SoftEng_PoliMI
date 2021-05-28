@@ -210,7 +210,6 @@ public class Game {
             currentPlayer.getLeaderActionBox().add(d2);
 
             if (currentPlayer.getInitialResources() == 0)  {
-                System.out.println("USTIIIIIIIIIIIII");
                 currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
             }
 
@@ -281,7 +280,7 @@ public class Game {
     public boolean extractionMarble(char colrowextract, int numextract) {
         if (currentPlayer.getGameState().equals(GameState.INGAME) && currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN)) {
             try {
-                if (marketStructure.extractMarbles(colrowextract, numextract)) {
+                if (marketStructure.extractMarbles(currentPlayer,colrowextract, numextract)) {
                     currentPlayer.setTurnPhase(TurnPhase.EXTRACTMARBLES);
                     update.onUpdateMarketTray(currentPlayer, colrowextract, numextract);
                     return true;
@@ -306,9 +305,9 @@ public class Game {
      * @return true if the add is right
      */
     public boolean manageMarble(char choice, int indexWarehouse, String resourceWhiteMarble) {
-        if (!marketStructure.getBuffer().isEmpty()) {
+        if (!currentPlayer.getWarehouse().getBuffer().isEmpty()) {
             if (!currentPlayer.getLeaderCardEffectWhiteMarble().isEmpty()) {
-                if (marketStructure.getBuffer().get(0).toString().equals("") && resourceWhiteMarble == null && indexWarehouse != 2) {
+                if (currentPlayer.getWarehouse().getBuffer().get(0).toString().equals("") && resourceWhiteMarble == null && indexWarehouse != 2) {
                     update.onUpdateError(currentPlayer.getNickname(),"You have not choose a resource.");
                     return false;
                 }
@@ -323,8 +322,8 @@ public class Game {
                     else {
                         try {
                             int faithMarker = currentPlayer.getFaithMarker();
-                            if (marketStructure.getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
-                                marketStructure.getBuffer().remove(0);
+                            if (currentPlayer.getWarehouse().getBuffer().get(0).addtoWarehouse(currentPlayer, indexWarehouse)) {
+                                currentPlayer.getWarehouse().removeFirstfromBuffer();
                                 if (faithMarker == currentPlayer.getFaithMarker())
                                     update.onUpdateWarehouse(currentPlayer, true);
                                 else update.onUpdateFaithMarker(currentPlayer, playersList, true, getBlackCrossToken());
@@ -332,7 +331,7 @@ public class Game {
                                 update.onUpdateError(currentPlayer.getNickname(), "You can not add a resource into the Warehouse.");
                             }
                         } catch (ActiveVaticanReportException activeVaticanReportException) {
-                            marketStructure.getBuffer().remove(0);
+                            currentPlayer.getWarehouse().removeFirstfromBuffer();
                             try {
                                 faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
                             } catch (GameFinishedException e) {
@@ -344,15 +343,15 @@ public class Game {
                     }
                     break;
                 case 'E' :
-                    if (marketStructure.getBuffer().get(0).addToExtraChest(currentPlayer)) {
-                        marketStructure.getBuffer().remove(0);
+                    if (currentPlayer.getWarehouse().getBuffer().get(0).addToExtraChest(currentPlayer)) {
+                        currentPlayer.getWarehouse().removeFirstfromBuffer();
                         update.onUpdateWarehouse(currentPlayer, true);
                     }
                     else
                         update.onUpdateError(currentPlayer.getNickname(),"You can not add a resource into Extra Chest.");
                     break;
                 case 'D' :
-                    marketStructure.discardMarbles(marketStructure.getBuffer().get(0));
+                    currentPlayer.getWarehouse().removeFirstfromBuffer();
                     try {
                         for (Player p : playersList) {
                             if (!p.equals(currentPlayer))
@@ -373,7 +372,7 @@ public class Game {
                     update.onUpdateError(currentPlayer.getNickname(),"Wrong choice.");
                     break;
             }
-            if (marketStructure.getBuffer().isEmpty()) {
+            if (currentPlayer.getWarehouse().getBuffer().isEmpty()) {
                 currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
             }
             return true;

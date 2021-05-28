@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import it.polimi.ingsw.model.marbles.*;
+import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -33,14 +33,13 @@ public class MarketStructure {
     /**
      * This attribute is a vector in which extractMarbles inserts the taken Marbles
      */
-    private List<Marbles> buffer;
+
 
     /**
      * This is the constructor method
      */
     public MarketStructure() throws IOException {
         marketTray = new Marbles[sizex][sizey];
-        this.buffer = new ArrayList<>();
 
         RuntimeTypeAdapterFactory<Marbles> marblesRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of(Marbles.class)
                 .registerSubtype(WhiteMarble.class)
@@ -75,13 +74,13 @@ public class MarketStructure {
      * @param direction indicates if the player want to extract a row or a column of Marbles
      * @param n indicates the number of the row or of the column chosen
      */
-    public boolean extractMarbles (char direction, int n) {
+    public boolean extractMarbles (Player player, char direction, int n) {
         // 'c' = colonna, 'r' = riga
 
         if( direction == 'C' ) {
             if( n >= 0 && n <= sizey ) {
                 for(int i = 0; i < sizex; i++) {
-                    this.buffer.add(this.marketTray[i][n]);
+                    player.getWarehouse().addToBuffer(marketTray[i][n]);
                 }
                 insertMarble(direction, n);
                 return true;
@@ -93,7 +92,7 @@ public class MarketStructure {
         else if ( direction == 'R' ) {
             if( n >= 0 && n <= sizex ) {
                 for(int j = 0; j < sizey; j++) {
-                    this.buffer.add(this.marketTray[n][j]);
+                    player.getWarehouse().addToBuffer(marketTray[n][j]);
                 }
                 insertMarble(direction, n);
                 return true;
@@ -131,20 +130,9 @@ public class MarketStructure {
         }
     }
 
-    /**
-     * This method discards a Marbles from the ones taken from the Market
-     * @param marbles is the Marbles chosen from the Player that it will be discarded
-     */
-    public void discardMarbles(Marbles marbles) {
-        buffer.remove(marbles);
-    }
 
-    /**
-     * This method empties the buffer after converting Marbles into Resources
-     */
-    public void emptyBuffer() {
-        buffer.clear();
-    }
+
+
 
     /**
      * This method returns the Market Tray to make know the situation to player who invokes it
@@ -162,11 +150,5 @@ public class MarketStructure {
         return remainingMarble;
     }
 
-    /**
-     * This method returns the buffer
-     * @return the vector of the taken Marbles with the method extractMarbles
-     */
-    public List<Marbles> getBuffer() {
-        return buffer;
-    }
+
 }

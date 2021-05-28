@@ -47,7 +47,8 @@ public class PlayerBoard {
     private String remainingMarble;
 
     private List<String> marbleBuffer;
-    private String ActivedDevCardProd;
+    private String activedDevCardProd;
+    private String currentDevCardToBuy;
 
     private String playerWinner;
     private Map<String, Integer> playersPoints;
@@ -95,13 +96,10 @@ public class PlayerBoard {
         this.nickname=name;
     }
 
-    public void setPlayerList(List<String> playerList) {
-        this.playerList = playerList;
-    }
 
     public void setActivedDevCardProd(String activedDevCardProd) {
         if(isMyturn())
-            ActivedDevCardProd = activedDevCardProd;
+            activedDevCardProd = activedDevCardProd;
     }
 
     public void setCurrentPlayer(String currentPlayer) {
@@ -183,10 +181,12 @@ public class PlayerBoard {
                             devCardDeck[i][j][z] = devCardDeck[i][j][z + 1];
                         }
                         devCardDeck[i][j][k] = null;
-
                 }
             }
         }
+        if(isMyturn())
+            currentDevCardToBuy=ID;
+
     }
 
     public void updateresoruces(String[][] warehouse,  Map<String, Integer> extraChest, Map<String,Integer> strongbox){
@@ -195,6 +195,9 @@ public class PlayerBoard {
             this.extrachest=extraChest;
             this.strongbox=strongbox;
         }
+        //this message comes only after paying for a devcard
+        currentDevCardToBuy="";
+        activedDevCardProd="";
     }
 
 
@@ -254,7 +257,6 @@ public class PlayerBoard {
             playerWinner=nickname;
         else
             playerWinner= "LorenzoIlMagnifico";
-
         playersPoints.put(nickname,finalpoint);
     }
 
@@ -273,6 +275,44 @@ public class PlayerBoard {
     public int getplayernumber(){
         return playerList.indexOf(nickname);
     }
+
+    public void resume(List<String> playersNameList,
+            String currentPlayer, String[][][] devCardDeck, String[][] marketTray,
+            String remainingMarble,List<String> marbleBuffer, String[][] warehouse, Map<String,
+            Integer> extraChest, Map<String, Integer> strongbox, Map<String, Integer> playersPosition,
+            Map<String, boolean[]> playersPopFavoriteTile, int blackcrosstoken, List<String> leaderCards, String[][] slotDevCards, String activeDevCardToBuy,
+            String activeDevCardProd, String lastTokerUsed, String lastTokenUsedColor) {
+
+        this.playerList=playersNameList;
+        this.currentPlayer=currentPlayer;
+
+        this.warehouse=warehouse;
+        this.strongbox=strongbox;
+        this.extrachest=extraChest;
+
+        this.playersFaithMarkerPosition=playersPosition;
+        this.playersPopFavoriteTile=playersPopFavoriteTile;
+
+        this.leaderCards=leaderCards;
+        this.slotDevCard=slotDevCards;
+
+        this.devCardDeck=devCardDeck;
+        this.marketTray=marketTray;
+        this.remainingMarble=remainingMarble;
+        this.marbleBuffer=marbleBuffer;
+
+        this.activedDevCardProd=activeDevCardProd;
+        this.currentDevCardToBuy=activeDevCardToBuy;
+
+        this.lastTokenUsed=lastTokerUsed;
+        this.lastTokenUsedColor=lastTokenUsedColor;
+        this.blackCrossToken=blackcrosstoken;
+
+    }
+
+
+
+
 
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();
@@ -459,10 +499,6 @@ public class PlayerBoard {
 
     public List<String> getLeaderCards() {
         return leaderCards;
-    }
-
-    public String getActivedDevCardProd() {
-        return ActivedDevCardProd;
     }
 
     public String getLastTokenUsed() {

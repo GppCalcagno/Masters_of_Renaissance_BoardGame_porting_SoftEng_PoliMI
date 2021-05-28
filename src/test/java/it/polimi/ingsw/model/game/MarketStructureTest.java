@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.game;
 
 import it.polimi.ingsw.model.marbles.BlueMarble;
 import it.polimi.ingsw.model.marbles.Marbles;
+import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -29,25 +30,28 @@ class MarketStructureTest {
 
     @Test
     void extractMarblesColumn() throws IOException {
+        Player player= new Player("concetta");
         MarketStructure marketTest = new MarketStructure();
-        assertTrue(marketTest.extractMarbles('C', 2));
+        assertTrue(marketTest.extractMarbles(player,'C', 2));
 
-        assertFalse(marketTest.getBuffer().isEmpty());
+        assertFalse(player.getWarehouse().getBuffer().isEmpty());
     }
 
     @Test
     void extractMarblesRow() throws IOException {
+        Player player= new Player("concetta");
         MarketStructure marketTest = new MarketStructure();
-        assertTrue(marketTest.extractMarbles('R', 2));
+        assertTrue(marketTest.extractMarbles(player,'R', 2));
 
-        assertFalse(marketTest.getBuffer().isEmpty());
+        assertFalse(player.getWarehouse().getBuffer().isEmpty());
     }
 
     @Test
     void extractMarblesRowError() throws IOException {
+        Player player= new Player("concetta");
         MarketStructure marketTest = new MarketStructure();
         try{
-            assertFalse(marketTest.extractMarbles('R', 3));
+            assertFalse(marketTest.extractMarbles(player,'R', 3));
         }
         catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException){}
     }
@@ -65,24 +69,14 @@ class MarketStructureTest {
 
     @Test
     void discardMarbles() throws IOException {
+        Player player= new Player("concetta");
         Marbles blue = new BlueMarble();
         MarketStructure marketTest = new MarketStructure();
 
-        marketTest.getBuffer().add(blue);
-        assertFalse(marketTest.getBuffer().isEmpty());
+        player.getWarehouse().getBuffer().add(blue);
+        assertFalse(player.getWarehouse().getBuffer().isEmpty());
 
-        marketTest.discardMarbles(blue);
-        assertTrue(marketTest.getBuffer().isEmpty());
-    }
-
-    @Test
-    void emptyBuffer() throws IOException {
-        MarketStructure marketTest = new MarketStructure();
-
-        marketTest.getBuffer().add(new BlueMarble());
-        assertFalse(marketTest.getBuffer().isEmpty());
-
-        marketTest.emptyBuffer();
-        assertTrue(marketTest.getBuffer().isEmpty());
+        player.getWarehouse().removeFirstfromBuffer();
+        assertTrue( player.getWarehouse().getBuffer().isEmpty());
     }
 }

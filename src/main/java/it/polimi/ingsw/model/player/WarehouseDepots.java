@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
+import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.producible.Resources;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -19,31 +19,30 @@ public class WarehouseDepots {
      */
     private Resources[][] warehouse;
 
-    /** The list leaderCardEffect is not null when the player has a leader card
-     * that add extra chest to the warehouse.
+    /**
+     * The list leaderCardEffect is not null when the player has a leader card, that add extra chest to the warehouse.
      */
     private List<ExtraChest> leaderCardEffect;
+
+
+    /**
+     *this attribute is the list of marbles just extracted from the markettray
+     */
+    private List<Marbles> buffer;
 
     /** this is the constructor, the warehouse is created as a matrix then transform
      * in a diagonal matrix
      */
     public WarehouseDepots(){
         leaderCardEffect= new ArrayList<>();
+        buffer= new ArrayList<>();
         warehouse = new Resources[sizex][sizey];
         warehouse[0][1] = null;
         warehouse[0][2] = null;
         warehouse[1][2] = null;
-
     }
 
-    /**
-     * @param row the caller wants to know how many resources are in that
-     *      *               row
-     * @return an integer: the number of resources
-     */
-    public int getWarehouseNum(int row){
-        return (int) Arrays.stream(warehouse[row]).filter(i -> i !=null).count();
-    }
+
 
     /** this method check if an insertion from the market into the warehouse
      * is legal in accord with the rules of the game
@@ -185,5 +184,17 @@ public class WarehouseDepots {
 
     public Resources[][] getWarehouse() {
         return warehouse;
+    }
+
+    public List<Marbles> getBuffer() {
+        return buffer;
+    }
+
+    public void addToBuffer(Marbles marbles){
+        buffer.add(marbles);
+    }
+
+    public void removeFirstfromBuffer(){
+        buffer.remove(0);
     }
 }
