@@ -139,11 +139,6 @@ public class Gui implements ViewInterface{
     }
 
     @Override
-    public void onUpdatePlayerState(String nickname, boolean state) {
-
-    }
-
-    @Override
     public void onUpdateUpdateResources() {
 
     }
@@ -195,6 +190,18 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onDisconnect() {
+        // when the server asks to disconnect
+        clientController.disconnect();
+    }
+
+    @Override
+    public void onPlayerDisconnect(String name) {
+        //when a player logs out
+
+    }
+
+    @Override
+    public void onResume(String name) {
 
     }
 

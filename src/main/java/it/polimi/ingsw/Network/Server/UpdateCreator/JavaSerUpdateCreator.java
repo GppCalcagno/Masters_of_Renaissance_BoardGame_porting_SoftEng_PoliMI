@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.card.LeaderAction;
 import it.polimi.ingsw.model.card.leadereffect.ExtraChest;
 import it.polimi.ingsw.model.marbles.Marbles;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.SlotDevCards;
 import it.polimi.ingsw.model.player.WarehouseDepots;
 import it.polimi.ingsw.model.producible.Resources;
 import it.polimi.ingsw.model.singleplayer.token.Tokens;
@@ -49,12 +50,8 @@ public class JavaSerUpdateCreator implements UpdateCreator {
     public void onUpdateStartGame(DevelopmentCard[][][] developmentCardDeck, List<Player> playersList , Marbles[][] marketTray, Marbles remainingMarble){
         String[][][] stringdevCardDeck =devCardDeckConvert(developmentCardDeck);
 
-        String [][] stringmarketTray = new String[3][4];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                stringmarketTray[i][j] = marketTray[i][j].toString();
-            }
-        }
+        String [][] stringmarketTray = marketTrayConvert(marketTray);
+
         String stringremainingMarble= remainingMarble.toString();
 
         Map<String,List<String>> stringleaderCardsToChoose= new HashMap<>();
@@ -111,8 +108,8 @@ public class JavaSerUpdateCreator implements UpdateCreator {
     }
 
     @Override
-    public void onUpdatePlayerState(Player player, boolean state){
-        MessageUpdatePlayerState message= new MessageUpdatePlayerState(player.getNickname(),state);
+    public void onUpdatePlayerDisconnected(Player player){
+        MessageUpdatePlayerDisconnected message= new MessageUpdatePlayerDisconnected(player.getNickname());
         sender.sendBroadcastMessage(message);
 
     }
@@ -198,6 +195,48 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         sender.sendtoPlayer(name,messageRequestDisconnect);
     }
 
+   @Override
+    public void onRequestResume(List<Player> playerList, Player player, Player currentPlayer, DevelopmentCard[][][] devCardsDeck,
+                                Marbles[][] marketTray, Marbles remainingMarble, int blackCrossToken){
+       //convert Player list and FaithTrack date
+       List<String> stringPlayerList= new ArrayList<>();
+       Map<String, Integer> stringPlayersPosition= new HashMap<>();
+       Map<String, boolean[]> stringPlayersPopFavoriteTile= new HashMap<>();
+
+       for(Player p: playerList ){
+           stringPlayerList.add(p.getNickname());
+           stringPlayersPosition.put(p.getNickname(),p.getFaithMarker());
+           stringPlayersPopFavoriteTile.put(p.getNickname(),p.getPopsfavortiles());
+       }
+
+       //convert MarbleBuffer
+       List<String> stringMarbleBuffer= new ArrayList<>();
+       for(Marbles marbles: player.getWarehouse().getBuffer()){
+           stringMarbleBuffer.add(marbles.toString());
+       }
+
+       List<String> stringLeadercard= new ArrayList<>();
+       //convertLeaderCard
+       for(LeaderAction card: player.getLeaderActionBox()){
+           stringLeadercard.add(card.getID());
+       }
+
+       String stringCurrentDevCardToBuy="";
+       String stringCurrentDevCardToProduce="";
+
+       if( player.getCurrentDevCardToBuy()!=null)
+           stringCurrentDevCardToBuy=player.getCurrentDevCardToBuy().getID();
+       if(player.getCurrentDevCardToProduce()!=null)
+           stringCurrentDevCardToProduce=player.getCurrentDevCardToProduce().getID();
+
+       MessageReconnect message= new MessageReconnect(player.getNickname(),stringPlayerList, currentPlayer.getNickname(),
+               devCardDeckConvert(devCardsDeck),marketTrayConvert(marketTray),remainingMarble.toString(),stringMarbleBuffer,warehouseConvert(player.getWarehouse()),
+               extrachestConvert(player.getWarehouse().getLeaderCardEffect()),player.getStrongbox().getChest(),stringPlayersPosition,stringPlayersPopFavoriteTile, blackCrossToken,
+               stringLeadercard, slotDevCardConvert(player.getSlotDevCards()),stringCurrentDevCardToBuy,stringCurrentDevCardToProduce);
+       sender.sendBroadcastMessage(message);
+    }
+
+
     @Override
     public void onWaitingForOtherPlayer(String name){
         sender.sendtoPlayer(name, new MessageWaitingForOtherPlayer());
@@ -208,9 +247,6 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         sender.sendBroadcastMessage(new MessageWaitingForOtherPlayer());
     }
 
-
-
-
     @Override
     public void onRequestNumPlayer(){
         sender.sendBroadcastMessage(new MessageRequestNumPlayers());
@@ -218,6 +254,27 @@ public class JavaSerUpdateCreator implements UpdateCreator {
 
 
 
+    private String[][] marketTrayConvert(Marbles[][] marketTray){
+        String [][] stringmarketTray = new String[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                stringmarketTray[i][j] = marketTray[i][j].toString();
+            }
+        }
+        return stringmarketTray;
+    }
+
+    private String[][] slotDevCardConvert(SlotDevCards slotDevCards){
+        String[][] stringSlotDevCard= new String[3][3];
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(slotDevCards.getDevCards(i,j)!=null){
+                    stringSlotDevCard[i][j]= slotDevCards.getDevCards(i,j).getID();
+                }
+            }
+        }
+        return stringSlotDevCard;
+    }
 
 
 

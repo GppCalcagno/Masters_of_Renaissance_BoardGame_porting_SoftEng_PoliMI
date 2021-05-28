@@ -38,9 +38,7 @@ public class SinglePlayerGame extends Game {
      */
     @Override
     public void setCurrentPlayer () throws EndGameException {
-        setCurrentPlayer(getPlayersList().get(0));
-        if (isFinishedGame())
-            throw new EndGameException();
+        if (isFinishedGame()) throw new EndGameException();
     }
 
     /**
@@ -92,6 +90,7 @@ public class SinglePlayerGame extends Game {
     @Override
     public void startgame () {
         // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
+        setDuringGame(true);
         setCurrentPlayer(getPlayersList().get(0));
         for (int x = 0; x < 4; x++) {
             getLeaderCardDeck().givetoPlayer(0, getCurrentPlayer());
@@ -102,10 +101,7 @@ public class SinglePlayerGame extends Game {
     /**
      * This method counts victory points of each player at the end of the game according to the rules
      */
-    @Override
-    public void givefinalpoints () {
-        getCurrentPlayer().addVictoryPoints(getCurrentPlayer().getSlotDevCards().countVictoryPoints() + getCurrentPlayer().countLeaderActionVictoryPoints() + getCurrentPlayer().countTotalResources()/5 + getFaithTrack().getPlayerPoint(getCurrentPlayer()));
-    }
+
 
     /**
      * This method plays Lorenzo Il Magnifico's turn
@@ -116,27 +112,24 @@ public class SinglePlayerGame extends Game {
     }
 
     @Override
-    public void endTurn() {
+    public void endTurn(boolean onDisconnect) {
         /* DECOMMENTA SE VUOI FAR FINIRE LA PARTITA AL PRIMO ENDTURN;
         setDuringGame(false);
         getUpdate().onUpdateWinnerSinglePlayer(false, getCurrentPlayer().getVictoryPoints());
         return;
         */
-
-        boolean canEndTurn = false;
-        if (getCurrentPlayer().getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
-            getCurrentPlayer().setGameState(GameState.INGAME);
-            for (Player p : getPlayersList()) {
-                if (p.getLeaderActionBox().size() == 4)
-                    getCurrentPlayer().setGameState(GameState.INITGAME);
-            }
-            canEndTurn = true;
-        }
-        else {
-            if (getCurrentPlayer().getTurnPhase().equals(TurnPhase.ENDTURN)) {
-                canEndTurn = true;
+        boolean canEndTurn = onDisconnect;
+        if(!onDisconnect) {
+            if (getCurrentPlayer().getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
+                getCurrentPlayer().setGameState(GameState.INGAME);
                 getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
-                setCanDoProductionTrue();
+                canEndTurn = true;
+            } else {
+                if (getCurrentPlayer().getTurnPhase().equals(TurnPhase.ENDTURN)) {
+                    canEndTurn = true;
+                    getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
+                    setCanDoProductionTrue();
+                }
             }
         }
         if(canEndTurn){
@@ -151,7 +144,7 @@ public class SinglePlayerGame extends Game {
                 }
             }
             getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken(), lorenzoIlMagnifico.getCurrentToken().getColor());
-            getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
+
             setCanDoProductionTrue();
             try {
                 setCurrentPlayer();

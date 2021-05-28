@@ -26,7 +26,6 @@ public class Server extends Observable {
     private int port;
     private Object serverLocker= new Object();
 
-
     /**
      * this is the costructor of the Server
      * @param port is the port of the Server
@@ -148,20 +147,17 @@ public class Server extends Observable {
 
         synchronized (serverLocker) {
             LOGGER.info("Player " + iDNameMap.get(ID) + " disconnected");
+            //The observer must be removed first otherwise server tries broadcast message and throws again exception (loop)
+            removeObserver(iDClientMap.get(ID));
 
             if (iDNameMap.containsKey(ID))
                 gameController.disconnect(iDNameMap.get(ID));
 
-            if (iDClientMap.containsKey(ID))
+            if (iDClientMap.containsKey(ID)){
                 iDClientMap.get(ID).clocsesocket();
-
-            removeObserver(iDClientMap.get(ID));
+            }
             iDClientMap.remove(ID);
             iDNameMap.remove(ID);
-
-
-            clientConnected--;
         }
     }
-
 }

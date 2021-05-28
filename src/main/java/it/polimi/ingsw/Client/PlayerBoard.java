@@ -99,7 +99,7 @@ public class PlayerBoard {
 
     public void setActivedDevCardProd(String activedDevCardProd) {
         if(isMyturn())
-            activedDevCardProd = activedDevCardProd;
+            this.activedDevCardProd = activedDevCardProd;
     }
 
     public void setCurrentPlayer(String currentPlayer) {
@@ -213,7 +213,6 @@ public class PlayerBoard {
         for (String p: playerList){
             playersFaithMarkerPosition.put(p,0);
             playersPopFavoriteTile.put(p, new boolean[3]);
-
         }
     }
 
@@ -281,7 +280,7 @@ public class PlayerBoard {
             String remainingMarble,List<String> marbleBuffer, String[][] warehouse, Map<String,
             Integer> extraChest, Map<String, Integer> strongbox, Map<String, Integer> playersPosition,
             Map<String, boolean[]> playersPopFavoriteTile, int blackcrosstoken, List<String> leaderCards, String[][] slotDevCards, String activeDevCardToBuy,
-            String activeDevCardProd, String lastTokerUsed, String lastTokenUsedColor) {
+            String activeDevCardProd) {
 
         this.playerList=playersNameList;
         this.currentPlayer=currentPlayer;
@@ -304,8 +303,6 @@ public class PlayerBoard {
         this.activedDevCardProd=activeDevCardProd;
         this.currentDevCardToBuy=activeDevCardToBuy;
 
-        this.lastTokenUsed=lastTokerUsed;
-        this.lastTokenUsedColor=lastTokenUsedColor;
         this.blackCrossToken=blackcrosstoken;
 
     }
@@ -515,5 +512,13 @@ public class PlayerBoard {
 
     public int getBlackCrossToken() {
         return blackCrossToken;
+    }
+
+    public String getActivedDevCardProd() {
+        return activedDevCardProd;
+    }
+
+    public String getCurrentDevCardToBuy() {
+        return currentDevCardToBuy;
     }
 }

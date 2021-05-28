@@ -29,7 +29,7 @@ public interface UpdateCreator {
 
     void onUpdateActivatedDevCardProduction(Player player, String ID);
 
-    void onUpdatePlayerState(Player player, boolean state);
+    void onUpdatePlayerDisconnected(Player player);
 
     void onUpdateResources(Player player);
 
@@ -52,6 +52,10 @@ public interface UpdateCreator {
     void onRequestDisconnect(String name);
 
     void onRequestNumPlayer();
+
+
+    void onRequestResume(List<Player> playerList, Player player, Player CurrentPlayer, DevelopmentCard[][][] devCardsDeck,
+                         Marbles[][] marketTray, Marbles remainingMarble, int blackCrossToken);
 
     void onWaitingForOtherPlayer(String name);
 

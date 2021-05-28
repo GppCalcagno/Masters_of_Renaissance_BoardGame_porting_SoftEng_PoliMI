@@ -34,6 +34,8 @@ public class ServerClientHandler implements Runnable, Observer {
 
     /** this is a locker to manage the Concurrency */
     private  final Object SenderLock;
+
+
     /**
      * this is the costructor of the class
      * @param clientSocket is the connected socket of the player
@@ -83,8 +85,9 @@ public class ServerClientHandler implements Runnable, Observer {
             }//finewhile
         }
         catch (IOException | ClassNotFoundException | NullPointerException  e) {
-            SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
-            server.disconnect(ID);
+            e.printStackTrace();
+                SERVERLOGGER.severe("ERROR: CLIENT MESSAGE RECEPTION ");
+                server.disconnect(ID);
         }
     }
 
@@ -108,8 +111,8 @@ public class ServerClientHandler implements Runnable, Observer {
             output.reset();
 
         } catch (IOException e) {
-            SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE: DISCONNECT PLAYER");
-            server.disconnect(ID);
+                SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE: DISCONNECT PLAYER");
+                server.disconnect(ID);
         }
     }
 

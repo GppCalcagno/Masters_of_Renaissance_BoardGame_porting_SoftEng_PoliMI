@@ -14,14 +14,12 @@ import it.polimi.ingsw.View.ViewInterface;
 
 
 public class ClientController implements Observer {
-    ClientSocket clientSocket;
-    ViewInterface view;
-    ClientSender sender;
-    boolean isOnline;
+    private ClientSocket clientSocket;
+    private ViewInterface view;
+    private ClientSender sender;
+
 
     public ClientController(boolean isCli, boolean isOnline) {
-        this.isOnline=isOnline;
-
         if(isCli)
             view= new Cli(this);
         else

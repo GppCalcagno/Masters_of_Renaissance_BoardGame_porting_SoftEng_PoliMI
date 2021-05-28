@@ -2,7 +2,6 @@ package it.polimi.ingsw.Controller;
 
 
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
 import it.polimi.ingsw.Network.Server.*;
 import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
 import it.polimi.ingsw.Network.Server.UpdateCreator.UpdateCreator;
@@ -53,18 +52,30 @@ public class GameController {
     }
 
     public void onLoginPhase(String name){
-        if(game.isDuringGame())
+        //checking on the names of online players is done by the server because the name is used as an
+        // ID to identify the correct handler. There cannot be 2 clients with the same handler!
+        if(game.isDuringGame()){
             onLoginDuringGame(name);
-        else
+        }
+        else{
             onLoginBeforeGame(name);
+        }
     }
 
     public void onLoginDuringGame(String name){
-        //todo
+        int i=0;
+
+        while (i < game.getPlayersList().size() && !game.getPlayersList().get(i).getNickname().equals(name)) i++;
+        if(i==game.getPlayersList().size()){
+            updateCreator.onUpdateError(name, "Game Already Started! Disconnecting...");
+            updateCreator.onRequestDisconnect(name);
+        }
+        else
+        {
+            onResumeRequest(game.getPlayersList().get(i));
+        }
+
     }
-
-
-
 
 
     public void onLoginBeforeGame(String name) {
@@ -72,7 +83,6 @@ public class GameController {
             if (playersNames.size() == 0) {
                 playersNames.add(name);
                 updateCreator.onRequestNumPlayer();
-             //   sender.sendtoPlayer(name, new MessageRequestNumPlayers());
             } else {
                 if (numPlayer == 0 || (numPlayer > 0 && playersNames.size() >= numPlayer)) {
                     updateCreator.onUpdateError(name, "Inconsistent number of players. Disconnecting...");
@@ -134,25 +144,46 @@ public class GameController {
         }
     }
 
-    public void disconnect(String name){
-
-        if(!game.isDuringGame()){
+    public void disconnect(String name) {
+        if (!game.isDuringGame()) {
             playersNames.remove(name);
-            if(playersNames.size()==0)
-                numPlayer=0;
-        }
-        else {
-            synchronized (modelLock){
-                for(int i=0;i<game.getPlayersList().size();i++) {
-                    if (game.getPlayersList().get(i).getNickname().equals(name))
-                        game.getPlayersList().get(i).setConnected(false);
-                        if(game.getCurrentPlayer().getNickname().equals(name))
-                            endTurn();
+            if (playersNames.size() == 0)
+                numPlayer = 0;
+        } else {
+            synchronized (modelLock) {
+                int i = 0;
+                while (i < game.getPlayersList().size()-1 && !game.getPlayersList().get(i).getNickname().equals(name)) i++;
+
+                if (game.getPlayersList().get(i).getNickname().equals(name)) {
+                    game.getPlayersList().get(i).setConnected(false);
+                    if (game.getCurrentPlayer().getNickname().equals(name)){
+                        endTurn(true);
+                    }
+                     updateCreator.onUpdatePlayerDisconnected(game.getPlayersList().get(i));
                 }
             }
         }
     }
 
+
+
+    public void onResumeRequest(Player player){
+        boolean isSomeoneOnline=false;
+
+        for(Player p: game.getPlayersList()){
+            if (p.getConnected()) {
+                isSomeoneOnline = true;
+                break;
+            }
+        }
+        player.setConnected(true);
+        if(!isSomeoneOnline)
+            endTurn(true);
+
+       updateCreator.onRequestResume(game.getPlayersList(),player,game.getCurrentPlayer(),game.getDevelopmentCardDeck().getDevelopmentCardDeck()
+        ,game.getMarketStructure().getMarketTray(),game.getMarketStructure().getRemainingMarble(),game.getBlackCrossToken());
+
+    }
 
 
     public boolean chooseInitialLeaderCards (int i1, int i2) {
@@ -204,8 +235,8 @@ public class GameController {
         return game.updateLeaderCard(ID, choice);
     }
 
-    public void endTurn (){
-        game.endTurn();
+    public void endTurn (boolean onDisconnect){
+        game.endTurn(onDisconnect);
     }
 
     public void fakeTaxi() {

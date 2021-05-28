@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class SinglePlayerGameTest {
 
     @Test
-    void isFinishedGame25Player() throws IOException, EndGameException {
+    void isFinishedGame25Player() throws IOException {
         SinglePlayerGame s = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
         Player p = new Player("Giusè");
         s.addPlayersList(p);
-        s.setCurrentPlayer();
+        s.setCurrentPlayer(p);
 
         for(int i=0; i<25; i++) {
             try {s.getCurrentPlayer().increasefaithMarker();}
@@ -29,11 +29,11 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void isFinishedGame25Lorenzo() throws IOException, EndGameException {
+    void isFinishedGame25Lorenzo() throws IOException {
         SinglePlayerGame s = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
         Player p = new Player("Giusè");
         s.addPlayersList(p);
-        s.setCurrentPlayer();
+        s.setCurrentPlayer(p);
         try {
             s.getLorenzoIlMagnifico().increaseFaithMarker(24);
         } catch (ActiveVaticanReportException e) {}
@@ -41,11 +41,11 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void isFinishedGameEmptyColumn() throws IOException, EndGameException {
+    void isFinishedGameEmptyColumn() throws IOException {
         SinglePlayerGame s = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
         Player p = new Player("Giusè");
         s.addPlayersList(p);
-        s.setCurrentPlayer();
+        s.setCurrentPlayer(p);
 
         for(int i=0; i<3; i++){
             for(int k=0; k<4; k++){
@@ -56,12 +56,12 @@ class SinglePlayerGameTest {
     }
 
     @Test
-    void startgame() throws IOException, EndGameException {
+    void startgame() throws IOException {
 
         SinglePlayerGame game = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
         Player player1 = new Player("Qui");
         game.addPlayersList(player1);
-        game.setCurrentPlayer();
+        game.setCurrentPlayer(player1);
         game.startgame();
 
         assertFalse(player1.getLeaderActionBox().isEmpty());

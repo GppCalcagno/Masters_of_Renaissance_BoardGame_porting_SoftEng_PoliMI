@@ -14,6 +14,6 @@ public class MessageEndTurn extends Message {
 
     @Override
     public void action(GameController gameController){
-        gameController.endTurn();
+        gameController.endTurn(false);
     }
 }

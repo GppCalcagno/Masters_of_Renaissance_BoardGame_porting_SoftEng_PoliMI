@@ -91,19 +91,27 @@ public class Game {
      * This method takes from playersList the current turn's player.
      */
     public void setCurrentPlayer () throws EndGameException {
-        int i = this.playersList.indexOf(this.currentPlayer);
+        boolean isSomeoneOnline=false;
 
-        if (finishedGame && lastPlayer == null)
-            lastPlayer = this.currentPlayer;
-        do {
-            i++;
-            if(i >= this.playersList.size()) i=0;
-            if (finishedGame && playersList.get(i) == lastPlayer)
-                throw new EndGameException();
+        for(Player p: playersList){
+            if (p.getConnected()) {
+                isSomeoneOnline = true;
+                break;
+            }
+        }
+        if(isSomeoneOnline) {
+            int i = this.playersList.indexOf(this.currentPlayer);
+            if (finishedGame && lastPlayer == null)
+                lastPlayer = this.currentPlayer;
+            do {
+                i++;
+                if (i >= this.playersList.size()) i = 0;
+                if (finishedGame && playersList.get(i) == lastPlayer)
+                    throw new EndGameException();
+            } while (!playersList.get(i).getConnected());
 
-        } while(!playersList.get(i).getConnected());
-
-        currentPlayer=playersList.get(i);
+            currentPlayer = playersList.get(i);
+        }
     }
 
     /**
@@ -158,6 +166,9 @@ public class Game {
         // Set the current Player
         Collections.shuffle(this.playersList);
         currentPlayer=playersList.get(0);
+
+
+        playersList= (List<Player>) playersList;
 
         //set Initial Resources
         for(int i=0;i<playersList.size();i++){
@@ -937,18 +948,20 @@ public class Game {
         return true;
     }
 
-    public void endTurn() {
+    public void endTurn(boolean onDisconnect) {
 
-        boolean canEndTurn = false;
-        if (currentPlayer.getGameState().equals(GameState.INITGAME) && currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
-            currentPlayer.setGameState(GameState.INGAME);
-            canEndTurn = true;
-        }
-        else {
-            if (currentPlayer.getTurnPhase().equals(TurnPhase.ENDTURN)) {
-                canEndTurn = true;
+        boolean canEndTurn = onDisconnect;
+        if(!onDisconnect) {
+            if (currentPlayer.getGameState().equals(GameState.INITGAME) && currentPlayer.getLeaderActionBox().size() <= 2 && currentPlayer.getInitialResources() == 0) {
+                currentPlayer.setGameState(GameState.INGAME);
                 currentPlayer.setTurnPhase(TurnPhase.DOTURN);
-                setCanDoProductionTrue();
+                canEndTurn = true;
+            } else {
+                if (currentPlayer.getTurnPhase().equals(TurnPhase.ENDTURN)) {
+                    canEndTurn = true;
+                    currentPlayer.setTurnPhase(TurnPhase.DOTURN);
+                    setCanDoProductionTrue();
+                }
             }
         }
         if(canEndTurn){
@@ -962,7 +975,7 @@ public class Game {
                 return;
                 //finisci tutto
             }
-            currentPlayer.setTurnPhase(TurnPhase.DOTURN);
+
             update.onUpdateCurrentPlayer(currentPlayer);
         }
         else{

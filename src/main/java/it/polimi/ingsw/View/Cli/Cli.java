@@ -116,8 +116,6 @@ public class Cli implements ViewInterface {
             showLeaderActionBox();
         }
 
-
-
         if(playerBoard.isMyturn()){
             out.println("it's your turn!");
         }
@@ -140,15 +138,11 @@ public class Cli implements ViewInterface {
                 showLeaderActionBox();
             } else {
                 out.println("Is your turn, please insert a command, type HELP to see all commands\n");
-                out.println(Color.ANSI_YELLOW.escape() + "\t EXTRACTIONMARBLE <r/c> <num>" + Color.RESET +
-                        "\n -- <r/c> select row or column of the marketTray" +
-                        "\n -- <num> the number or the row or the column\n" +
-                        Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>" + Color.RESET +
-                        "\n -- <ID> is the id of the devCard" +
-                        "\n -- <position> where you want to stored the card in your SlotDevCard\n" +
-                        Color.ANSI_YELLOW.escape() + "\t ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
-                        "\n -- <col> the index of the column of the slotdevcard\n" +
-                        "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
+                out.println(Color.ANSI_YELLOW.escape() + "\t EXTRACTIONMARBLE <r/c> <num>\n" + Color.RESET +
+                        Color.ANSI_YELLOW.escape() + "\t BUYDEVCARD <ID> <positon>\n" + Color.RESET +
+                        Color.ANSI_YELLOW.escape() + "\t ACTIVEDEVCARDPRODUCTION <num>\n" + Color.RESET +
+                        Color.ANSI_YELLOW.escape()+"\t ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>\n" + Color.RESET +
+                        Color.ANSI_YELLOW.escape()+"\t ACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET);
                 showMarketTray();
                 showStrongbox();
                 showWarehouse();
@@ -241,14 +235,54 @@ public class Cli implements ViewInterface {
     }
 
     @Override
-    public void onUpdatePlayerState(String nickname, boolean state) {
-        if(state) System.out.println(nickname + " is now connected");
-        else System.out.println(nickname + "in now disconnected");
+    public void onDisconnect(){
+        // when the server asks to disconnect
+        controller.disconnect();
     }
 
     @Override
-    public void onDisconnect(){
-        controller.disconnect();
+    public void onPlayerDisconnect(String nickname){
+        //when a player logs out
+        System.out.println("PLAYER: " +nickname + " has left the game.");
+    }
+
+    @Override
+    public void onResume(String name) {
+        if(playerBoard.getNickname().equals(name)){
+            System.out.println("WelcomeBack "+playerBoard.getNickname()+" !");
+            if(!playerBoard.getMarbleBuffer().isEmpty()){
+                System.out.println("You have to manage the extracted Marbles");
+                showMarbleBuffer();
+                showWarehouse();
+            }
+            else{
+                if(playerBoard.getLeaderCards().size()>2 ){
+                    System.out.println("You have to Complete InitialTurn");
+                    showLeaderActionBox();
+                }
+                else{
+                    if(!playerBoard.getActivedDevCardProd().equals("")){
+                        System.out.println("You have to Complete Card Production");
+                        showDevCard(playerBoard.getActivedDevCardProd());
+                    }
+                    else
+                    {
+                        if(!playerBoard.getCurrentDevCardToBuy().equals("")){
+                            System.out.println("You have to Complete Card Purchase");
+                            showDevCard(playerBoard.getActivedDevCardProd());
+                        }
+                    }
+                }
+            }
+            if(playerBoard.isMyturn())
+                System.out.println("It's your turn!");
+            else
+                System.out.println("But first your have to Wait Your Turn!");
+
+            inThread.start();
+        }
+        else
+            System.out.println("PLAYER: " +name + " is now connected");
     }
 
     @Override

@@ -706,7 +706,7 @@ class GameTest {
         Player player2 = new Player("Maurizio Pistocchi");
         game.addPlayersList(player2);
 
-        game.endTurn();
+        game.endTurn(false);
         assertEquals(player2, game.getCurrentPlayer());
     }
 

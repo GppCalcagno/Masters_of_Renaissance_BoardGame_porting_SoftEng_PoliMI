@@ -26,7 +26,6 @@ public interface ViewInterface {
     void onUpdateDevCardDeck(String devCard);
     void onUpdateFaithMarker();
     void onUpdateMarketTray();
-    void onUpdatePlayerState(String nickname, boolean state);
     void onUpdateUpdateResources(); // solo current
     void onUpdateSinglePlayerGame(); //lorenzo fa turno e dice che token ha usato
     void onUpdateSlotDevCards(); //solo current
@@ -35,7 +34,13 @@ public interface ViewInterface {
     void onUpdateWarehouse();
     void onUpdateWinnerMultiplayer();
     void onUpdateWinnerSinglePlayer();
+
     void onDisconnect();
+
+    void onPlayerDisconnect(String name);
+
+    void onResume(String name);
+
 
 
     /* ************************************ SHOW PHASE ******************************** */
