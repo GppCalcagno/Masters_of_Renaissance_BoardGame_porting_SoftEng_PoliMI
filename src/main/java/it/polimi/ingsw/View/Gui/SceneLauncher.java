@@ -3,6 +3,8 @@ package it.polimi.ingsw.View.Gui;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.ClientMessage.*;
+import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -19,10 +21,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SceneLauncher {
     private ClientController controller;
@@ -579,13 +578,19 @@ public class SceneLauncher {
         players.setLayoutY(131);
         players.setOnAction(e-> showOtherPlayers());
 
-        Button[] buttons = new Button[6];
+        //non si vede perché è coperto
+        Button endTurn = new Button("End Turn");
+        endTurn.setLayoutY(156);
+        endTurn.setOnAction(e-> controller.sendMessage(new MessageEndTurn(playerBoard.getNickname())));
+
+        Button[] buttons = new Button[7];
         buttons[0] = marketTray;
         buttons[1] = showMarket;
         buttons[2] = buyDevCard;
         buttons[3] = showDevDeck;
         buttons[4] = production;
         buttons[5] = players;
+        buttons[6] = endTurn;
 
         for(Button button : buttons){
             button.setMinWidth(150);
@@ -780,7 +785,7 @@ public class SceneLauncher {
         textFlow.getChildren().addAll(text);
         Group group = new Group(textFlow);
         stage1.setTitle("Error");
-        stage1.setScene(new Scene(group, 650, 150));
+        stage1.setScene(new Scene(group));
         stage1.show();
     }
 
@@ -817,10 +822,9 @@ public class SceneLauncher {
          */
         GridPane.setConstraints(leaderCardProductionButton, 2, 1);
         grid.getChildren().addAll(labelChoice, baseProductionButton, devCardProductionButton, leaderCardProductionButton);
-        Scene scene = new Scene(grid, 1000, 1000);
+        Scene scene = new Scene(grid);
         stage1.setScene(scene);
         stage1.setTitle("Active Production");
-        stage1.setMaximized(true);
         stage1.show();
     }
 
@@ -1034,11 +1038,156 @@ public class SceneLauncher {
         return new Scene(grid, 1000, 1000);
     }
 
-    public void activeExtraction(){}
+    public void activeExtraction(){
+        Stage stage2 = new Stage();
+        Pane marketTrayPane = new Pane();
+
+        ImageView marblesPunchView = new ImageView(new Image("punchboard/plancia portabiglie.png"));
+        marblesPunchView.setFitWidth(400);
+        marblesPunchView.setPreserveRatio(true);
+        marketTrayPane.getChildren().add(marblesPunchView);
+
+        ImageView marketTrayView = new ImageView(new Image("punchboard/spazioBiglie.png"));
+        marketTrayView.setFitWidth(280);
+        marketTrayView.setPreserveRatio(true);
+        marketTrayView.setY(62);
+        marketTrayView.setX(62);
+        marketTrayPane.getChildren().add(marketTrayView);
+
+        ImageView[][] marblesView = new ImageView[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                marblesView[i][j] = new ImageView(new Image("punchboard/Marbles/" + playerBoard.getMarketTray()[i][j] + ".png"));
+                marblesView[i][j].setFitWidth(40);
+                marblesView[i][j].setPreserveRatio(true);
+                marblesView[i][j].setX(j*46 + 120);
+                marblesView[i][j].setY(i*46 + 120);
+                marketTrayPane.getChildren().add(marblesView[i][j]);
+            }
+        }
+        ImageView remainingMarbleView = new ImageView(new Image("punchboard/Marbles/" + playerBoard.getRemainingMarble() + ".png"));
+        remainingMarbleView.setFitWidth(40);
+        remainingMarbleView.setPreserveRatio(true);
+        remainingMarbleView.setX(290);
+        remainingMarbleView.setY(80);
+        marketTrayPane.getChildren().add(remainingMarbleView);
+
+        final int maxCount = 1;
+        final Set<CheckBox> activatedCheckBoxes = new LinkedHashSet<>();
+        List<CheckBox> checkBoxList = new ArrayList<>();
+        List<CheckBox> checkBoxListColumns = new ArrayList<>();
+        List<CheckBox> checkBoxListRows = new ArrayList<>();
+
+        ChangeListener<Boolean> listener = (o, oldValue, newValue) -> {
+            CheckBox checkBox = (CheckBox) ((ReadOnlyProperty) o).getBean();
+
+            if (newValue) {
+                activatedCheckBoxes.add(checkBox);
+                checkBoxList.add(checkBox);
+                if (activatedCheckBoxes.size() > maxCount) {
+                    // get first checkbox to be activated
+                    checkBox = activatedCheckBoxes.iterator().next();
+
+                    // unselect; change listener will remove
+                    checkBox.setSelected(false);
+                    checkBoxList.remove(checkBox);
+                }
+            } else {
+                activatedCheckBoxes.remove(checkBox);
+            }
+        };
+
+        // create checkboxes
+        for (int i = 0; i < 4; i++) {
+            CheckBox checkBox = new CheckBox();
+            checkBox.setUserData('C');
+            checkBox.setLayoutX(marblesView[2][i].getX() + 10);
+            checkBox.setLayoutY(marblesView[2][i].getY() + 50);
+            checkBox.selectedProperty().addListener(listener);
+            checkBoxListColumns.add(checkBox);
+            marketTrayPane.getChildren().add(checkBox);
+        }
+
+        for (int i = 0; i < 3; i++) {
+            CheckBox checkBox = new CheckBox();
+            checkBox.setUserData('R');
+            checkBox.setLayoutX(marblesView[2][3].getX() + 52);
+            checkBox.setLayoutY(marblesView[0][0].getY() + 12 + i*45);
+            checkBox.selectedProperty().addListener(listener);
+            checkBoxListRows.add(checkBox);
+            marketTrayPane.getChildren().add(checkBox);
+        }
+
+        Button enterButton = new Button("Extract");
+        enterButton.setOnAction(e->{
+            try {
+                if (checkBoxListColumns.contains(checkBoxList.get(0))) {
+                    System.out.println("c" + checkBoxListColumns.indexOf(checkBoxList.get(0)));
+                    controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), 'C', checkBoxListColumns.indexOf(checkBoxList.get(0))));
+                }
+                else if (checkBoxListRows.contains(checkBoxList.get(0))) {
+                    System.out.println("r" + checkBoxListRows.indexOf(checkBoxList.get(0)));
+                    controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), 'R', checkBoxListRows.indexOf(checkBoxList.get(0))));
+                }
+                else
+                    System.out.println("Sbagliato");
+            }
+            catch (IndexOutOfBoundsException exception) {
+                showErrorMessage("Choose a row or a column");
+            }
+        });
+        enterButton.setLayoutX(323);
+        enterButton.setLayoutY(330);
+        marketTrayPane.getChildren().add(enterButton);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setLeft(marketTrayPane);
+
+        stage2.setScene(new Scene(borderPane));
+        stage2.setTitle("Extract marbles");
+        stage2.show();
+    }
 
     public void activebuy(){}
 
-    public void showMarket(){}
+    public void showMarket(){
+        Stage stage1 = new Stage();
+        Pane marketTrayPane = new Pane();
+
+        ImageView marblesPunchView = new ImageView(new Image("punchboard/plancia portabiglie.png"));
+        marblesPunchView.setFitWidth(400);
+        marblesPunchView.setPreserveRatio(true);
+        marketTrayPane.getChildren().add(marblesPunchView);
+
+        ImageView marketTrayView = new ImageView(new Image("punchboard/spazioBiglie.png"));
+        marketTrayView.setFitWidth(280);
+        marketTrayView.setPreserveRatio(true);
+        marketTrayView.setY(62);
+        marketTrayView.setX(62);
+        marketTrayPane.getChildren().add(marketTrayView);
+
+        ImageView[][] marblesView = new ImageView[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                marblesView[i][j] = new ImageView(new Image("punchboard/Marbles/" + playerBoard.getMarketTray()[i][j] + ".png"));
+                marblesView[i][j].setFitWidth(40);
+                marblesView[i][j].setPreserveRatio(true);
+                marblesView[i][j].setX(j*46 + 120);
+                marblesView[i][j].setY(i*46 + 120);
+                marketTrayPane.getChildren().add(marblesView[i][j]);
+            }
+        }
+        ImageView remainingMarbleView = new ImageView(new Image("punchboard/Marbles/" + playerBoard.getRemainingMarble() + ".png"));
+        remainingMarbleView.setFitWidth(40);
+        remainingMarbleView.setPreserveRatio(true);
+        remainingMarbleView.setX(290);
+        remainingMarbleView.setY(80);
+        marketTrayPane.getChildren().add(remainingMarbleView);
+
+        stage1.setScene(new Scene(marketTrayPane));
+        stage1.setTitle("Market tray");
+        stage1.show();
+    }
 
     public void showDevDeck(){}
 
