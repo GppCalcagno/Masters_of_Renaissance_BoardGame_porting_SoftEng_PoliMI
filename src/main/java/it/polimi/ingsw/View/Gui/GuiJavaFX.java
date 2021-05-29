@@ -14,7 +14,7 @@ public class GuiJavaFX extends Application {
         stage.setMaxWidth(3000);*/
         //stage.sizeToScene();
         //stage.setMaximized(true);
-        //stage.setResizable(false);
+        stage.setResizable(false);
         //stage.setMaxHeight(800);
         //stage.setMaxWidth(5000);
         stage.show();

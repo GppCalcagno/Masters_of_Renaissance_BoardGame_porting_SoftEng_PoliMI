@@ -160,6 +160,7 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateStrongbox() {
+        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
 
     }
 
