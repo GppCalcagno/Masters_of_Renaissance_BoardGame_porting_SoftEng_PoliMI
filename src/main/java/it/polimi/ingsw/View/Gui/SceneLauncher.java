@@ -3,12 +3,12 @@ package it.polimi.ingsw.View.Gui;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.ClientMessage.*;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageUpdateStateLeaderAction;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -633,28 +633,25 @@ public class SceneLauncher {
 
         List<Node> leaderCards = new ArrayList<>();
 
-        Image leadercard1, leadercard2;
+        Image[] leadercard = new Image[2];
+        leadercard[0] = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
+        leadercard[1] = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
 
         Button activefirst = new Button("✓");
         Button activesecond = new Button("✓");
         Button discardfirst;
         Button discardsecond = new Button("✗");
-
-        if(playerBoard.getLeaderCards().get(0)!=null){
-            leadercard1 = new Image("front/"+playerBoard.getLeaderCards().get(0)+".png");
+        for(int i=0; i<playerBoard.getLeaderCards().size(); i++) {
+            if (playerBoard.getLeaderCards().get(0) != null) {
+                leadercard[i] = new Image("front/" + playerBoard.getLeaderCards().get(i) + ".png");
+            }
         }
-        else leadercard1 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
 
-        if(playerBoard.getLeaderCards().get(1)!=null){
-            leadercard2 = new Image("front/"+playerBoard.getLeaderCards().get(1)+".png");
-        }
-        else leadercard2 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
-
-        ImageView leadercard1View = new ImageView(leadercard1);
+        ImageView leadercard1View = new ImageView(leadercard[0]);
         leadercard1View.setFitHeight(195);
         leadercard1View.setFitWidth(150);
 
-        ImageView leadercard2View = new ImageView(leadercard2);
+        ImageView leadercard2View = new ImageView(leadercard[1]);
         leadercard2View.setFitHeight(195);
         leadercard2View.setFitWidth(150);
 
@@ -663,7 +660,7 @@ public class SceneLauncher {
         leadercard2View.setLayoutY(355);
         leaderCards.add(leadercard2View);
 
-        if(playerBoard.getLeaderCards().get(0)!=null){
+        if(!leadercard[0].getUrl().equals("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png")){
             discardfirst = new Button("✗");
             discardfirst.setFont(new Font("Arial", 7));
             discardfirst.setTextFill(Color.RED);
@@ -690,9 +687,9 @@ public class SceneLauncher {
                 leaderCards.add(activefirst);
            // }
         }
-        else leadercard1 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
 
-        if(playerBoard.getLeaderCards().get(1)!=null){
+
+        if(!leadercard[1].getUrl().equals("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png")){
             discardsecond.setFont(new Font("Arial", 7));
             discardsecond.setTextFill(Color.RED);
             discardsecond.setMaxWidth(17);
@@ -702,23 +699,18 @@ public class SceneLauncher {
             discardsecond.setOnAction(e-> controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 0)));
             leaderCards.add(discardsecond);
 
-            //if(playerBoard.getLeaderActionMap().get(1)!=null && playerBoard.getLeaderActionMap().get(0).getActivated()){
-                activesecond.setFont(new Font("Arial", 7));
-                activesecond.setTextFill(Color.GREEN);
-                activesecond.setMaxWidth(17);
-                activesecond.setMaxHeight(17);
-                activesecond.setLayoutY(532);
-                activesecond.setLayoutX(0);
-                activesecond.setOnAction(e->{
-
-                    controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 0));
-                    leaderCards.remove(activesecond);
-
-                });
-                leaderCards.add(activesecond);
-           // }
+            activesecond.setFont(new Font("Arial", 7));
+            activesecond.setTextFill(Color.GREEN);
+            activesecond.setMaxWidth(17);
+            activesecond.setMaxHeight(17);
+            activesecond.setLayoutY(532);
+            activesecond.setLayoutX(0);
+            activesecond.setOnAction(e->{
+                controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 0));
+                leaderCards.remove(activesecond);
+            });
+            leaderCards.add(activesecond);
         }
-
         return leaderCards;
     }
 
@@ -748,70 +740,68 @@ public class SceneLauncher {
         List<Node> firstChest = new ArrayList<>();
         List<Node> secondChest = new ArrayList<>();
 
-        if(playerBoard.getLeaderCards().get(0)!=null && playerBoard.getLeaderCards().get(0).charAt(2)=='C'){
-            if(playerBoard.getLeaderCards().get(0).charAt(4)=='1'){
-                resources1 = new Image("punchboard/Stones.png");
-                resources1View = new ImageView(resources1);
-                res1 = "Stones";
+        if(playerBoard.getLeaderCards().size()>=1) {
+            if (playerBoard.getLeaderCards().get(0) != null && playerBoard.getLeaderCards().get(0).charAt(2) == 'C') {
+                if (playerBoard.getLeaderCards().get(0).charAt(4) == '1') {
+                    resources1 = new Image("punchboard/Stones.png");
+                    resources1View = new ImageView(resources1);
+                    res1 = "Stones";
 
-            }
-            else if(playerBoard.getLeaderCards().get(0).charAt(4)=='2'){
-                resources1 = new Image("punchboard/Servants.png");
-                resources1View = new ImageView(resources1);
-                res1 = "Servants";
-            }
-            else if(playerBoard.getLeaderCards().get(0).charAt(4)=='3'){
-                resources1 = new Image("punchboard/Shields.png");
-                resources1View = new ImageView(resources1);
-                res1 = "Shields";
-            }
-            else if(playerBoard.getLeaderCards().get(0).charAt(4)=='4'){
-                resources1 = new Image("punchboard/Coins.png");
-                resources1View = new ImageView(resources1);
-                res1 = "Coins";
-            }
-            resources1View.setFitWidth(20);
-            resources1View.setFitHeight(20);
-            if(playerBoard.getExtrachest()!=null && playerBoard.getExtrachest().get(res1)!=null){
-            for(int i=0; i<playerBoard.getExtrachest().get(res1); i++){
-                if(resources1View!=null){
-                firstChest.add(resources1View);
-                firstChest.get(i).setLayoutY(322);
-                firstChest.get(i).setLayoutX(38 +57*i);
+                } else if (playerBoard.getLeaderCards().get(0).charAt(4) == '2') {
+                    resources1 = new Image("punchboard/Servants.png");
+                    resources1View = new ImageView(resources1);
+                    res1 = "Servants";
+                } else if (playerBoard.getLeaderCards().get(0).charAt(4) == '3') {
+                    resources1 = new Image("punchboard/Shields.png");
+                    resources1View = new ImageView(resources1);
+                    res1 = "Shields";
+                } else if (playerBoard.getLeaderCards().get(0).charAt(4) == '4') {
+                    resources1 = new Image("punchboard/Coins.png");
+                    resources1View = new ImageView(resources1);
+                    res1 = "Coins";
                 }
-            }
+                resources1View.setFitWidth(20);
+                resources1View.setFitHeight(20);
+                if (playerBoard.getExtrachest() != null && playerBoard.getExtrachest().get(res1) != null) {
+                    for (int i = 0; i < playerBoard.getExtrachest().get(res1); i++) {
+                        if (resources1View != null) {
+                            firstChest.add(resources1View);
+                            firstChest.get(i).setLayoutY(322);
+                            firstChest.get(i).setLayoutX(38 + 57 * i);
+                        }
+                    }
+                }
             }
         }
 
-        if(playerBoard.getLeaderCards().get(1)!=null && playerBoard.getLeaderCards().get(1).charAt(2)=='C'){
-            if(playerBoard.getLeaderCards().get(1).charAt(4)=='1'){
-                resources2 = new Image("punchboard/Stones.png");
-                resource2View = new ImageView(resources2);
-                res2 = "Stones";
-            }
-            else if(playerBoard.getLeaderCards().get(1).charAt(4)=='2'){
-                resources2 = new Image("punchboard/Servants.png");
-                resource2View = new ImageView(resources2);
-                res2 = "Servants";
-            }
-            else if(playerBoard.getLeaderCards().get(1).charAt(4)=='3'){
-                resources2 = new Image("punchboard/Shields.png");
-                resource2View = new ImageView(resources2);
-                res2 = "Shields";
-            }
-            else if(playerBoard.getLeaderCards().get(1).charAt(4)=='4'){
-                resources2 = new Image("punchboard/Coins.png");
-                resource2View = new ImageView(resources2);
-                res2 = "Coins";
-            }
-            resource2View.setFitWidth(20);
-            resource2View.setFitHeight(20);
-            if(playerBoard.getExtrachest()!=null && playerBoard.getExtrachest().get(res1)!=null) {
-                for (int i = 0; i < playerBoard.getExtrachest().get(res2); i++) {
-                    if (resource2View != null) {
-                        secondChest.add(resource2View);
-                        secondChest.get(i).setLayoutY(517);
-                        secondChest.get(i).setLayoutX(38 + 57 * i);
+        if(playerBoard.getLeaderCards().size()==2) {
+            if (playerBoard.getLeaderCards().get(1) != null && playerBoard.getLeaderCards().get(1).charAt(2) == 'C') {
+                if (playerBoard.getLeaderCards().get(1).charAt(4) == '1') {
+                    resources2 = new Image("punchboard/Stones.png");
+                    resource2View = new ImageView(resources2);
+                    res2 = "Stones";
+                } else if (playerBoard.getLeaderCards().get(1).charAt(4) == '2') {
+                    resources2 = new Image("punchboard/Servants.png");
+                    resource2View = new ImageView(resources2);
+                    res2 = "Servants";
+                } else if (playerBoard.getLeaderCards().get(1).charAt(4) == '3') {
+                    resources2 = new Image("punchboard/Shields.png");
+                    resource2View = new ImageView(resources2);
+                    res2 = "Shields";
+                } else if (playerBoard.getLeaderCards().get(1).charAt(4) == '4') {
+                    resources2 = new Image("punchboard/Coins.png");
+                    resource2View = new ImageView(resources2);
+                    res2 = "Coins";
+                }
+                resource2View.setFitWidth(20);
+                resource2View.setFitHeight(20);
+                if (playerBoard.getExtrachest() != null && playerBoard.getExtrachest().get(res1) != null) {
+                    for (int i = 0; i < playerBoard.getExtrachest().get(res2); i++) {
+                        if (resource2View != null) {
+                            secondChest.add(resource2View);
+                            secondChest.get(i).setLayoutY(517);
+                            secondChest.get(i).setLayoutX(38 + 57 * i);
+                        }
                     }
                 }
             }
@@ -1071,18 +1061,27 @@ public class SceneLauncher {
 
     public Scene showMessage(String message) {
         TextFlow textFlow = new TextFlow();
-        Text text = new Text(message);
+        Label text = new Label(message);
+        text.setFont(new Font("Arial", 20));
+        text.setTextFill(Color.WHITE);
         textFlow.getChildren().addAll(text);
-        Group group = new Group(textFlow);
-        return new Scene(group, 650, 150);
+        TilePane group = new TilePane(textFlow);
+        group.setAlignment(Pos.CENTER);
+        group.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        return new Scene(group);
     }
 
     public void showErrorMessage(String errorMessage) {
         Stage stage1 = new Stage();
         TextFlow textFlow = new TextFlow();
-        Text text = new Text(errorMessage);
+        Label text = new Label(errorMessage);
+        text.setFont(new Font("Arial", 20));
+        text.setTextFill(Color.RED);
         textFlow.getChildren().addAll(text);
-        Group group = new Group(textFlow);
+        TilePane group = new TilePane(textFlow);
+        group.setAlignment(Pos.CENTER);
+        group.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
         stage1.setTitle("Error");
         stage1.setScene(new Scene(group));
         stage1.setAlwaysOnTop(true);

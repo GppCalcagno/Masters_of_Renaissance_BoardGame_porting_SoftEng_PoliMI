@@ -2,6 +2,8 @@ package it.polimi.ingsw.View.Gui;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+
 
 public class GuiJavaFX extends Application {
 
@@ -17,6 +19,7 @@ public class GuiJavaFX extends Application {
         stage.setResizable(false);
         //stage.setMaxHeight(800);
         //stage.setMaxWidth(5000);
+        stage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         stage.show();
     }
 
