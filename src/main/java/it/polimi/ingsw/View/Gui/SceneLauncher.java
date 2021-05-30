@@ -831,7 +831,7 @@ public class SceneLauncher {
         buyDevCard.setText("Buy DevCard");
         buyDevCard.setLayoutY(31);
         buyDevCard.setOnAction(e->{
-            activebuy();
+            activeBuyDevCard();
         });
 
         Button production = new Button();
@@ -1230,7 +1230,10 @@ public class SceneLauncher {
         stage1.show();
     }
 
-    public Scene payResourcesScene() {
+    //da rifare
+    public void payResourcesScene() {
+        Stage newStage = new Stage();
+
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
         grid.setHgap(10);
@@ -1301,29 +1304,29 @@ public class SceneLauncher {
             Map<String, Integer> warehouseMap = new HashMap<>();
             Map<String, Integer> strongboxMap = new HashMap<>();
             Map<String, Integer> extraChestMap = new HashMap<>();
-            if (numCoinsWarehouse.getText() != null)
+            if (convertInputText(numCoinsWarehouse.getText()))
                 warehouseMap.put("Coins", Integer.parseInt(numCoinsWarehouse.getText()));
-            if (numServantsWarehouse.getText() != null)
+            if (convertInputText(numServantsWarehouse.getText()))
                 warehouseMap.put("Servants", Integer.parseInt(numServantsWarehouse.getText()));
-            if (numShieldsWarehouse.getText() != null)
+            if (convertInputText(numShieldsWarehouse.getText()))
                 warehouseMap.put("Shields", Integer.parseInt(numShieldsWarehouse.getText()));
-            if (numStonesWarehouse.getText() != null)
+            if (convertInputText(numStonesWarehouse.getText()))
                 warehouseMap.put("Stones", Integer.parseInt(numStonesWarehouse.getText()));
-            if (numCoinsStrongbox.getText() != null)
+            if (convertInputText(numCoinsStrongbox.getText()))
                 strongboxMap.put("Coins", Integer.parseInt(numCoinsStrongbox.getText()));
-            if (numServantsStrongbox.getText() != null)
+            if (convertInputText(numServantsStrongbox.getText()))
                 strongboxMap.put("Servants", Integer.parseInt(numServantsStrongbox.getText()));
-            if (numShieldsStrongbox.getText() != null)
+            if (convertInputText(numShieldsStrongbox.getText()))
                 strongboxMap.put("Shields", Integer.parseInt(numShieldsStrongbox.getText()));
-            if (numStonesStrongbox.getText() != null)
+            if (convertInputText(numStonesStrongbox.getText()))
                 strongboxMap.put("Stones", Integer.parseInt(numStonesStrongbox.getText()));
-            if (numCoinsExtraChest.getText() != null)
+            if (convertInputText(numCoinsExtraChest.getText()))
                 extraChestMap.put("Coins", Integer.parseInt(numCoinsExtraChest.getText()));
-            if (numServantsExtraChest.getText() != null)
+            if (convertInputText(numServantsExtraChest.getText()))
                 extraChestMap.put("Servants", Integer.parseInt(numServantsExtraChest.getText()));
-            if (numShieldsExtraChest.getText() != null)
+            if (convertInputText(numShieldsExtraChest.getText()))
                 extraChestMap.put("Shields", Integer.parseInt(numShieldsExtraChest.getText()));
-            if (numStonesExtraChest.getText() != null)
+            if (convertInputText(numStonesExtraChest.getText()))
                 extraChestMap.put("Stones", Integer.parseInt(numStonesExtraChest.getText()));
             controller.sendMessage(new MessagePayResources(playerBoard.getNickname(), warehouseMap, strongboxMap, extraChestMap));
         });
@@ -1334,7 +1337,21 @@ public class SceneLauncher {
                 labelStonesS, numStonesStrongbox, labelExtraChest, labelCoinE, numCoinsExtraChest, labelServantE,
                 numServantsExtraChest, labelShieldE, numShieldsExtraChest, labelStonesE, numStonesExtraChest, enterButton
         );
-        return new Scene(grid, 1000, 1000);
+
+        newStage.setScene(new Scene(grid));
+        newStage.show();
+    }
+
+    public boolean convertInputText(String input) {
+        if (input.equals(""))
+            return false;
+        try {
+            Integer.parseInt(input);
+        }
+        catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
     public void activeExtraction(){
@@ -1650,7 +1667,104 @@ public class SceneLauncher {
         return resourcesWhite;
     }
 
-    public void activebuy(){}
+    public void activeBuyDevCard(){
+        Stage newStage = new Stage();
+        Pane devCardsDeckPane = new Pane();
+
+        List<CheckBox> checkBoxList = new ArrayList<>();
+
+        final int maxCount = 1;
+        final Set<CheckBox> activatedCheckBoxes = new LinkedHashSet<>();
+        List<CheckBox> checkBoxSelected = new ArrayList<>();
+
+        ChangeListener<Boolean> listener = (o, oldValue, newValue) -> {
+            CheckBox checkBox = (CheckBox) ((ReadOnlyProperty) o).getBean();
+
+            if (newValue) {
+                activatedCheckBoxes.add(checkBox);
+                checkBoxSelected.add(checkBox);
+                if (activatedCheckBoxes.size() > maxCount) {
+                    // get first checkbox to be activated
+                    checkBox = activatedCheckBoxes.iterator().next();
+
+                    // unselect; change listener will remove
+                    checkBox.setSelected(false);
+                    checkBoxSelected.remove(checkBox);
+                }
+            } else {
+                activatedCheckBoxes.remove(checkBox);
+            }
+        };
+
+        ImageView[][] devCardsDeckView = new ImageView[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
+                devCardsDeckView[i][j].setFitWidth(120);
+                devCardsDeckView[i][j].setPreserveRatio(true);
+                devCardsDeckView[i][j].setX(j*130 + 5);
+                devCardsDeckView[i][j].setY(i*212 + 5);
+                devCardsDeckPane.getChildren().add(devCardsDeckView[i][j]);
+
+                CheckBox checkBox = new CheckBox();
+                checkBox.setUserData(playerBoard.getDevCardDeck()[i][j][0]);
+                checkBox.setLayoutX(j*131 + 55);
+                checkBox.setLayoutY(i*212 + 190);
+                checkBox.selectedProperty().addListener(listener);
+                checkBoxList.add(checkBox);
+                devCardsDeckPane.getChildren().add(checkBox);
+            }
+        }
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(50);
+        grid.setVgap(5);
+
+        Label label = new Label("After you have selected the card,\nchoose the column of the slots for Development Cards\nin which you want to add the card: ");
+        GridPane.setConstraints(label, 0, 2);
+        grid.getChildren().add(label);
+
+        List<Integer> chosenColumn = new ArrayList<>();
+
+        ChoiceBox cbColumnSlotDevCards = new ChoiceBox(FXCollections.observableArrayList(
+                "Select column", "1", "2", "3")
+        );
+        GridPane.setConstraints(cbColumnSlotDevCards, 1, 2);
+        cbColumnSlotDevCards.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    if (new_val.intValue() != 0) {
+                        if (chosenColumn.isEmpty()) {
+                            chosenColumn.add(new_val.intValue() - 1);
+                        }
+                        else {
+                            chosenColumn.set(0, new_val.intValue() - 1);
+                        }
+                    }
+                });
+        grid.getChildren().add(cbColumnSlotDevCards);
+
+        Button selectCardButton = new Button("Select");
+        GridPane.setConstraints(selectCardButton, 0, 4);
+        selectCardButton.setOnAction(e->{
+            if (checkBoxSelected.isEmpty() || chosenColumn.isEmpty())
+                showErrorMessage("Select the column or the card");
+            else {
+                controller.sendMessage(new MessageBuyDevCard(playerBoard.getNickname(), (String) checkBoxSelected.get(0).getUserData(), chosenColumn.get(0)));
+                payResourcesScene();
+            }
+        });
+        grid.getChildren().add(selectCardButton);
+
+        BorderPane borderPane = new BorderPane();
+
+        borderPane.setLeft(devCardsDeckPane);
+        borderPane.setRight(grid);
+
+        newStage.setScene(new Scene(borderPane));
+        newStage.show();
+    }
 
     public void showMarket(){
         Stage stage1 = new Stage();
@@ -1691,7 +1805,25 @@ public class SceneLauncher {
         stage1.show();
     }
 
-    public void showDevDeck(){}
+    public void showDevDeck(){
+        Stage newStage = new Stage();
+        Pane devCardsDeckPane = new Pane();
+
+        ImageView[][] devCardsDeckView = new ImageView[3][4];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
+                devCardsDeckView[i][j].setFitWidth(150);
+                devCardsDeckView[i][j].setPreserveRatio(true);
+                devCardsDeckView[i][j].setX(j*155 + 5);
+                devCardsDeckView[i][j].setY(i*235 + 5);
+                devCardsDeckPane.getChildren().add(devCardsDeckView[i][j]);
+            }
+        }
+
+        newStage.setScene(new Scene(devCardsDeckPane));
+        newStage.show();
+    }
 
     public void showOtherPlayers(){}
 }

@@ -125,7 +125,7 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateDevCardDeck(String devCard) {
-
+        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override
@@ -140,7 +140,7 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateUpdateResources() {
-
+        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override
@@ -150,7 +150,7 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateSlotDevCards() {
-
+        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override
