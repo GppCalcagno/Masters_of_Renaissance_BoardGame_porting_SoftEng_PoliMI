@@ -9,18 +9,18 @@ public class MessageManageMarbles extends Message {
 
     private char structure;
     private int row;
-    private String changeFromWithe;
+    private String changeFromWhite;
 
-    public MessageManageMarbles(String nickname, char structure, int row, String changeFromWithe) {
+    public MessageManageMarbles(String nickname, char structure, int row, String changeFromWhite) {
         super(nickname, MessageType.MANAGEMARBLES);
         this.structure = structure;
         this.row = row;
-        this.changeFromWithe = changeFromWithe;
+        this.changeFromWhite = changeFromWhite;
     }
 
 
     @Override
     public void action(GameController gameController) {
-        gameController.manageMarble(structure,row,changeFromWithe);
+        gameController.manageMarble(structure,row, changeFromWhite);
     }
 }

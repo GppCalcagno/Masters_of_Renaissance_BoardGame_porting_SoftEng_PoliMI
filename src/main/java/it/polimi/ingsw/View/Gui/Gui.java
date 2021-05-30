@@ -130,7 +130,7 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateFaithMarker() {
-
+        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override
@@ -145,7 +145,7 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateSinglePlayerGame() {
-
+        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override

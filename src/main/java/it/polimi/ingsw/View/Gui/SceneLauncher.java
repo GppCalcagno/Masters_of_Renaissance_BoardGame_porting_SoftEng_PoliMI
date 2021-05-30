@@ -218,7 +218,7 @@ public class SceneLauncher {
         //WAREHOUSE
         boardMain.getChildren().addAll(exchangeButton());
         if(playerBoard.getWarehouse()[0][0]!=null){
-            Image resource = new Image("punchboard/Coins.png");
+            Image resource = new Image("punchboard/" + playerBoard.getWarehouse()[0][0] + ".png");
             ImageView resourceView = new ImageView(resource);
             resourceView.setFitWidth(30);
             resourceView.setFitHeight(30);
@@ -230,50 +230,50 @@ public class SceneLauncher {
         if(playerBoard.getWarehouse()[1][0]!=null){
             Image resource1 = new Image("punchboard/"+playerBoard.getWarehouse()[1][0]+".png");
             ImageView resource1View = new ImageView(resource1);
-            resource1View.setFitWidth(40);
-            resource1View.setFitHeight(40);
+            resource1View.setFitWidth(30);
+            resource1View.setFitHeight(30);
             resource1View.setLayoutX(66);
-            resource1View.setLayoutX(285);
+            resource1View.setLayoutY(285);
             boardMain.getChildren().add(resource1View);
         }
 
         if(playerBoard.getWarehouse()[1][1]!=null){
             Image resource2 = new Image("punchboard/"+playerBoard.getWarehouse()[1][1]+".png");
             ImageView resource2View = new ImageView(resource2);
-            resource2View.setFitWidth(40);
-            resource2View.setFitHeight(40);
+            resource2View.setFitWidth(30);
+            resource2View.setFitHeight(30);
             resource2View.setLayoutX(99);
-            resource2View.setLayoutX(285);
+            resource2View.setLayoutY(285);
             boardMain.getChildren().add(resource2View);
         }
 
         if(playerBoard.getWarehouse()[2][0]!=null){
             Image resource3 = new Image("punchboard/"+playerBoard.getWarehouse()[2][0]+".png");
             ImageView resource3View = new ImageView(resource3);
-            resource3View.setFitWidth(40);
-            resource3View.setFitHeight(40);
+            resource3View.setFitWidth(30);
+            resource3View.setFitHeight(30);
             resource3View.setLayoutX(50);
-            resource3View.setLayoutX(355);
+            resource3View.setLayoutY(335);
             boardMain.getChildren().add(resource3View);
         }
 
         if(playerBoard.getWarehouse()[2][1]!=null){
             Image resource4 = new Image("punchboard/"+playerBoard.getWarehouse()[2][1]+".png");
             ImageView resource4View = new ImageView(resource4);
-            resource4View.setFitWidth(40);
-            resource4View.setFitHeight(40);
+            resource4View.setFitWidth(30);
+            resource4View.setFitHeight(30);
             resource4View.setLayoutX(81);
-            resource4View.setLayoutX(355);
+            resource4View.setLayoutY(335);
             boardMain.getChildren().add(resource4View);
         }
 
         if(playerBoard.getWarehouse()[2][2]!=null){
             Image resource5 = new Image("punchboard/"+playerBoard.getWarehouse()[2][2]+".png");
             ImageView resource5View = new ImageView(resource5);
-            resource5View.setFitWidth(40);
-            resource5View.setFitHeight(40);
+            resource5View.setFitWidth(30);
+            resource5View.setFitHeight(30);
             resource5View.setLayoutX(112);
-            resource5View.setLayoutX(355);
+            resource5View.setLayoutY(335);
             boardMain.getChildren().add(resource5View);
         }
 
@@ -296,10 +296,67 @@ public class SceneLauncher {
     public Node[] exchangeButton(){
         Node[] exchange = new Node[4];
 
+        //to not let select more of 2 checkboxes
+        final int maxCount = 2;
+        List<CheckBox> exchangeCheck = new ArrayList<>();
+        List<CheckBox> checkBoxList = new ArrayList<>();
+
+        ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {
+
+            private int activeCount = 0;
+
+            public void changed(ObservableValue<? extends Boolean> o, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    activeCount++;
+                    for (CheckBox cb : checkBoxList) {
+                        if (cb.isSelected()) {
+                            if (!exchangeCheck.contains(cb))
+                                exchangeCheck.add(cb);
+                        }
+                    }
+                    if (activeCount == maxCount) {
+                        // disable unselected CheckBoxes
+                        for (CheckBox cb : checkBoxList) {
+                            if (!cb.isSelected()) {
+                                cb.setDisable(true);
+                            }
+                        }
+                    }
+                } else {
+                    if (activeCount == maxCount) {
+                        for (CheckBox cb : checkBoxList) {
+                            if (!cb.isDisable() && !cb.isSelected())
+                                exchangeCheck.remove(cb);
+                        }
+                        // re-enable CheckBoxes
+                        for (CheckBox cb : checkBoxList) {
+                            cb.setDisable(false);
+                        }
+                    }
+                    activeCount--;
+                }
+            }
+        };
+
         CheckBox row1 = new CheckBox();
+        checkBoxList.add(row1);
+        row1.selectedProperty().addListener(listener);
         CheckBox row2 = new CheckBox();
+        checkBoxList.add(row2);
+        row2.selectedProperty().addListener(listener);
         CheckBox row3 = new CheckBox();
-        Button exch = new Button("Exchange");
+        checkBoxList.add(row3);
+        row3.selectedProperty().addListener(listener);
+
+        Button exchangeButton = new Button("Exchange");
+        exchangeButton.setOnAction(e->{
+            if (exchangeCheck.size() > 1) {
+                int index1 = checkBoxList.indexOf(exchangeCheck.get(0));
+                int index2 = checkBoxList.indexOf(exchangeCheck.get(1));
+                controller.sendMessage(new MessageExchangeWarehouse(playerBoard.getNickname(), index1, index2));
+            }
+        });
+
         exchange[0] = row1;
         exchange[0].setLayoutY(242);
         exchange[0].setLayoutX(17);
@@ -309,11 +366,11 @@ public class SceneLauncher {
         exchange[2] = row3;
         exchange[2].setLayoutY(337);
         exchange[2].setLayoutX(17);
-        exchange[3]= exch;
+        exchange[3] = exchangeButton;
         exchange[3].setLayoutY(370);
         exchange[3].setLayoutX(17);
 
-        return  exchange;
+        return exchange;
     }
 
     public Node[] strongboxPane(){
@@ -786,6 +843,7 @@ public class SceneLauncher {
         Group group = new Group(textFlow);
         stage1.setTitle("Error");
         stage1.setScene(new Scene(group));
+        stage1.setAlwaysOnTop(true);
         stage1.show();
     }
 
@@ -1122,12 +1180,14 @@ public class SceneLauncher {
         enterButton.setOnAction(e->{
             try {
                 if (checkBoxListColumns.contains(checkBoxList.get(0))) {
-                    System.out.println("c" + checkBoxListColumns.indexOf(checkBoxList.get(0)));
                     controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), 'C', checkBoxListColumns.indexOf(checkBoxList.get(0))));
+                    if (!playerBoard.getMarbleBuffer().isEmpty())
+                        manageMarbleScene(stage2);
                 }
                 else if (checkBoxListRows.contains(checkBoxList.get(0))) {
-                    System.out.println("r" + checkBoxListRows.indexOf(checkBoxList.get(0)));
                     controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), 'R', checkBoxListRows.indexOf(checkBoxList.get(0))));
+                    if (!playerBoard.getMarbleBuffer().isEmpty())
+                        manageMarbleScene(stage2);
                 }
                 else
                     System.out.println("Sbagliato");
@@ -1145,7 +1205,208 @@ public class SceneLauncher {
 
         stage2.setScene(new Scene(borderPane));
         stage2.setTitle("Extract marbles");
+        stage2.setAlwaysOnTop(true);
         stage2.show();
+    }
+
+    public void manageMarbleScene(Stage stage1) {
+        Pane marblesBufferPane = new Pane();
+
+        List<ImageView> marblesBufferView = new ArrayList<>();
+        int i = 0;
+        for (String marble : playerBoard.getMarbleBuffer()) {
+            ImageView marbleView = new ImageView(new Image("punchboard/Marbles/" + marble + ".png"));
+            marbleView.setFitWidth(40);
+            marbleView.setPreserveRatio(true);
+            marbleView.setX(i + 50);
+            marbleView.setY(20);
+            i += 100;
+            marblesBufferView.add(marbleView);
+        }
+        marblesBufferPane.getChildren().addAll(marblesBufferView);
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
+
+        char[] structures = {'W', 'E'};
+        List<Character> chosenStructure = new ArrayList<>();
+
+        Label label1 = new Label("Select a structure in which you want to insert the converted resource: ");
+        GridPane.setConstraints(label1, 0, 5);
+        grid.getChildren().add(label1);
+
+        ChoiceBox cbStructure = new ChoiceBox(FXCollections.observableArrayList(
+                "Select structure", "Warehouse", "Extra chest")
+        );
+        GridPane.setConstraints(cbStructure, 1, 5);
+        cbStructure.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    if (new_val.intValue() != 0) {
+                        //chosenStructure.set(0, structures[new_val.intValue() - 1]);
+                        if (chosenStructure.isEmpty()) {
+                            chosenStructure.add(structures[new_val.intValue() - 1]);
+                        }
+                        else {
+                            chosenStructure.set(0, structures[new_val.intValue() - 1]);
+                        }
+                    }
+                });
+        grid.getChildren().add(cbStructure);
+
+        List<Integer> indexWarehouse = new ArrayList<>();
+
+        Label label2 = new Label("Select the Warehouse's index in which you want to insert the converted resources: ");
+        GridPane.setConstraints(label2, 0, 8);
+        grid.getChildren().add(label2);
+
+        ChoiceBox cbIndexWarehouse = new ChoiceBox(FXCollections.observableArrayList(
+                "Select index", "0", "1", "2")
+        );
+        GridPane.setConstraints(cbIndexWarehouse, 1, 8);
+        cbIndexWarehouse.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    if (new_val.intValue() != 0) {
+                        //indexWarehouse.set(0, new_val.intValue() - 1);
+                        if (indexWarehouse.isEmpty()) {
+                            indexWarehouse.add(new_val.intValue() - 1);
+                        }
+                        else {
+                            indexWarehouse.set(0, new_val.intValue() - 1);
+                        }
+                    }
+                });
+        grid.getChildren().add(cbIndexWarehouse);
+
+        Pane whiteMarbleEffectPane = new Pane();
+        List<CheckBox> chosenCheckBoxWhite = new ArrayList<>();
+        List<CheckBox> chosenResource = new ArrayList<>();
+        List<String> resourcesWhiteMarble = containsWhiteMarbleEffect();
+
+        if (resourcesWhiteMarble != null) {
+            final int maxCount = 1;
+            final Set<CheckBox> activatedCheckBoxes = new LinkedHashSet<>();
+
+            ChangeListener<Boolean> listener = (o, oldValue, newValue) -> {
+                CheckBox checkBox = (CheckBox) ((ReadOnlyProperty) o).getBean();
+
+                if (newValue) {
+                    activatedCheckBoxes.add(checkBox);
+                    chosenCheckBoxWhite.add(checkBox);
+                    if (activatedCheckBoxes.size() > maxCount) {
+                        // get first checkbox to be activated
+                        checkBox = activatedCheckBoxes.iterator().next();
+
+                        // unselect; change listener will remove
+                        checkBox.setSelected(false);
+                        chosenCheckBoxWhite.remove(checkBox);
+                    }
+                } else {
+                    activatedCheckBoxes.remove(checkBox);
+                }
+            };
+
+            ImageView resourceWhiteMarble1 = new ImageView(new Image("punchboard/Marbles/" + resourcesWhiteMarble.get(0) + ".png"));
+            whiteMarbleEffectPane.getChildren().add(resourceWhiteMarble1);
+
+            CheckBox checkBox1 = new CheckBox();
+            chosenResource.add(checkBox1);
+            checkBox1.selectedProperty().addListener(listener);
+            whiteMarbleEffectPane.getChildren().add(checkBox1);
+
+            if (containsWhiteMarbleEffect().size() > 1) {
+                ImageView resourceWhiteMarble2 = new ImageView(new Image("punchboard/Marbles/" + resourcesWhiteMarble.get(1) + ".png"));
+                whiteMarbleEffectPane.getChildren().add(resourceWhiteMarble2);
+
+                CheckBox checkBox2 = new CheckBox();
+                chosenResource.add(checkBox2);
+                checkBox2.selectedProperty().addListener(listener);
+                whiteMarbleEffectPane.getChildren().add(checkBox2);
+            }
+        }
+
+        Button addButton = new Button("Add");
+        GridPane.setConstraints(addButton, 0, 10);
+        addButton.setOnAction(e->{
+            if (chosenStructure.isEmpty() || indexWarehouse.isEmpty()) {
+                showErrorMessage("Choose where you want to add this marble");
+            }
+            else {
+                if (!chosenCheckBoxWhite.isEmpty()) {
+                    if (resourcesWhiteMarble != null) {
+                        String changeFromWhite = resourcesWhiteMarble.get(chosenResource.indexOf(chosenCheckBoxWhite.get(0)));
+                        controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), chosenStructure.get(0), indexWarehouse.get(0), changeFromWhite));
+                    }
+                }
+                else {
+                    controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), chosenStructure.get(0), indexWarehouse.get(0), null));
+                }
+            }
+            if (playerBoard.getMarbleBuffer().isEmpty())
+                stage1.close();
+        });
+        grid.getChildren().add(addButton);
+
+        Label labelDiscardButton = new Label("If you want to discard the first marble, click on the button below");
+        GridPane.setConstraints(labelDiscardButton, 0, 13);
+        grid.getChildren().add(labelDiscardButton);
+
+        Button discardButton = new Button("Discard");
+        GridPane.setConstraints(discardButton, 0, 15);
+        discardButton.setOnAction(e->{
+            controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), 'D', -1, null));
+            if (playerBoard.getMarbleBuffer().isEmpty())
+                stage1.close();
+        });
+        grid.getChildren().add(discardButton);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(marblesBufferPane);
+        borderPane.setCenter(grid);
+        borderPane.setRight(whiteMarbleEffectPane);
+
+        stage1.setTitle("Manage marbles");
+        stage1.setScene(new Scene(borderPane));
+        /*
+        stage1.setOnCloseRequest(we -> {
+            try {
+                if (!playerBoard.getMarbleBuffer().isEmpty())
+                    stage1.showAndWait();
+            } catch (IllegalStateException exception) {
+                System.out.println("");
+            }
+        });
+
+         */
+        //stage1.initStyle(StageStyle.UNDECORATED);
+        stage1.show();
+    }
+
+    /**
+     * This method returns the list of Resources in which they can convert a white marble
+     * @return a list of String
+     */
+    public List<String> containsWhiteMarbleEffect(){
+        List<String> resourcesWhite = new ArrayList<>();
+        if(playerBoard.getLeaderCards().contains("LCTL1") && playerBoard.getLeaderActionMap().get("LCTL1").getActivated()) {
+            resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL1").getResources().toString());
+        }
+        else if (playerBoard.getLeaderCards().contains("LCTL2") && playerBoard.getLeaderActionMap().get("LCTL2").getActivated()) {
+            resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL2").getResources().toString());
+        }
+        else if (playerBoard.getLeaderCards().contains("LCTL3") && playerBoard.getLeaderActionMap().get("LCTL3").getActivated()) {
+            resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL3").getResources().toString());
+        }
+        else if (playerBoard.getLeaderCards().contains("LCTL4") && playerBoard.getLeaderActionMap().get("LCTL4").getActivated()) {
+            resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL4").getResources().toString());
+        }
+        else
+            return null;
+
+        return resourcesWhite;
     }
 
     public void activebuy(){}

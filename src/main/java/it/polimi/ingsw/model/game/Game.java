@@ -318,7 +318,7 @@ public class Game {
     public boolean manageMarble(char choice, int indexWarehouse, String resourceWhiteMarble) {
         if (!currentPlayer.getWarehouse().getBuffer().isEmpty()) {
             if (!currentPlayer.getLeaderCardEffectWhiteMarble().isEmpty()) {
-                if (currentPlayer.getWarehouse().getBuffer().get(0).toString().equals("") && resourceWhiteMarble == null && indexWarehouse != 2) {
+                if (currentPlayer.getWarehouse().getBuffer().get(0).toString().equals("") && resourceWhiteMarble == null && choice != 'D') {
                     update.onUpdateError(currentPlayer.getNickname(),"You have not choose a resource.");
                     return false;
                 }
