@@ -63,5 +63,7 @@ public abstract class LeaderAction extends Card {
      */
     public abstract boolean doSpecialAbility (Player player);
 
+
+
     public abstract void showCli();
 }

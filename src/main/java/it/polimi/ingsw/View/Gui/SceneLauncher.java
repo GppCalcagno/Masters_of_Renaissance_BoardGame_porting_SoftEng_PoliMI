@@ -3,6 +3,7 @@ package it.polimi.ingsw.View.Gui;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.ClientMessage.*;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageUpdateStateLeaderAction;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -43,51 +44,88 @@ public class SceneLauncher {
     }
 
     public Scene askServerInfo(){
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setHgap(10);
-        grid.setVgap(8);
+
+        Image maestri = new Image("punchboard/logoMaestri.png");
+        ImageView maestriView = new ImageView(maestri);
+
+        Pane grid = new Pane();
+
+        maestriView.setLayoutX(290);
+        maestriView.setLayoutY(100);
+        maestriView.setFitHeight(120);
+        maestriView.setFitWidth(340);
+
+        grid.getChildren().add(maestriView);
 
         Label address = new Label("Server address: ");
-        GridPane.setConstraints(address, 0, 0);
+        address.setFont(new Font("Arial", 24));
+        address.setTextFill(Color.BLACK);
+        address.setLayoutX(240);
+        address.setLayoutY(300);
+
 
         TextField addressIn = new TextField("127.0.0.1");
-        GridPane.setConstraints(addressIn, 1,0);
+        addressIn.setLayoutX(430);
+        addressIn.setLayoutY(300);
 
         Label port = new Label("Port: ");
-        GridPane.setConstraints(port, 0,1);
+        port.setFont(new Font("Arial", 24));
+        port.setTextFill(Color.BLACK);
+        port.setLayoutX(240);
+        port.setLayoutY(350);
 
         TextField portIn = new TextField("1234");
-        GridPane.setConstraints(portIn, 1,1);
+        portIn.setLayoutX(430);
+        portIn.setLayoutY(350);
 
         Button loginButton = new Button("Login");
-        GridPane.setConstraints(loginButton, 1, 2);
+        loginButton.setFont(new Font("Arial", 24));
+        loginButton.setTextFill(Color.BLACK);
+        loginButton.setLayoutX(400);
+        loginButton.setLayoutY(400);
+
         loginButton.setOnAction(e->{
 
             Thread guiThread= new Thread(()->controller.connect(addressIn.getText(), Integer.parseInt(portIn.getText())));
             guiThread.start();
             });
 
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         grid.getChildren().addAll(address, addressIn, port, portIn, loginButton);
-        //stage.setMaximized(true);
 
-        return new Scene(grid, 600, 400);
+        return new Scene(grid, 897, 550);
     }
 
     public Scene askLogin(){
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setHgap(10);
-        grid.setVgap(8);
+
+        Image maestri = new Image("punchboard/logoMaestri.png");
+        ImageView maestriView = new ImageView(maestri);
+
+        Pane grid = new Pane();
+
+
+        maestriView.setLayoutX(290);
+        maestriView.setLayoutY(100);
+        maestriView.setFitHeight(120);
+        maestriView.setFitWidth(340);
+
+        grid.getChildren().add(maestriView);
 
         Label nickLabel = new Label("Nickname: ");
-        GridPane.setConstraints(nickLabel, 0, 0);
+        nickLabel.setFont(new Font("Arial", 24));
+        nickLabel.setTextFill(Color.BLACK);
+        nickLabel.setLayoutX(300);
+        nickLabel.setLayoutY(300);
 
         TextField nickname = new TextField();
-        GridPane.setConstraints(nickname, 1,0);
+        nickname.setLayoutX(430);
+        nickname.setLayoutY(300);
 
-        Button nickButton = new Button("Go");
-        GridPane.setConstraints(nickButton, 1, 2);
+        Button nickButton = new Button("Play");
+        nickButton.setFont(new Font("Arial", 26));
+        nickButton.setTextFill(Color.BLACK);
+        nickButton.setLayoutX(400);
+        nickButton.setLayoutY(360);
 
         nickButton.setOnAction(e->{
             playerBoard.setNickname(nickname.getText());
@@ -95,27 +133,43 @@ public class SceneLauncher {
         });
 
         grid.getChildren().addAll(nickLabel, nickname, nickButton);
-        Scene scene = new Scene(grid);
-        //stage.setMaximized(true);
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        Scene scene = new Scene(grid, 897, 550);
+
 
         return scene;
     }
 
     public Scene askNumPlayer() {
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setHgap(10);
-        grid.setVgap(8);
+
+        Image maestri = new Image("punchboard/logoMaestri.png");
+        ImageView maestriView = new ImageView(maestri);
+
+        Pane grid = new Pane();
+
+        maestriView.setLayoutX(290);
+        maestriView.setLayoutY(100);
+        maestriView.setFitHeight(120);
+        maestriView.setFitWidth(340);
+
+        grid.getChildren().add(maestriView);
 
         Label numPlayersLabel = new Label("Number of players: ");
-        GridPane.setConstraints(numPlayersLabel, 0, 0);
+        numPlayersLabel.setFont(new Font("Arial", 30));
+        numPlayersLabel.setTextFill(Color.BLACK);
+        numPlayersLabel.setLayoutX(190);
+        numPlayersLabel.setLayoutY(300);
 
         TextField numPlayersField = new TextField();
-        GridPane.setConstraints(numPlayersField, 1,0);
+        numPlayersField.setLayoutX(460);
+        numPlayersField.setLayoutY(310);
 
-
-        Button numButton = new Button("Go");
-        GridPane.setConstraints(numButton, 1, 2);
+        Button numButton = new Button("Play");
+        numButton.setFont(new Font("Arial", 24));
+        numButton.setTextFill(Color.BLACK);
+        numButton.setLayoutX(400);
+        numButton.setLayoutY(360);
         numButton.setOnAction(e->{
             try{
                 controller.sendMessage(new MessageNumPlayers(playerBoard.getNickname(), Integer.parseInt(numPlayersField.getText())));
@@ -123,9 +177,8 @@ public class SceneLauncher {
         });
 
         grid.getChildren().addAll(numPlayersLabel, numPlayersField, numButton);
-        Scene scene = new Scene(grid);
-        //stage.sizeToScene();
-        //stage.setMaximized(true);
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        Scene scene = new Scene(grid, 897, 550);
         return scene;
     }
 
@@ -135,6 +188,10 @@ public class SceneLauncher {
         left.setPrefWidth(150);
         left.getChildren().addAll(buttons());
         left.getChildren().addAll(leaderCardBoard());
+        //EXTRACHEST
+        left.getChildren().addAll(extrachest());
+        //BUTTON ACTIVE DISCARD LEADERCARDS
+        //left.getChildren().addAll(prove());
 
         Image imageBoardMain = new Image("board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
         ImageView imageBoardView = new ImageView(imageBoardMain);
@@ -281,6 +338,10 @@ public class SceneLauncher {
         boardMain.getChildren().addAll(strongboxPane());
         //DEVCARD
         boardMain.getChildren().addAll(devCardBoard());
+
+        //ENDTURN
+        boardMain.getChildren().add(endTurn());
+
 
         Button fake = new Button("USTIII");
         fake.setOnAction(e-> controller.sendMessage(new MessageFake(playerBoard.getNickname())));
@@ -568,9 +629,16 @@ public class SceneLauncher {
         return faithMarker;
     }
 
-    public Node[] leaderCardBoard(){
+    public List<Node> leaderCardBoard(){
+
+        List<Node> leaderCards = new ArrayList<>();
 
         Image leadercard1, leadercard2;
+
+        Button activefirst = new Button("✓");
+        Button activesecond = new Button("✓");
+        Button discardfirst;
+        Button discardsecond = new Button("✗");
 
         if(playerBoard.getLeaderCards().get(0)!=null){
             leadercard1 = new Image("front/"+playerBoard.getLeaderCards().get(0)+".png");
@@ -590,13 +658,174 @@ public class SceneLauncher {
         leadercard2View.setFitHeight(195);
         leadercard2View.setFitWidth(150);
 
-        Node[] leaderCards = new Node[2];
-        leaderCards[0] = leadercard1View;
-        leaderCards[0].setLayoutY(160);
-        leaderCards[1] = leadercard2View;
-        leaderCards[1].setLayoutY(355);
+        leadercard1View.setLayoutY(160);
+        leaderCards.add(leadercard1View);
+        leadercard2View.setLayoutY(355);
+        leaderCards.add(leadercard2View);
+
+        if(playerBoard.getLeaderCards().get(0)!=null){
+            discardfirst = new Button("✗");
+            discardfirst.setFont(new Font("Arial", 7));
+            discardfirst.setTextFill(Color.RED);
+            discardfirst.setMaxWidth(17);
+            discardfirst.setMaxHeight(17);
+            discardfirst.setLayoutY(340);
+            discardfirst.setLayoutX(133);
+            discardfirst.setOnAction(e-> controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(0), 0)));
+            leaderCards.add(discardfirst);
+
+           // if(playerBoard.getLeaderActionMap().get(0)!=null && !playerBoard.getLeaderActionMap().get(0).getActivated()){
+                activefirst.setFont(new Font("Arial", 7));
+                activefirst.setTextFill(Color.GREEN);
+                activefirst.setMaxWidth(17);
+                activefirst.setMaxHeight(17);
+                activefirst.setLayoutY(340);
+                activefirst.setLayoutX(0);
+                activefirst.setOnAction(e->{
+
+                    controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 1));
+                    leaderCards.remove(activefirst);
+
+                });
+                leaderCards.add(activefirst);
+           // }
+        }
+        else leadercard1 = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
+
+        if(playerBoard.getLeaderCards().get(1)!=null){
+            discardsecond.setFont(new Font("Arial", 7));
+            discardsecond.setTextFill(Color.RED);
+            discardsecond.setMaxWidth(17);
+            discardsecond.setMaxHeight(17);
+            discardsecond.setLayoutY(532);
+            discardsecond.setLayoutX(133);
+            discardsecond.setOnAction(e-> controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 0)));
+            leaderCards.add(discardsecond);
+
+            //if(playerBoard.getLeaderActionMap().get(1)!=null && playerBoard.getLeaderActionMap().get(0).getActivated()){
+                activesecond.setFont(new Font("Arial", 7));
+                activesecond.setTextFill(Color.GREEN);
+                activesecond.setMaxWidth(17);
+                activesecond.setMaxHeight(17);
+                activesecond.setLayoutY(532);
+                activesecond.setLayoutX(0);
+                activesecond.setOnAction(e->{
+
+                    controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 0));
+                    leaderCards.remove(activesecond);
+
+                });
+                leaderCards.add(activesecond);
+           // }
+        }
 
         return leaderCards;
+    }
+
+    public Node prove(){
+        Button ok = new Button("✓");
+        ok.setFont(new Font("Arial", 7));
+        ok.setTextFill(Color.GREEN);
+
+        ok.setMaxWidth(17);
+        ok.setMaxHeight(17);
+
+        ok.setLayoutY(532);
+        ok.setLayoutX(133);
+
+        return ok;
+    }
+
+    public List<Node> extrachest(){
+
+        List<Node> resourcesExtrachest = new ArrayList<>();
+        Image resources1, resources2;
+        ImageView resources1View = null;
+        ImageView resource2View = null;
+        String res1 = null;
+        String res2 = null;
+
+        List<Node> firstChest = new ArrayList<>();
+        List<Node> secondChest = new ArrayList<>();
+
+        if(playerBoard.getLeaderCards().get(0)!=null && playerBoard.getLeaderCards().get(0).charAt(2)=='C'){
+            if(playerBoard.getLeaderCards().get(0).charAt(4)=='1'){
+                resources1 = new Image("punchboard/Stones.png");
+                resources1View = new ImageView(resources1);
+                res1 = "Stones";
+
+            }
+            else if(playerBoard.getLeaderCards().get(0).charAt(4)=='2'){
+                resources1 = new Image("punchboard/Servants.png");
+                resources1View = new ImageView(resources1);
+                res1 = "Servants";
+            }
+            else if(playerBoard.getLeaderCards().get(0).charAt(4)=='3'){
+                resources1 = new Image("punchboard/Shields.png");
+                resources1View = new ImageView(resources1);
+                res1 = "Shields";
+            }
+            else if(playerBoard.getLeaderCards().get(0).charAt(4)=='4'){
+                resources1 = new Image("punchboard/Coins.png");
+                resources1View = new ImageView(resources1);
+                res1 = "Coins";
+            }
+            resources1View.setFitWidth(20);
+            resources1View.setFitHeight(20);
+            if(playerBoard.getExtrachest()!=null && playerBoard.getExtrachest().get(res1)!=null){
+            for(int i=0; i<playerBoard.getExtrachest().get(res1); i++){
+                if(resources1View!=null){
+                firstChest.add(resources1View);
+                firstChest.get(i).setLayoutY(322);
+                firstChest.get(i).setLayoutX(38 +57*i);
+                }
+            }
+            }
+        }
+
+        if(playerBoard.getLeaderCards().get(1)!=null && playerBoard.getLeaderCards().get(1).charAt(2)=='C'){
+            if(playerBoard.getLeaderCards().get(1).charAt(4)=='1'){
+                resources2 = new Image("punchboard/Stones.png");
+                resource2View = new ImageView(resources2);
+                res2 = "Stones";
+            }
+            else if(playerBoard.getLeaderCards().get(1).charAt(4)=='2'){
+                resources2 = new Image("punchboard/Servants.png");
+                resource2View = new ImageView(resources2);
+                res2 = "Servants";
+            }
+            else if(playerBoard.getLeaderCards().get(1).charAt(4)=='3'){
+                resources2 = new Image("punchboard/Shields.png");
+                resource2View = new ImageView(resources2);
+                res2 = "Shields";
+            }
+            else if(playerBoard.getLeaderCards().get(1).charAt(4)=='4'){
+                resources2 = new Image("punchboard/Coins.png");
+                resource2View = new ImageView(resources2);
+                res2 = "Coins";
+            }
+            resource2View.setFitWidth(20);
+            resource2View.setFitHeight(20);
+            if(playerBoard.getExtrachest()!=null && playerBoard.getExtrachest().get(res1)!=null) {
+                for (int i = 0; i < playerBoard.getExtrachest().get(res2); i++) {
+                    if (resource2View != null) {
+                        secondChest.add(resource2View);
+                        secondChest.get(i).setLayoutY(517);
+                        secondChest.get(i).setLayoutX(38 + 57 * i);
+                    }
+                }
+            }
+        }
+
+        if(!firstChest.isEmpty()){
+            for(Node n : firstChest) resourcesExtrachest.add(n);
+        }
+
+        if(!secondChest.isEmpty()){
+            for(Node n : secondChest) resourcesExtrachest.add(n);
+        }
+
+        return resourcesExtrachest;
     }
 
     public Node[] buttons(){
@@ -635,19 +864,14 @@ public class SceneLauncher {
         players.setLayoutY(131);
         players.setOnAction(e-> showOtherPlayers());
 
-        //non si vede perché è coperto
-        Button endTurn = new Button("End Turn");
-        endTurn.setLayoutY(156);
-        endTurn.setOnAction(e-> controller.sendMessage(new MessageEndTurn(playerBoard.getNickname())));
-
-        Button[] buttons = new Button[7];
+        Button[] buttons = new Button[6];
         buttons[0] = marketTray;
         buttons[1] = showMarket;
         buttons[2] = buyDevCard;
         buttons[3] = showDevDeck;
         buttons[4] = production;
         buttons[5] = players;
-        buttons[6] = endTurn;
+        //buttons[6] = endTurn;
 
         for(Button button : buttons){
             button.setMinWidth(150);
@@ -655,6 +879,15 @@ public class SceneLauncher {
         }
 
         return buttons;
+    }
+
+    public Node endTurn(){
+        Button endTurn = new Button("End Turn");
+        endTurn.setLayoutY(523);
+        endTurn.setLayoutX(683);
+        endTurn.setOnAction(e-> controller.sendMessage(new MessageEndTurn(playerBoard.getNickname())));
+
+        return endTurn;
     }
 
     public double getFaithMarkerX(int pos){
@@ -723,31 +956,37 @@ public class SceneLauncher {
 
 
     public Scene chooseInitialLeaderCards() {
-        HBox box1 = new HBox();
+
+        Pane total = new Pane();
+
+        HBox box1 = new HBox(6);
+
         ImageView[] leaderCardImgView = new ImageView[4];
         int i = 0;
 
         for (String leaderCard : playerBoard.getLeaderCards()) {
             Image leaderCardImage = new Image("front/" + leaderCard + ".png");
             leaderCardImgView[i] = new ImageView(leaderCardImage);
-            leaderCardImgView[i].setX(50 + i*10);
-            leaderCardImgView[i].setY(20);
-            leaderCardImgView[i].setFitHeight(200);
-            leaderCardImgView[i].setFitWidth(200);
+            leaderCardImgView[i].setFitHeight(400);
+            leaderCardImgView[i].setFitWidth(220);
             leaderCardImgView[i].setPreserveRatio(true);
             i++;
         }
         box1.getChildren().addAll(leaderCardImgView);
 
-        HBox box2 = new HBox();
+        HBox box2 = new HBox(50);
         int[] chosenLeaderCards = new int[2];
 
         Label labelLeaderCard1 = new Label("First Leader card: ");
+        labelLeaderCard1.setFont(new Font("Arial", 26));
+        labelLeaderCard1.setTextFill(Color.BLACK);
         ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList(
                 "1", "2", "3", "4")
         );
 
         Label labelLeaderCard2 = new Label("Second Leader card: ");
+        labelLeaderCard2.setFont(new Font("Arial", 26));
+        labelLeaderCard2.setTextFill(Color.BLACK);
         ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList(
                 "1", "2", "3", "4")
         );
@@ -763,15 +1002,18 @@ public class SceneLauncher {
                     chosenLeaderCards[1] = new_val.intValue();
                 });
         Button enterCards = new Button("Enter");
+        enterCards.setFont(new Font("Arial", 26));
+        enterCards.setTextFill(Color.BLACK);
         enterCards.setOnAction(e->{
             controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), chosenLeaderCards[0], chosenLeaderCards[1]));
         });
         box2.getChildren().addAll(labelLeaderCard1, cb1, labelLeaderCard2, cb2, enterCards);
+        box2.setLayoutY(440);
 
-        BorderPane total =new BorderPane();
-        total.setTop(box1);
-        total.setCenter(box2);
-        return new Scene(total);
+        total.getChildren().addAll(box1, box2);
+        total.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        return new Scene(total, 897, 550);
     }
 
     public Scene chooseInitialResources(){
