@@ -9,7 +9,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
@@ -28,6 +26,7 @@ public class SceneLauncher {
     private ClientController controller;
     private PlayerBoard playerBoard;
     private Stage stage;
+    private Stage payResourcesStage;
 
     public SceneLauncher(ClientController controller, PlayerBoard playerBoard) {
         this.controller = controller;
@@ -354,6 +353,7 @@ public class SceneLauncher {
 
         return scene;
     }
+
     public Node[] exchangeButton(){
         Node[] exchange = new Node[4];
 
@@ -913,6 +913,7 @@ public class SceneLauncher {
             default: return 0;
         }
     }
+
     public double getFaithMarkerY(int pos){
         switch (pos){
             case 0:
@@ -943,7 +944,6 @@ public class SceneLauncher {
             default: return 0;
         }
     }
-
 
     public Scene chooseInitialLeaderCards() {
 
@@ -1230,9 +1230,20 @@ public class SceneLauncher {
         stage1.show();
     }
 
-    //da rifare
     public void payResourcesScene() {
-        Stage newStage = new Stage();
+        payResourcesStage = new Stage();
+
+        Pane pane = new Pane();
+        ImageView devCardView = null;
+        if (playerBoard.getCurrentDevCardToBuy() != null) {
+            devCardView = new ImageView(new Image("front/" + playerBoard.getCurrentDevCardToBuy() + ".png"));
+        }
+        else if (playerBoard.getActivedDevCardProd() != null)
+            devCardView = new ImageView(new Image("front/" + playerBoard.getActivedDevCardProd() + ".png"));
+
+        devCardView.setFitWidth(180);
+        devCardView.setPreserveRatio(true);
+        pane.getChildren().add(devCardView);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
@@ -1240,64 +1251,108 @@ public class SceneLauncher {
         grid.setVgap(8);
 
         Label labelWarehouse = new Label("Warehouse: ");
-        GridPane.setConstraints(labelWarehouse, 0, 0);
-
-        Label labelCoinW = new Label("Coins: ");
-        GridPane.setConstraints(labelCoinW, 0, 1);
-        TextField numCoinsWarehouse = new TextField();
-        GridPane.setConstraints(numCoinsWarehouse, 1, 1);
-        Label labelServantW = new Label("Servants: ");
-        GridPane.setConstraints(labelServantW, 2, 1);
-        TextField numServantsWarehouse = new TextField();
-        GridPane.setConstraints(numServantsWarehouse, 3, 1);
-        Label labelShieldW = new Label("Shields: ");
-        GridPane.setConstraints(labelShieldW, 4, 1);
-        TextField numShieldsWarehouse = new TextField();
-        GridPane.setConstraints(numShieldsWarehouse, 5, 1);
-        Label labelStonesW = new Label("Stones: ");
-        GridPane.setConstraints(labelStonesW, 6, 1);
-        TextField numStonesWarehouse = new TextField();
-        GridPane.setConstraints(numStonesWarehouse, 7, 1);
+        GridPane.setConstraints(labelWarehouse, 1, 0);
+        grid.getChildren().add(labelWarehouse);
 
         Label labelStrongbox = new Label("Strongbox: ");
-        GridPane.setConstraints(labelStrongbox, 0, 2);
+        GridPane.setConstraints(labelStrongbox, 2, 0);
+        grid.getChildren().add(labelStrongbox);
 
-        Label labelCoinS = new Label("Coins: ");
-        GridPane.setConstraints(labelCoinS, 0, 3);
+        Label labelExtraChest = new Label("Extra chest: ");
+        GridPane.setConstraints(labelExtraChest, 3, 0);
+        grid.getChildren().add(labelExtraChest);
+
+        Label labelCoins = new Label();
+        ImageView coinsView = new ImageView("punchboard/Coins.png");
+        coinsView.setFitWidth(30);
+        coinsView.setPreserveRatio(true);
+        labelCoins.setGraphic(coinsView);
+        GridPane.setConstraints(labelCoins, 0, 2);
+        grid.getChildren().add(labelCoins);
+
+        Label labelServants = new Label();
+        ImageView servantsView = new ImageView("punchboard/Servants.png");
+        servantsView.setFitWidth(30);
+        servantsView.setPreserveRatio(true);
+        labelServants.setGraphic(servantsView);
+        GridPane.setConstraints(labelServants, 0, 4);
+        grid.getChildren().add(labelServants);
+
+        Label labelShields = new Label();
+        ImageView shieldsView = new ImageView("punchboard/Shields.png");
+        shieldsView.setFitWidth(30);
+        shieldsView.setPreserveRatio(true);
+        labelShields.setGraphic(shieldsView);
+        GridPane.setConstraints(labelShields, 0, 6);
+        grid.getChildren().add(labelShields);
+
+        Label labelStones = new Label();
+        ImageView stonesView = new ImageView("punchboard/Stones.png");
+        stonesView.setFitWidth(30);
+        stonesView.setPreserveRatio(true);
+        labelStones.setGraphic(stonesView);
+        GridPane.setConstraints(labelStones, 0, 8);
+        grid.getChildren().add(labelStones);
+
+        TextField numCoinsWarehouse = new TextField();
+        numCoinsWarehouse.setMaxSize(50, 50);
+        GridPane.setConstraints(numCoinsWarehouse, 1, 2);
+        grid.getChildren().add(numCoinsWarehouse);
+
+        TextField numServantsWarehouse = new TextField();
+        numServantsWarehouse.setMaxSize(50, 50);
+        GridPane.setConstraints(numServantsWarehouse, 1, 4);
+        grid.getChildren().add(numServantsWarehouse);
+
+        TextField numShieldsWarehouse = new TextField();
+        numShieldsWarehouse.setMaxSize(50, 50);
+        GridPane.setConstraints(numShieldsWarehouse, 1, 6);
+        grid.getChildren().add(numShieldsWarehouse);
+
+        TextField numStonesWarehouse = new TextField();
+        numStonesWarehouse.setMaxSize(50, 50);
+        GridPane.setConstraints(numStonesWarehouse, 1, 8);
+        grid.getChildren().add(numStonesWarehouse);
+
         TextField numCoinsStrongbox = new TextField();
-        GridPane.setConstraints(numCoinsStrongbox, 1, 3);
-        Label labelServantS = new Label("Servants: ");
-        GridPane.setConstraints(labelServantS, 2, 3);
+        numCoinsStrongbox.setMaxSize(50, 50);
+        GridPane.setConstraints(numCoinsStrongbox, 2, 2);
+        grid.getChildren().add(numCoinsStrongbox);
+
         TextField numServantsStrongbox = new TextField();
-        GridPane.setConstraints(numServantsStrongbox, 3, 3);
-        Label labelShieldS = new Label("Shields: ");
-        GridPane.setConstraints(labelShieldS, 4, 3);
+        numServantsStrongbox.setMaxSize(50, 50);
+        GridPane.setConstraints(numServantsStrongbox, 2, 4);
+        grid.getChildren().add(numServantsStrongbox);
+
         TextField numShieldsStrongbox = new TextField();
-        GridPane.setConstraints(numShieldsStrongbox, 5, 3);
-        Label labelStonesS = new Label("Stones: ");
-        GridPane.setConstraints(labelStonesS, 6, 3);
+        numShieldsStrongbox.setMaxSize(50, 50);
+        GridPane.setConstraints(numShieldsStrongbox, 2, 6);
+        grid.getChildren().add(numShieldsStrongbox);
+
         TextField numStonesStrongbox = new TextField();
-        GridPane.setConstraints(numStonesStrongbox, 7, 3);
+        numStonesStrongbox.setMaxSize(50, 50);
+        GridPane.setConstraints(numStonesStrongbox, 2, 8);
+        grid.getChildren().add(numStonesStrongbox);
 
-        Label labelExtraChest = new Label("ExtraChest: ");
-        GridPane.setConstraints(labelExtraChest, 0, 4);
-
-        Label labelCoinE = new Label("Coins: ");
-        GridPane.setConstraints(labelCoinE, 0, 5);
         TextField numCoinsExtraChest = new TextField();
-        GridPane.setConstraints(numCoinsExtraChest, 1, 5);
-        Label labelServantE = new Label("Servants: ");
-        GridPane.setConstraints(labelServantE, 2, 5);
+        numCoinsExtraChest.setMaxSize(50, 50);
+        GridPane.setConstraints(numCoinsExtraChest, 3, 2);
+        grid.getChildren().add(numCoinsExtraChest);
+
         TextField numServantsExtraChest = new TextField();
-        GridPane.setConstraints(numServantsExtraChest, 3, 5);
-        Label labelShieldE = new Label("Shields: ");
-        GridPane.setConstraints(labelShieldE, 4, 5);
+        numServantsExtraChest.setMaxSize(50, 50);
+        GridPane.setConstraints(numServantsExtraChest, 3, 4);
+        grid.getChildren().add(numServantsExtraChest);
+
         TextField numShieldsExtraChest = new TextField();
-        GridPane.setConstraints(numShieldsExtraChest, 5, 5);
-        Label labelStonesE = new Label("Stones: ");
-        GridPane.setConstraints(labelStonesE, 6, 5);
+        numShieldsExtraChest.setMaxSize(50, 50);
+        GridPane.setConstraints(numShieldsExtraChest, 3, 6);
+        grid.getChildren().add(numShieldsExtraChest);
+
         TextField numStonesExtraChest = new TextField();
-        GridPane.setConstraints(numStonesExtraChest, 7, 5);
+        numStonesExtraChest.setMaxSize(50, 50);
+        GridPane.setConstraints(numStonesExtraChest, 3, 8);
+        grid.getChildren().add(numStonesExtraChest);
 
         Button enterButton = new Button("Enter");
         enterButton.setOnAction(e->{
@@ -1330,16 +1385,17 @@ public class SceneLauncher {
                 extraChestMap.put("Stones", Integer.parseInt(numStonesExtraChest.getText()));
             controller.sendMessage(new MessagePayResources(playerBoard.getNickname(), warehouseMap, strongboxMap, extraChestMap));
         });
-        GridPane.setConstraints(enterButton, 0, 6);
-        grid.getChildren().addAll(labelWarehouse, labelCoinW, numCoinsWarehouse, labelServantW, numServantsWarehouse,
-                labelShieldW, numShieldsWarehouse, labelStonesW, numStonesWarehouse, labelStrongbox,
-                labelCoinS, numCoinsStrongbox, labelServantS, numServantsStrongbox, labelShieldS, numShieldsStrongbox,
-                labelStonesS, numStonesStrongbox, labelExtraChest, labelCoinE, numCoinsExtraChest, labelServantE,
-                numServantsExtraChest, labelShieldE, numShieldsExtraChest, labelStonesE, numStonesExtraChest, enterButton
-        );
+        GridPane.setConstraints(enterButton, 0, 10);
+        grid.getChildren().add(enterButton);
 
-        newStage.setScene(new Scene(grid));
-        newStage.show();
+        BorderPane borderPane = new BorderPane();
+
+        borderPane.setLeft(pane);
+        borderPane.setRight(grid);
+
+        payResourcesStage.setScene(new Scene(borderPane));
+        payResourcesStage.setTitle("Pay resources to buy the Development card");
+        payResourcesStage.show();
     }
 
     public boolean convertInputText(String input) {
@@ -1699,7 +1755,10 @@ public class SceneLauncher {
         ImageView[][] devCardsDeckView = new ImageView[3][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
+                if (playerBoard.getDevCardDeck()[i][j][0] == null)
+                    devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png"));
+                else
+                    devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
                 devCardsDeckView[i][j].setFitWidth(120);
                 devCardsDeckView[i][j].setPreserveRatio(true);
                 devCardsDeckView[i][j].setX(j*130 + 5);
@@ -1752,7 +1811,7 @@ public class SceneLauncher {
                 showErrorMessage("Select the column or the card");
             else {
                 controller.sendMessage(new MessageBuyDevCard(playerBoard.getNickname(), (String) checkBoxSelected.get(0).getUserData(), chosenColumn.get(0)));
-                payResourcesScene();
+                newStage.close();
             }
         });
         grid.getChildren().add(selectCardButton);
@@ -1763,6 +1822,7 @@ public class SceneLauncher {
         borderPane.setRight(grid);
 
         newStage.setScene(new Scene(borderPane));
+        newStage.setTitle("Buy a Development card");
         newStage.show();
     }
 
@@ -1812,6 +1872,7 @@ public class SceneLauncher {
         ImageView[][] devCardsDeckView = new ImageView[3][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
+                System.out.print(playerBoard.getDevCardDeck()[i][j][0]+"\t");
                 devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
                 devCardsDeckView[i][j].setFitWidth(150);
                 devCardsDeckView[i][j].setPreserveRatio(true);
@@ -1819,6 +1880,7 @@ public class SceneLauncher {
                 devCardsDeckView[i][j].setY(i*235 + 5);
                 devCardsDeckPane.getChildren().add(devCardsDeckView[i][j]);
             }
+            System.out.print("\n");
         }
 
         newStage.setScene(new Scene(devCardsDeckPane));
@@ -1826,4 +1888,8 @@ public class SceneLauncher {
     }
 
     public void showOtherPlayers(){}
+
+    public Stage getPayResourcesStage() {
+        return payResourcesStage;
+    }
 }

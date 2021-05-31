@@ -125,7 +125,9 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateDevCardDeck(String devCard) {
-        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        if (playerBoard.isMyturn()) {
+            Platform.runLater(()-> sceneLauncher.payResourcesScene());
+        }
     }
 
     @Override
@@ -150,7 +152,8 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateSlotDevCards() {
-        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        if (playerBoard.isMyturn())
+            Platform.runLater(()-> sceneLauncher.getPayResourcesStage().close());
     }
 
     @Override

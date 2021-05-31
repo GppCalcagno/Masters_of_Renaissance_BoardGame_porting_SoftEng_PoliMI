@@ -442,6 +442,7 @@ public class Game {
                         return false;
                     }
                 } catch (NullPointerException e) {
+                    e.printStackTrace();
                     update.onUpdateError(currentPlayer.getNickname(), "Wrong ID");
                     return false;
                 }
@@ -462,6 +463,7 @@ public class Game {
                 try {
                     if (currentPlayer.getSlotDevCards().insertCards(currentPlayer.getColumnSlotBuyDev(), currentPlayer.getCurrentDevCardToBuy())) {
                         update.onUpdateSlotDevCard(currentPlayer, currentPlayer.getCurrentDevCardToBuy(), currentPlayer.getColumnSlotBuyDev());
+                        developmentCardDeck.removeDevCards(currentPlayer.getCurrentDevCardToBuy().getID());
                         currentPlayer.setCurrentDevCardToBuy(null);
                         currentPlayer.setColumnSlotBuyDev(-1);
                         update.onUpdateResources(currentPlayer);
@@ -473,6 +475,7 @@ public class Game {
                     }
                 } catch (GameFinishedException e) {
                     update.onUpdateSlotDevCard(currentPlayer, currentPlayer.getCurrentDevCardToBuy(), currentPlayer.getColumnSlotBuyDev());
+                    developmentCardDeck.removeDevCards(currentPlayer.getCurrentDevCardToBuy().getID());
                     currentPlayer.setCurrentDevCardToBuy(null);
                     currentPlayer.setColumnSlotBuyDev(-1);
                     update.onUpdateResources(currentPlayer);

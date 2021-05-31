@@ -170,6 +170,22 @@ public class DevCardsDeck {
         }
     }
 
+    public void removeDevCards (String ID) {
+        int k = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (developmentCardDeck[i][j][0] != null && developmentCardDeck[i][j][0].getID().equals(ID)) {
+                    while (k < 3 && developmentCardDeck[i][j][k + 1] != null)
+                        k++;
+                    for (int z = 0; z< k; z++) {
+                        developmentCardDeck[i][j][z] = developmentCardDeck[i][j][z + 1];
+                    }
+                    developmentCardDeck[i][j][k] = null;
+                }
+            }
+        }
+    }
+
     /**
      * this method assign the card at the top of the cube to the player who purchase it
      * @param player player who calls
