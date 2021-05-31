@@ -660,7 +660,7 @@ public class SceneLauncher {
         leadercard2View.setLayoutY(355);
         leaderCards.add(leadercard2View);
 
-        if(!leadercard[0].getUrl().equals("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png")){
+        if(!leadercard[0].getUrl().contains("Masters")){
             discardfirst = new Button("✗");
             discardfirst.setFont(new Font("Arial", 7));
             discardfirst.setTextFill(Color.RED);
@@ -680,7 +680,7 @@ public class SceneLauncher {
                 activefirst.setLayoutX(0);
                 activefirst.setOnAction(e->{
 
-                    controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 1));
+                    controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(0), 1));
                     leaderCards.remove(activefirst);
 
                 });
@@ -688,8 +688,8 @@ public class SceneLauncher {
            // }
         }
 
-
-        if(!leadercard[1].getUrl().equals("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png")){
+       // System.out.println(leadercard[1].getUrl().contains("Masters"));
+        if(!leadercard[1].getUrl().contains("Masters")){
             discardsecond.setFont(new Font("Arial", 7));
             discardsecond.setTextFill(Color.RED);
             discardsecond.setMaxWidth(17);
@@ -706,7 +706,7 @@ public class SceneLauncher {
             activesecond.setLayoutY(532);
             activesecond.setLayoutX(0);
             activesecond.setOnAction(e->{
-                controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 0));
+                controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 1));
                 leaderCards.remove(activesecond);
             });
             leaderCards.add(activesecond);
@@ -1082,6 +1082,7 @@ public class SceneLauncher {
         TilePane group = new TilePane(textFlow);
         group.setAlignment(Pos.CENTER);
         group.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        group.setMaxWidth(400);
         stage1.setTitle("Error");
         stage1.setScene(new Scene(group));
         stage1.setAlwaysOnTop(true);
