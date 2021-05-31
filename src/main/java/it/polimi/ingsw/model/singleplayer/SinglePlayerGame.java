@@ -4,7 +4,6 @@ import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
 import it.polimi.ingsw.model.card.ColorCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.game.*;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.singleplayer.token.Tokens;
 
 

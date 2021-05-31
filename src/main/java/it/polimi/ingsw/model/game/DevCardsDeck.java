@@ -232,12 +232,10 @@ public class DevCardsDeck {
      * @return a DevelopmentCard object
      */
     public DevelopmentCard getDevCardFromID (String ID) {
-        for (DevelopmentCard[][] decks : developmentCardDeck) {
-            for (DevelopmentCard[] deckrow : decks) {
-                for (DevelopmentCard card : deckrow) {
-                    if (card.getID().equals(ID))
-                        return card;
-                }
+        for(int x=0;x<3;x++){
+            for(int y=0;y<4;y++){
+                if(developmentCardDeck[x][y][0]!=null && developmentCardDeck[x][y][0].getID().equals(ID))
+                    return developmentCardDeck[x][y][0];
             }
         }
         return null;

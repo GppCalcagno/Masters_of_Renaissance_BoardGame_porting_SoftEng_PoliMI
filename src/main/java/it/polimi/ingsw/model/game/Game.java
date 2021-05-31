@@ -436,13 +436,14 @@ public class Game {
                         currentPlayer.setColumnSlotBuyDev(column);
                         currentPlayer.setTurnPhase(TurnPhase.BUYDEVCARD);
                         update.onUpdateDevCardDeck(currentPlayer, currentPlayer.getCurrentDevCardToBuy());
+                        developmentCardDeck.removeDevCards(currentPlayer.getCurrentDevCardToBuy().getID());
+
                         return true;
                     } else {
                         update.onUpdateError(currentPlayer.getNickname(), "You can not buy this card.");
                         return false;
                     }
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
                     update.onUpdateError(currentPlayer.getNickname(), "Wrong ID");
                     return false;
                 }
@@ -463,7 +464,6 @@ public class Game {
                 try {
                     if (currentPlayer.getSlotDevCards().insertCards(currentPlayer.getColumnSlotBuyDev(), currentPlayer.getCurrentDevCardToBuy())) {
                         update.onUpdateSlotDevCard(currentPlayer, currentPlayer.getCurrentDevCardToBuy(), currentPlayer.getColumnSlotBuyDev());
-                        developmentCardDeck.removeDevCards(currentPlayer.getCurrentDevCardToBuy().getID());
                         currentPlayer.setCurrentDevCardToBuy(null);
                         currentPlayer.setColumnSlotBuyDev(-1);
                         update.onUpdateResources(currentPlayer);
@@ -475,7 +475,6 @@ public class Game {
                     }
                 } catch (GameFinishedException e) {
                     update.onUpdateSlotDevCard(currentPlayer, currentPlayer.getCurrentDevCardToBuy(), currentPlayer.getColumnSlotBuyDev());
-                    developmentCardDeck.removeDevCards(currentPlayer.getCurrentDevCardToBuy().getID());
                     currentPlayer.setCurrentDevCardToBuy(null);
                     currentPlayer.setColumnSlotBuyDev(-1);
                     update.onUpdateResources(currentPlayer);
