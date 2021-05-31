@@ -471,7 +471,7 @@ public class Cli implements ViewInterface {
     }
 
     @Override
-    public void showLorenzoTrun() {
+    public void showLorenzoTurn() {
         System.out.println(playerBoard.getLastTokenUsed());
     }
 

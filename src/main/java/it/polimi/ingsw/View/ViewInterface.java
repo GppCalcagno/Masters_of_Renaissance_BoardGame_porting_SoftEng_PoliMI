@@ -58,7 +58,7 @@ public interface ViewInterface {
     void showDevCard(String ID);
     void showLeaderAction(String ID);
 
-    void showLorenzoTrun();
+    void showLorenzoTurn();
 
     PlayerBoard getPlayerBoard();
     ClientController getController();

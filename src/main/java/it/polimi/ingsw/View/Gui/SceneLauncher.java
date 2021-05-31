@@ -523,7 +523,7 @@ public class SceneLauncher {
             leadercard1View.setFitHeight(250);
             leadercard1View.setFitWidth(145);
             leadercard1View.setLayoutX(280);
-            leadercard1View.setLayoutY(200);
+            leadercard1View.setLayoutY(290);
             devcards.add(leadercard1View);
         }
         if(playerBoard.getSlotDevCard()[0][1]!=null) {
@@ -532,7 +532,7 @@ public class SceneLauncher {
             leadercard2View.setFitHeight(250);
             leadercard2View.setFitWidth(145);
             leadercard2View.setLayoutX(427);
-            leadercard2View.setLayoutY(200);
+            leadercard2View.setLayoutY(290);
             devcards.add(leadercard2View);
         }
         if(playerBoard.getSlotDevCard()[0][2]!=null) {
@@ -541,7 +541,7 @@ public class SceneLauncher {
             leadercard3View.setFitHeight(250);
             leadercard3View.setFitWidth(145);
             leadercard3View.setLayoutX(574);
-            leadercard3View.setLayoutY(200);
+            leadercard3View.setLayoutY(290);
             devcards.add(leadercard3View);
         }
         if(playerBoard.getSlotDevCard()[1][0]!=null) {
@@ -550,7 +550,7 @@ public class SceneLauncher {
             leadercard4View.setFitHeight(250);
             leadercard4View.setFitWidth(145);
             leadercard4View.setLayoutX(280);
-            leadercard4View.setLayoutY(220);
+            leadercard4View.setLayoutY(245);
             devcards.add(leadercard4View);
         }
         if(playerBoard.getSlotDevCard()[1][1]!=null) {
@@ -559,7 +559,7 @@ public class SceneLauncher {
             leadercard5View.setFitHeight(250);
             leadercard5View.setFitWidth(145);
             leadercard5View.setLayoutX(427);
-            leadercard5View.setLayoutY(220);
+            leadercard5View.setLayoutY(245);
             devcards.add(leadercard5View);
         }
         if(playerBoard.getSlotDevCard()[1][2]!=null) {
@@ -568,7 +568,7 @@ public class SceneLauncher {
             leadercard6View.setFitHeight(250);
             leadercard6View.setFitWidth(145);
             leadercard6View.setLayoutX(574);
-            leadercard6View.setLayoutY(220);
+            leadercard6View.setLayoutY(245);
             devcards.add(leadercard6View);
         }
         if(playerBoard.getSlotDevCard()[2][0]!=null) {
@@ -577,7 +577,7 @@ public class SceneLauncher {
             leadercard7View.setFitHeight(250);
             leadercard7View.setFitWidth(145);
             leadercard7View.setLayoutX(280);
-            leadercard7View.setLayoutY(240);
+            leadercard7View.setLayoutY(200);
             devcards.add(leadercard7View);
         }
         if(playerBoard.getSlotDevCard()[2][1]!=null) {
@@ -586,7 +586,7 @@ public class SceneLauncher {
             leadercard8View.setFitHeight(250);
             leadercard8View.setFitWidth(145);
             leadercard8View.setLayoutX(427);
-            leadercard8View.setLayoutY(240);
+            leadercard8View.setLayoutY(200);
             devcards.add(leadercard8View);
         }
         if(playerBoard.getSlotDevCard()[2][2]!=null) {
@@ -595,7 +595,7 @@ public class SceneLauncher {
             leadercard9View.setFitHeight(250);
             leadercard9View.setFitWidth(145);
             leadercard9View.setLayoutX(427);
-            leadercard9View.setLayoutY(240);
+            leadercard9View.setLayoutY(200);
             devcards.add(leadercard9View);
         }
 
@@ -850,9 +850,16 @@ public class SceneLauncher {
         showDevDeck.setOnAction(e-> showDevDeck());
 
         Button players = new Button();
-        players.setText("Show players");
+        if(playerBoard.getplayernumber()>1){
+            players.setText("Show players");
+            players.setOnAction(e-> showOtherPlayers());
+        }
+        else{
+            players.setText("Lorenzo last turn");
+            players.setOnAction(e-> showLorenzoTurn());
+        }
         players.setLayoutY(131);
-        players.setOnAction(e-> showOtherPlayers());
+
 
         Button[] buttons = new Button[6];
         buttons[0] = marketTray;
@@ -1086,6 +1093,7 @@ public class SceneLauncher {
         stage1.setTitle("Error");
         stage1.setScene(new Scene(group));
         stage1.setAlwaysOnTop(true);
+        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
         stage1.show();
     }
 
@@ -1125,6 +1133,7 @@ public class SceneLauncher {
         Scene scene = new Scene(grid);
         stage1.setScene(scene);
         stage1.setTitle("Active Production");
+        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
         stage1.show();
     }
 
@@ -1396,6 +1405,7 @@ public class SceneLauncher {
 
         payResourcesStage.setScene(new Scene(borderPane));
         payResourcesStage.setTitle("Pay resources to buy the Development card");
+        payResourcesStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         payResourcesStage.show();
     }
 
@@ -1521,6 +1531,7 @@ public class SceneLauncher {
         stage2.setScene(new Scene(borderPane));
         stage2.setTitle("Extract marbles");
         stage2.setAlwaysOnTop(true);
+        stage2.getIcons().add(new Image("punchboard/retro cerchi.png"));
         stage2.show();
     }
 
@@ -1824,6 +1835,7 @@ public class SceneLauncher {
 
         newStage.setScene(new Scene(borderPane));
         newStage.setTitle("Buy a Development card");
+        newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         newStage.show();
     }
 
@@ -1863,6 +1875,7 @@ public class SceneLauncher {
 
         stage1.setScene(new Scene(marketTrayPane));
         stage1.setTitle("Market tray");
+        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
         stage1.show();
     }
 
@@ -1874,17 +1887,41 @@ public class SceneLauncher {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 System.out.print(playerBoard.getDevCardDeck()[i][j][0]+"\t");
-                devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
-                devCardsDeckView[i][j].setFitWidth(150);
-                devCardsDeckView[i][j].setPreserveRatio(true);
-                devCardsDeckView[i][j].setX(j*155 + 5);
-                devCardsDeckView[i][j].setY(i*235 + 5);
-                devCardsDeckPane.getChildren().add(devCardsDeckView[i][j]);
+                if(playerBoard.getDevCardDeck()[i][j][0]!=null) {
+                    devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
+                }
+                else{
+                    if(i==0){
+                        if(j==0) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-33-1.png"));
+                        else if(j==1) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-35-1.png"));
+                        else if (j==2) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-36-1.png"));
+                        else if(j==3) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-34-1.png"));
+                    }
+                    else if(i==1){
+                        if(j==0) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-17-1.png"));
+                        else if(j==1) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-19-1.png"));
+                        else if (j==2) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-20-1.png"));
+                        else if(j==3) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-18-1.png"));
+                    }
+                    else if(i==2){
+                        if(j==0) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-1-1.png"));
+                        else if(j==1) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-3-1.png"));
+                        else if (j==2) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-4-1.png"));
+                        else if(j==3) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-2-1.png"));
+                    }
+                }
+                    devCardsDeckView[i][j].setFitWidth(150);
+                    devCardsDeckView[i][j].setPreserveRatio(true);
+                    devCardsDeckView[i][j].setX(j * 155 + 5);
+                    devCardsDeckView[i][j].setY(i * 235 + 5);
+                    devCardsDeckPane.getChildren().add(devCardsDeckView[i][j]);
+
             }
             System.out.print("\n");
         }
 
         newStage.setScene(new Scene(devCardsDeckPane));
+        newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         newStage.show();
     }
 
@@ -1892,5 +1929,71 @@ public class SceneLauncher {
 
     public Stage getPayResourcesStage() {
         return payResourcesStage;
+    }
+
+    public void showLorenzoTurn(){
+        Stage newStage = new Stage();
+        Pane pane = new Pane();
+
+        Image token = null;
+        ImageView tokenView = null;
+        Label explanation = null;
+        Button showDevDeck = new Button("Show DevDeck");
+
+        if(playerBoard.getLastTokenUsed().equals("T1")){
+            token = new Image("punchboard/cerchio5.png");
+            tokenView = new ImageView(token);
+            tokenView.setFitWidth(70);
+            tokenView.setFitHeight(70);
+            explanation = new Label("Lorenzo moved his black cross of two spaces");
+
+        }
+        else if(playerBoard.getLastTokenUsed().equals("T2")){
+            token = new Image("punchboard/cerchio7.png");
+            tokenView = new ImageView(token);
+            tokenView.setFitWidth(70);
+            tokenView.setFitHeight(70);
+            explanation = new Label("Lorenzo moved his black cross of one space and\nreshuffle all his tokens");
+        }
+        else if(playerBoard.getLastTokenUsed().equals("T3")){
+            if(playerBoard.getLastTokenUsedColor().equals("BLUE")){
+                token = new Image("punchboard/cerchio1.png");
+                explanation = new Label("Lorenzo discard two blue cards");
+            }
+            else if(playerBoard.getLastTokenUsedColor().equals("GREEN")){
+                token = new Image("punchboard/cerchio2.png");
+                explanation = new Label("Lorenzo discard two green cards");
+            }
+            else if(playerBoard.getLastTokenUsedColor().equals("PURPLE")){
+                token = new Image("punchboard/cerchio3.png");
+                explanation = new Label("Lorenzo discard two purple cards");
+            }
+            else if(playerBoard.getLastTokenUsedColor().equals("YELLOW")){
+                token = new Image("punchboard/cerchio4.png");
+                explanation = new Label("Lorenzo discard two yellow cards");
+            }
+            tokenView = new ImageView(token);
+            tokenView.setFitWidth(70);
+            tokenView.setFitHeight(70);
+            showDevDeck.setOnAction(e->showDevDeck());
+            showDevDeck.setLayoutY(110);
+            showDevDeck.setLayoutX(300);
+            pane.getChildren().add(showDevDeck);
+            }
+
+        tokenView.setLayoutY(30);
+        explanation.setLayoutY(53);
+        explanation.setLayoutX(72);
+        explanation.setFont(new Font("Arial", 24));
+        explanation.setTextFill(Color.BLACK);
+
+        pane.getChildren().addAll(tokenView, explanation);
+        pane.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        pane.setMinHeight(130);
+        newStage.setScene(new Scene(pane));
+        newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        newStage.setTitle("Lorenzo's turn");
+        newStage.show();
+
     }
 }

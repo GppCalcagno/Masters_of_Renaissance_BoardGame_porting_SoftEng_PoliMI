@@ -147,7 +147,10 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateSinglePlayerGame() {
-        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        Platform.runLater(() -> {
+            sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+            sceneLauncher.showLorenzoTurn();
+        });
     }
 
     @Override
@@ -272,8 +275,10 @@ public class Gui implements ViewInterface{
     }
 
     @Override
-    public void showLorenzoTrun() {
-
+    public void showLorenzoTurn() {
+        Platform.runLater(() -> {
+            sceneLauncher.showLorenzoTurn();
+        });
     }
 
     @Override
