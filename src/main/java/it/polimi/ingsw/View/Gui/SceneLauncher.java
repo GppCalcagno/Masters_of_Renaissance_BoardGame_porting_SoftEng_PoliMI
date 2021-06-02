@@ -21,6 +21,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SceneLauncher {
     private ClientController controller;
@@ -953,117 +954,198 @@ public class SceneLauncher {
     }
 
     public Scene chooseInitialLeaderCards() {
-
         Pane total = new Pane();
 
-        HBox box1 = new HBox(6);
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
 
-        ImageView[] leaderCardImgView = new ImageView[4];
         int i = 0;
 
         for (String leaderCard : playerBoard.getLeaderCards()) {
-            Image leaderCardImage = new Image("front/" + leaderCard + ".png");
-            leaderCardImgView[i] = new ImageView(leaderCardImage);
-            leaderCardImgView[i].setFitHeight(400);
-            leaderCardImgView[i].setFitWidth(220);
-            leaderCardImgView[i].setPreserveRatio(true);
+            ImageView leaderCardImgView = new ImageView(new Image("front/" + leaderCard + ".png"));
+            leaderCardImgView.setFitWidth(150);
+            leaderCardImgView.setPreserveRatio(true);
+            GridPane.setConstraints(leaderCardImgView, i, 0);
+            grid.getChildren().add(leaderCardImgView);
             i++;
         }
-        box1.getChildren().addAll(leaderCardImgView);
 
-        HBox box2 = new HBox(50);
-        int[] chosenLeaderCards = new int[2];
+        total.getChildren().add(grid);
 
-        Label labelLeaderCard1 = new Label("First Leader card: ");
-        labelLeaderCard1.setFont(new Font("Arial", 26));
-        labelLeaderCard1.setTextFill(Color.BLACK);
-        ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList(
-                "1", "2", "3", "4")
-        );
+        //to not let select more of 2 checkboxes
+        final int maxCount = 2;
+        List<CheckBox> chosenCards = new ArrayList<>();
+        List<CheckBox> checkBoxList = new ArrayList<>();
 
-        Label labelLeaderCard2 = new Label("Second Leader card: ");
-        labelLeaderCard2.setFont(new Font("Arial", 26));
-        labelLeaderCard2.setTextFill(Color.BLACK);
-        ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList(
-                "1", "2", "3", "4")
-        );
-        cb1.getSelectionModel().selectedIndexProperty().addListener(
-                (ObservableValue<? extends Number> ov,
-                    Number old_value, Number new_val) -> {
-                        chosenLeaderCards[0] = new_val.intValue();
-                });
+        ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {
+            private int activeCount = 0;
 
-        cb2.getSelectionModel().selectedIndexProperty().addListener(
-                (ObservableValue<? extends Number> ov,
-                 Number old_value, Number new_val) -> {
-                    chosenLeaderCards[1] = new_val.intValue();
-                });
+            public void changed(ObservableValue<? extends Boolean> o, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    activeCount++;
+                    for (CheckBox cb : checkBoxList) {
+                        if (cb.isSelected()) {
+                            if (!chosenCards.contains(cb))
+                                chosenCards.add(cb);
+                        }
+                    }
+                    if (activeCount == maxCount) {
+                        // disable unselected CheckBoxes
+                        for (CheckBox cb : checkBoxList) {
+                            if (!cb.isSelected()) {
+                                cb.setDisable(true);
+                            }
+                        }
+                    }
+                } else {
+                    if (activeCount == maxCount) {
+                        for (CheckBox cb : checkBoxList) {
+                            if (!cb.isDisable() && !cb.isSelected())
+                                chosenCards.remove(cb);
+                        }
+                        // re-enable CheckBoxes
+                        for (CheckBox cb : checkBoxList) {
+                            cb.setDisable(false);
+                        }
+                    }
+                    activeCount--;
+                }
+            }
+        };
+
+        for (int in = 0; in < 4; in++) {
+            CheckBox checkBox = new CheckBox();
+            checkBoxList.add(checkBox);
+            checkBox.selectedProperty().addListener(listener);
+            checkBox.setLayoutX(in*160 + 79);
+            checkBox.setLayoutY(250);
+            total.getChildren().add(checkBox);
+        }
+
         Button enterCards = new Button("Enter");
-        enterCards.setFont(new Font("Arial", 26));
+        enterCards.setFont(new Font("Arial", 18));
         enterCards.setTextFill(Color.BLACK);
         enterCards.setOnAction(e->{
-            controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), chosenLeaderCards[0], chosenLeaderCards[1]));
+            if (chosenCards.size() != 2) {
+                showErrorMessage("Choose two Leader cards");
+            }
+            else {
+                int i1 = checkBoxList.indexOf(chosenCards.get(0));
+                int i2 = checkBoxList.indexOf(chosenCards.get(1));
+                controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), i1, i2));
+            }
         });
-        box2.getChildren().addAll(labelLeaderCard1, cb1, labelLeaderCard2, cb2, enterCards);
-        box2.setLayoutY(440);
+        enterCards.setLayoutY(285);
+        enterCards.setLayoutX(checkBoxList.get(3).getLayoutX() - 25);
+        total.getChildren().add(enterCards);
 
-        total.getChildren().addAll(box1, box2);
         total.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        return new Scene(total, 897, 550);
+        return new Scene(total, 650, 350);
     }
 
     public Scene chooseInitialResources(){
-        HBox boxResources = new HBox();
-        List<ImageView> resourcesView = new ArrayList<>();
-        String[] resourcePath = {"coin.png", "servant.png", "shield.png", "stone.png"};
-        List<String> resourcesToSend = new ArrayList<>();
+        Pane pane = new Pane();
 
-        for (String r : resourcePath){
-            ImageView resourceView = new ImageView(new Image("punchboard/" + r));
-            resourceView.setFitWidth(100);
-            resourceView.setFitHeight(100);
-            resourcesView.add(resourceView);
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
+
+        Label label = new Label("Choose 1 resource if you are the second or the third\nplayer or 2 if you are the fourth.");
+        GridPane.setConstraints(label, 0, 0);
+        grid.getChildren().add(label);
+        pane.getChildren().add(grid);
+
+        String[] resources = {"Coins", "Servants", "Shields", "Stones"};
+
+        int i = 0;
+
+        for (String r : resources){
+            ImageView resourceView = new ImageView(new Image("punchboard/" + r + ".png"));
+            resourceView.setFitWidth(50);
+            resourceView.setPreserveRatio(true);
+            resourceView.setX(i*72 + 10);
+            resourceView.setY(50);
+            pane.getChildren().add(resourceView);
+            i = i + 1;
         }
 
-        boxResources.getChildren().addAll(resourcesView);
+        int maxCount = 0;
+        if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 1 || playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 2)
+            maxCount = 1;
+        else if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 3)
+            maxCount = 2;
 
-        HBox boxChoice = new HBox();
-        String[] resourcesVett = {"Coins", "Servants", "Shields", "Stones"};
+        List<CheckBox> chosenResources = new ArrayList<>();
+        List<CheckBox> checkBoxList = new ArrayList<>();
 
-        Label labelResources1 = new Label("First Resource: ");
-        ChoiceBox cb1 = new ChoiceBox(FXCollections.observableArrayList(
-                "Coin", "Servant", "Shield", "Stone")
-        );
+        int finalMaxCount = maxCount;
 
-        Label labelResources2 = new Label("Second Resource: ");
-        ChoiceBox cb2 = new ChoiceBox(FXCollections.observableArrayList(
-                "Coin", "Servant", "Shield", "Stone")
-        );
-        cb1.getSelectionModel().selectedIndexProperty().addListener(
-                (ObservableValue<? extends Number> ov,
-                 Number old_value, Number new_val) -> {
-                    resourcesToSend.add(resourcesVett[new_val.intValue()]);
-                });
+        ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {
+            private int activeCount = 0;
 
-        cb2.getSelectionModel().selectedIndexProperty().addListener(
-                (ObservableValue<? extends Number> ov,
-                 Number old_value, Number new_val) -> {
-                    resourcesToSend.add(resourcesVett[new_val.intValue()]);
-                });
-        Button enterCards = new Button("Enter");
-        enterCards.setOnAction(e->{
+            public void changed(ObservableValue<? extends Boolean> o, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    activeCount++;
+                    for (CheckBox cb : checkBoxList) {
+                        if (cb.isSelected()) {
+                            if (!chosenResources.contains(cb))
+                                chosenResources.add(cb);
+                        }
+                    }
+                    if (activeCount == finalMaxCount) {
+                        // disable unselected CheckBoxes
+                        for (CheckBox cb : checkBoxList) {
+                            if (!cb.isSelected()) {
+                                cb.setDisable(true);
+                            }
+                        }
+                    }
+                } else {
+                    if (activeCount == finalMaxCount) {
+                        for (CheckBox cb : checkBoxList) {
+                            if (!cb.isDisable() && !cb.isSelected())
+                                chosenResources.remove(cb);
+                        }
+                        // re-enable CheckBoxes
+                        for (CheckBox cb : checkBoxList) {
+                            cb.setDisable(false);
+                        }
+                    }
+                    activeCount--;
+                }
+            }
+        };
+
+        for (int in = 0; in < 4; in++) {
+            CheckBox checkBox = new CheckBox();
+            checkBox.setLayoutY(125);
+            checkBox.setLayoutX(in*72 + 25);
+            checkBox.selectedProperty().addListener(listener);
+            checkBoxList.add(checkBox);
+            pane.getChildren().add(checkBox);
+        }
+
+        List<String> resourcesToSend = new ArrayList<>();
+
+        Button chooseResourcesButton = new Button("Enter");
+        chooseResourcesButton.setOnAction(e->{
+            if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 1 || playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 2)
+                resourcesToSend.add(resources[checkBoxList.indexOf(chosenResources.get(0))]);
+            else if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 3) {
+                resourcesToSend.add(resources[checkBoxList.indexOf(chosenResources.get(0))]);
+                resourcesToSend.add(resources[checkBoxList.indexOf(chosenResources.get(1))]);
+            }
             controller.sendMessage(new MessageChooseResourcesFirstTurn(playerBoard.getNickname(), resourcesToSend));
         });
-        if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 1 || playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 2)
-            boxChoice.getChildren().addAll(labelResources1, cb1, enterCards);
-        else if (playerBoard.getPlayerList().indexOf(playerBoard.getNickname()) == 4)
-            boxChoice.getChildren().addAll(labelResources1, cb1, labelResources2, cb2, enterCards);
+        chooseResourcesButton.setLayoutX(checkBoxList.get(3).getLayoutX() - 12);
+        chooseResourcesButton.setLayoutY(150);
+        pane.getChildren().add(chooseResourcesButton);
 
-        BorderPane total =new BorderPane();
-        total.setTop(boxResources);
-        total.setCenter(boxChoice);
-        return new Scene(total, 1000, 1000);
+        return new Scene(pane);
     }
 
     public Scene showMessage(String message) {
@@ -1108,32 +1190,36 @@ public class SceneLauncher {
         Label labelChoice = new Label("Choose the type of production: ");
         GridPane.setConstraints(labelChoice, 0, 0);
 
-        Button baseProductionButton = new Button("Base\nProduction");
+        Button baseProductionButton = new Button("Base Production");
         GridPane.setConstraints(baseProductionButton, 0, 1);
         baseProductionButton.setOnAction(e->{
             baseProductionScene(stage1);
         });
+
         Button devCardProductionButton = new Button("Development Card\nProduction");
-        /*
         devCardProductionButton.setOnAction(e->{
-
+            devCardProductionScene(stage1);
         });
 
-         */
         GridPane.setConstraints(devCardProductionButton, 1, 1);
-        Button leaderCardProductionButton = new Button("Leader Card\nProduction");
-        /*
-        leaderCardProductionButton.setOnAction(e->{
 
+        Button leaderCardProductionButton = new Button("Leader Card\nProduction");
+        leaderCardProductionButton.setOnAction(e->{
+            leaderCardProductionScene(stage1);
         });
 
-         */
         GridPane.setConstraints(leaderCardProductionButton, 2, 1);
         grid.getChildren().addAll(labelChoice, baseProductionButton, devCardProductionButton, leaderCardProductionButton);
+
+        Button endProductionButton = new Button("End production");
+        endProductionButton.setOnAction(e->controller.sendMessage(new MessageEndProduction(playerBoard.getNickname())));
+        GridPane.setConstraints(endProductionButton, 0, 2);
+        grid.getChildren().add(endProductionButton);
+
         Scene scene = new Scene(grid);
         stage1.setScene(scene);
-        stage1.setTitle("Active Production");
         stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        stage1.setTitle("Active Production");
         stage1.show();
     }
 
@@ -1234,9 +1320,261 @@ public class SceneLauncher {
         });
         grid.getChildren().addAll(explanationLabel1, cbStructure1, cbResources1, cbStructure2, cbResources2, explanationLabel2, cbResources3, enterButton);
 
-        Scene scene = new Scene(grid, 1000, 1000);
+        Scene scene = new Scene(grid);
         stage1.setScene(scene);
-        stage1.setMaximized(true);
+        stage1.setTitle("Base production");
+        stage1.show();
+    }
+
+    public void devCardProductionScene(Stage stage1) {
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
+
+        final int maxCount = 1;
+        final Set<CheckBox> activatedCheckBoxes = new LinkedHashSet<>();
+        List<CheckBox> selectedCheck = new ArrayList<>();
+
+        ChangeListener<Boolean> listener = (o, oldValue, newValue) -> {
+            CheckBox checkBox = (CheckBox) ((ReadOnlyProperty) o).getBean();
+
+            if (newValue) {
+                activatedCheckBoxes.add(checkBox);
+                selectedCheck.add(checkBox);
+                if (activatedCheckBoxes.size() > maxCount) {
+                    // get first checkbox to be activated
+                    checkBox = activatedCheckBoxes.iterator().next();
+
+                    // unselect; change listener will remove
+                    checkBox.setSelected(false);
+                    selectedCheck.remove(checkBox);
+                }
+            } else {
+                activatedCheckBoxes.remove(checkBox);
+            }
+        };
+
+        for (int i = 0; i < 3; i++) {
+            String cardID = null;
+            for (int j = 0; j < 3; j++) {
+                if (playerBoard.getSlotDevCard()[j][i] != null)
+                    cardID = playerBoard.getSlotDevCard()[j][i];
+            }
+            if (cardID != null) {
+                ImageView cardView = new ImageView(new Image("front/" + cardID + ".png"));
+                cardView.setPreserveRatio(true);
+                cardView.setFitWidth(150);
+                GridPane.setConstraints(cardView, i, 0);
+                grid.getChildren().add(cardView);
+
+                CheckBox checkBox = new CheckBox();
+                checkBox.setUserData(i);
+                checkBox.selectedProperty().addListener(listener);
+                checkBox.setLayoutX(10);
+                GridPane.setConstraints(checkBox, i, 2);
+                grid.getChildren().add(checkBox);
+            }
+        }
+
+        Button enterButton = new Button("Enter");
+        enterButton.setOnAction(e->{
+            if (!selectedCheck.isEmpty()) {
+                controller.sendMessage(new MessageActiveProductionDevCard(playerBoard.getNickname(), (Integer) selectedCheck.get(0).getUserData()));
+                stage1.close();
+            }
+        });
+        GridPane.setConstraints(enterButton, 0, 4);
+        grid.getChildren().add(enterButton);
+
+        stage1.setScene(new Scene(grid));
+        stage1.setTitle("Development card production");
+        stage1.show();
+    }
+
+    public void leaderCardProductionScene(Stage stage1) {
+        Pane leaderCardPane = new Pane();
+
+        List<CheckBox> checkBoxListCard = new ArrayList<>();
+
+        final int maxCount = 1;
+        final Set<CheckBox> activatedCheckBoxes = new LinkedHashSet<>();
+        List<CheckBox> checkBoxSelected = new ArrayList<>();
+
+        ChangeListener<Boolean> listener1 = (o, oldValue, newValue) -> {
+            CheckBox checkBox = (CheckBox) ((ReadOnlyProperty) o).getBean();
+
+            if (newValue) {
+                activatedCheckBoxes.add(checkBox);
+                checkBoxSelected.add(checkBox);
+                if (activatedCheckBoxes.size() > maxCount) {
+                    // get first checkbox to be activated
+                    checkBox = activatedCheckBoxes.iterator().next();
+
+                    // unselect; change listener1 will remove
+                    checkBox.setSelected(false);
+                    checkBoxSelected.remove(checkBox);
+                }
+            } else {
+                activatedCheckBoxes.remove(checkBox);
+                checkBoxSelected.remove(checkBox);
+            }
+        };
+
+        List<String> leaderCardProductionList = playerBoard.getLeaderCards()
+                .stream()
+                .filter(lc -> lc.equals("LCPL1") || lc.equals("LCPL2") || lc.equals("LCPL3") || lc.equals("LCPL4"))
+                .collect(Collectors.toList());
+
+        if (!leaderCardProductionList.isEmpty()) {
+            int i = 0;
+            for (String card : leaderCardProductionList) {
+                ImageView leaderCardView = new ImageView(new Image("front/" + card + ".png"));
+                leaderCardView.setFitWidth(120);
+                leaderCardView.setPreserveRatio(true);
+                leaderCardView.setX(i*135 + 5);
+                leaderCardView.setY(5);
+                leaderCardPane.getChildren().add(leaderCardView);
+
+                CheckBox checkBox = new CheckBox();
+                checkBox.selectedProperty().addListener(listener1);
+                checkBox.setLayoutX(i*138 + 55);
+                checkBox.setLayoutY(190);
+                checkBoxListCard.add(checkBox);
+                leaderCardPane.getChildren().add(checkBox);
+                i++;
+            }
+        }
+
+        Pane rightPane = new Pane();
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(10);
+        grid.setVgap(8);
+
+        Label label1 = new Label("Choose from where do you want to take\nthe resource indicated on the left: ");
+        GridPane.setConstraints(label1, 0, 0);
+        grid.getChildren().add(label1);
+
+        //choiceBox
+        char[] chosenStructures = new char[1];
+
+        ChoiceBox cbStructure1 = new ChoiceBox(FXCollections.observableArrayList(
+                "Select a structure", "Warehouse", "Strongbox", "Extra chest")
+        );
+        GridPane.setConstraints(cbStructure1, 0, 2);
+        cbStructure1.getSelectionModel().selectedIndexProperty().addListener(
+                (ObservableValue<? extends Number> ov,
+                 Number old_value, Number new_val) -> {
+                    switch (new_val.intValue()) {
+                        case 1 :
+                            chosenStructures[0] = 'W';
+                            break;
+                        case 2 :
+                            chosenStructures[0] = 'S';
+                            break;
+                        case 3 :
+                            chosenStructures[0] = 'E';
+                            break;
+                        default:
+                            break;
+                    }
+                });
+        grid.getChildren().add(cbStructure1);
+
+        //view risorse con checkbox
+        Label labelChosenResource = new Label("Choose which resource do you want obtain:");
+        GridPane.setConstraints(labelChosenResource, 0, 3);
+        grid.getChildren().add(labelChosenResource);
+
+        rightPane.getChildren().add(grid);
+
+        String[] resources = {"Coins", "Servants", "Shields", "Stones"};
+
+        int coordinateX = 0;
+
+        for (String res : resources) {
+            ImageView resView = new ImageView(new Image("punchboard/" + res + ".png"));
+            resView.setFitWidth(30);
+            resView.setPreserveRatio(true);
+            resView.setY(120);
+            resView.setX(coordinateX*50 + 10);
+            rightPane.getChildren().add(resView);
+            coordinateX++;
+        }
+
+        List<CheckBox> chosenResources = new ArrayList<>();
+        List<CheckBox> checkBoxListResource = new ArrayList<>();
+
+        int finalMaxCount = 1;
+
+        ChangeListener<Boolean> listener2 = new ChangeListener<Boolean>() {
+            private int activeCount = 0;
+
+            public void changed(ObservableValue<? extends Boolean> o, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    activeCount++;
+                    for (CheckBox cb : checkBoxListResource) {
+                        if (cb.isSelected()) {
+                            if (!chosenResources.contains(cb))
+                                chosenResources.add(cb);
+                        }
+                    }
+                    if (activeCount == finalMaxCount) {
+                        // disable unselected CheckBoxes
+                        for (CheckBox cb : checkBoxListResource) {
+                            if (!cb.isSelected()) {
+                                cb.setDisable(true);
+                            }
+                        }
+                    }
+                } else {
+                    if (activeCount == finalMaxCount) {
+                        for (CheckBox cb : checkBoxListResource) {
+                            if (!cb.isDisable() && !cb.isSelected())
+                                chosenResources.remove(cb);
+                        }
+                        // re-enable CheckBoxes
+                        for (CheckBox cb : checkBoxListResource) {
+                            cb.setDisable(false);
+                        }
+                    }
+                    activeCount--;
+                }
+            }
+        };
+
+        for (int in = 0; in < 4; in++) {
+            CheckBox checkBox = new CheckBox();
+            checkBox.setLayoutY(160);
+            checkBox.setLayoutX(in*50 + 15);
+            checkBox.selectedProperty().addListener(listener2);
+            checkBoxListResource.add(checkBox);
+            rightPane.getChildren().add(checkBox);
+        }
+
+        Button activeProductionButton = new Button("Active production");
+        activeProductionButton.setOnAction(e->{
+            if (!checkBoxSelected.isEmpty() && chosenStructures != null && !chosenResources.isEmpty()) {
+                int index = checkBoxListCard.indexOf(checkBoxSelected.get(0));
+                String cardID = playerBoard.getLeaderCards().get(index);
+                String resource = resources[checkBoxListResource.indexOf(chosenResources.get(0))];
+                controller.sendMessage(new MessageActiveLeaderCardProduction(playerBoard.getNickname(), cardID, chosenStructures[0], resource));
+            }
+            else
+                showErrorMessage("Select a Leader card");
+        });
+        activeProductionButton.setLayoutX(10);
+        activeProductionButton.setLayoutY(190);
+        rightPane.getChildren().add(activeProductionButton);
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setLeft(leaderCardPane);
+        borderPane.setRight(rightPane);
+
+        stage1.setScene(new Scene(borderPane));
+        stage1.setTitle("Active Leader card production");
         stage1.show();
     }
 
@@ -1245,9 +1583,8 @@ public class SceneLauncher {
 
         Pane pane = new Pane();
         ImageView devCardView = null;
-        if (playerBoard.getCurrentDevCardToBuy() != null) {
+        if (playerBoard.getCurrentDevCardToBuy() != null)
             devCardView = new ImageView(new Image("front/" + playerBoard.getCurrentDevCardToBuy() + ".png"));
-        }
         else if (playerBoard.getActivedDevCardProd() != null)
             devCardView = new ImageView(new Image("front/" + playerBoard.getActivedDevCardProd() + ".png"));
 
@@ -1404,7 +1741,7 @@ public class SceneLauncher {
         borderPane.setRight(grid);
 
         payResourcesStage.setScene(new Scene(borderPane));
-        payResourcesStage.setTitle("Pay resources to buy the Development card");
+        payResourcesStage.setTitle("Pay resources");
         payResourcesStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         payResourcesStage.show();
     }
@@ -1767,8 +2104,26 @@ public class SceneLauncher {
         ImageView[][] devCardsDeckView = new ImageView[3][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                if (playerBoard.getDevCardDeck()[i][j][0] == null)
-                    devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png"));
+                if (playerBoard.getDevCardDeck()[i][j][0] == null) {
+                    if(i==0){
+                        if(j==0) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-33-1.png"));
+                        else if(j==1) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-35-1.png"));
+                        else if (j==2) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-36-1.png"));
+                        else if(j==3) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-34-1.png"));
+                    }
+                    else if(i==1){
+                        if(j==0) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-17-1.png"));
+                        else if(j==1) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-19-1.png"));
+                        else if (j==2) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-20-1.png"));
+                        else if(j==3) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-18-1.png"));
+                    }
+                    else if(i==2){
+                        if(j==0) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-1-1.png"));
+                        else if(j==1) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-3-1.png"));
+                        else if (j==2) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-4-1.png"));
+                        else if(j==3) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-2-1.png"));
+                    }
+                }
                 else
                     devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
                 devCardsDeckView[i][j].setFitWidth(120);
@@ -1886,7 +2241,6 @@ public class SceneLauncher {
         ImageView[][] devCardsDeckView = new ImageView[3][4];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                System.out.print(playerBoard.getDevCardDeck()[i][j][0]+"\t");
                 if(playerBoard.getDevCardDeck()[i][j][0]!=null) {
                     devCardsDeckView[i][j] = new ImageView(new Image("front/" + playerBoard.getDevCardDeck()[i][j][0] + ".png"));
                 }
@@ -1910,14 +2264,13 @@ public class SceneLauncher {
                         else if(j==3) devCardsDeckView[i][j] = new ImageView(new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-2-1.png"));
                     }
                 }
-                    devCardsDeckView[i][j].setFitWidth(150);
+                    devCardsDeckView[i][j].setFitWidth(130);
                     devCardsDeckView[i][j].setPreserveRatio(true);
-                    devCardsDeckView[i][j].setX(j * 155 + 5);
-                    devCardsDeckView[i][j].setY(i * 235 + 5);
+                    devCardsDeckView[i][j].setX(j * 135 + 5);
+                    devCardsDeckView[i][j].setY(i * 200 + 5);
                     devCardsDeckPane.getChildren().add(devCardsDeckView[i][j]);
 
             }
-            System.out.print("\n");
         }
 
         newStage.setScene(new Scene(devCardsDeckPane));

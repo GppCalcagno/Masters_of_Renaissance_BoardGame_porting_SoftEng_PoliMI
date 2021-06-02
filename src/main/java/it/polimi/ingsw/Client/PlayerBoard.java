@@ -196,8 +196,8 @@ public class PlayerBoard {
             this.strongbox=strongbox;
         }
         //this message comes only after paying for a devcard
-        currentDevCardToBuy="";
-        activedDevCardProd="";
+        currentDevCardToBuy=null;
+        activedDevCardProd=null;
     }
 
 

@@ -94,7 +94,6 @@ public class Gui implements ViewInterface{
         if (playerBoard.isMyturn()) {
             if (playerBoard.getPlayerList().indexOf(playerBoard.getCurrentPlayer()) == 0) {
                 Platform.runLater(() -> {
-                    sceneLauncher.getStage().setFullScreen(true);
                     sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
                 });
             }
@@ -113,7 +112,11 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateActivatedDevCardProduction(String devCard) {
-
+        if (playerBoard.isMyturn()){
+            Platform.runLater(() -> {
+                sceneLauncher.payResourcesScene();
+            });
+        }
     }
 
     @Override
@@ -132,7 +135,8 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateFaithMarker() {
-        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        if (playerBoard.isMyturn())
+            Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override
@@ -142,7 +146,8 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateUpdateResources() {
-        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        if (playerBoard.isMyturn())
+            Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override
