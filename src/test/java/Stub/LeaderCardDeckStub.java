@@ -16,6 +16,8 @@ import it.polimi.ingsw.model.requirements.RequestedTypeDevelopmentCards;
 import it.polimi.ingsw.model.requirements.Requirements;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -42,16 +44,20 @@ public class LeaderCardDeckStub extends LeaderCardDeck {
                 .registerTypeAdapterFactory(resourcesRuntimeTypeAdapterFactory)
                 .create();
 
-        String discount = Files.readString(Paths.get("src/main/resources/cardJSON/leaderCard/VettDiscountLeader_LeaderCards.json"));
+        Reader discount = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettDiscountLeader_LeaderCards.json"));
+        //String discount = Files.readString(Paths.get("cardJSON/leaderCard/VettDiscountLeader_LeaderCards.json"));
         DiscountLeader[] discountLeaders = gson.fromJson(discount, DiscountLeader[].class);
 
-        String chest = Files.readString(Paths.get("src/main/resources/cardJSON/leaderCard/VettChestLeader_LeaderCards.json"));
+        Reader chest = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettChestLeader_LeaderCards.json"));
+        //String chest = Files.readString(Paths.get("cardJSON/leaderCard/VettChestLeader_LeaderCards.json"));
         ChestLeader[] chestLeaders = gson.fromJson(chest, ChestLeader[].class);
 
-        String production = Files.readString(Paths.get("src/main/resources/cardJSON/leaderCard/VettProductionLeader_LeaderCards.json"));
+        Reader production = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettProductionLeader_LeaderCards.json"));
+        //String production = Files.readString(Paths.get("cardJSON/leaderCard/VettProductionLeader_LeaderCards.json"));
         ProductionLeader[] productionLeaders = gson.fromJson(production, ProductionLeader[].class);
 
-        String transformation = Files.readString(Paths.get("src/main/resources/cardJSON/leaderCard/VettTrasformationMarbleLeader_LeaderCards.json"));
+        Reader transformation = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettTrasformationMarbleLeader_LeaderCards.json"));
+        //String transformation = Files.readString(Paths.get("cardJSON/leaderCard/VettTrasformationMarbleLeader_LeaderCards.json"));
         TrasformationMarbleLeader[] transformationMarbleLeaders = gson.fromJson(transformation, TrasformationMarbleLeader[].class);
 
         this.leaderCardList.addAll(Arrays.asList(discountLeaders));

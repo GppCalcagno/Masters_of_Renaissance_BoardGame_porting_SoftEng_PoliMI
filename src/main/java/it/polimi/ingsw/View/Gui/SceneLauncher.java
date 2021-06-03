@@ -1251,45 +1251,47 @@ public class SceneLauncher {
     public void activeProductions() {
         Stage stage1 = new Stage();
 
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setHgap(10);
-        grid.setVgap(8);
+        Pane borderPane = new Pane();
 
-        Label labelChoice = new Label("Choose the type of production: ");
-        labelChoice.setFont(new Font("Arial", 16));
-        labelChoice.setTextFill(Color.WHITE);
-        GridPane.setConstraints(labelChoice, 0, 0);
+        HBox textBox = new HBox();
+        Text choiceText = new Text("Choose the type of production: ");
+        choiceText.setFont(new Font("Arial", 16));
+        choiceText.setStroke(Color.WHITE);
+        textBox.getChildren().add(choiceText);
+        borderPane.getChildren().add(textBox);
+
+        HBox buttonsBox = new HBox();
+        buttonsBox.setSpacing(10);
+        buttonsBox.setLayoutX(10);
+        buttonsBox.setLayoutY(40);
 
         Button baseProductionButton = new Button("Base Production");
-        GridPane.setConstraints(baseProductionButton, 0, 1);
+        buttonsBox.getChildren().add(baseProductionButton);
         baseProductionButton.setOnAction(e->{
             baseProductionScene(stage1);
         });
 
         Button devCardProductionButton = new Button("Development Card\nProduction");
+        buttonsBox.getChildren().add(devCardProductionButton);
         devCardProductionButton.setOnAction(e->{
             devCardProductionScene(stage1);
         });
 
-        GridPane.setConstraints(devCardProductionButton, 1, 1);
-
         Button leaderCardProductionButton = new Button("Leader Card\nProduction");
+        buttonsBox.getChildren().add(leaderCardProductionButton);
         leaderCardProductionButton.setOnAction(e->{
             leaderCardProductionScene(stage1);
         });
 
-        GridPane.setConstraints(leaderCardProductionButton, 2, 1);
-        grid.getChildren().addAll(labelChoice, baseProductionButton, devCardProductionButton, leaderCardProductionButton);
+        borderPane.getChildren().add(buttonsBox);
 
         Button endProductionButton = new Button("End production");
         endProductionButton.setOnAction(e->controller.sendMessage(new MessageEndProduction(playerBoard.getNickname())));
-        GridPane.setConstraints(endProductionButton, 0, 2);
-        grid.getChildren().add(endProductionButton);
+        borderPane.getChildren().add(endProductionButton);
 
-        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Scene scene = new Scene(grid);
+        Scene scene = new Scene(borderPane);
         stage1.setScene(scene);
         stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
         stage1.setTitle("Active Production");

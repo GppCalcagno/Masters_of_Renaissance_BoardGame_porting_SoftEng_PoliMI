@@ -167,7 +167,13 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateStateLeaderAction(String leaderCard, boolean state) {
-
+        if (playerBoard.isMyturn()) {
+            String decision;
+            if (state)
+                decision = "activated";
+            else decision = "discarded";
+            Platform.runLater(() -> sceneLauncher.showMessage("The card has been " + decision));
+        }
     }
 
     @Override

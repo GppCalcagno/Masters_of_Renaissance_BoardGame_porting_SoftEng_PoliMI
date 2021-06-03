@@ -3,9 +3,12 @@ package Stub;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.model.card.DevelopmentCard;
+import it.polimi.ingsw.model.card.LeaderAction;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,13 +23,16 @@ public class DevCardsStub {
 
         Gson gson = new GsonBuilder().create();
 
-        String devCards1gin = Files.readString(Paths.get("src/test/java/Stub/ExampleCardsJSON/DevCards1g.json"));
+        Reader devCards1gin = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/ExampleCardsJSON/DevCards1g.json"));
+        //String devCards1gin = Files.readString(Paths.get("cardJSON/ExampleCardsJSON/DevCards1g.json"));
         DevelopmentCard devCards1g = gson.fromJson(devCards1gin, DevelopmentCard.class);
 
-        String devCards2pin = Files.readString(Paths.get("src/test/java/Stub/ExampleCardsJSON/DevCards2p.json"));
+        Reader devCards2pin = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/ExampleCardsJSON/DevCards2p.json"));
+        //String devCards2pin = Files.readString(Paths.get("cardJSON/ExampleCardsJSON/DevCards2p.json"));
         DevelopmentCard devCards2p = gson.fromJson(devCards2pin, DevelopmentCard.class);
 
-        String devCards3bin = Files.readString(Paths.get("src/test/java/Stub/ExampleCardsJSON/DevCards3b.json"));
+        Reader devCards3bin = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/ExampleCardsJSON/DevCards3b.json"));
+        //String devCards3bin = Files.readString(Paths.get("cardJSON/ExampleCardsJSON/DevCards3b.json"));
         DevelopmentCard devCards3b = gson.fromJson(devCards3bin, DevelopmentCard.class);
 
         cardList.add(devCards1g);
