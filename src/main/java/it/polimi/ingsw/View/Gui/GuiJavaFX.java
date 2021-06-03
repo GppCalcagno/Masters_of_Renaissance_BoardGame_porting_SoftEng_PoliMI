@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 
 public class GuiJavaFX extends Application {
 
+
     @Override
     public void start(Stage stage) {
         /*stage.setMinHeight(300);
