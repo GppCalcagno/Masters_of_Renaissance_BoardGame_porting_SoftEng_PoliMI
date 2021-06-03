@@ -222,7 +222,7 @@ public class JavaSerUpdateCreator implements UpdateCreator {
        MessageReconnect message= new MessageReconnect(player.getNickname(),stringPlayerList, currentPlayer.getNickname(),
                devCardDeckConvert(devCardsDeck),marketTrayConvert(marketTray),remainingMarble.toString(),stringMarbleBuffer,warehouseConvert(player.getWarehouse()),
                extrachestConvert(player.getWarehouse().getLeaderCardEffect()),player.getStrongbox().getChest(),stringPlayersPosition,stringPlayersPopFavoriteTile, blackCrossToken,
-               stringLeadercard, slotDevCardConvert(player.getSlotDevCards()),stringCurrentDevCardToBuy,stringCurrentDevCardToProduce);
+               stringLeadercard, slotDevCardConvert(player.getSlotDevCards()),stringCurrentDevCardToBuy,stringCurrentDevCardToProduce,player.getInitialResources());
        sender.sendBroadcastMessage(message);
     }
 

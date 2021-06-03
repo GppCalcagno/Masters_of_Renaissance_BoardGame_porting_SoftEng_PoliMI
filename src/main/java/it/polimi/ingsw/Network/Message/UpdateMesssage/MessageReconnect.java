@@ -30,6 +30,7 @@ public class MessageReconnect extends Message {
 
     private String activeDevCardToBuy;
     private String activeDevCardProd;
+    private int currentInitialResourcesToChoose;
 
     private String lastTokerUsed;
     private String lastTokenUsedColor;
@@ -41,7 +42,7 @@ public class MessageReconnect extends Message {
             Map<String, Integer> strongbox, Map<String, Integer> playersPosition,
             Map<String, boolean[]> playersPopFavoriteTile, int blackcrosstoken,
             List<String> leaderCards, String[][] slotDevCards, String activeDevCardToBuy,
-            String activeDevCardProd) {
+            String activeDevCardProd,int currentInitialResourcesToChoose) {
 
 
 
@@ -62,6 +63,7 @@ public class MessageReconnect extends Message {
         this.slotDevCards = slotDevCards;
         this.activeDevCardToBuy = activeDevCardToBuy;
         this.activeDevCardProd = activeDevCardProd;
+        this.currentInitialResourcesToChoose=currentInitialResourcesToChoose;
     }
 
     @Override
@@ -71,7 +73,7 @@ public class MessageReconnect extends Message {
         if(view.getPlayerBoard().getNickname().equals(getNickname())){
             view.getPlayerBoard().resume( playersNameList, currentPlayer, devCardDeck,  marketTray,
                     remainingMarble, marbleBuffer, warehouse,  extraChest, strongbox,  playersPosition,
-                    playersPopFavoriteTile, blackcrosstoken, leaderCards, slotDevCards,  activeDevCardToBuy, activeDevCardProd);
+                    playersPopFavoriteTile, blackcrosstoken, leaderCards, slotDevCards,  activeDevCardToBuy, activeDevCardProd, currentInitialResourcesToChoose);
         }
         view.onResume(getNickname());
 

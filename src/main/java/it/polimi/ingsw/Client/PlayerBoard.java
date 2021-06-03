@@ -49,6 +49,7 @@ public class PlayerBoard {
     private List<String> marbleBuffer;
     private String activedDevCardProd;
     private String currentDevCardToBuy;
+    private int currentInitialResourcesToChoose;
 
     private String playerWinner;
     private Map<String, Integer> playersPoints;
@@ -83,6 +84,11 @@ public class PlayerBoard {
 
         developmentCardMap = new HashMap<>();
         leaderActionMap = new HashMap<>();
+
+        currentInitialResourcesToChoose=0;
+        currentDevCardToBuy=null;
+        activedDevCardProd=null;
+
         try {
             initializeLeaderCardMap();
             initializeDevCardMap();
@@ -282,7 +288,7 @@ public class PlayerBoard {
             String remainingMarble,List<String> marbleBuffer, String[][] warehouse, Map<String,
             Integer> extraChest, Map<String, Integer> strongbox, Map<String, Integer> playersPosition,
             Map<String, boolean[]> playersPopFavoriteTile, int blackcrosstoken, List<String> leaderCards, String[][] slotDevCards, String activeDevCardToBuy,
-            String activeDevCardProd) {
+            String activeDevCardProd, int currentInitialResourcesToChoose) {
 
         this.playerList=playersNameList;
         this.currentPlayer=currentPlayer;
@@ -304,6 +310,7 @@ public class PlayerBoard {
 
         this.activedDevCardProd=activeDevCardProd;
         this.currentDevCardToBuy=activeDevCardToBuy;
+        this.currentInitialResourcesToChoose=currentInitialResourcesToChoose;
 
         this.blackCrossToken=blackcrosstoken;
     }
@@ -522,6 +529,10 @@ public class PlayerBoard {
 
     public String getCurrentDevCardToBuy() {
         return currentDevCardToBuy;
+    }
+
+    public int getCurrentInitialResourcesToChoose() {
+        return currentInitialResourcesToChoose;
     }
 
     public OtherPlayer getOtherPlayer() {
