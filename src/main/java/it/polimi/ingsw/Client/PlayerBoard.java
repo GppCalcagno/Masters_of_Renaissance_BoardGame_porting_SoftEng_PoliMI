@@ -96,6 +96,7 @@ public class PlayerBoard {
             initializeDevCardMap();
         } catch (IOException ioException) {
             System.out.println("CAN'T LOAD CARD! CHECH GSON FILE");
+            ioException.printStackTrace();
             System.exit(0);
         }
         marbleBuffer = new ArrayList<>();
@@ -325,63 +326,63 @@ public class PlayerBoard {
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();
 
-        String devCards3g = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3green.json"));
-        DevelopmentCard[] devCards3gvet = gson.fromJson(devCards3g, DevelopmentCard[].class);
+        Reader reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3green.json"));
+        DevelopmentCard[] devCards3gvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc3g : devCards3gvet) {
             developmentCardMap.put(dc3g.getID(), dc3g);
         }
-        String devCards3b = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3blue.json"));
-        DevelopmentCard[] devCards3bvet = gson.fromJson(devCards3b, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3blue.json"));
+        DevelopmentCard[] devCards3bvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc3b : devCards3bvet) {
             developmentCardMap.put(dc3b.getID(), dc3b);
         }
-        String devCards3y = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3yellow.json"));
-        DevelopmentCard[] devCards3yvet = gson.fromJson(devCards3y, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3yellow.json"));
+        DevelopmentCard[] devCards3yvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc3y : devCards3yvet) {
             developmentCardMap.put(dc3y.getID(), dc3y);
         }
-        String devCards3p = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3purple.json"));
-        DevelopmentCard[] devCards3pvet = gson.fromJson(devCards3p, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3purple.json"));
+        DevelopmentCard[] devCards3pvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc3p : devCards3pvet) {
             developmentCardMap.put(dc3p.getID(), dc3p);
         }
-        String devCards2g = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2green.json"));
-        DevelopmentCard[] devCards2gvet = gson.fromJson(devCards2g, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2green.json"));
+        DevelopmentCard[] devCards2gvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc2g : devCards2gvet) {
             developmentCardMap.put(dc2g.getID(), dc2g);
         }
-        String devCards2b = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2blue.json"));
-        DevelopmentCard[] devCards2bvet = gson.fromJson(devCards2b, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2blue.json"));
+        DevelopmentCard[] devCards2bvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc2b : devCards2bvet) {
             developmentCardMap.put(dc2b.getID(), dc2b);
         }
-        String devCards2y = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2yellow.json"));
-        DevelopmentCard[] devCards2yvet = gson.fromJson(devCards2y, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2yellow.json"));
+        DevelopmentCard[] devCards2yvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc2y : devCards2yvet) {
             developmentCardMap.put(dc2y.getID(), dc2y);
         }
-        String devCards2p = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2purple.json"));
-        DevelopmentCard[] devCards2pvet = gson.fromJson(devCards2p, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2purple.json"));
+        DevelopmentCard[] devCards2pvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc2p : devCards2pvet) {
             developmentCardMap.put(dc2p.getID(), dc2p);
         }
-        String devCards1g = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1green.json"));
-        DevelopmentCard[] devCards1gvet = gson.fromJson(devCards1g, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1green.json"));
+        DevelopmentCard[] devCards1gvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc1g : devCards1gvet) {
             developmentCardMap.put(dc1g.getID(), dc1g);
         }
-        String devCards1b = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1blue.json"));
-        DevelopmentCard[] devCards1bvet = gson.fromJson(devCards1b, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1blue.json"));
+        DevelopmentCard[] devCards1bvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc1b : devCards1bvet) {
             developmentCardMap.put(dc1b.getID(), dc1b);
         }
-        String devCards1y = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1yellow.json"));
-        DevelopmentCard[] devCards1yvet = gson.fromJson(devCards1y, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1yellow.json"));
+        DevelopmentCard[] devCards1yvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc1y : devCards1yvet) {
             developmentCardMap.put(dc1y.getID(), dc1y);
         }
-        String devCards1p = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1purple.json"));
-        DevelopmentCard[] devCards1pvet = gson.fromJson(devCards1p, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1purple.json"));
+        DevelopmentCard[] devCards1pvet = gson.fromJson(reader, DevelopmentCard[].class);
         for (DevelopmentCard dc1p : devCards1pvet) {
             developmentCardMap.put(dc1p.getID(), dc1p);
         }

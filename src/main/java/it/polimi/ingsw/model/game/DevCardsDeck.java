@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.exceptions.GameFinishedException;
 import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -33,8 +35,8 @@ public class DevCardsDeck {
 
         Gson gson = new GsonBuilder().create();
 
-        String devCards3g = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3green.json"));
-        DevelopmentCard[] devCards3gvet = gson.fromJson(devCards3g, DevelopmentCard[].class);
+        Reader reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3green.json"));
+        DevelopmentCard[] devCards3gvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards3glist = Arrays.asList(devCards3gvet);
         Collections.shuffle(devCards3glist);
         devCards3glist.toArray(devCards3gvet);
@@ -42,8 +44,8 @@ public class DevCardsDeck {
             developmentCardDeck[0][0][z] = devCards3gvet[z];
         }
 
-        String devCards3b = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3blue.json"));
-        DevelopmentCard[] devCards3bvet = gson.fromJson(devCards3b, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3blue.json"));
+        DevelopmentCard[] devCards3bvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards3blist = Arrays.asList(devCards3bvet);
         Collections.shuffle(devCards3blist);
         devCards3blist.toArray(devCards3bvet);
@@ -51,8 +53,8 @@ public class DevCardsDeck {
             developmentCardDeck[0][1][z] = devCards3bvet[z];
         }
 
-        String devCards3y = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3yellow.json"));
-        DevelopmentCard[] devCards3yvet = gson.fromJson(devCards3y, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3yellow.json"));
+        DevelopmentCard[] devCards3yvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards3ylist = Arrays.asList(devCards3yvet);
         Collections.shuffle(devCards3ylist);
         devCards3ylist.toArray(devCards3yvet);
@@ -60,8 +62,8 @@ public class DevCardsDeck {
             developmentCardDeck[0][2][z] = devCards3yvet[z];
         }
 
-        String devCards3p = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level3purple.json"));
-        DevelopmentCard[] devCards3pvet = gson.fromJson(devCards3p, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level3purple.json"));
+        DevelopmentCard[] devCards3pvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards3plist = Arrays.asList(devCards3pvet);
         Collections.shuffle(devCards3plist);
         devCards3plist.toArray(devCards3pvet);
@@ -69,8 +71,8 @@ public class DevCardsDeck {
             developmentCardDeck[0][3][z] = devCards3pvet[z];
         }
 
-        String devCards2g = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2green.json"));
-        DevelopmentCard[] devCards2gvet = gson.fromJson(devCards2g, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2green.json"));
+        DevelopmentCard[] devCards2gvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards2glist = Arrays.asList(devCards2gvet);
         Collections.shuffle(devCards2glist);
         devCards2glist.toArray(devCards2gvet);
@@ -78,8 +80,8 @@ public class DevCardsDeck {
             developmentCardDeck[1][0][z] = devCards2gvet[z];
         }
 
-        String devCards2b = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2blue.json"));
-        DevelopmentCard[] devCards2bvet = gson.fromJson(devCards2b, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2blue.json"));
+        DevelopmentCard[] devCards2bvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards2blist = Arrays.asList(devCards2bvet);
         Collections.shuffle(devCards2blist);
         devCards2blist.toArray(devCards2bvet);
@@ -87,8 +89,8 @@ public class DevCardsDeck {
             developmentCardDeck[1][1][z] = devCards2bvet[z];
         }
 
-        String devCards2y = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2yellow.json"));
-        DevelopmentCard[] devCards2yvet = gson.fromJson(devCards2y, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2yellow.json"));
+        DevelopmentCard[] devCards2yvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards2ylist = Arrays.asList(devCards2yvet);
         Collections.shuffle(devCards2ylist);
         devCards2ylist.toArray(devCards2yvet);
@@ -96,8 +98,8 @@ public class DevCardsDeck {
             developmentCardDeck[1][2][z] = devCards2yvet[z];
         }
 
-        String devCards2p = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level2purple.json"));
-        DevelopmentCard[] devCards2pvet = gson.fromJson(devCards2p, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level2purple.json"));
+        DevelopmentCard[] devCards2pvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards2plist = Arrays.asList(devCards2pvet);
         Collections.shuffle(devCards2plist);
         devCards2plist.toArray(devCards2pvet);
@@ -105,8 +107,8 @@ public class DevCardsDeck {
             developmentCardDeck[1][3][z] = devCards2pvet[z];
         }
 
-        String devCards1g = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1green.json"));
-        DevelopmentCard[] devCards1gvet = gson.fromJson(devCards1g, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1green.json"));
+        DevelopmentCard[] devCards1gvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards1glist = Arrays.asList(devCards1gvet);
         Collections.shuffle(devCards1glist);
         devCards1glist.toArray(devCards1gvet);
@@ -114,8 +116,8 @@ public class DevCardsDeck {
             developmentCardDeck[2][0][z] = devCards1gvet[z];
         }
 
-        String devCards1b = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1blue.json"));
-        DevelopmentCard[] devCards1bvet = gson.fromJson(devCards1b, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1blue.json"));
+        DevelopmentCard[] devCards1bvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards1blist = Arrays.asList(devCards1bvet);
         Collections.shuffle(devCards1blist);
         devCards1blist.toArray(devCards1bvet);
@@ -123,8 +125,8 @@ public class DevCardsDeck {
             developmentCardDeck[2][1][z] = devCards1bvet[z];
         }
 
-        String devCards1y = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1yellow.json"));
-        DevelopmentCard[] devCards1yvet = gson.fromJson(devCards1y, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1yellow.json"));
+        DevelopmentCard[] devCards1yvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards1ylist = Arrays.asList(devCards1yvet);
         Collections.shuffle(devCards1ylist);
         devCards1ylist.toArray(devCards1yvet);
@@ -132,8 +134,8 @@ public class DevCardsDeck {
             developmentCardDeck[2][2][z] = devCards1yvet[z];
         }
 
-        String devCards1p = Files.readString(Paths.get("src/main/resources/cardJSON/developmentCard/devCards_level1purple.json"));
-        DevelopmentCard[] devCards1pvet = gson.fromJson(devCards1p, DevelopmentCard[].class);
+        reader= new InputStreamReader(DevelopmentCard.class.getResourceAsStream("/cardJSON/developmentCard/devCards_level1purple.json"));
+        DevelopmentCard[] devCards1pvet = gson.fromJson(reader, DevelopmentCard[].class);
         List<DevelopmentCard> devCards1plist = Arrays.asList(devCards1pvet);
         Collections.shuffle(devCards1plist);
         devCards1plist.toArray(devCards1pvet);
