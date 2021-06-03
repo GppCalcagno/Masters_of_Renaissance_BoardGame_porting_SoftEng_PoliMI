@@ -6,7 +6,7 @@
 
   <groupId>it.polimi.ingsw</groupId>
   <artifactId>AM16</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 
   <name>AM16</name>
 
@@ -15,6 +15,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+
   <!-- junit 5 -->
   <dependencies>
 
@@ -95,8 +96,7 @@
     </pluginManagement>
 
 
-
-      <plugins>
+    <plugins>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
@@ -111,7 +111,7 @@
           <artifactId>javafx-maven-plugin</artifactId>
           <version>0.0.4</version>
           <configuration>
-            <mainClass>it.polimi.ingsw.View.Gui.GuiJavaFX</mainClass>
+            <mainClass>it.polimi.ingsw.ClientAPP</mainClass>
           </configuration>
         </plugin>
 
@@ -167,11 +167,6 @@
                     <mainClass>it.polimi.ingsw.ClientAPP</mainClass>
                   </transformer>
                 </transformers>
-                <artifactSet>
-                  <excludes>
-                    <exclude>org.openjfx:*</exclude>
-                  </excludes>
-                </artifactSet>
                 <filters>
                   <filter>
                     <artifact>*:*</artifact>
