@@ -995,6 +995,17 @@ public class Game {
         return null;
     }
 
+    public void onReqOtherPlayer(String name){
+        int i=0;
+
+        while (i<playersList.size() && !playersList.get(i).getNickname().toUpperCase(Locale.ROOT).equals(name)) i++;
+
+        if(i<playersList.size() && playersList.get(i).getNickname().toUpperCase(Locale.ROOT).equals(name))
+            update.onReqOtherPlayer(currentPlayer,playersList.get(i));
+        else
+            update.onUpdateError(currentPlayer.getNickname(),"There is no player with that name!");
+    }
+
     /**
      * This method adds a Player to playersList
      * @param player that is to add to the players' list
@@ -1047,9 +1058,7 @@ public class Game {
         return 0;
     }
 
-    public void increaseLorenzoFaithtrack() throws ActiveVaticanReportException {
-
-    }
+    public void increaseLorenzoFaithtrack() throws ActiveVaticanReportException {}
 
     public void playLorenzoTurn () throws ActiveVaticanReportException {
     }

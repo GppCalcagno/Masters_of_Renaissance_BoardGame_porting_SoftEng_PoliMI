@@ -165,6 +165,9 @@ public class GameController {
         }
     }
 
+    public void onReqOtherPlayer(String otherPlayer){
+        game.onReqOtherPlayer(otherPlayer);
+    }
 
 
     public void onResumeRequest(Player player){

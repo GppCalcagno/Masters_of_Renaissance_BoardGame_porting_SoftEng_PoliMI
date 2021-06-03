@@ -50,10 +50,6 @@ public class Gui implements ViewInterface{
     }
 
     @Override
-    public void init() {
-    }
-
-    @Override
     public void onUpdateStartGame() {
         if (playerBoard.isMyturn()) {
             Platform.runLater(() -> {
@@ -220,7 +216,7 @@ public class Gui implements ViewInterface{
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
-            sceneLauncher.getStage().setScene(sceneLauncher.showMessage("Wait for other players"));
+            sceneLauncher.getStage().setScene(sceneLauncher.showMessage(message));
         });
     }
 
@@ -287,14 +283,11 @@ public class Gui implements ViewInterface{
     }
 
     @Override
-    public PlayerBoard getPlayerBoard() {
-        return playerBoard;
+    public void showOtherPlayer(){
     }
 
     @Override
-    public ClientController getController() {
-        return clientController;
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
     }
-
-
 }

@@ -38,10 +38,7 @@ public class JavaSerUpdateCreator implements UpdateCreator {
 
     @Override
     public void onUpdateInitialLeaderCards (Player player, List<LeaderAction> leaderActionList) {
-        List<String> stringList = new ArrayList<>();
-        for (LeaderAction l : leaderActionList) {
-            stringList.add(l.getID());
-        }
+        List<String> stringList = leaderBoxConvert(leaderActionList);
         MessageUpdateInitialLeaderCards message = new MessageUpdateInitialLeaderCards(player.getNickname(), stringList);
         sender.sendtoPlayer(player.getNickname(), message);
     }
@@ -57,10 +54,7 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         Map<String,List<String>> stringleaderCardsToChoose= new HashMap<>();
         List<String> stringPlayerList= new ArrayList<>();
         for(Player p: playersList){
-            List<String> stringLeaderCard= new ArrayList<>();
-            for (LeaderAction card: p.getLeaderActionBox()){
-                stringLeaderCard.add(card.getID());
-            }
+            List<String> stringLeaderCard= leaderBoxConvert(p.getLeaderActionBox());
             stringleaderCardsToChoose.put(p.getNickname(),stringLeaderCard);
             stringPlayerList.add(p.getNickname());
         }
@@ -214,12 +208,8 @@ public class JavaSerUpdateCreator implements UpdateCreator {
        for(Marbles marbles: player.getWarehouse().getBuffer()){
            stringMarbleBuffer.add(marbles.toString());
        }
-
-       List<String> stringLeadercard= new ArrayList<>();
-       //convertLeaderCard
-       for(LeaderAction card: player.getLeaderActionBox()){
-           stringLeadercard.add(card.getID());
-       }
+        //convertLeaderCard
+       List<String> stringLeadercard= leaderBoxConvert(player.getLeaderActionBox());
 
        String stringCurrentDevCardToBuy="";
        String stringCurrentDevCardToProduce="";
@@ -250,6 +240,19 @@ public class JavaSerUpdateCreator implements UpdateCreator {
     @Override
     public void onRequestNumPlayer(){
         sender.sendBroadcastMessage(new MessageRequestNumPlayers());
+    }
+
+    @Override
+    public void onReqOtherPlayer(Player currentPlayer, Player player){
+        String othername= player.getNickname();
+        String[][] warehouse= warehouseConvert(player.getWarehouse());
+        Map<String,Integer> extrachest=extrachestConvert(player.getWarehouse().getLeaderCardEffect());
+        Map<String,Integer> strongbox=player.getStrongbox().getChest();
+        String [][] slotDevCard= slotDevCardConvert(player.getSlotDevCards());
+
+        List<String> leadercards= leaderBoxConvert(player.getLeaderActionBox());
+        MessageUpdateOtherPlayer message= new MessageUpdateOtherPlayer("server",othername,warehouse,extrachest,strongbox,leadercards,slotDevCard);
+        sender.sendtoPlayer(currentPlayer.getNickname(),message);
     }
 
 
@@ -329,5 +332,13 @@ public class JavaSerUpdateCreator implements UpdateCreator {
             }
         }
         return stringdevCardDeck;
+    }
+
+    private List<String> leaderBoxConvert(List<LeaderAction> leaderActionBox){
+        List<String> leadercards= new ArrayList<>();
+        for (LeaderAction card: leaderActionBox){
+            leadercards.add(card.getID());
+        }
+        return leadercards;
     }
 }

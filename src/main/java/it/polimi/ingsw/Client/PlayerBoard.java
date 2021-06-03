@@ -57,8 +57,9 @@ public class PlayerBoard {
     private String lastTokenUsedColor; //only for singleplayer
     private int blackCrossToken; //only for singleplayer
 
-    Map<String, DevelopmentCard> developmentCardMap;
-    Map<String, LeaderAction> leaderActionMap;
+    private OtherPlayer otherPlayer;
+    private Map<String, DevelopmentCard> developmentCardMap;
+    private Map<String, LeaderAction> leaderActionMap;
 
     public PlayerBoard () {
         playerList= new ArrayList<>();
@@ -90,6 +91,7 @@ public class PlayerBoard {
             System.exit(0);
         }
         marbleBuffer = new ArrayList<>();
+        otherPlayer=null;
     }
 
     public void setNickname(String name){
@@ -304,12 +306,12 @@ public class PlayerBoard {
         this.currentDevCardToBuy=activeDevCardToBuy;
 
         this.blackCrossToken=blackcrosstoken;
-
     }
 
-
-
-
+    public void setOtherPlayer(String name, String[][] warehouse, Map<String, Integer> extrachest, Map<String, Integer> strongbox, List<String> leaderCards, String[][] slotDevCard) {
+        System.out.println("PLAYERBOARD: SETOTHERPLAYER");
+        this.otherPlayer = new OtherPlayer(name,warehouse,extrachest,strongbox,leaderCards,slotDevCard);
+    }
 
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();
@@ -520,5 +522,9 @@ public class PlayerBoard {
 
     public String getCurrentDevCardToBuy() {
         return currentDevCardToBuy;
+    }
+
+    public OtherPlayer getOtherPlayer() {
+        return otherPlayer;
     }
 }

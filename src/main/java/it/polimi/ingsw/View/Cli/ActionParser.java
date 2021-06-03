@@ -3,6 +3,7 @@ package it.polimi.ingsw.View.Cli;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.ClientMessage.*;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageUpdateOtherPlayer;
 import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageUpdateStateLeaderAction;
 import it.polimi.ingsw.model.exceptions.MessageFormatErrorException;
 
@@ -39,6 +40,7 @@ public class ActionParser {
         if (parts[0] != "") {
             try {
                 switch (parts[0]) {
+                    case "OTHERPLAYER": otherPlayer(parts);                         break;
                     case "DISCONNECT": cli.onDisconnect();                          break;
                     case "CHOOSELEADERCARDS": chooseleadercars(parts);              break;
                     case "CHOOSERESOURCES": chooseresources(parts);                 break;
@@ -73,12 +75,15 @@ public class ActionParser {
         }
     }
 
+    private void otherPlayer(String[] parts){
+        controller.sendMessage(new MessageReqOtherPlayer(playerBoard.getNickname(),parts[1]));
+    }
+
 
     private void chooseresources(String[] parts) {
         List<String> resources= new ArrayList<>();
         for(int i=1;i<parts.length;i++){
                 resources.add(convertformat(parts[i]));
-
         }
         controller.sendMessage(new MessageChooseResourcesFirstTurn(playerBoard.getNickname(),resources));
     }
@@ -86,9 +91,6 @@ public class ActionParser {
     private void chooseleadercars(String[] parts) {
         controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), Integer.parseInt(parts[1]), Integer.parseInt(parts[2])));
     }
-
-
-
 
     public void extractMarble(String[] parts) {
             controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), parts[1].charAt(0), Integer.parseInt(parts[2])));

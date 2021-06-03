@@ -30,18 +30,13 @@ public class Cli implements ViewInterface {
 
         inThread= new Thread(new InputReader(parser));
         out = System.out;
-        init();
+        new ViewStart();
     }
 
     //only for test
     public Cli(){
         this.playerBoard= new PlayerBoard();
         out = System.out;
-    }
-
-    @Override
-    public void init(){
-        new ViewStart();
     }
 
     /**
@@ -475,6 +470,12 @@ public class Cli implements ViewInterface {
         System.out.println(playerBoard.getLastTokenUsed());
     }
 
+    @Override
+    public void showOtherPlayer(){
+        System.out.println("Player "+ playerBoard.getOtherPlayer().getName() +":\n+" +
+                "");
+    }
+
     /**
      * this method print the allowed command that the player can write from his cli
      */
@@ -537,10 +538,6 @@ public class Cli implements ViewInterface {
         return playerBoard;
     }
 
-    @Override
-    public ClientController getController() {
-        return controller;
-    }
 
     public void clearboard(){
         for(int i=0;i<15;i++){

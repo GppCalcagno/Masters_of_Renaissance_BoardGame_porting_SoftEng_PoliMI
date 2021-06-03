@@ -62,4 +62,5 @@ public interface UpdateCreator {
     void onWaitingForOtherPlayer();
 
 
+    void onReqOtherPlayer(Player currentPlayer, Player player);
 }
