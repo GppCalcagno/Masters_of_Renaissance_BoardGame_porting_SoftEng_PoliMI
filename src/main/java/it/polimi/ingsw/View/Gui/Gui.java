@@ -141,14 +141,20 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateUpdateResources() {
-        if (playerBoard.isMyturn())
-            Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        if (playerBoard.isMyturn()) {
+            sceneLauncher.getPayResourcesStage().close();
+            Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        }
     }
 
     @Override
     public void onUpdateSinglePlayerGame() {
         Platform.runLater(() -> {
-            sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+            //This exception is caught when the single player is reconnected
+            try {
+                sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+            }
+            catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {}
             sceneLauncher.showLorenzoTurn();
         });
     }
@@ -166,7 +172,8 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateStrongbox() {
-        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        if (playerBoard.isMyturn())
+            Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
 
     }
 
@@ -187,12 +194,16 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateWinnerMultiplayer() {
-
+        Platform.runLater(() -> {
+            sceneLauncher.endGameScene();
+        });
     }
 
     @Override
     public void onUpdateWinnerSinglePlayer() {
-
+        Platform.runLater(() -> {
+            sceneLauncher.endGameScene();
+        });
     }
 
     @Override
@@ -209,7 +220,82 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onResume(String name) {
+        String firstMessage;
+        String secondMessage;
 
+        if(playerBoard.getNickname().equals(name)){
+            firstMessage = "Welcome Back " + playerBoard.getNickname() + " !";
+            if(!playerBoard.getMarbleBuffer().isEmpty()){
+                Platform.runLater(() -> {
+                    sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+                });
+                secondMessage = "You have to manage the extracted Marbles";
+                Platform.runLater(() -> {
+                    sceneLauncher.resumeGameScene(firstMessage, secondMessage);
+                });
+            }
+            else {
+                if(playerBoard.getLeaderCards().size()>2 ){
+                    secondMessage = "You have to Complete Initial Card choice";
+                    Platform.runLater(() -> {
+                        sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialLeaderCards());
+                    });
+                    Platform.runLater(() -> {
+                        sceneLauncher.resumeGameScene(firstMessage, secondMessage);
+                    });
+                }
+                else {
+                    if(playerBoard.getCurrentInitialResourcesToChoose()!=0){
+                        secondMessage = "You have to Complete Initial Resources choose";
+                        Platform.runLater(() -> {
+                            sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialResources());
+                        });
+                        Platform.runLater(() -> {
+                            sceneLauncher.resumeGameScene(firstMessage, secondMessage);
+                        });
+                    }
+                    else {
+                        Platform.runLater(() -> {
+                            sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+                        });
+                        if (playerBoard.getActivedDevCardProd() != null) {
+                            secondMessage = "You have to Complete Card Production";
+                            Platform.runLater(() -> {
+                                sceneLauncher.devCardProductionScene(sceneLauncher.getPayResourcesStage());
+                            });
+                            Platform.runLater(() -> {
+                                sceneLauncher.resumeGameScene(firstMessage, secondMessage);
+                            });
+                        } else {
+                            if (playerBoard.getCurrentDevCardToBuy() != null) {
+                                secondMessage = "You have to Complete Card Purchase";
+                                Platform.runLater(() -> {
+                                    sceneLauncher.payResourcesScene();
+                                });
+                                Platform.runLater(() -> {
+                                    sceneLauncher.resumeGameScene(firstMessage, secondMessage);
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            if(!playerBoard.isMyturn()) {
+                Platform.runLater(() -> {
+                    sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+                });
+                Platform.runLater(() -> {
+                    sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
+                });
+            }
+
+            //inThread.start();
+        }
+        else {
+            Platform.runLater(() -> {
+                sceneLauncher.showMessage("PLAYER: " + name + " is now connected");
+            });
+        }
     }
 
     @Override

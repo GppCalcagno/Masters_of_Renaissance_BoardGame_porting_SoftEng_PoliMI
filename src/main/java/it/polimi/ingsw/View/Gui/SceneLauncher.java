@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,6 +17,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -134,13 +138,7 @@ public class SceneLauncher {
         grid.getChildren().addAll(nickLabel, nickname, nickButton);
         grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        Scene scene = new Scene(grid, 897, 550);
-
-        stage.setMinHeight(scene.getHeight());
-        stage.setMinWidth(scene.getWidth());
-
-
-        return scene;
+        return new Scene(grid, 897, 550);
     }
 
     public Scene askNumPlayer() {
@@ -347,6 +345,16 @@ public class SceneLauncher {
 
         Button fake = new Button("USTIII");
         fake.setOnAction(e-> controller.sendMessage(new MessageFake(playerBoard.getNickname())));
+
+        //tasto per controllo scena (poi si può togliere)
+        /*
+        fake.setOnAction(e->{
+            Stage stage1 = new Stage();
+            stage1.setScene(chooseInitialResources());
+            stage1.show();
+        });
+        */
+
         boardMain.getChildren().add(fake);
 
         HBox allBoard = new HBox();
@@ -910,9 +918,6 @@ public class SceneLauncher {
         endTurn.setLayoutX(683);
         endTurn.setOnAction(e-> controller.sendMessage(new MessageEndTurn(playerBoard.getNickname())));
 
-        if(playerBoard.isMyturn()) endTurn.setDisable(false);
-        else endTurn.setDisable(true);
-
         return endTurn;
     }
 
@@ -989,16 +994,29 @@ public class SceneLauncher {
         grid.setHgap(10);
         grid.setVgap(8);
 
-        int i = 0;
+        Label label = new Label("Choose two Leader cards: ");
+        label.setFont(new Font("Arial", 16));
+        label.setTextFill(Color.WHITE);
+        GridPane.setConstraints(label, 0, 0);
+        grid.getChildren().add(label);
+
+        //int i = 0;
+
+        HBox cardsBox = new HBox();
+        cardsBox.setSpacing(5);
+        cardsBox.setLayoutX(5);
+        cardsBox.setLayoutY(40);
 
         for (String leaderCard : playerBoard.getLeaderCards()) {
             ImageView leaderCardImgView = new ImageView(new Image("front/" + leaderCard + ".png"));
-            leaderCardImgView.setFitWidth(150);
+            leaderCardImgView.setFitWidth(160);
             leaderCardImgView.setPreserveRatio(true);
-            GridPane.setConstraints(leaderCardImgView, i, 0);
-            grid.getChildren().add(leaderCardImgView);
-            i++;
+            cardsBox.getChildren().add(leaderCardImgView);
+            //GridPane.setConstraints(leaderCardImgView, i, 1);
+            //grid.getChildren().add(leaderCardImgView);
+            //i++;
         }
+        total.getChildren().add(cardsBox);
 
         total.getChildren().add(grid);
 
@@ -1047,13 +1065,13 @@ public class SceneLauncher {
             CheckBox checkBox = new CheckBox();
             checkBoxList.add(checkBox);
             checkBox.selectedProperty().addListener(listener);
-            checkBox.setLayoutX(in*160 + 79);
-            checkBox.setLayoutY(250);
+            checkBox.setLayoutX(in*166 + 77);
+            checkBox.setLayoutY(292);
             total.getChildren().add(checkBox);
         }
 
         Button enterCards = new Button("Enter");
-        enterCards.setFont(new Font("Arial", 18));
+        enterCards.setFont(new Font("Arial", 16));
         enterCards.setTextFill(Color.BLACK);
         enterCards.setOnAction(e->{
             if (chosenCards.size() != 2) {
@@ -1065,13 +1083,13 @@ public class SceneLauncher {
                 controller.sendMessage(new MessageChooseLeaderCards(playerBoard.getNickname(), i1, i2));
             }
         });
-        enterCards.setLayoutY(285);
-        enterCards.setLayoutX(checkBoxList.get(3).getLayoutX() - 25);
+        enterCards.setLayoutY(319);
+        enterCards.setLayoutX(checkBoxList.get(3).getLayoutX() - 23);
         total.getChildren().add(enterCards);
 
         total.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        return new Scene(total, 650, 350);
+        return new Scene(total, 670, 362);
     }
 
     public Scene chooseInitialResources(){
@@ -1083,6 +1101,8 @@ public class SceneLauncher {
         grid.setVgap(8);
 
         Label label = new Label("Choose 1 resource if you are the second or the third\nplayer or 2 if you are the fourth.");
+        label.setFont(new Font("Arial", 16));
+        label.setTextFill(Color.WHITE);
         GridPane.setConstraints(label, 0, 0);
         grid.getChildren().add(label);
         pane.getChildren().add(grid);
@@ -1093,10 +1113,10 @@ public class SceneLauncher {
 
         for (String r : resources){
             ImageView resourceView = new ImageView(new Image("punchboard/" + r + ".png"));
-            resourceView.setFitWidth(50);
+            resourceView.setFitWidth(60);
             resourceView.setPreserveRatio(true);
-            resourceView.setX(i*72 + 10);
-            resourceView.setY(50);
+            resourceView.setX(i*90 + 35);
+            resourceView.setY(55);
             pane.getChildren().add(resourceView);
             i = i + 1;
         }
@@ -1150,8 +1170,8 @@ public class SceneLauncher {
 
         for (int in = 0; in < 4; in++) {
             CheckBox checkBox = new CheckBox();
-            checkBox.setLayoutY(125);
-            checkBox.setLayoutX(in*72 + 25);
+            checkBox.setLayoutY(135);
+            checkBox.setLayoutX(in*90 + 55);
             checkBox.selectedProperty().addListener(listener);
             checkBoxList.add(checkBox);
             pane.getChildren().add(checkBox);
@@ -1170,8 +1190,10 @@ public class SceneLauncher {
             controller.sendMessage(new MessageChooseResourcesFirstTurn(playerBoard.getNickname(), resourcesToSend));
         });
         chooseResourcesButton.setLayoutX(checkBoxList.get(3).getLayoutX() - 12);
-        chooseResourcesButton.setLayoutY(150);
+        chooseResourcesButton.setLayoutY(160);
         pane.getChildren().add(chooseResourcesButton);
+
+        pane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         return new Scene(pane);
     }
@@ -1235,6 +1257,8 @@ public class SceneLauncher {
         grid.setVgap(8);
 
         Label labelChoice = new Label("Choose the type of production: ");
+        labelChoice.setFont(new Font("Arial", 16));
+        labelChoice.setTextFill(Color.WHITE);
         GridPane.setConstraints(labelChoice, 0, 0);
 
         Button baseProductionButton = new Button("Base Production");
@@ -1263,6 +1287,8 @@ public class SceneLauncher {
         GridPane.setConstraints(endProductionButton, 0, 2);
         grid.getChildren().add(endProductionButton);
 
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
         Scene scene = new Scene(grid);
         stage1.setScene(scene);
         stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
@@ -1281,6 +1307,8 @@ public class SceneLauncher {
         grid.setVgap(8);
 
         Label explanationLabel1 = new Label("Choose from which do you want to take Resources: ");
+        explanationLabel1.setFont(new Font("Arial", 16));
+        explanationLabel1.setTextFill(Color.WHITE);
         GridPane.setConstraints(explanationLabel1, 0, 0);
 
         ChoiceBox cbStructure1 = new ChoiceBox(FXCollections.observableArrayList(
@@ -1348,6 +1376,8 @@ public class SceneLauncher {
                 });
 
         Label explanationLabel2 = new Label("Choose the produced Resources: ");
+        explanationLabel2.setFont(new Font("Arial", 16));
+        explanationLabel2.setTextFill(Color.WHITE);
         GridPane.setConstraints(explanationLabel2, 0, 7);
 
         ChoiceBox cbResources3 = new ChoiceBox(FXCollections.observableArrayList(
@@ -1366,6 +1396,8 @@ public class SceneLauncher {
             controller.sendMessage(new MessageActiveBaseProduction(playerBoard.getNickname(), chosenResources[2], chosenStructures[0], chosenResources[0], chosenStructures[1], chosenResources[1]));
         });
         grid.getChildren().addAll(explanationLabel1, cbStructure1, cbResources1, cbStructure2, cbResources2, explanationLabel2, cbResources3, enterButton);
+
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Scene scene = new Scene(grid);
         stage1.setScene(scene);
@@ -1434,6 +1466,8 @@ public class SceneLauncher {
         GridPane.setConstraints(enterButton, 0, 4);
         grid.getChildren().add(enterButton);
 
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
         stage1.setScene(new Scene(grid));
         stage1.setTitle("Development card production");
         stage1.show();
@@ -1501,6 +1535,8 @@ public class SceneLauncher {
         grid.setVgap(8);
 
         Label label1 = new Label("Choose from where do you want to take\nthe resource indicated on the left: ");
+        label1.setFont(new Font("Arial", 16));
+        label1.setTextFill(Color.WHITE);
         GridPane.setConstraints(label1, 0, 0);
         grid.getChildren().add(label1);
 
@@ -1532,6 +1568,8 @@ public class SceneLauncher {
 
         //view risorse con checkbox
         Label labelChosenResource = new Label("Choose which resource do you want obtain:");
+        labelChosenResource.setFont(new Font("Arial", 16));
+        labelChosenResource.setTextFill(Color.WHITE);
         GridPane.setConstraints(labelChosenResource, 0, 3);
         grid.getChildren().add(labelChosenResource);
 
@@ -1620,6 +1658,8 @@ public class SceneLauncher {
         borderPane.setLeft(leaderCardPane);
         borderPane.setRight(rightPane);
 
+        borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
         stage1.setScene(new Scene(borderPane));
         stage1.setTitle("Active Leader card production");
         stage1.show();
@@ -1645,14 +1685,20 @@ public class SceneLauncher {
         grid.setVgap(8);
 
         Label labelWarehouse = new Label("Warehouse: ");
+        labelWarehouse.setFont(new Font("Arial", 16));
+        labelWarehouse.setTextFill(Color.WHITE);
         GridPane.setConstraints(labelWarehouse, 1, 0);
         grid.getChildren().add(labelWarehouse);
 
         Label labelStrongbox = new Label("Strongbox: ");
+        labelStrongbox.setFont(new Font("Arial", 16));
+        labelStrongbox.setTextFill(Color.WHITE);
         GridPane.setConstraints(labelStrongbox, 2, 0);
         grid.getChildren().add(labelStrongbox);
 
         Label labelExtraChest = new Label("Extra chest: ");
+        labelExtraChest.setFont(new Font("Arial", 16));
+        labelExtraChest.setTextFill(Color.WHITE);
         GridPane.setConstraints(labelExtraChest, 3, 0);
         grid.getChildren().add(labelExtraChest);
 
@@ -1786,6 +1832,8 @@ public class SceneLauncher {
 
         borderPane.setLeft(pane);
         borderPane.setRight(grid);
+
+        borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         payResourcesStage.setScene(new Scene(borderPane));
         payResourcesStage.setTitle("Pay resources");
@@ -1944,6 +1992,8 @@ public class SceneLauncher {
         List<Character> chosenStructure = new ArrayList<>();
 
         Label label1 = new Label("Select a structure in which you want to insert the converted resource: ");
+        label1.setFont(new Font("Arial", 16));
+        label1.setTextFill(Color.WHITE);
         GridPane.setConstraints(label1, 0, 5);
         grid.getChildren().add(label1);
 
@@ -1969,6 +2019,8 @@ public class SceneLauncher {
         List<Integer> indexWarehouse = new ArrayList<>();
 
         Label label2 = new Label("Select the Warehouse's index in which you want to insert the converted resources: ");
+        label2.setFont(new Font("Arial", 16));
+        label2.setTextFill(Color.WHITE);
         GridPane.setConstraints(label2, 0, 8);
         grid.getChildren().add(label2);
 
@@ -2061,6 +2113,8 @@ public class SceneLauncher {
         grid.getChildren().add(addButton);
 
         Label labelDiscardButton = new Label("If you want to discard the first marble, click on the button below");
+        labelDiscardButton.setFont(new Font("Arial", 16));
+        labelDiscardButton.setTextFill(Color.WHITE);
         GridPane.setConstraints(labelDiscardButton, 0, 13);
         grid.getChildren().add(labelDiscardButton);
 
@@ -2077,6 +2131,8 @@ public class SceneLauncher {
         borderPane.setTop(marblesBufferPane);
         borderPane.setCenter(grid);
         borderPane.setRight(whiteMarbleEffectPane);
+
+        borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         stage1.setTitle("Manage marbles");
         stage1.setScene(new Scene(borderPane));
@@ -2195,6 +2251,8 @@ public class SceneLauncher {
         grid.setVgap(5);
 
         Label label = new Label("After you have selected the card,\nchoose the column of the slots for Development Cards\nin which you want to add the card: ");
+        label.setFont(new Font("Arial", 16));
+        label.setTextFill(Color.WHITE);
         GridPane.setConstraints(label, 0, 2);
         grid.getChildren().add(label);
 
@@ -2235,10 +2293,71 @@ public class SceneLauncher {
         borderPane.setLeft(devCardsDeckPane);
         borderPane.setRight(grid);
 
+        borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
         newStage.setScene(new Scene(borderPane));
         newStage.setTitle("Buy a Development card");
         newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         newStage.show();
+    }
+
+    public void resumeGameScene(String firstMessage, String secondMessage) {
+        Stage stage1 = new Stage();
+
+        StackPane root = new StackPane();
+
+        Text firstMessageText = new Text(firstMessage);
+        firstMessageText.setFont(new Font("Arial", 16));
+        firstMessageText.setTextAlignment(TextAlignment.CENTER);
+        firstMessageText.setStroke(Color.WHITE);
+        root.getChildren().add(firstMessageText);
+        StackPane.setAlignment(firstMessageText, Pos.TOP_CENTER);
+
+        Text secondMessageText = new Text(secondMessage);
+        secondMessageText.setFont(new Font("Arial", 16));
+        secondMessageText.setTextAlignment(TextAlignment.CENTER);
+        secondMessageText.setStroke(Color.WHITE);
+        root.getChildren().add(secondMessageText);
+        StackPane.setAlignment(secondMessageText, Pos.CENTER);
+
+        root.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        stage1.setScene(new Scene(root, 500, 200));
+        stage1.setTitle("Resume match");
+        stage1.setAlwaysOnTop(true);
+        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        stage1.show();
+    }
+
+    public void endGameScene() {
+        Stage stage1 = new Stage();
+
+        StackPane root = new StackPane();
+        root.setLayoutY(5);
+
+        Text winnerText = new Text("The winner is " + playerBoard.getPlayerWinner());
+        winnerText.setFont(new Font("Arial", 16));
+        winnerText.setTextAlignment(TextAlignment.CENTER);
+        winnerText.setStroke(Color.WHITE);
+        root.getChildren().add(winnerText);
+        StackPane.setAlignment(winnerText, Pos.TOP_CENTER);
+
+        for (String player : playerBoard.getPlayerList()) {
+            Text pointsText = new Text(player + " has scored " + playerBoard.getPlayersPoints().get(player));
+            pointsText.setFont(new Font("Arial", 16));
+            pointsText.setTextAlignment(TextAlignment.CENTER);
+            pointsText.setStroke(Color.WHITE);
+            root.getChildren().add(pointsText);
+            StackPane.setAlignment(pointsText, Pos.CENTER);
+        }
+
+        root.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        stage1.setScene(new Scene(root, 500, 500));
+        stage1.setAlwaysOnTop(true);
+        stage1.setTitle("The winner is ...");
+        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        stage1.show();
     }
 
     public void showMarket(){
@@ -2319,6 +2438,8 @@ public class SceneLauncher {
 
             }
         }
+
+        devCardsDeckPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         newStage.setScene(new Scene(devCardsDeckPane));
         newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));

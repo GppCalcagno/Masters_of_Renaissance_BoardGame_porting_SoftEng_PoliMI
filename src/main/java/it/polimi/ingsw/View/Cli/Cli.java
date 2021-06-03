@@ -252,7 +252,7 @@ public class Cli implements ViewInterface {
             }
             else{
                 if(playerBoard.getLeaderCards().size()>2 ){
-                    System.out.println("You have to Complete Initial Card choose");
+                    System.out.println("You have to Complete Initial Card choice");
                     showLeaderActionBox();
                 }
 

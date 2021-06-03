@@ -211,8 +211,8 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         //convertLeaderCard
        List<String> stringLeadercard= leaderBoxConvert(player.getLeaderActionBox());
 
-       String stringCurrentDevCardToBuy="";
-       String stringCurrentDevCardToProduce="";
+       String stringCurrentDevCardToBuy = null;
+       String stringCurrentDevCardToProduce = null;
 
        if( player.getCurrentDevCardToBuy()!=null)
            stringCurrentDevCardToBuy=player.getCurrentDevCardToBuy().getID();
