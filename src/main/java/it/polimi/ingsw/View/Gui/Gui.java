@@ -58,7 +58,7 @@ public class Gui implements ViewInterface{
         }
         else {
             Platform.runLater(() -> {
-                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+                sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
             });
         }
     }
@@ -73,14 +73,14 @@ public class Gui implements ViewInterface{
             }
             else {
                 Platform.runLater(() -> {
-                    sceneLauncher.getStage().setFullScreen(true);
                     sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
                 });
             }
         }
         else {
             Platform.runLater(() -> {
-                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+                sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+                sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
             });
         }
     }
@@ -101,7 +101,7 @@ public class Gui implements ViewInterface{
         }
         else {
             Platform.runLater(() -> {
-                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+                sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
             });
         }
     }
@@ -131,7 +131,6 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateFaithMarker() {
-        if (playerBoard.isMyturn())
             Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
@@ -181,7 +180,7 @@ public class Gui implements ViewInterface{
         }
         else {
             Platform.runLater(() -> {
-                sceneLauncher.getStage().setScene(sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+                sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
             });
         }
     }
@@ -216,7 +215,7 @@ public class Gui implements ViewInterface{
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
-            sceneLauncher.getStage().setScene(sceneLauncher.showMessage(message));
+            sceneLauncher.showMessage("Wait for other players");
         });
     }
 
@@ -276,6 +275,11 @@ public class Gui implements ViewInterface{
     }
 
     @Override
+    public void showOtherPlayer() {
+
+    }
+
+    @Override
     public void showLorenzoTurn() {
         Platform.runLater(() -> {
             sceneLauncher.showLorenzoTurn();
@@ -283,11 +287,14 @@ public class Gui implements ViewInterface{
     }
 
     @Override
-    public void showOtherPlayer(){
-    }
-
-    @Override
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
     }
+
+    /*@Override
+    public ClientController getController() {
+        return clientController;
+    }
+
+*/
 }

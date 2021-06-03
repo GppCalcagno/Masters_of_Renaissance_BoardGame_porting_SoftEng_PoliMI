@@ -8,7 +8,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -17,8 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -136,6 +135,9 @@ public class SceneLauncher {
         grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Scene scene = new Scene(grid, 897, 550);
+
+        stage.setMinHeight(scene.getHeight());
+        stage.setMinWidth(scene.getWidth());
 
 
         return scene;
@@ -432,6 +434,11 @@ public class SceneLauncher {
         exchange[3].setLayoutY(370);
         exchange[3].setLayoutX(17);
 
+        if(playerBoard.isMyturn()){
+            for(int i=0; i<4; i++) exchange[i].setDisable(false);
+        }
+        else for(int i=0; i<4; i++) exchange[i].setDisable(true);
+
         return exchange;
     }
 
@@ -640,7 +647,7 @@ public class SceneLauncher {
 
         Button activefirst = new Button("✓");
         Button activesecond = new Button("✓");
-        Button discardfirst;
+        Button discardfirst  = new Button("✗");
         Button discardsecond = new Button("✗");
         for(int i=0; i<playerBoard.getLeaderCards().size(); i++) {
             if (playerBoard.getLeaderCards().get(0) != null) {
@@ -711,6 +718,19 @@ public class SceneLauncher {
                 leaderCards.remove(activesecond);
             });
             leaderCards.add(activesecond);
+        }
+
+        if(playerBoard.isMyturn()){
+            activefirst.setDisable(false);
+            activesecond.setDisable(false);
+            discardfirst.setDisable(false);
+            discardsecond.setDisable(false);
+        }
+        else{
+            activefirst.setDisable(true);
+            activesecond.setDisable(true);
+            discardfirst.setDisable(true);
+            discardsecond.setDisable(true);
         }
         return leaderCards;
     }
@@ -827,6 +847,8 @@ public class SceneLauncher {
         marketTray.setOnAction(e->{
             activeExtraction();
         });
+        if(playerBoard.isMyturn()) marketTray.setDisable(false);
+        else marketTray.setDisable(true);
 
         Button buyDevCard = new Button();
         buyDevCard.setText("Buy DevCard");
@@ -834,11 +856,15 @@ public class SceneLauncher {
         buyDevCard.setOnAction(e->{
             activeBuyDevCard();
         });
+        if(playerBoard.isMyturn()) buyDevCard.setDisable(false);
+        else buyDevCard.setDisable(true);
 
         Button production = new Button();
         production.setText("Production");
         production.setLayoutY(56);
         production.setOnAction(e-> activeProductions());
+        if(playerBoard.isMyturn()) production.setDisable(false);
+        else production.setDisable(true);
 
         Button showMarket = new Button();
         showMarket.setText("Show market");
@@ -851,7 +877,7 @@ public class SceneLauncher {
         showDevDeck.setOnAction(e-> showDevDeck());
 
         Button players = new Button();
-        if(playerBoard.getplayernumber()>1){
+        if(playerBoard.getPlayerList().size()>1){
             players.setText("Show players");
             players.setOnAction(e-> showOtherPlayers());
         }
@@ -869,7 +895,6 @@ public class SceneLauncher {
         buttons[3] = showDevDeck;
         buttons[4] = production;
         buttons[5] = players;
-        //buttons[6] = endTurn;
 
         for(Button button : buttons){
             button.setMinWidth(150);
@@ -884,6 +909,9 @@ public class SceneLauncher {
         endTurn.setLayoutY(523);
         endTurn.setLayoutX(683);
         endTurn.setOnAction(e-> controller.sendMessage(new MessageEndTurn(playerBoard.getNickname())));
+
+        if(playerBoard.isMyturn()) endTurn.setDisable(false);
+        else endTurn.setDisable(true);
 
         return endTurn;
     }
@@ -1148,34 +1176,53 @@ public class SceneLauncher {
         return new Scene(pane);
     }
 
-    public Scene showMessage(String message) {
-        TextFlow textFlow = new TextFlow();
+    public void showMessage(String message) {
+        Stage stage1 = new Stage();
         Label text = new Label(message);
+
         text.setFont(new Font("Arial", 20));
         text.setTextFill(Color.WHITE);
-        textFlow.getChildren().addAll(text);
-        TilePane group = new TilePane(textFlow);
-        group.setAlignment(Pos.CENTER);
-        group.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        text.setLayoutY(60);
+        Button close = new Button("Ok");
+        close.setOnAction(e-> stage1.close());
+        Pane group = new Pane();
+        group.getChildren().addAll(text, close);
+        close.setLayoutX(text.getText().length()*15-40);
+        close.setLayoutY(120);
+        group.setStyle("-fx-border-color: black");
 
-        return new Scene(group);
+        group.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        stage1.setTitle("Error");
+        stage1.setScene(new Scene(group, text.getText().length()*15, 150));
+        stage1.setAlwaysOnTop(true);
+        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        stage1.initStyle(StageStyle.UNDECORATED);
+        stage1.show();
     }
 
     public void showErrorMessage(String errorMessage) {
         Stage stage1 = new Stage();
-        TextFlow textFlow = new TextFlow();
         Label text = new Label(errorMessage);
         text.setFont(new Font("Arial", 20));
-        text.setTextFill(Color.RED);
-        textFlow.getChildren().addAll(text);
-        TilePane group = new TilePane(textFlow);
-        group.setAlignment(Pos.CENTER);
+        text.setTextFill(Color.WHITE);
+        Button close = new Button("Ok");
+        close.setOnAction(e-> stage1.close());
+        Pane group = new Pane();
+        group.getChildren().addAll(text, close);
+        //group.setPrefWidth(400);
+        //group.setPrefHeight(150);
+        text.setLayoutY(60);
+        close.setLayoutX(text.getText().length()*15-40);
+        close.setLayoutY(120);
+        group.setStyle("-fx-border-color: black");
+
         group.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
-        group.setMaxWidth(400);
         stage1.setTitle("Error");
-        stage1.setScene(new Scene(group));
+        stage1.setScene(new Scene(group, text.getText().length()*15, 150));
         stage1.setAlwaysOnTop(true);
         stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        stage1.initStyle(StageStyle.UNDECORATED);
+
         stage1.show();
     }
 
@@ -2287,6 +2334,10 @@ public class SceneLauncher {
     public void showLorenzoTurn(){
         Stage newStage = new Stage();
         Pane pane = new Pane();
+        Button close = new Button("Ok");
+        close.setLayoutY(110);
+        close.setLayoutX(500);
+        close.setOnAction(e->newStage.close());
 
         Image token = null;
         ImageView tokenView = null;
@@ -2340,12 +2391,14 @@ public class SceneLauncher {
         explanation.setFont(new Font("Arial", 24));
         explanation.setTextFill(Color.BLACK);
 
-        pane.getChildren().addAll(tokenView, explanation);
+        pane.getChildren().addAll(tokenView, explanation, close);
         pane.setBackground(new Background(new BackgroundFill(Color.TAN, CornerRadii.EMPTY, Insets.EMPTY)));
+        pane.setStyle("-fx-border-color: black");
         pane.setMinHeight(130);
         newStage.setScene(new Scene(pane));
         newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         newStage.setTitle("Lorenzo's turn");
+        newStage.initStyle(StageStyle.UNDECORATED);
         newStage.show();
 
     }
