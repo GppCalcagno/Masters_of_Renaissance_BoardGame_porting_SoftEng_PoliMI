@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Server.UpdateCreator;
 
-import it.polimi.ingsw.Network.Message.UpdateMesssage.*;
+import it.polimi.ingsw.Network.Message.ServerUpdate.*;
 import it.polimi.ingsw.Network.Server.UpdateSender.SenderUpdateInterface;
 import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.card.LeaderAction;
@@ -254,7 +254,6 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         UpdateOtherPlayer message= new UpdateOtherPlayer("server",othername,warehouse,extrachest,strongbox,leadercards,slotDevCard);
         sender.sendtoPlayer(currentPlayer.getNickname(),message);
     }
-
 
 
     private String[][] marketTrayConvert(Marbles[][] marketTray){

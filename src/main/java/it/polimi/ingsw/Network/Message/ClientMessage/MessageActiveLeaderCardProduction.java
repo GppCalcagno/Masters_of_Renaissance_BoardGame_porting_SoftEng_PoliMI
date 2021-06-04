@@ -2,7 +2,6 @@ package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
 
 public class MessageActiveLeaderCardProduction extends Message {
     private static final long serialVersionUID = 8021603830645282467L;
@@ -14,7 +13,7 @@ public class MessageActiveLeaderCardProduction extends Message {
     private String resource;
 
     public MessageActiveLeaderCardProduction(String nickname, String ID, char structure, String resource) {
-        super(nickname, MessageType.ACTIVELEADERCARDPRODUCTION);
+        super(nickname);
         this.ID = ID;
         this.structure = structure;
         this.resource = resource;

@@ -2,7 +2,6 @@ package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class MessageChooseResourcesFirstTurn extends Message {
     private List<String> resourcesList;
 
     public MessageChooseResourcesFirstTurn(String nickname, List<String> resourcesList) {
-        super(nickname, MessageType.CHOOSERESOURCESFIRSTTURN);
+        super(nickname);
         this.resourcesList = resourcesList;
     }
 

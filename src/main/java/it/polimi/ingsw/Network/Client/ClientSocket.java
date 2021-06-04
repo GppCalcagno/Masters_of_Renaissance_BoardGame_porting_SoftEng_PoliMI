@@ -3,8 +3,6 @@ package it.polimi.ingsw.Network.Client;
 import it.polimi.ingsw.Client.ClientController;
 import it.polimi.ingsw.Network.Client.ClientSender.SendtoServer;
 import it.polimi.ingsw.Network.Message.Message;
-
-import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.View.Cli.Color;

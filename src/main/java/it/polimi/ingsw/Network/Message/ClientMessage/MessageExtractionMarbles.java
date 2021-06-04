@@ -2,7 +2,6 @@ package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
 
 public class MessageExtractionMarbles extends Message {
     private static final long serialVersionUID = 8042579921096981359L;
@@ -13,7 +12,7 @@ public class MessageExtractionMarbles extends Message {
 
 
     public MessageExtractionMarbles(String nickname, char colrowextract, int numextract) {
-        super(nickname, MessageType.EXTRACTIONMARBLES);
+        super(nickname);
         this.colrowextract = colrowextract;
         this.numextract = numextract;
     }

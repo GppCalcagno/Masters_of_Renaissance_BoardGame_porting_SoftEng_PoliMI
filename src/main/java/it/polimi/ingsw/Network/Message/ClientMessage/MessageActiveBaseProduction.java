@@ -2,9 +2,6 @@ package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
-
-import java.util.Map;
 
 public class MessageActiveBaseProduction extends Message {
     private static final long serialVersionUID = 7072915502239427238L;
@@ -17,7 +14,7 @@ public class MessageActiveBaseProduction extends Message {
     private char structure2;
 
     public MessageActiveBaseProduction(String nickname, String wanted, char structure1, String resources1, char structure2, String resources2) {
-        super(nickname, MessageType.ACTIVESBASEPRODUCTION);
+        super(nickname);
         this.wanted = wanted;
         this.resources1 = resources1;
         this.resources2 = resources2;

@@ -2,7 +2,7 @@ package it.polimi.ingsw.Network.Client;
 
 
 import it.polimi.ingsw.Network.Message.ClientMessage.MessagePing;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.UpdateRequestDisconnect;
+import it.polimi.ingsw.Network.Message.ServerUpdate.UpdateRequestDisconnect;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

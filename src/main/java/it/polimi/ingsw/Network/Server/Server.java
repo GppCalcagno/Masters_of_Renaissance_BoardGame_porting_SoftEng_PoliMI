@@ -2,8 +2,8 @@ package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.Update;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.UpdateError;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.UpdateRequestLogin;
+import it.polimi.ingsw.Network.Message.ServerUpdate.UpdateError;
+import it.polimi.ingsw.Network.Message.ServerUpdate.UpdateRequestLogin;
 import it.polimi.ingsw.Network.Server.UpdateSender.ServerUpdate;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Controller.GameController;

@@ -1,8 +1,5 @@
-package it.polimi.ingsw.Network.Message.UpdateMesssage;
+package it.polimi.ingsw.Network.Message.ServerUpdate;
 
-import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
 import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.View.ViewInterface;
 

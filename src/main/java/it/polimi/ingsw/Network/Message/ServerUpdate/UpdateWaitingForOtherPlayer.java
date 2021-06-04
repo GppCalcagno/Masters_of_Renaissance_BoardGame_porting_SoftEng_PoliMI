@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Network.Message.UpdateMesssage;
+package it.polimi.ingsw.Network.Message.ServerUpdate;
 
 
 import it.polimi.ingsw.Network.Message.Update;

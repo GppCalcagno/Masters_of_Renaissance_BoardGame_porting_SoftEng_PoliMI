@@ -2,7 +2,6 @@ package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
 
 public class MessageChooseLeaderCards extends Message {
     private static final long serialVersionUID = -7664166014343608100L;
@@ -11,7 +10,7 @@ public class MessageChooseLeaderCards extends Message {
     private int i2;
 
     public MessageChooseLeaderCards(String nickname, int i1, int i2) {
-        super(nickname, MessageType.CHOOSELEADERCARDS);
+        super(nickname);
         this.i1 = i1;
         this.i2 = i2;
     }

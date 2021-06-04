@@ -2,6 +2,7 @@ package it.polimi.ingsw.Controller;
 
 
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.ServerUpdate.ServerPing;
 import it.polimi.ingsw.Network.Server.*;
 import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
 import it.polimi.ingsw.Network.Server.UpdateCreator.UpdateCreator;
@@ -240,6 +241,10 @@ public class GameController {
 
     public void endTurn (boolean onDisconnect){
         game.endTurn(onDisconnect);
+    }
+
+    public void sendPing(String name){
+        sender.sendtoPlayer(name,new ServerPing());
     }
 
     public void fakeTaxi() {

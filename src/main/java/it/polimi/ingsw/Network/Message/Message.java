@@ -12,26 +12,14 @@ public abstract class Message implements Serializable {
 
     private String nickname;
 
-    private MessageType messageType;
-
-    public Message(String nickname, MessageType messageType) {
+    public Message(String nickname) {
         this.nickname = nickname;
-        this.messageType = messageType;
     }
 
     public String getNickname() {
         return nickname;
     }
 
-    public MessageType getMessageType() {
-        return messageType;
-    }
-
-
-    public  void action(GameController gameController) {}
-
-    public  void update(ViewInterface view){
-        System.out.println("not the correct message");
-    }
+    public abstract void action(GameController gameController);
 
 }

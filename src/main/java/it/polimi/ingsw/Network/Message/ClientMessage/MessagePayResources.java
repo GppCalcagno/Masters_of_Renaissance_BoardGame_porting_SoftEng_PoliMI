@@ -2,7 +2,6 @@ package it.polimi.ingsw.Network.Message.ClientMessage;
 
 import it.polimi.ingsw.Controller.GameController;
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
 
 import java.util.Map;
 
@@ -14,7 +13,7 @@ public class MessagePayResources extends Message {
     private Map<String,Integer> extraChest;
 
     public MessagePayResources(String nickname, Map<String, Integer> warehouse, Map<String, Integer> strongBox, Map<String, Integer> extraChest) {
-        super(nickname, MessageType.PAYRESOURCES);
+        super(nickname);
         this.warehouse = warehouse;
         this.strongBox = strongBox;
         this.extraChest = extraChest;
