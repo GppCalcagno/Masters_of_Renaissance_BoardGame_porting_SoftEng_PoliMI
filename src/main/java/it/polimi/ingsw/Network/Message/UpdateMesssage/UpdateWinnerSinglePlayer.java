@@ -3,16 +3,17 @@ package it.polimi.ingsw.Network.Message.UpdateMesssage;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.View.ViewInterface;
 
-public class MessageUpdateWinnerSinglePlayer extends Message {
+public class UpdateWinnerSinglePlayer extends Update {
     private static final long serialVersionUID = 229329624772076140L;
 
     private boolean win;
     private int finalpoint;
 
-    public MessageUpdateWinnerSinglePlayer(boolean win, int finalpoint) {
-        super("server", MessageType.UPDATEWINNERSINGLEPLAYER);
+    public UpdateWinnerSinglePlayer(boolean win, int finalpoint) {
+        super("server");
         this.win = win;
         this.finalpoint= finalpoint;
     }

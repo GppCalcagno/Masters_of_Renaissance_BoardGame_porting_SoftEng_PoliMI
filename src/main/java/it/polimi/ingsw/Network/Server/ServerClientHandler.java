@@ -1,16 +1,15 @@
 package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessagePing;
-import it.polimi.ingsw.Network.Message.MessageType;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestLogin;
+import it.polimi.ingsw.Network.Message.Update;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.UpdateRequestLogin;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.ServerPing;
 import it.polimi.ingsw.Observer.Observer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.logging.Logger;
 
 public class ServerClientHandler implements Runnable, Observer {
@@ -55,7 +54,7 @@ public class ServerClientHandler implements Runnable, Observer {
             SERVERLOGGER.severe("ERROR: THREAD INITIALIZATION ");
         }
         SERVERLOGGER.info("server send a message: asklogin");
-        output.writeObject(new MessageRequestLogin());
+        output.writeObject(new UpdateRequestLogin());
 
     }
 
@@ -77,7 +76,7 @@ public class ServerClientHandler implements Runnable, Observer {
                 if(message!=null){
                     SERVERLOGGER.info("Messagge recived" + "(from " + message.getNickname()+")"+ ":" + message.getMessageType());
                     switch (message.getMessageType()){
-                        case PING: sendMessage(new MessagePing()); break;
+                        case PING: update(new ServerPing()); break;
                         case LOGIN: server.addIDname(ID,message.getNickname(), message); break;
                         default: server.recivedMessage(message);
                     }
@@ -93,29 +92,19 @@ public class ServerClientHandler implements Runnable, Observer {
 
     /**
      * this method is used to send update to Client
-     * @param message information about Update
+     * @param update information about Update
      */
     @Override
-    public void update(Message message) {
-        sendMessage(message);
-    }
-
-
-    /**
-     * this method is used to send message,
-     * @param message is the message to send to the player
-     */
-    private void sendMessage(Message message){
+    public void update(Update update) {
         try {
-            output.writeObject(message);
+            output.writeObject(update);
             output.reset();
 
         } catch (IOException e) {
-                SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE: DISCONNECT PLAYER");
-                server.disconnect(ID);
+            SERVERLOGGER.severe("ERROR: CAN'T SENT MESSAGE: DISCONNECT PLAYER");
+            server.disconnect(ID);
         }
     }
-
 
     public void clocsesocket(){
         try { clientSocket.close();}

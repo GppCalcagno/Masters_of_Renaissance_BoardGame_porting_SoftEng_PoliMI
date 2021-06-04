@@ -1,14 +1,13 @@
 package it.polimi.ingsw.Network.Message.UpdateMesssage;
 
-import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.View.ViewInterface;
 
 import java.util.List;
 import java.util.Map;
 
-public class MessageStartGame extends Message {
+public class UpdateStartGame extends Update {
     private static final long serialVersionUID = -2092724752083413983L;
 
     private Map<String,List<String>> leaderCardsToChoose;
@@ -21,8 +20,8 @@ public class MessageStartGame extends Message {
 
     private String remainingMarble;
 
-    public MessageStartGame(Map<String,List<String>>leaderCardsToChoose, List<String> playersNameList, String[][][] devCardDeckMethod, String[][] marketTray, String remainingMarble) {
-        super("server", MessageType.STARTGAME);
+    public UpdateStartGame(Map<String,List<String>>leaderCardsToChoose, List<String> playersNameList, String[][][] devCardDeckMethod, String[][] marketTray, String remainingMarble) {
+        super("server");
         this.leaderCardsToChoose = leaderCardsToChoose;
         this.playersNameList = playersNameList;
         this.devCardDeckMethod = devCardDeckMethod;

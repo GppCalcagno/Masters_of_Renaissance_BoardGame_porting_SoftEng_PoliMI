@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Observer;
 
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class Observable {
 
     }
 
-    public void notifyAllObserver(Message message){
+    public void notifyAllObserver(Update message){
         for(Observer observer: observerList){
             observer.update(message);
         }

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageError;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestLogin;
+import it.polimi.ingsw.Network.Message.Update;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.UpdateError;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.UpdateRequestLogin;
 import it.polimi.ingsw.Network.Server.UpdateSender.ServerUpdate;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.Controller.GameController;
@@ -92,8 +93,8 @@ public class Server extends Observable {
     public void addIDname(int ID, String name, Message message){
         synchronized (serverLocker) {
             if (iDNameMap.containsValue(name)) {
-                iDClientMap.get(ID).update(new MessageError("server", "Nickname already Used"));
-                iDClientMap.get(ID).update(new MessageRequestLogin());
+                iDClientMap.get(ID).update(new UpdateError("server", "Nickname already Used"));
+                iDClientMap.get(ID).update(new UpdateRequestLogin());
             } else {
                 iDNameMap.put(ID, name);
                 recivedMessage(message);
@@ -122,9 +123,9 @@ public class Server extends Observable {
      * This method notify all the client logged
      * @param message is the message to notify
      */
-    public void sendBroadcastMessage(Message message){
+    public void sendBroadcastMessage(Update message){
         notifyAllObserver(message);
-        LOGGER.info("Server send Broadcast Message: "+ message.getMessageType());
+        LOGGER.info("Server send Broadcast Message: "+ message.getClass().getName());
     }
 
 
@@ -133,12 +134,12 @@ public class Server extends Observable {
      * @param player is the name of the player you want to notify
      * @param message is the message you want to send
      */
-    public void sendtoPlayer(String player, Message message){
+    public void sendtoPlayer(String player, Update message){
         Integer id=getIDfromName(player);
         if(id!=null){
 
             iDClientMap.get(id).update(message);
-            LOGGER.info("Server send to " +player+" a message: "+ message.getMessageType());
+            LOGGER.info("Server send to " +player+" a message: "+ message.getClass().getName());
         }
 
     }

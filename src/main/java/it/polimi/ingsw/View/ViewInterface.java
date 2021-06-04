@@ -17,6 +17,8 @@ public interface ViewInterface {
 
 
     /* ************************************ UPDATE ******************************** */
+
+
     void onUpdateStartGame();
     void onUpdateCurrPlayer();
     void onUpdateInitialLeaderCards(List<String> leaderCard);

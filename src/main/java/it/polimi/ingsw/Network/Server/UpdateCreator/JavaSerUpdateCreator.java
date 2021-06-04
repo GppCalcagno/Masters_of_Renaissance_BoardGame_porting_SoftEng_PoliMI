@@ -26,20 +26,20 @@ public class JavaSerUpdateCreator implements UpdateCreator {
 
     @Override
     public void onUpdateError(String name,String message) {
-        MessageError messageError = new MessageError("server", message);
-        sender.sendtoPlayer(name, messageError);
+        UpdateError updateError = new UpdateError("server", message);
+        sender.sendtoPlayer(name, updateError);
     }
 
     @Override
     public void onUpdateError(String message){
-        MessageError messageError = new MessageError("server", message);
-        sender.sendBroadcastMessage(messageError);
+        UpdateError updateError = new UpdateError("server", message);
+        sender.sendBroadcastMessage(updateError);
     }
 
     @Override
     public void onUpdateInitialLeaderCards (Player player, List<LeaderAction> leaderActionList) {
         List<String> stringList = leaderBoxConvert(leaderActionList);
-        MessageUpdateInitialLeaderCards message = new MessageUpdateInitialLeaderCards(player.getNickname(), stringList);
+        UpdateInitialLeaderCards message = new UpdateInitialLeaderCards(player.getNickname(), stringList);
         sender.sendtoPlayer(player.getNickname(), message);
     }
 
@@ -59,13 +59,13 @@ public class JavaSerUpdateCreator implements UpdateCreator {
             stringPlayerList.add(p.getNickname());
         }
 
-        MessageStartGame message= new MessageStartGame(stringleaderCardsToChoose,stringPlayerList,stringdevCardDeck,stringmarketTray,stringremainingMarble);
+        UpdateStartGame message= new UpdateStartGame(stringleaderCardsToChoose,stringPlayerList,stringdevCardDeck,stringmarketTray,stringremainingMarble);
         sender.sendBroadcastMessage(message);
     }
 
     @Override
     public void onUpdateCurrentPlayer(Player currPlayer){
-        MessageUpdateCurrPlayer message= new MessageUpdateCurrPlayer(currPlayer.getNickname());
+        UpdateCurrPlayer message= new UpdateCurrPlayer(currPlayer.getNickname());
         sender.sendBroadcastMessage(message);
     }
 
@@ -79,31 +79,31 @@ public class JavaSerUpdateCreator implements UpdateCreator {
             playersPopFavoriteTile.put(p.getNickname(),p.getPopsfavortiles());
         }
 
-        MessageUpdateFaithMarker message = new MessageUpdateFaithMarker(player.getNickname(), playersPosition, playersPopFavoriteTile, removeMarblefromBuffer, blackcrosstoken);
+        UpdateFaithMarker message = new UpdateFaithMarker(player.getNickname(), playersPosition, playersPopFavoriteTile, removeMarblefromBuffer, blackcrosstoken);
         sender.sendBroadcastMessage(message);
     }
 
     @Override
     public void onUpdateMarketTray(Player player, char direction, int num){
-        MessageUpdateMarketTray message= new MessageUpdateMarketTray(player.getNickname(),direction, num);
+        UpdateMarketTray message= new UpdateMarketTray(player.getNickname(),direction, num);
         sender.sendBroadcastMessage(message);
     }
 
    @Override
     public void onUpdateDevCardDeck(Player player, DevelopmentCard card){
-        MessageUpdateDevCardDeck message= new MessageUpdateDevCardDeck(player.getNickname(),card.getID());
+        UpdateDevCardDeck message= new UpdateDevCardDeck(player.getNickname(),card.getID());
         sender.sendBroadcastMessage(message);
 
     }
 
     @Override
     public void onUpdateActivatedDevCardProduction(Player player, String ID) {
-        sender.sendBroadcastMessage(new MessageActivatedDevCardProduction(player.getNickname(), ID));
+        sender.sendBroadcastMessage(new UpdateActivatedDevCardProduction(player.getNickname(), ID));
     }
 
     @Override
     public void onUpdatePlayerDisconnected(Player player){
-        MessageUpdatePlayerDisconnected message= new MessageUpdatePlayerDisconnected(player.getNickname());
+        UpdatePlayerDisconnected message= new UpdatePlayerDisconnected(player.getNickname());
         sender.sendBroadcastMessage(message);
 
     }
@@ -116,35 +116,35 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         String[][] stringWarehouseDepots= warehouseConvert(warehouseDepots);
         Map<String,Integer> stringExtrachest = extrachestConvert(extraChests);
 
-        MessageUpdateResources message= new MessageUpdateResources(player.getNickname(),stringWarehouseDepots,stringExtrachest,strongbox);
+        UpdateResources message= new UpdateResources(player.getNickname(),stringWarehouseDepots,stringExtrachest,strongbox);
         sender.sendtoPlayer(player.getNickname(),message);
 
     }
 
    @Override
     public void onUpdateSinglePlayer(int blackCrossToken, DevelopmentCard[][][] devCardsDeck, Tokens tokens, String tokenColor){
-        MessageUpdateSinglePlayerGame message= new MessageUpdateSinglePlayerGame(blackCrossToken, tokens.getID(), devCardDeckConvert(devCardsDeck), tokenColor);
+        UpdateSinglePlayerGame message= new UpdateSinglePlayerGame(blackCrossToken, tokens.getID(), devCardDeckConvert(devCardsDeck), tokenColor);
        sender.sendBroadcastMessage(message);
 
     }
 
     @Override
     public void onUpdateSlotDevCard(Player player, DevelopmentCard card, int column){
-        MessageUpdateSlotDevCards message= new MessageUpdateSlotDevCards(player.getNickname(),card.getID(),column);
+        UpdateSlotDevCards message= new UpdateSlotDevCards(player.getNickname(),card.getID(),column);
         sender.sendBroadcastMessage(message);
 
     }
 
     @Override
     public void onUpdateLeaderCard(Player player, String IDcard, boolean active){
-        MessageUpdateStateLeaderAction message= new MessageUpdateStateLeaderAction(player.getNickname(), IDcard, active);
+        UpdateStateLeaderAction message= new UpdateStateLeaderAction(player.getNickname(), IDcard, active);
         sender.sendBroadcastMessage(message);
 
     }
 
     @Override
     public void onUpdateStrongBox(Player player){
-        MessageUpdateStrongbox message= new MessageUpdateStrongbox(player.getNickname(), player.getStrongbox().getChest());
+        UpdateStrongbox message= new UpdateStrongbox(player.getNickname(), player.getStrongbox().getChest());
         sender.sendBroadcastMessage(message);
 
     }
@@ -156,7 +156,7 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         String[][] stringWarehouseDepots= warehouseConvert(warehouseDepots);
         Map<String,Integer> stringExtrachests = extrachestConvert(extraChests);
 
-        MessageUpdateWarehouse message= new MessageUpdateWarehouse(player.getNickname(), stringWarehouseDepots,stringExtrachests,removeMarble);
+        UpdateWarehouse message= new UpdateWarehouse(player.getNickname(), stringWarehouseDepots,stringExtrachests,removeMarble);
         sender.sendBroadcastMessage(message);
 
     }
@@ -167,26 +167,26 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         for (Player p: playerList){
             playersPoints.put(p.getNickname(),p.getVictoryPoints());
         }
-        MessageUpdateWinnerMultiplayer message = new MessageUpdateWinnerMultiplayer(winner.getNickname(),playersPoints);
+        UpdateWinnerMultiplayer message = new UpdateWinnerMultiplayer(winner.getNickname(),playersPoints);
         sender.sendBroadcastMessage(message);
 
     }
 
     @Override
     public void onUpdateWinnerSinglePlayer(boolean winner, int finalpoint){
-        MessageUpdateWinnerSinglePlayer message= new MessageUpdateWinnerSinglePlayer(winner, finalpoint);
+        UpdateWinnerSinglePlayer message= new UpdateWinnerSinglePlayer(winner, finalpoint);
         sender.sendBroadcastMessage(message);
     }
 
     @Override
     public void onUpdateGameFinished(){
-        sender.sendBroadcastMessage(new MessageGameFinished());
+        sender.sendBroadcastMessage(new UpdateGameFinished());
     }
 
     @Override
     public void onRequestDisconnect(String name){
-        MessageRequestDisconnect messageRequestDisconnect= new MessageRequestDisconnect(name);
-        sender.sendtoPlayer(name,messageRequestDisconnect);
+        UpdateRequestDisconnect updateRequestDisconnect = new UpdateRequestDisconnect(name);
+        sender.sendtoPlayer(name, updateRequestDisconnect);
     }
 
    @Override
@@ -219,7 +219,7 @@ public class JavaSerUpdateCreator implements UpdateCreator {
        if(player.getCurrentDevCardToProduce()!=null)
            stringCurrentDevCardToProduce=player.getCurrentDevCardToProduce().getID();
 
-       MessageReconnect message= new MessageReconnect(player.getNickname(),stringPlayerList, currentPlayer.getNickname(),
+       UpdateReconnect message= new UpdateReconnect(player.getNickname(),stringPlayerList, currentPlayer.getNickname(),
                devCardDeckConvert(devCardsDeck),marketTrayConvert(marketTray),remainingMarble.toString(),stringMarbleBuffer,warehouseConvert(player.getWarehouse()),
                extrachestConvert(player.getWarehouse().getLeaderCardEffect()),player.getStrongbox().getChest(),stringPlayersPosition,stringPlayersPopFavoriteTile, blackCrossToken,
                stringLeadercard, slotDevCardConvert(player.getSlotDevCards()),stringCurrentDevCardToBuy,stringCurrentDevCardToProduce,player.getInitialResources());
@@ -229,17 +229,17 @@ public class JavaSerUpdateCreator implements UpdateCreator {
 
     @Override
     public void onWaitingForOtherPlayer(String name){
-        sender.sendtoPlayer(name, new MessageWaitingForOtherPlayer());
+        sender.sendtoPlayer(name, new UpdateWaitingForOtherPlayer());
     }
 
     @Override
     public void onWaitingForOtherPlayer(){
-        sender.sendBroadcastMessage(new MessageWaitingForOtherPlayer());
+        sender.sendBroadcastMessage(new UpdateWaitingForOtherPlayer());
     }
 
     @Override
     public void onRequestNumPlayer(){
-        sender.sendBroadcastMessage(new MessageRequestNumPlayers());
+        sender.sendBroadcastMessage(new UpdateRequestNumPlayers());
     }
 
     @Override
@@ -251,7 +251,7 @@ public class JavaSerUpdateCreator implements UpdateCreator {
         String [][] slotDevCard= slotDevCardConvert(player.getSlotDevCards());
 
         List<String> leadercards= leaderBoxConvert(player.getLeaderActionBox());
-        MessageUpdateOtherPlayer message= new MessageUpdateOtherPlayer("server",othername,warehouse,extrachest,strongbox,leadercards,slotDevCard);
+        UpdateOtherPlayer message= new UpdateOtherPlayer("server",othername,warehouse,extrachest,strongbox,leadercards,slotDevCard);
         sender.sendtoPlayer(currentPlayer.getNickname(),message);
     }
 

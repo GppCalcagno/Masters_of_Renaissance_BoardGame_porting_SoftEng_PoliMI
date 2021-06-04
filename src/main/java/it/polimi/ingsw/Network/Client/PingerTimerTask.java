@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Network.Client;
 
 
-import it.polimi.ingsw.Network.Message.MessagePing;
-import it.polimi.ingsw.Network.Message.UpdateMesssage.MessageRequestDisconnect;
+import it.polimi.ingsw.Network.Message.ClientMessage.MessagePing;
+import it.polimi.ingsw.Network.Message.UpdateMesssage.UpdateRequestDisconnect;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -31,10 +31,8 @@ public class PingerTimerTask extends TimerTask {
                 sendToServer.writeObject(pingMessage);
             } catch (IOException e) {
                 LOGGER.severe("ERROR: CAN'T PING SERVER");
-                socket.notifyAllObserver(new MessageRequestDisconnect("server"));
-
+                socket.notifyAllObserver(new UpdateRequestDisconnect("server"));
             }
-
         }
     }
 }

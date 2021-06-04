@@ -5,6 +5,7 @@ import it.polimi.ingsw.Network.Client.ClientSender.SendtoServer;
 import it.polimi.ingsw.Network.Message.Message;
 
 import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.Observer.Observable;
 import it.polimi.ingsw.View.Cli.Color;
 
@@ -78,8 +79,9 @@ public class ClientSocket extends Observable {
     public void readMessage(){
         while(true) {
             try {
-                Message message = (Message) reciveMessage.readObject();
-                if(message!=null && !message.getMessageType().equals(MessageType.PING)){
+                Update message = (Update) reciveMessage.readObject();
+                //todo-dacambiare ping o forse non necessario
+                if(message!=null){
                     notifyAllObserver(message);
                 }
             }

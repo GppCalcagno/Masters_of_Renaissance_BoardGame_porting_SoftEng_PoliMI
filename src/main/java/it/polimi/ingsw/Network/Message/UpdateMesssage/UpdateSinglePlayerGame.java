@@ -1,11 +1,9 @@
 package it.polimi.ingsw.Network.Message.UpdateMesssage;
 
-import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.View.ViewInterface;
 
-public class MessageUpdateSinglePlayerGame extends Message {
+public class UpdateSinglePlayerGame extends Update {
     private static final long serialVersionUID = -2807318014979699841L;
 
 
@@ -19,8 +17,8 @@ public class MessageUpdateSinglePlayerGame extends Message {
 
     private String tokenColor;
 
-    public MessageUpdateSinglePlayerGame(int blackCrossToken, String id, String[][][] devCardDeck, String tokenColor) {
-        super("Lorenzo", MessageType.UPDATESINGLEPLAYER);
+    public UpdateSinglePlayerGame(int blackCrossToken, String id, String[][][] devCardDeck, String tokenColor) {
+        super("Lorenzo");
         this.blackCrossToken = blackCrossToken;
         this.ID = id;
         this.devCardDeck=devCardDeck;

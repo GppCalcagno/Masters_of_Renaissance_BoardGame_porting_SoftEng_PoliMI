@@ -1,21 +1,19 @@
 package it.polimi.ingsw.Network.Message.UpdateMesssage;
 
-import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.View.ViewInterface;
 
 import java.util.Map;
 
-public class MessageUpdateWarehouse extends Message {
+public class UpdateWarehouse extends Update {
     private static final long serialVersionUID = 3757146638417054874L;
 
     private String[][] warehouse;
     private Map<String , Integer> extraChest;
     private boolean removeMarblefromBuffer;
 
-    public MessageUpdateWarehouse(String nickname, String[][] warehouse, Map<String , Integer> extraChest, boolean removeMarblefromBuffer) {
-        super(nickname, MessageType.UPDATEWAREHOUSE);
+    public UpdateWarehouse(String nickname, String[][] warehouse, Map<String , Integer> extraChest, boolean removeMarblefromBuffer) {
+        super(nickname);
         this.warehouse = warehouse;
         this.extraChest = extraChest;
         this.removeMarblefromBuffer=removeMarblefromBuffer;

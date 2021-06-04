@@ -1,19 +1,18 @@
 package it.polimi.ingsw.Network.Message.UpdateMesssage;
 
-import it.polimi.ingsw.Client.PlayerBoard;
-import it.polimi.ingsw.Network.Message.Message;
 import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.View.ViewInterface;
 
 import java.util.List;
 
-public class MessageUpdateInitialLeaderCards extends Message {
+public class UpdateInitialLeaderCards extends Update {
     private static final long serialVersionUID = -8636343470594316197L;
 
     private List<String> leaderCardsID;
 
-    public MessageUpdateInitialLeaderCards(String nickname, List<String> leaderCardsID) {
-        super(nickname, MessageType.UPDATEINITIALLEADERCARDS);
+    public UpdateInitialLeaderCards(String nickname, List<String> leaderCardsID) {
+        super(nickname);
         this.leaderCardsID = leaderCardsID;
     }
 

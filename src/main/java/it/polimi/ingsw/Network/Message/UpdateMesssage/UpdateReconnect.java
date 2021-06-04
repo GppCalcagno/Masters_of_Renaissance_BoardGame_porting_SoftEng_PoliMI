@@ -1,13 +1,12 @@
 package it.polimi.ingsw.Network.Message.UpdateMesssage;
 
-import it.polimi.ingsw.Network.Message.Message;
-import it.polimi.ingsw.Network.Message.MessageType;
+import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.View.ViewInterface;
 
 import java.util.List;
 import java.util.Map;
 
-public class MessageReconnect extends Message {
+public class UpdateReconnect extends Update {
 
 
     private List<String> playersNameList;
@@ -35,7 +34,7 @@ public class MessageReconnect extends Message {
     private String lastTokerUsed;
     private String lastTokenUsedColor;
 
-    public MessageReconnect(
+    public UpdateReconnect(
             String nickname, List<String> playersNameList,
             String currentPlayer, String[][][] devCardDeck, String[][] marketTray,
             String remainingMarble,List<String> marbleBuffer, String[][] warehouse, Map<String, Integer> extraChest,
@@ -46,7 +45,7 @@ public class MessageReconnect extends Message {
 
 
 
-        super(nickname, MessageType.RECONNECT);
+        super(nickname);
         this.playersNameList = playersNameList;
         this.currentPlayer = currentPlayer;
         this.devCardDeck = devCardDeck;

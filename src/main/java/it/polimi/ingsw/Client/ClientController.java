@@ -35,7 +35,7 @@ public class ClientController implements Observer {
     }
 
     @Override
-    public void update(Message message) {
+    public void update(Update message) {
         message.update(view);
     }
 
