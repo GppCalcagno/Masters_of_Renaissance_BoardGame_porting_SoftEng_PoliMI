@@ -131,19 +131,23 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateFaithMarker() {
-            Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
     }
 
     @Override
     public void onUpdateMarketTray() {
-
+        if (playerBoard.isMyturn()){
+            Platform.runLater(()-> sceneLauncher.getExtractionMarbleStage().close());
+            Platform.runLater(()-> sceneLauncher.manageMarbleScene());
+        }
     }
 
     @Override
     public void onUpdateUpdateResources() {
         if (playerBoard.isMyturn()) {
             Platform.runLater(() -> {
-                sceneLauncher.getPayResourcesStage().close();
+                if (sceneLauncher.getPayResourcesStage() != null)
+                    sceneLauncher.getPayResourcesStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });
         }
@@ -181,8 +185,11 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateStrongbox() {
         if (playerBoard.isMyturn())
-            Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
-
+            Platform.runLater(()-> {
+                if (sceneLauncher.getProductionsStage() != null)
+                    sceneLauncher.getProductionsStage().close();
+                sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+            });
     }
 
     @Override
@@ -191,11 +198,6 @@ public class Gui implements ViewInterface{
         if (playerBoard.isMyturn()) {
             Platform.runLater(() -> {
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
-            });
-        }
-        else {
-            Platform.runLater(() -> {
-                sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
             });
         }
     }
@@ -370,7 +372,13 @@ public class Gui implements ViewInterface{
 
     @Override
     public void showOtherPlayer() {
-
+        if (playerBoard.isMyturn()) {
+            Platform.runLater(()-> sceneLauncher.getOtherPlayerStage().close());
+            if (playerBoard.getOtherPlayer().getLeaderCards().size() > 2)
+                Platform.runLater(()-> sceneLauncher.showMessage("The player indicated has to choose yet the Leader cards"));
+            else
+                Platform.runLater(()-> sceneLauncher.showOtherPlayerBoard());
+        }
     }
 
     @Override

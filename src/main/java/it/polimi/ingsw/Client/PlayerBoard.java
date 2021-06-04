@@ -319,7 +319,6 @@ public class PlayerBoard {
     }
 
     public void setOtherPlayer(String name, String[][] warehouse, Map<String, Integer> extrachest, Map<String, Integer> strongbox, List<String> leaderCards, String[][] slotDevCard) {
-        System.out.println("PLAYERBOARD: SETOTHERPLAYER");
         this.otherPlayer = new OtherPlayer(name,warehouse,extrachest,strongbox,leaderCards,slotDevCard);
     }
 

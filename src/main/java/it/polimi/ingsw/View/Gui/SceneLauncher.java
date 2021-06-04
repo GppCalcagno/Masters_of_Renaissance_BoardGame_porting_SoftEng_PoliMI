@@ -32,6 +32,8 @@ public class SceneLauncher {
     private Stage stage;
     private Stage payResourcesStage;
     private Stage otherPlayerStage;
+    private Stage extractionMarbleStage;
+    private Stage productionsStage;
 
     public SceneLauncher(ClientController controller, PlayerBoard playerBoard) {
         this.controller = controller;
@@ -1292,7 +1294,7 @@ public class SceneLauncher {
     }
 
     public void activeProductions() {
-        Stage stage1 = new Stage();
+        productionsStage = new Stage();
 
         Pane borderPane = new Pane();
 
@@ -1313,19 +1315,19 @@ public class SceneLauncher {
         Button baseProductionButton = new Button("Base\nProduction");
         buttonsBox.getChildren().add(baseProductionButton);
         baseProductionButton.setOnAction(e->{
-            baseProductionScene(stage1);
+            baseProductionScene(productionsStage);
         });
 
         Button devCardProductionButton = new Button("Development Card\nProduction");
         buttonsBox.getChildren().add(devCardProductionButton);
         devCardProductionButton.setOnAction(e->{
-            devCardProductionScene(stage1);
+            devCardProductionScene(productionsStage);
         });
 
         Button leaderCardProductionButton = new Button("Leader Card\nProduction");
         buttonsBox.getChildren().add(leaderCardProductionButton);
         leaderCardProductionButton.setOnAction(e->{
-            leaderCardProductionScene(stage1);
+            leaderCardProductionScene(productionsStage);
         });
 
         borderPane.getChildren().add(buttonsBox);
@@ -1339,10 +1341,10 @@ public class SceneLauncher {
         borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Scene scene = new Scene(borderPane, 310, 140);
-        stage1.setScene(scene);
-        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
-        stage1.setTitle("Active Production");
-        stage1.show();
+        productionsStage.setScene(scene);
+        productionsStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        productionsStage.setTitle("Active Production");
+        productionsStage.show();
     }
 
     public void baseProductionScene(Stage stage1) {
@@ -1903,7 +1905,7 @@ public class SceneLauncher {
     }
 
     public void activeExtraction(){
-        Stage stage2 = new Stage();
+        extractionMarbleStage = new Stage();
         Pane marketTrayPane = new Pane();
 
         ImageView marblesPunchView = new ImageView(new Image("punchboard/plancia portabiglie.png"));
@@ -1987,16 +1989,12 @@ public class SceneLauncher {
             try {
                 if (checkBoxListColumns.contains(checkBoxList.get(0))) {
                     controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), 'C', checkBoxListColumns.indexOf(checkBoxList.get(0))));
-                    if (!playerBoard.getMarbleBuffer().isEmpty())
-                        manageMarbleScene(stage2);
                 }
                 else if (checkBoxListRows.contains(checkBoxList.get(0))) {
                     controller.sendMessage(new MessageExtractionMarbles(playerBoard.getNickname(), 'R', checkBoxListRows.indexOf(checkBoxList.get(0))));
-                    if (!playerBoard.getMarbleBuffer().isEmpty())
-                        manageMarbleScene(stage2);
                 }
                 else
-                    System.out.println("Sbagliato");
+                    showErrorMessage("Sbagliato");
             }
             catch (IndexOutOfBoundsException exception) {
                 showErrorMessage("Choose a row or a column");
@@ -2009,17 +2007,20 @@ public class SceneLauncher {
         BorderPane borderPane = new BorderPane();
         borderPane.setLeft(marketTrayPane);
 
-        stage2.setScene(new Scene(borderPane));
-        stage2.setTitle("Extract marbles");
-        stage2.setAlwaysOnTop(true);
-        stage2.getIcons().add(new Image("punchboard/retro cerchi.png"));
-        stage2.show();
+        extractionMarbleStage.setScene(new Scene(borderPane));
+        extractionMarbleStage.setTitle("Extract marbles");
+        extractionMarbleStage.setAlwaysOnTop(true);
+        extractionMarbleStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        extractionMarbleStage.show();
     }
 
-    public void manageMarbleScene(Stage stage1) {
+    public void manageMarbleScene() {
+        Stage stage1 = new Stage();
+
         Pane marblesBufferPane = new Pane();
 
         List<ImageView> marblesBufferView = new ArrayList<>();
+
         int i = 0;
         for (String marble : playerBoard.getMarbleBuffer()) {
             ImageView marbleView = new ImageView(new Image("punchboard/Marbles/" + marble + ".png"));
@@ -2095,6 +2096,7 @@ public class SceneLauncher {
         Pane whiteMarbleEffectPane = new Pane();
         List<CheckBox> chosenCheckBoxWhite = new ArrayList<>();
         List<CheckBox> chosenResource = new ArrayList<>();
+
         List<String> resourcesWhiteMarble = containsWhiteMarbleEffect();
 
         if (resourcesWhiteMarble != null) {
@@ -2121,18 +2123,27 @@ public class SceneLauncher {
             };
 
             ImageView resourceWhiteMarble1 = new ImageView(new Image("punchboard/Marbles/" + resourcesWhiteMarble.get(0) + ".png"));
+            resourceWhiteMarble1.setFitWidth(40);
+            resourceWhiteMarble1.setPreserveRatio(true);
             whiteMarbleEffectPane.getChildren().add(resourceWhiteMarble1);
 
             CheckBox checkBox1 = new CheckBox();
+            checkBox1.setLayoutX(12);
+            checkBox1.setLayoutY(50);
             chosenResource.add(checkBox1);
             checkBox1.selectedProperty().addListener(listener);
             whiteMarbleEffectPane.getChildren().add(checkBox1);
 
-            if (containsWhiteMarbleEffect().size() > 1) {
+            if (resourcesWhiteMarble.size() > 1) {
                 ImageView resourceWhiteMarble2 = new ImageView(new Image("punchboard/Marbles/" + resourcesWhiteMarble.get(1) + ".png"));
+                resourceWhiteMarble2.setX(60);
+                resourceWhiteMarble2.setFitWidth(40);
+                resourceWhiteMarble2.setPreserveRatio(true);
                 whiteMarbleEffectPane.getChildren().add(resourceWhiteMarble2);
 
                 CheckBox checkBox2 = new CheckBox();
+                checkBox2.setLayoutX(70);
+                checkBox2.setLayoutY(50);
                 chosenResource.add(checkBox2);
                 checkBox2.selectedProperty().addListener(listener);
                 whiteMarbleEffectPane.getChildren().add(checkBox2);
@@ -2185,6 +2196,7 @@ public class SceneLauncher {
 
         stage1.setTitle("Manage marbles");
         stage1.setScene(new Scene(borderPane));
+        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
         /*
         stage1.setOnCloseRequest(we -> {
             try {
@@ -2197,6 +2209,7 @@ public class SceneLauncher {
 
          */
         //stage1.initStyle(StageStyle.UNDECORATED);
+        stage1.setAlwaysOnTop(true);
         stage1.show();
     }
 
@@ -2206,19 +2219,20 @@ public class SceneLauncher {
      */
     public List<String> containsWhiteMarbleEffect(){
         List<String> resourcesWhite = new ArrayList<>();
-        if(playerBoard.getLeaderCards().contains("LCTL1") && playerBoard.getLeaderActionMap().get("LCTL1").getActivated()) {
+
+        if(playerBoard.getLeaderCards().contains("LCTL1") && playerBoard.getLeaderActionMap().get("LCTL1").getActivated())
             resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL1").getResources().toString());
-        }
-        else if (playerBoard.getLeaderCards().contains("LCTL2") && playerBoard.getLeaderActionMap().get("LCTL2").getActivated()) {
+
+        if (playerBoard.getLeaderCards().contains("LCTL2") && playerBoard.getLeaderActionMap().get("LCTL2").getActivated())
             resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL2").getResources().toString());
-        }
-        else if (playerBoard.getLeaderCards().contains("LCTL3") && playerBoard.getLeaderActionMap().get("LCTL3").getActivated()) {
+
+        if (playerBoard.getLeaderCards().contains("LCTL3") && playerBoard.getLeaderActionMap().get("LCTL3").getActivated())
             resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL3").getResources().toString());
-        }
-        else if (playerBoard.getLeaderCards().contains("LCTL4") && playerBoard.getLeaderActionMap().get("LCTL4").getActivated()) {
+
+        if (playerBoard.getLeaderCards().contains("LCTL4") && playerBoard.getLeaderActionMap().get("LCTL4").getActivated())
             resourcesWhite.add(playerBoard.getLeaderActionMap().get("LCTL4").getResources().toString());
-        }
-        else
+
+        if (resourcesWhite.isEmpty())
             return null;
 
         return resourcesWhite;
@@ -2533,10 +2547,22 @@ public class SceneLauncher {
 
         left.setPrefWidth(150);
 
-        Label label = new Label(playerBoard.getOtherPlayer().getName() + "'s Board.");
-        label.setFont(new Font("Arial", 16));
+        Text text = new Text(playerBoard.getOtherPlayer().getName() + "'s Board.");
+        text.setFont(new Font("Arial", 16));
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setX(37);
+        text.setY(40);
 
-        left.getChildren().add(label);
+        left.getChildren().add(text);
+
+        Button closeStageButton = new Button("Close window");
+        closeStageButton.setOnAction(e-> stage1.close());
+        closeStageButton.setLayoutY(60);
+        closeStageButton.setLayoutX(30);
+
+        left.getChildren().add(closeStageButton);
+
+
         left.getChildren().addAll(leaderCardBoardOtherPlayer());
 
         //EXTRACHEST ancora da definire
@@ -2693,6 +2719,7 @@ public class SceneLauncher {
         stage1.setScene(new Scene(allBoard));
         stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
         stage1.setTitle("Board other player");
+        stage1.initStyle(StageStyle.UNDECORATED);
         stage1.show();
     }
 
@@ -2720,24 +2747,26 @@ public class SceneLauncher {
 
         List<String> leaderCardsOtherPlayer = playerBoard.getOtherPlayer().getLeaderCards();
 
-        for(int i = 0; i < leaderCardsOtherPlayer.size(); i++) {
-            if (leaderCardsOtherPlayer.get(0) != null) {
-                leadercard[i] = new Image("front/" + leaderCardsOtherPlayer.get(i) + ".png");
+        if (!leaderCardsOtherPlayer.isEmpty()) {
+            for (int i = 0; i < leaderCardsOtherPlayer.size(); i++) {
+                if (leaderCardsOtherPlayer.get(0) != null) {
+                    leadercard[i] = new Image("front/" + leaderCardsOtherPlayer.get(i) + ".png");
+                }
             }
+
+            ImageView leadercard1View = new ImageView(leadercard[0]);
+            leadercard1View.setFitHeight(195);
+            leadercard1View.setFitWidth(150);
+
+            ImageView leadercard2View = new ImageView(leadercard[1]);
+            leadercard2View.setFitHeight(195);
+            leadercard2View.setFitWidth(150);
+
+            leadercard1View.setLayoutY(160);
+            leaderCards.add(leadercard1View);
+            leadercard2View.setLayoutY(355);
+            leaderCards.add(leadercard2View);
         }
-
-        ImageView leadercard1View = new ImageView(leadercard[0]);
-        leadercard1View.setFitHeight(195);
-        leadercard1View.setFitWidth(150);
-
-        ImageView leadercard2View = new ImageView(leadercard[1]);
-        leadercard2View.setFitHeight(195);
-        leadercard2View.setFitWidth(150);
-
-        leadercard1View.setLayoutY(160);
-        leaderCards.add(leadercard1View);
-        leadercard2View.setLayoutY(355);
-        leaderCards.add(leadercard2View);
 
         return leaderCards;
     }
@@ -2916,6 +2945,14 @@ public class SceneLauncher {
 
     public Stage getOtherPlayerStage() {
         return otherPlayerStage;
+    }
+
+    public Stage getExtractionMarbleStage() {
+        return extractionMarbleStage;
+    }
+
+    public Stage getProductionsStage() {
+        return productionsStage;
     }
 
     public void showLorenzoTurn(){

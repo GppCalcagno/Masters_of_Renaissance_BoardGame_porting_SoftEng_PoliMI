@@ -725,12 +725,17 @@ class GameTest {
         player1.addleaderCardEffectWhiteMarble(new Stones());
         game.getCurrentPlayer().getWarehouse().getBuffer().add(new WhiteMarble());
         game.getCurrentPlayer().getWarehouse().getBuffer().add(new BlueMarble());
+        game.getCurrentPlayer().getWarehouse().getBuffer().add(new WhiteMarble());
+        game.getCurrentPlayer().getWarehouse().getBuffer().add(new WhiteMarble());
         game.getCurrentPlayer().setGameState(GameState.INGAME);
         game.getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
-        assertTrue(game.manageMarble('W', 0, "Stones"));
-        assertTrue(game.manageMarble('W', 1, null));
-        assertEquals(1, player1.getWarehouse().getNumResources(new Stones()));
+        assertTrue(game.manageMarble('W', 1, "Stones"));
+        assertTrue(game.manageMarble('W', 0, null));
+        assertTrue(game.manageMarble('W', 2, "Coins"));
+        assertTrue(game.manageMarble('W', 1, "Stones"));
+        assertEquals(2, player1.getWarehouse().getNumResources(new Stones()));
         assertEquals(1, player1.getWarehouse().getNumResources(new Shields()));
+        assertEquals(1, player1.getWarehouse().getNumResources(new Coins()));
     }
 
     @Test

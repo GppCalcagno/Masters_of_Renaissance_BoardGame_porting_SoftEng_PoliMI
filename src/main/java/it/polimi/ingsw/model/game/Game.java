@@ -998,9 +998,9 @@ public class Game {
     public void onReqOtherPlayer(String name){
         int i=0;
 
-        while (i<playersList.size() && !playersList.get(i).getNickname().toUpperCase(Locale.ROOT).equals(name)) i++;
+        while (i<playersList.size() && !playersList.get(i).getNickname().toUpperCase().equals(name.toUpperCase())) i++;
 
-        if(i<playersList.size() && playersList.get(i).getNickname().toUpperCase(Locale.ROOT).equals(name))
+        if(i<playersList.size() && playersList.get(i).getNickname().toUpperCase().equals(name.toUpperCase()))
             update.onReqOtherPlayer(currentPlayer,playersList.get(i));
         else
             update.onUpdateError(currentPlayer.getNickname(),"There is no player with that name!");
