@@ -261,11 +261,11 @@ public class Cli implements ViewInterface {
                         System.out.println("You have to Complete Initial Resources choose");
                     }
                     else {
-                        if (!playerBoard.getActivedDevCardProd().equals("")) {
+                        if (playerBoard.getActivedDevCardProd()!=null) {
                             System.out.println("You have to Complete Card Production");
                             showDevCard(playerBoard.getActivedDevCardProd());
                         } else {
-                            if (!playerBoard.getCurrentDevCardToBuy().equals("")) {
+                            if (playerBoard.getCurrentDevCardToBuy()!=null) {
                                 System.out.println("You have to Complete Card Purchase");
                                 showDevCard(playerBoard.getActivedDevCardProd());
                             }
