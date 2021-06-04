@@ -404,28 +404,24 @@ public class PlayerBoard {
                 .create();
 
         Reader discount = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettDiscountLeader_LeaderCards.json"));
-        //String discount = Files.readString(Paths.get("cardJSON/leaderCard/VettDiscountLeader_LeaderCards.json"));
         DiscountLeader[] discountLeaders = gson.fromJson(discount, DiscountLeader[].class);
         for (LeaderAction dl : discountLeaders) {
             leaderActionMap.put(dl.getID(), dl);
         }
 
         Reader chest = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettChestLeader_LeaderCards.json"));
-        //String chest = Files.readString(Paths.get("cardJSON/leaderCard/VettChestLeader_LeaderCards.json"));
         ChestLeader[] chestLeaders = gson.fromJson(chest, ChestLeader[].class);
         for (LeaderAction cl : chestLeaders) {
             leaderActionMap.put(cl.getID(), cl);
         }
 
         Reader production = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettProductionLeader_LeaderCards.json"));
-        //String production = Files.readString(Paths.get("cardJSON/leaderCard/VettProductionLeader_LeaderCards.json"));
         ProductionLeader[] productionLeaders = gson.fromJson(production, ProductionLeader[].class);
         for (LeaderAction pl : productionLeaders) {
             leaderActionMap.put(pl.getID(), pl);
         }
 
         Reader transformation = new InputStreamReader(LeaderAction.class.getResourceAsStream("/cardJSON/leaderCard/VettTrasformationMarbleLeader_LeaderCards.json"));
-        //String transformation = Files.readString(Paths.get("cardJSON/leaderCard/VettTrasformationMarbleLeader_LeaderCards.json"));
         TrasformationMarbleLeader[] transformationMarbleLeaders = gson.fromJson(transformation, TrasformationMarbleLeader[].class);
         for (LeaderAction tl : transformationMarbleLeaders) {
             leaderActionMap.put(tl.getID(), tl);
