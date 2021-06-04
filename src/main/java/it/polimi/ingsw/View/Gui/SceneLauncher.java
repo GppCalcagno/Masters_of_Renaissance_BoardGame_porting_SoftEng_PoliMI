@@ -804,92 +804,108 @@ public class SceneLauncher {
 
     public List<Node> extrachest(){
 
-        List<Node> resourcesExtrachest = new ArrayList<>();
-        Image resources1, resources2;
-        ImageView resources1View = null;
-        ImageView resource2View = null;
-        String res1 = null;
-        String res2 = null;
+        List<Node> res = new ArrayList<>();
 
-        List<Node> firstChest = new ArrayList<>();
-        List<Node> secondChest = new ArrayList<>();
+        boolean coins = false;
+        boolean shields = false;
+        boolean stones = false;
+        boolean servants = false;
 
-        if(playerBoard.getLeaderCards().size()>=1) {
-            if (playerBoard.getLeaderCards().get(0) != null && playerBoard.getLeaderCards().get(0).charAt(2) == 'C') {
-                if (playerBoard.getLeaderCards().get(0).charAt(4) == '1') {
-                    resources1 = new Image("punchboard/Stones.png");
-                    resources1View = new ImageView(resources1);
-                    res1 = "Stones";
-
-                } else if (playerBoard.getLeaderCards().get(0).charAt(4) == '2') {
-                    resources1 = new Image("punchboard/Servants.png");
-                    resources1View = new ImageView(resources1);
-                    res1 = "Servants";
-                } else if (playerBoard.getLeaderCards().get(0).charAt(4) == '3') {
-                    resources1 = new Image("punchboard/Shields.png");
-                    resources1View = new ImageView(resources1);
-                    res1 = "Shields";
-                } else if (playerBoard.getLeaderCards().get(0).charAt(4) == '4') {
-                    resources1 = new Image("punchboard/Coins.png");
-                    resources1View = new ImageView(resources1);
-                    res1 = "Coins";
-                }
-                resources1View.setFitWidth(20);
-                resources1View.setFitHeight(20);
-                if (playerBoard.getExtrachest() != null && playerBoard.getExtrachest().get(res1) != null) {
-                    for (int i = 0; i < playerBoard.getExtrachest().get(res1); i++) {
-                        if (resources1View != null) {
-                            firstChest.add(resources1View);
-                            firstChest.get(i).setLayoutY(322);
-                            firstChest.get(i).setLayoutX(38 + 57 * i);
-                        }
-                    }
-                }
+        for(String card : playerBoard.getLeaderCards()){
+            if(card.charAt(2)=='C'){
+                if(card.charAt(4)=='1') stones = true;
+                else if(card.charAt(4)=='2') servants = true;
+                else if(card.charAt(4)=='3') shields=true;
+                else if(card.charAt(4)=='4') coins = true;
             }
         }
 
-        if(playerBoard.getLeaderCards().size()==2) {
-            if (playerBoard.getLeaderCards().get(1) != null && playerBoard.getLeaderCards().get(1).charAt(2) == 'C') {
-                if (playerBoard.getLeaderCards().get(1).charAt(4) == '1') {
-                    resources2 = new Image("punchboard/Stones.png");
-                    resource2View = new ImageView(resources2);
-                    res2 = "Stones";
-                } else if (playerBoard.getLeaderCards().get(1).charAt(4) == '2') {
-                    resources2 = new Image("punchboard/Servants.png");
-                    resource2View = new ImageView(resources2);
-                    res2 = "Servants";
-                } else if (playerBoard.getLeaderCards().get(1).charAt(4) == '3') {
-                    resources2 = new Image("punchboard/Shields.png");
-                    resource2View = new ImageView(resources2);
-                    res2 = "Shields";
-                } else if (playerBoard.getLeaderCards().get(1).charAt(4) == '4') {
-                    resources2 = new Image("punchboard/Coins.png");
-                    resource2View = new ImageView(resources2);
-                    res2 = "Coins";
-                }
-                resource2View.setFitWidth(20);
-                resource2View.setFitHeight(20);
-                if (playerBoard.getExtrachest() != null && playerBoard.getExtrachest().get(res1) != null) {
-                    for (int i = 0; i < playerBoard.getExtrachest().get(res2); i++) {
-                        if (resource2View != null) {
-                            secondChest.add(resource2View);
-                            secondChest.get(i).setLayoutY(517);
-                            secondChest.get(i).setLayoutX(38 + 57 * i);
+        List<Image> resourceExtra = new ArrayList<>();
+        List<ImageView> resourceExtraView = new ArrayList<>();
+        int numb=0;
+
+        if(!playerBoard.getExtrachest().isEmpty()){
+            for(String resource : playerBoard.getExtrachest().keySet()){
+                System.out.println("ci entro ");
+                if(resource == "Coins"){
+                    resourceExtra.add(new Image("punchboard/Coins.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
+                    resourceExtra.add(new Image("punchboard/Coins.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
+                    if(coins){
+                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL4")*195);
+                        resourceExtraView.get(numb).setLayoutX(38);
+                        resourceExtraView.get(numb).setOpacity(0.0);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL4")*195);
+                        resourceExtraView.get(numb+1).setLayoutX(95);
+                        resourceExtraView.get(numb+1).setOpacity(0.0);
+                        for(int i=0; i<playerBoard.getExtrachest().get("Coins"); i++){
+                            resourceExtraView.get(numb+i).setOpacity(1.0);
                         }
                     }
                 }
+                else if(resource == "Stones"){
+                    resourceExtra.add(new Image("punchboard/Stones.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
+                    resourceExtra.add(new Image("punchboard/Stones.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
+                    if(stones){
+                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL1")*195);
+                        resourceExtraView.get(numb).setLayoutX(38);
+                        resourceExtraView.get(numb).setOpacity(0.0);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL1")*195);
+                        resourceExtraView.get(numb+1).setLayoutX(95);
+                        resourceExtraView.get(numb+1).setOpacity(0.0);
+                        for(int i=0; i<playerBoard.getExtrachest().get("Stones"); i++){
+                            resourceExtraView.get(numb+i).setOpacity(1.0);
+                        }
+                    }
+                }
+                else if(resource == "Servants"){
+                    resourceExtra.add(new Image("punchboard/Servants.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
+                    resourceExtra.add(new Image("punchboard/Servants.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
+                    if(servants){
+                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL2")*195);
+                        resourceExtraView.get(numb).setLayoutX(38);
+                        resourceExtraView.get(numb).setOpacity(0.0);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL2")*195);
+                        resourceExtraView.get(numb+1).setLayoutX(95);
+                        resourceExtraView.get(numb+1).setOpacity(0.0);
+                        for(int i=0; i<playerBoard.getExtrachest().get("Servants"); i++){
+                            resourceExtraView.get(numb+i).setOpacity(1.0);
+                        }
+                    }
+                }
+                else if(resource == "Shields"){
+                    resourceExtra.add(new Image("punchboard/Shields.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
+                    resourceExtra.add(new Image("punchboard/Shields.png"));
+                    resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
+                    if(shields){
+                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL3")*195);
+                        resourceExtraView.get(numb).setLayoutX(38);
+                        resourceExtraView.get(numb).setOpacity(0.0);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL3")*195);
+                        resourceExtraView.get(numb+1).setLayoutX(95);
+                        resourceExtraView.get(numb+1).setOpacity(0.0);
+                        for(int i=0; i<playerBoard.getExtrachest().get("Shields"); i++){
+                            resourceExtraView.get(numb+i).setOpacity(1.0);
+                        }
+                    }
+                }
+                numb += 2;
             }
         }
 
-        if(!firstChest.isEmpty()){
-            for(Node n : firstChest) resourcesExtrachest.add(n);
+        for(ImageView resex : resourceExtraView){
+            resex.setFitWidth(20);
+            resex.setFitHeight(20);
+            res.add(resex);
         }
 
-        if(!secondChest.isEmpty()){
-            for(Node n : secondChest) resourcesExtrachest.add(n);
-        }
-
-        return resourcesExtrachest;
+        return res;
     }
 
     public Node[] buttons(){
@@ -962,6 +978,8 @@ public class SceneLauncher {
         endTurn.setLayoutY(523);
         endTurn.setLayoutX(683);
         endTurn.setOnAction(e-> controller.sendMessage(new MessageEndTurn(playerBoard.getNickname())));
+        if(!playerBoard.isMyturn()) endTurn.setDisable(true);
+        else endTurn.setDisable(false);
 
         return endTurn;
     }
@@ -2968,6 +2986,7 @@ public class SceneLauncher {
         Label explanation = null;
         Button showDevDeck = new Button("Show DevDeck");
 
+        if(playerBoard.getLastTokenUsed()!=null){
         if(playerBoard.getLastTokenUsed().equals("T1")){
             token = new Image("punchboard/cerchio5.png");
             tokenView = new ImageView(token);
@@ -3026,4 +3045,6 @@ public class SceneLauncher {
         newStage.show();
 
     }
+    }
+
 }
