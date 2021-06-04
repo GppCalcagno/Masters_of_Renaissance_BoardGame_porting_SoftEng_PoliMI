@@ -21,6 +21,8 @@ public class GuiJavaFX extends Application {
         //stage.setMaxHeight(800);
         //stage.setMaxWidth(5000);
         stage.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        stage.setWidth(910);
+        stage.setHeight(589);
         stage.show();
     }
 

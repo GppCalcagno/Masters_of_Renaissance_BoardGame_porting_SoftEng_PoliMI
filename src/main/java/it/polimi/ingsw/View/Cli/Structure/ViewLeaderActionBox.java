@@ -3,22 +3,24 @@ package it.polimi.ingsw.View.Cli.Structure;
 import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.View.Cli.Color;
 
+import java.util.List;
+
 public class ViewLeaderActionBox {
 
-    PlayerBoard pb;
+    List<String> leaderCards;
 
     private static final int MAX_VERT_TILES = 3; //rows.
     private static final int MAX_HORIZ_TILES = 25; //cols.
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
-    public ViewLeaderActionBox(PlayerBoard playerBoard){
-        pb = playerBoard;
+    public ViewLeaderActionBox(List<String> leaderCards){
+        this.leaderCards = leaderCards;
         checkNumber();
     }
 
     private void checkNumber(){
-        if(pb.getLeaderCards().size()<3){
+        if(leaderCards.size()<3){
             fillTilesGame();
             updateObjectGame();
         }
@@ -73,11 +75,11 @@ public class ViewLeaderActionBox {
 
     private void updateObjectinit() {
         for(int j=1; j<20; j=j+6){
-            tiles[1][j] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(0));
-            tiles[1][j+1] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(1));
-            tiles[1][j+2] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(2));
-            tiles[1][j+3] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(3));
-            tiles[1][j+4] = String.valueOf(pb.getLeaderCards().get(j/6).charAt(4));
+            tiles[1][j] = String.valueOf(leaderCards.get(j/6).charAt(0));
+            tiles[1][j+1] = String.valueOf(leaderCards.get(j/6).charAt(1));
+            tiles[1][j+2] = String.valueOf(leaderCards.get(j/6).charAt(2));
+            tiles[1][j+3] = String.valueOf(leaderCards.get(j/6).charAt(3));
+            tiles[1][j+4] = String.valueOf(leaderCards.get(j/6).charAt(4));
 
         }
     }
@@ -116,14 +118,14 @@ public class ViewLeaderActionBox {
     }
 
     private void updateObjectGame(){
-        if(pb.getLeaderCards().size()!=0) {
+        if(leaderCards.size()!=0) {
             for (int j = 1; j < 8; j = j + 6) {
-                if (j/6<pb.getLeaderCards().size() && pb.getLeaderCards().get(j/6) != null) {
-                    tiles[1][j] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(0));
-                    tiles[1][j + 1] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(1));
-                    tiles[1][j + 2] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(2));
-                    tiles[1][j + 3] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(3));
-                    tiles[1][j + 4] = String.valueOf(pb.getLeaderCards().get(j / 6).charAt(4));
+                if (j/6<leaderCards.size() && leaderCards.get(j/6) != null) {
+                    tiles[1][j] = String.valueOf(leaderCards.get(j / 6).charAt(0));
+                    tiles[1][j + 1] = String.valueOf(leaderCards.get(j / 6).charAt(1));
+                    tiles[1][j + 2] = String.valueOf(leaderCards.get(j / 6).charAt(2));
+                    tiles[1][j + 3] = String.valueOf(leaderCards.get(j / 6).charAt(3));
+                    tiles[1][j + 4] = String.valueOf(leaderCards.get(j / 6).charAt(4));
                 }
             }
         }

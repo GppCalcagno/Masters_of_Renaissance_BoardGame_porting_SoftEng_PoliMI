@@ -142,8 +142,10 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateUpdateResources() {
         if (playerBoard.isMyturn()) {
-            sceneLauncher.getPayResourcesStage().close();
-            Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+            Platform.runLater(() -> {
+                sceneLauncher.getPayResourcesStage().close();
+                sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+            });
         }
     }
 

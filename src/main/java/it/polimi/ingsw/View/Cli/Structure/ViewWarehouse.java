@@ -8,15 +8,15 @@ import java.util.List;
 
 public class ViewWarehouse {
 
-    PlayerBoard pb;
+    String[][] warehouse;
 
     private static final int MAX_VERT_TILES = 7; //rows.
     private static final int MAX_HORIZ_TILES = 13; //cols.
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
-    public ViewWarehouse(PlayerBoard playerBoard){
-        pb = playerBoard;
+    public ViewWarehouse(String[][] warehouse){
+        this.warehouse = warehouse;
         fillTiles();
         updateObject();
     }
@@ -92,14 +92,14 @@ public class ViewWarehouse {
     private void updateObject(){
         for(int i=1; i<6; i=i+2){
             for(int j=2; j<(i*2)+1;j=j+4){
-                if(pb.getWarehouse()[i/2][j/4]!=null) {
-                    if (pb.getWarehouse()[i / 2][j / 4].equals("Servants"))
+                if(warehouse[i/2][j/4]!=null) {
+                    if (warehouse[i / 2][j / 4].equals("Servants"))
                         tiles[i][j] = Color.ANSI_BRIGHTPURPLE.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
-                    else if (pb.getWarehouse()[i / 2][j / 4].equals("Shields"))
+                    else if (warehouse[i / 2][j / 4].equals("Shields"))
                         tiles[i][j] = Color.ANSI_BRIGHTBLUE.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
-                    else if (pb.getWarehouse()[i / 2][j / 4].equals("Coins"))
+                    else if (warehouse[i / 2][j / 4].equals("Coins"))
                         tiles[i][j] = Color.ANSI_BRIGHTYELLOW.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
-                    else if (pb.getWarehouse()[i / 2][j / 4].equals("Stones"))
+                    else if (warehouse[i / 2][j / 4].equals("Stones"))
                         tiles[i][j] = Color.ANSI_BRIGHDARK.escape() + "●" + Color.ANSI_BRIGHTWHITE.escape();
                 }
             }

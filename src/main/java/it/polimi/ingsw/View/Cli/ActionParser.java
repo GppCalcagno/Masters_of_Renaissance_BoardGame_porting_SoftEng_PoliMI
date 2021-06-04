@@ -213,6 +213,7 @@ public class ActionParser {
                 case "LEADERCARD": cli.showLeaderAction(parts[2]);  break;
                 case "LORENZOTURN": cli.showLorenzoTurn();          break;
                 case "MARBLEBUFFER": cli.showMarbleBuffer();        break;
+                case "OTHERPLAYERS": cli.showOtherPlayer();         break;
                 default:
                     System.out.println(Color.ANSI_RED.escape() +"Nothing to show..." + Color.RESET);
                     break;

@@ -5,10 +5,11 @@ import it.polimi.ingsw.View.Cli.Color;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ViewExtraChest {
 
-    PlayerBoard pb;
+    Map<String, Integer> extrachest;
     String color = Color.ANSI_BRIGHTWHITE.escape();
 
     private static final int MAX_VERT_TILES = 3; //rows.
@@ -16,8 +17,8 @@ public class ViewExtraChest {
 
     String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZ_TILES];
 
-    public ViewExtraChest(PlayerBoard playerBoard) {
-        pb = playerBoard;
+    public ViewExtraChest(Map<String, Integer> extrachest) {
+        this.extrachest = extrachest;
         fillTiles();
         updateObject();
     }
@@ -59,23 +60,22 @@ public class ViewExtraChest {
 
     private void updateObject() {
         String resource = null;
-        if(pb.getExtrachest().isEmpty()) System.out.println(Color.ANSI_RED.escape() + "You don't have an extrachest" + Color.ANSI_BRIGHTWHITE.escape());
-        else {
-            for (int i = 0; i < pb.getExtrachest().size(); i++) {
-                if (pb.getExtrachest().containsKey("Servants")) {
+        if(!extrachest.isEmpty()){
+            for (int i = 0; i < extrachest.size(); i++) {
+                if (extrachest.containsKey("Servants")) {
                     color = Color.ANSI_BRIGHTPURPLE.escape();
                     resource = "Servants";
-                } else if (pb.getExtrachest().containsKey("Shields")) {
+                } else if (extrachest.containsKey("Shields")) {
                     color = Color.ANSI_BRIGHTBLUE.escape();
                     resource = "Shields";
-                } else if (pb.getExtrachest().containsKey("Coins")) {
+                } else if (extrachest.containsKey("Coins")) {
                     color = Color.ANSI_YELLOW.escape();
                     resource = "Coins";
-                } else if (pb.getExtrachest().containsKey("Stones")) {
+                } else if (extrachest.containsKey("Stones")) {
                     color = Color.ANSI_BRIGHDARK.escape();
                     resource = "Stones";
                 }
-                for (int j = 0; j < pb.getExtrachest().get(resource); j++) {
+                for (int j = 0; j < extrachest.get(resource); j++) {
                     tiles[1][j * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
                 }
                 plot();
@@ -85,7 +85,7 @@ public class ViewExtraChest {
     }
 
     public void plot() {
-        if (color != null) {
+        if(!extrachest.isEmpty()){
             System.out.print(Color.ANSI_BRIGHTWHITE.escape());
             for (int r = 0; r < MAX_VERT_TILES; r++) {
                 System.out.println();
@@ -95,5 +95,6 @@ public class ViewExtraChest {
             }
             System.out.println(Color.ANSI_BRIGHTWHITE.escape() + "\n");
         }
+        else System.out.println(Color.ANSI_RED.escape() + " No Extrachest or Not activated yet " + Color.ANSI_BRIGHTWHITE.escape());
     }
 }

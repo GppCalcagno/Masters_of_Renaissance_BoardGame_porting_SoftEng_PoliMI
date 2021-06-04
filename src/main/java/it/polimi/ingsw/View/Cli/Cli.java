@@ -397,7 +397,7 @@ public class Cli implements ViewInterface {
     @Override
     public void showLeaderActionBox() {
 
-        ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox(playerBoard);
+        ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox(playerBoard.getLeaderCards());
         viewLeaderActionBox.plot();
         for (String card: playerBoard.getLeaderCards()){
             playerBoard.getLeaderActionMap().get(card).showCli();
@@ -406,13 +406,13 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showSlotDevCard() {
-        ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(playerBoard);
+        ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(playerBoard.getSlotDevCard());
         viewSlotDevCard.plot();
     }
 
     @Override
     public void showWarehouse() {
-        ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard);
+        ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard.getWarehouse());
         viewWarehouse.plot();
         if(!playerBoard.getExtrachest().isEmpty()){
             showExtraChest();
@@ -421,7 +421,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showStrongbox() {
-        ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard);
+        ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard.getStrongbox());
         viewStrongbox.plot();
     }
 
@@ -446,7 +446,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showExtraChest(){
-        new ViewExtraChest(playerBoard);
+        new ViewExtraChest(playerBoard.getExtrachest());
     }
 
     @Override
@@ -476,8 +476,17 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showOtherPlayer(){
-        System.out.println("Player "+ playerBoard.getOtherPlayer().getName() +":\n+" +
-                "");
+        System.out.println("Player "+ Color.ANSI_YELLOW.escape() + playerBoard.getOtherPlayer().getName() + Color.RESET +":\n");
+        System.out.println(Color.ANSI_YELLOW.escape() + "Warehouse: \n" + Color.RESET);
+        new ViewWarehouse(playerBoard.getOtherPlayer().getWarehouse()).plot();
+        System.out.println(Color.ANSI_YELLOW.escape() + "ExtraChest: \n" + Color.RESET);
+        new ViewExtraChest(playerBoard.getOtherPlayer().getExtrachest()).plot();
+        System.out.println(Color.ANSI_YELLOW.escape() + "Strongbox: \n" + Color.RESET);
+        new ViewStrongbox(playerBoard.getOtherPlayer().getStrongbox()).plot();
+        System.out.println(Color.ANSI_YELLOW.escape() + "SlotDevCard: \n" + Color.RESET);
+        new ViewSlotDevCard(playerBoard.getOtherPlayer().getSlotDevCard()).plot();
+        System.out.println(Color.ANSI_YELLOW.escape() + "LeaderCard: \n" + Color.RESET);
+        new ViewLeaderActionBox(playerBoard.getOtherPlayer().getLeaderCards()).plot();
     }
 
     /**
