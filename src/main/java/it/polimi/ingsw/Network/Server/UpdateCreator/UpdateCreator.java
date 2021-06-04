@@ -51,7 +51,7 @@ public interface UpdateCreator {
 
     void onRequestDisconnect(String name);
 
-    void onRequestNumPlayer();
+    void onRequestNumPlayer(String name);
 
 
     void onRequestResume(List<Player> playerList, Player player, Player CurrentPlayer, DevelopmentCard[][][] devCardsDeck,

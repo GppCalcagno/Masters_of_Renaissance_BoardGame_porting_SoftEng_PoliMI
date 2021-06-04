@@ -238,8 +238,8 @@ public class JavaSerUpdateCreator implements UpdateCreator {
     }
 
     @Override
-    public void onRequestNumPlayer(){
-        sender.sendBroadcastMessage(new UpdateRequestNumPlayers());
+    public void onRequestNumPlayer(String name){
+        sender.sendtoPlayer(name,new UpdateRequestNumPlayers());
     }
 
     @Override

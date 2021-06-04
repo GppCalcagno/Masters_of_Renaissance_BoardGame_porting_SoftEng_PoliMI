@@ -82,7 +82,7 @@ public class GameController {
         if(isOnline) {
             if (playersNames.size() == 0) {
                 playersNames.add(name);
-                updateCreator.onRequestNumPlayer();
+                updateCreator.onRequestNumPlayer(name);
             } else {
                 if (numPlayer == 0 || (numPlayer > 0 && playersNames.size() >= numPlayer)) {
                     updateCreator.onUpdateError(name, "Inconsistent number of players. Disconnecting...");
@@ -118,10 +118,10 @@ public class GameController {
         }
     }
 
-    public void onNumPlayer(int num){
+    public void onNumPlayer(String name, int num){
         if(num<1 ||num>4){
             updateCreator.onUpdateError("Number of Player is Not Correct");
-            updateCreator.onRequestNumPlayer();
+            updateCreator.onRequestNumPlayer(name);
         }
         else{
             if(numPlayer==0)
