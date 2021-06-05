@@ -109,6 +109,8 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateActivatedDevCardProduction(String devCard) {
         if (playerBoard.isMyturn()){
+            if (sceneLauncher.getProductionsStage() != null)
+                sceneLauncher.getProductionsStage().close();
             Platform.runLater(() -> {
                 sceneLauncher.payResourcesScene();
             });
@@ -125,13 +127,21 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateDevCardDeck(String devCard) {
         if (playerBoard.isMyturn()) {
-            Platform.runLater(()-> sceneLauncher.payResourcesScene());
+            Platform.runLater(()-> {
+                if (sceneLauncher.getActiveBuyDevCardStage() != null)
+                    sceneLauncher.getActiveBuyDevCardStage().close();
+                sceneLauncher.payResourcesScene();
+            });
         }
     }
 
     @Override
     public void onUpdateFaithMarker() {
-        Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+        Platform.runLater(()-> {
+            if (playerBoard.getMarbleBuffer().isEmpty())
+                sceneLauncher.getManageMarbleStage().close();
+            sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+        });
     }
 
     @Override
@@ -168,7 +178,10 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateSlotDevCards() {
         if (playerBoard.isMyturn())
-            Platform.runLater(()-> sceneLauncher.getPayResourcesStage().close());
+            Platform.runLater(()-> {
+                if (sceneLauncher.getProductionsStage() != null)
+                    sceneLauncher.getPayResourcesStage().close();
+            });
     }
 
     @Override
@@ -197,6 +210,8 @@ public class Gui implements ViewInterface{
         //provvisorio
         if (playerBoard.isMyturn()) {
             Platform.runLater(() -> {
+                if (playerBoard.getMarbleBuffer().isEmpty())
+                    sceneLauncher.getManageMarbleStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });
         }

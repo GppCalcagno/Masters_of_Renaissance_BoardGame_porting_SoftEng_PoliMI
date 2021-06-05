@@ -30,9 +30,11 @@ public class SceneLauncher {
     private ClientController controller;
     private PlayerBoard playerBoard;
     private Stage stage;
+    private Stage activeBuyDevCardStage;
     private Stage payResourcesStage;
     private Stage otherPlayerStage;
     private Stage extractionMarbleStage;
+    private Stage manageMarbleStage;
     private Stage productionsStage;
 
     public SceneLauncher(ClientController controller, PlayerBoard playerBoard) {
@@ -1529,7 +1531,6 @@ public class SceneLauncher {
         enterButton.setOnAction(e->{
             if (!selectedCheck.isEmpty()) {
                 controller.sendMessage(new MessageActiveProductionDevCard(playerBoard.getNickname(), (Integer) selectedCheck.get(0).getUserData()));
-                stage1.close();
             }
         });
         GridPane.setConstraints(enterButton, 0, 4);
@@ -2033,7 +2034,7 @@ public class SceneLauncher {
     }
 
     public void manageMarbleScene() {
-        Stage stage1 = new Stage();
+        manageMarbleStage = new Stage();
 
         Pane marblesBufferPane = new Pane();
 
@@ -2185,8 +2186,6 @@ public class SceneLauncher {
                     controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), chosenStructure.get(0), indexWarehouse.get(0), null));
                 }
             }
-            if (playerBoard.getMarbleBuffer().isEmpty())
-                stage1.close();
         });
         grid.getChildren().add(addButton);
 
@@ -2200,8 +2199,6 @@ public class SceneLauncher {
         GridPane.setConstraints(discardButton, 0, 15);
         discardButton.setOnAction(e->{
             controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), 'D', -1, null));
-            if (playerBoard.getMarbleBuffer().isEmpty())
-                stage1.close();
         });
         grid.getChildren().add(discardButton);
 
@@ -2212,9 +2209,9 @@ public class SceneLauncher {
 
         borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        stage1.setTitle("Manage marbles");
-        stage1.setScene(new Scene(borderPane));
-        stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        manageMarbleStage.setTitle("Manage marbles");
+        manageMarbleStage.setScene(new Scene(borderPane));
+        manageMarbleStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         /*
         stage1.setOnCloseRequest(we -> {
             try {
@@ -2227,8 +2224,8 @@ public class SceneLauncher {
 
          */
         //stage1.initStyle(StageStyle.UNDECORATED);
-        stage1.setAlwaysOnTop(true);
-        stage1.show();
+        manageMarbleStage.setAlwaysOnTop(true);
+        manageMarbleStage.show();
     }
 
     /**
@@ -2257,7 +2254,8 @@ public class SceneLauncher {
     }
 
     public void activeBuyDevCard(){
-        Stage newStage = new Stage();
+        activeBuyDevCardStage = new Stage();
+
         Pane devCardsDeckPane = new Pane();
 
         List<CheckBox> checkBoxList = new ArrayList<>();
@@ -2364,7 +2362,6 @@ public class SceneLauncher {
                 showErrorMessage("Select the column or the card");
             else {
                 controller.sendMessage(new MessageBuyDevCard(playerBoard.getNickname(), (String) checkBoxSelected.get(0).getUserData(), chosenColumn.get(0)));
-                newStage.close();
             }
         });
         grid.getChildren().add(selectCardButton);
@@ -2376,10 +2373,10 @@ public class SceneLauncher {
 
         borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        newStage.setScene(new Scene(borderPane));
-        newStage.setTitle("Buy a Development card");
-        newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
-        newStage.show();
+        activeBuyDevCardStage.setScene(new Scene(borderPane));
+        activeBuyDevCardStage.setTitle("Buy a Development card");
+        activeBuyDevCardStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        activeBuyDevCardStage.show();
     }
 
     public void resumeGameScene(String firstMessage, String secondMessage) {
@@ -2961,12 +2958,20 @@ public class SceneLauncher {
         return payResourcesStage;
     }
 
+    public Stage getActiveBuyDevCardStage() {
+        return activeBuyDevCardStage;
+    }
+
     public Stage getOtherPlayerStage() {
         return otherPlayerStage;
     }
 
     public Stage getExtractionMarbleStage() {
         return extractionMarbleStage;
+    }
+
+    public Stage getManageMarbleStage() {
+        return manageMarbleStage;
     }
 
     public Stage getProductionsStage() {
