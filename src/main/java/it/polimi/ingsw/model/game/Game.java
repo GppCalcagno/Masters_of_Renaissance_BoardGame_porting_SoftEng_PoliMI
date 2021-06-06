@@ -974,10 +974,9 @@ public class Game {
                 givefinalpoints();
                 update.onUpdateWinnerMultiplayer(winner, playersList);
                 isDuringGame=false;
-                return;
-                //finisci tutto
-            }
+                return;  //finisci tutto
 
+            }
             update.onUpdateCurrentPlayer(currentPlayer);
         }
         else{

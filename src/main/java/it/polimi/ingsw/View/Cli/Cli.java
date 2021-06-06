@@ -374,6 +374,7 @@ public class Cli implements ViewInterface {
     @Override
     public void onUpdateWinnerMultiplayer() {
         System.out.println("The winner is : " + playerBoard.getPlayerWinner() + " with : " + playerBoard.getPlayersPoints().get(playerBoard.getPlayerWinner()) + " points!");
+        controller.disconnect();
     }
 
     @Override
@@ -381,7 +382,8 @@ public class Cli implements ViewInterface {
         if(playerBoard.getPlayerWinner().equals(playerBoard.getCurrentPlayer()))
             System.out.println("You WIN with " + playerBoard.getPlayersPoints()+" VictoryPoints");
         else
-            System.out.println("Lorenzo win, try again..." + " Score: "+ playerBoard.getPlayersPoints().get(playerBoard.getNickname()));;
+            System.out.println("Lorenzo win, try again..." + " Score: "+ playerBoard.getPlayersPoints().get(playerBoard.getNickname()));
+        controller.disconnect();
     }
 
 

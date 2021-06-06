@@ -28,7 +28,6 @@ public class UpdateWinnerSinglePlayer extends Update {
     public void update(ViewInterface view) {
         view.getPlayerBoard().updateWinner(win,finalpoint);
         view.onUpdateWinnerSinglePlayer();
-        view.onDisconnect();
 
     }
 }

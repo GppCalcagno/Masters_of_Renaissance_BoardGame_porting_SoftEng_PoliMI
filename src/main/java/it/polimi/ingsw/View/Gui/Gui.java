@@ -328,7 +328,7 @@ public class Gui implements ViewInterface{
     @Override
     public void showMessage(String message) {
         Platform.runLater(() -> {
-            sceneLauncher.showMessage("Wait for other players");
+            sceneLauncher.showMessage(message);
         });
     }
 

@@ -2442,6 +2442,14 @@ public class SceneLauncher {
             StackPane.setAlignment(pointsText, Pos.CENTER);
         }
 
+        Button closeButton = new Button("EndGame");
+        closeButton.setOnAction(e->{
+            controller.disconnect();
+        });
+        closeButton.setLayoutX(50);
+        closeButton.setLayoutY(200);
+        root.getChildren().add(closeButton);
+
         root.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         stage1.setScene(new Scene(root, 500, 500));

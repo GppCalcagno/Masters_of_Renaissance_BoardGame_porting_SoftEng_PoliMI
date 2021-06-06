@@ -135,7 +135,7 @@ public class GameController {
                     }
                     else{
                         game = new Game(new JavaSerUpdateCreator(sender));
-                        updateCreator.onWaitingForOtherPlayer();
+                        updateCreator.onWaitingForOtherPlayer(name);
                     }
                 } catch (IOException e) {
                     updateCreator.onUpdateError("FATAL ERROR: can't Read System File");

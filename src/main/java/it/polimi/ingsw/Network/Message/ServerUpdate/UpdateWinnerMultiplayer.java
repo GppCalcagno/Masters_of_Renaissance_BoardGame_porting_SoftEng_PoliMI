@@ -23,6 +23,5 @@ public class UpdateWinnerMultiplayer extends Update {
     public void update(ViewInterface view) {
         view.getPlayerBoard().updateWinner(playerWinner,playersPoints);
         view.onUpdateWinnerMultiplayer();
-        view.onDisconnect();
     }
 }
