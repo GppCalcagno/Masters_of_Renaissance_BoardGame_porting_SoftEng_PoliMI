@@ -1381,6 +1381,7 @@ public class SceneLauncher {
         explanationLabel1.setFont(new Font("Arial", 16));
         explanationLabel1.setTextFill(Color.WHITE);
         GridPane.setConstraints(explanationLabel1, 0, 0);
+        grid.getChildren().add(explanationLabel1);
 
         ChoiceBox cbStructure1 = new ChoiceBox(FXCollections.observableArrayList(
                 "Warehouse", "Strongbox", "Extra chest")
@@ -1400,9 +1401,11 @@ public class SceneLauncher {
                             chosenStructures[0] = 'E';
                             break;
                         default:
+                            chosenStructures[0] = 't';
                             break;
                     }
                 });
+        grid.getChildren().add(cbStructure1);
 
         ChoiceBox cbResources1 = new ChoiceBox(FXCollections.observableArrayList(
                 "Coin", "Servant", "Shield", "Stone")
@@ -1413,6 +1416,7 @@ public class SceneLauncher {
                  Number old_value, Number new_val) -> {
                     chosenResources[0] = resourcesVett[new_val.intValue()];
                 });
+        grid.getChildren().add(cbResources1);
 
         ChoiceBox cbStructure2 = new ChoiceBox(FXCollections.observableArrayList(
                 "Warehouse", "Strongbox", "Extra chest")
@@ -1432,24 +1436,28 @@ public class SceneLauncher {
                             chosenStructures[1] = 'E';
                             break;
                         default:
+                            chosenStructures[1] = 't';
                             break;
                     }
                 });
+        grid.getChildren().add(cbStructure2);
 
         ChoiceBox cbResources2 = new ChoiceBox(FXCollections.observableArrayList(
                 "Coin", "Servant", "Shield", "Stone")
         );
         GridPane.setConstraints(cbResources2, 1, 5);
-        cbResources1.getSelectionModel().selectedIndexProperty().addListener(
+        cbResources2.getSelectionModel().selectedIndexProperty().addListener(
                 (ObservableValue<? extends Number> ov,
                  Number old_value, Number new_val) -> {
                     chosenResources[1] = resourcesVett[new_val.intValue()];
                 });
+        grid.getChildren().add(cbResources2);
 
         Label explanationLabel2 = new Label("Choose the produced Resources: ");
         explanationLabel2.setFont(new Font("Arial", 16));
         explanationLabel2.setTextFill(Color.WHITE);
         GridPane.setConstraints(explanationLabel2, 0, 7);
+        grid.getChildren().add(explanationLabel2);
 
         ChoiceBox cbResources3 = new ChoiceBox(FXCollections.observableArrayList(
                 "Coin", "Servant", "Shield", "Stone")
@@ -1460,13 +1468,16 @@ public class SceneLauncher {
                  Number old_value, Number new_val) -> {
                     chosenResources[2] = resourcesVett[new_val.intValue()];
                 });
+        grid.getChildren().add(cbResources3);
 
         Button enterButton = new Button("Enter");
         GridPane.setConstraints(enterButton, 0, 11);
         enterButton.setOnAction(e->{
-            controller.sendMessage(new MessageActiveBaseProduction(playerBoard.getNickname(), chosenResources[2], chosenStructures[0], chosenResources[0], chosenStructures[1], chosenResources[1]));
+            if (chosenResources[0] != null || chosenResources[1] != null || chosenResources[2] != null)
+                controller.sendMessage(new MessageActiveBaseProduction(playerBoard.getNickname(), chosenResources[2], chosenStructures[0], chosenResources[0], chosenStructures[1], chosenResources[1]));
+            else showMessage("You have left some field blank");
         });
-        grid.getChildren().addAll(explanationLabel1, cbStructure1, cbResources1, cbStructure2, cbResources2, explanationLabel2, cbResources3, enterButton);
+        grid.getChildren().add(enterButton);
 
         grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -1588,6 +1599,7 @@ public class SceneLauncher {
                 leaderCardPane.getChildren().add(leaderCardView);
 
                 CheckBox checkBox = new CheckBox();
+                checkBox.setUserData(card);
                 checkBox.selectedProperty().addListener(listener1);
                 checkBox.setLayoutX(i*138 + 55);
                 checkBox.setLayoutY(190);
@@ -1713,7 +1725,7 @@ public class SceneLauncher {
         activeProductionButton.setOnAction(e->{
             if (!checkBoxSelected.isEmpty() && chosenStructures != null && !chosenResources.isEmpty()) {
                 int index = checkBoxListCard.indexOf(checkBoxSelected.get(0));
-                String cardID = playerBoard.getLeaderCards().get(index);
+                String cardID = (String) checkBoxListCard.get(index).getUserData();
                 String resource = resources[checkBoxListResource.indexOf(chosenResources.get(0))];
                 controller.sendMessage(new MessageActiveLeaderCardProduction(playerBoard.getNickname(), cardID, chosenStructures[0], resource));
             }
@@ -1893,6 +1905,7 @@ public class SceneLauncher {
                 extraChestMap.put("Shields", Integer.parseInt(numShieldsExtraChest.getText()));
             if (convertInputText(numStonesExtraChest.getText()))
                 extraChestMap.put("Stones", Integer.parseInt(numStonesExtraChest.getText()));
+
             controller.sendMessage(new MessagePayResources(playerBoard.getNickname(), warehouseMap, strongboxMap, extraChestMap));
         });
         GridPane.setConstraints(enterButton, 0, 10);

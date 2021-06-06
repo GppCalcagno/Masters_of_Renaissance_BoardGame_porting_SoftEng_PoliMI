@@ -109,9 +109,9 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateActivatedDevCardProduction(String devCard) {
         if (playerBoard.isMyturn()){
-            if (sceneLauncher.getProductionsStage() != null)
-                sceneLauncher.getProductionsStage().close();
             Platform.runLater(() -> {
+                if (sceneLauncher.getProductionsStage() != null)
+                    sceneLauncher.getProductionsStage().close();
                 sceneLauncher.payResourcesScene();
             });
         }
@@ -138,7 +138,7 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateFaithMarker() {
         Platform.runLater(()-> {
-            if (playerBoard.getMarbleBuffer().isEmpty())
+            if (playerBoard.getMarbleBuffer().isEmpty() && sceneLauncher.getManageMarbleStage() != null)
                 sceneLauncher.getManageMarbleStage().close();
             sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
         });
@@ -158,6 +158,8 @@ public class Gui implements ViewInterface{
             Platform.runLater(() -> {
                 if (sceneLauncher.getPayResourcesStage() != null)
                     sceneLauncher.getPayResourcesStage().close();
+                else if (sceneLauncher.getProductionsStage() != null)
+                    sceneLauncher.getProductionsStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });
         }
@@ -179,7 +181,7 @@ public class Gui implements ViewInterface{
     public void onUpdateSlotDevCards() {
         if (playerBoard.isMyturn())
             Platform.runLater(()-> {
-                if (sceneLauncher.getProductionsStage() != null)
+                if (sceneLauncher.getPayResourcesStage() != null)
                     sceneLauncher.getPayResourcesStage().close();
             });
     }
@@ -210,7 +212,7 @@ public class Gui implements ViewInterface{
         //provvisorio
         if (playerBoard.isMyturn()) {
             Platform.runLater(() -> {
-                if (playerBoard.getMarbleBuffer().isEmpty())
+                if (playerBoard.getMarbleBuffer().isEmpty() && sceneLauncher.getManageMarbleStage() != null)
                     sceneLauncher.getManageMarbleStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });
