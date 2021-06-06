@@ -918,8 +918,7 @@ public class SceneLauncher {
         marketTray.setOnAction(e->{
             activeExtraction();
         });
-        if(playerBoard.isMyturn()) marketTray.setDisable(false);
-        else marketTray.setDisable(true);
+        marketTray.setDisable(!playerBoard.isMyturn());
 
         Button buyDevCard = new Button();
         buyDevCard.setText("Buy DevCard");
@@ -927,15 +926,13 @@ public class SceneLauncher {
         buyDevCard.setOnAction(e->{
             activeBuyDevCard();
         });
-        if(playerBoard.isMyturn()) buyDevCard.setDisable(false);
-        else buyDevCard.setDisable(true);
+        buyDevCard.setDisable(!playerBoard.isMyturn());
 
         Button production = new Button();
         production.setText("Production");
         production.setLayoutY(56);
         production.setOnAction(e-> activeProductions());
-        if(playerBoard.isMyturn()) production.setDisable(false);
-        else production.setDisable(true);
+        production.setDisable(!playerBoard.isMyturn());
 
         Button showMarket = new Button();
         showMarket.setText("Show market");
@@ -951,6 +948,7 @@ public class SceneLauncher {
         if(playerBoard.getPlayerList().size()>1){
             players.setText("Show players");
             players.setOnAction(e-> showOtherPlayers());
+            players.setDisable(!playerBoard.isMyturn());
         }
         else{
             players.setText("Lorenzo last turn");

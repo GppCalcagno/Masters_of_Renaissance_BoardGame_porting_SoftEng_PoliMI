@@ -79,6 +79,12 @@ public class Gui implements ViewInterface{
         }
         else {
             Platform.runLater(() -> {
+                if (sceneLauncher.getProductionsStage() != null)
+                    sceneLauncher.getProductionsStage().close();
+                if (sceneLauncher.getExtractionMarbleStage() != null)
+                    sceneLauncher.getExtractionMarbleStage().close();
+                if (sceneLauncher.getActiveBuyDevCardStage() != null)
+                    sceneLauncher.getActiveBuyDevCardStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
                 sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
             });
