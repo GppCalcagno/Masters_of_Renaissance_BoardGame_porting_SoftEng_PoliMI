@@ -123,7 +123,7 @@ public class Gui implements ViewInterface{
         }
         else{
             Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has activated a DevCard's production");
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has activated a DevCard's production");
             });
         }
     }
@@ -145,7 +145,7 @@ public class Gui implements ViewInterface{
             });
         }else{
             Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has bought a DevCard");
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has bought a DevCard");
             });
         }
     }
@@ -167,7 +167,7 @@ public class Gui implements ViewInterface{
         }
         else{
             Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has extracted marbles");
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has extracted marbles");
             });
         }
     }
@@ -206,7 +206,7 @@ public class Gui implements ViewInterface{
             });
         else{
             Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update his SlotDevCards");
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update his SlotDevCards");
             });
         }
     }
@@ -222,7 +222,7 @@ public class Gui implements ViewInterface{
         }
         else{
             Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update one of his LeaderCard");
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update one of his LeaderCard");
             });
         }
     }
@@ -237,7 +237,7 @@ public class Gui implements ViewInterface{
             });
         else{
             Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update his Strongbox");
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update his Strongbox");
             });
         }
     }
@@ -254,7 +254,7 @@ public class Gui implements ViewInterface{
         }
         else{
             Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update his Warehouse");
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update his Warehouse");
             });
         }
     }
