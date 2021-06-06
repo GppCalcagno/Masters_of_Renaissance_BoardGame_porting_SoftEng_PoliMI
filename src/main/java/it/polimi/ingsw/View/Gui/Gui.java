@@ -121,6 +121,11 @@ public class Gui implements ViewInterface{
                 sceneLauncher.payResourcesScene();
             });
         }
+        else{
+            Platform.runLater(()->{
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has activated a DevCard's production");
+            });
+        }
     }
 
     @Override
@@ -137,6 +142,10 @@ public class Gui implements ViewInterface{
                 if (sceneLauncher.getActiveBuyDevCardStage() != null)
                     sceneLauncher.getActiveBuyDevCardStage().close();
                 sceneLauncher.payResourcesScene();
+            });
+        }else{
+            Platform.runLater(()->{
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has bought a DevCard");
             });
         }
     }
@@ -155,6 +164,11 @@ public class Gui implements ViewInterface{
         if (playerBoard.isMyturn()){
             Platform.runLater(()-> sceneLauncher.getExtractionMarbleStage().close());
             Platform.runLater(()-> sceneLauncher.manageMarbleScene());
+        }
+        else{
+            Platform.runLater(()->{
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has extracted marbles");
+            });
         }
     }
 
@@ -190,6 +204,11 @@ public class Gui implements ViewInterface{
                 if (sceneLauncher.getPayResourcesStage() != null)
                     sceneLauncher.getPayResourcesStage().close();
             });
+        else{
+            Platform.runLater(()->{
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update his SlotDevCards");
+            });
+        }
     }
 
     @Override
@@ -201,6 +220,11 @@ public class Gui implements ViewInterface{
             else decision = "discarded";
             Platform.runLater(() -> sceneLauncher.showMessage("The card has been " + decision));
         }
+        else{
+            Platform.runLater(()->{
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update one of his LeaderCard");
+            });
+        }
     }
 
     @Override
@@ -211,6 +235,11 @@ public class Gui implements ViewInterface{
                     sceneLauncher.getProductionsStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });
+        else{
+            Platform.runLater(()->{
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update his Strongbox");
+            });
+        }
     }
 
     @Override
@@ -221,6 +250,11 @@ public class Gui implements ViewInterface{
                 if (playerBoard.getMarbleBuffer().isEmpty() && sceneLauncher.getManageMarbleStage() != null)
                     sceneLauncher.getManageMarbleStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+            });
+        }
+        else{
+            Platform.runLater(()->{
+                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + "has update his Warehouse");
             });
         }
     }

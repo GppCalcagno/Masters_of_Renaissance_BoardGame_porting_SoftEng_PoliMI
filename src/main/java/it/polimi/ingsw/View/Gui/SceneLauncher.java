@@ -193,11 +193,9 @@ public class SceneLauncher {
         Pane left = new Pane();
         left.setPrefWidth(150);
         left.getChildren().addAll(buttons());
-        left.getChildren().addAll(leaderCardBoard());
-        //EXTRACHEST
-        left.getChildren().addAll(extrachest());
-        //BUTTON ACTIVE DISCARD LEADERCARDS
-        //left.getChildren().addAll(prove());
+        left.getChildren().addAll(leaderCardBoard(playerBoard.getLeaderCards()));
+
+        left.getChildren().addAll(extrachest(playerBoard.getExtrachest(), playerBoard.getLeaderCards()));
 
         Image imageBoardMain = new Image("board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
         ImageView imageBoardView = new ImageView(imageBoardMain);
@@ -206,7 +204,7 @@ public class SceneLauncher {
 
         Pane boardMain = new Pane();
         boardMain.getChildren().addAll(imageBoardView);
-        boardMain.getChildren().addAll(faithMArkerBoard());
+        boardMain.getChildren().addAll(faithMArkerBoard(playerBoard.getNickname()));
 
         //POPE SPACE
         boardMain.getChildren().addAll(popeSpace());
@@ -275,9 +273,9 @@ public class SceneLauncher {
         }
 
         //STRONGBOX
-        boardMain.getChildren().addAll(strongboxPane());
+        boardMain.getChildren().addAll(strongboxPane(playerBoard.getStrongbox()));
         //DEVCARD
-        boardMain.getChildren().addAll(devCardBoard());
+        boardMain.getChildren().addAll(devCardBoard(playerBoard.getSlotDevCard()));
 
         //ENDTURN
         boardMain.getChildren().add(endTurn());
@@ -285,15 +283,6 @@ public class SceneLauncher {
 
         Button fake = new Button("cheat");
         fake.setOnAction(e-> controller.sendMessage(new MessageFake(playerBoard.getNickname())));
-
-        //tasto per controllo scena (poi si può togliere)
-        /*
-        fake.setOnAction(e->{
-            Stage stage1 = new Stage();
-            stage1.setScene(chooseInitialResources());
-            stage1.show();
-        });
-        */
 
         boardMain.getChildren().add(fake);
 
@@ -497,7 +486,7 @@ public class SceneLauncher {
         return popespace;
     }
 
-    public Node[] strongboxPane(){
+    public Node[] strongboxPane(Map<String,Integer> strongbox){
         Node[] resources = new Node[8];
 
         Image coins = new Image("punchboard/Coins.png");
@@ -534,8 +523,8 @@ public class SceneLauncher {
 
 
         Label numberofCoins = new Label();
-        if(playerBoard.getStrongbox().get("Coins")!=null)
-        numberofCoins.setText(String.valueOf(playerBoard.getStrongbox().get("Coins")));
+        if(strongbox.get("Coins")!=null)
+        numberofCoins.setText(String.valueOf(strongbox.get("Coins")));
         else numberofCoins.setText(String.valueOf(0));
         numberofCoins.setFont(new Font("Arial", 20));
         numberofCoins.setTextFill(Color.WHITE);
@@ -544,8 +533,8 @@ public class SceneLauncher {
         resources[4] = numberofCoins;
 
         Label numberofShields = new Label();
-        if(playerBoard.getStrongbox().get("Shields")!=null)
-        numberofShields.setText(String.valueOf(playerBoard.getStrongbox().get("Shields")));
+        if(strongbox.get("Shields")!=null)
+        numberofShields.setText(String.valueOf(strongbox.get("Shields")));
         else numberofShields.setText(String.valueOf(0));
         numberofShields.setFont(new Font("Arial", 20));
         numberofShields.setTextFill(Color.WHITE);
@@ -554,8 +543,8 @@ public class SceneLauncher {
         resources[5] = numberofShields;
 
         Label numberofStones = new Label();
-        if(playerBoard.getStrongbox().get("Stones")!=null)
-        numberofStones.setText(String.valueOf(playerBoard.getStrongbox().get("Stones")));
+        if(strongbox.get("Stones")!=null)
+        numberofStones.setText(String.valueOf(strongbox.get("Stones")));
         else numberofStones.setText(String.valueOf(0));
         numberofStones.setFont(new Font("Arial", 20));
         numberofStones.setTextFill(Color.WHITE);
@@ -564,8 +553,8 @@ public class SceneLauncher {
         resources[6] = numberofStones;
 
         Label numberofServants = new Label();
-        if(playerBoard.getStrongbox().get("Servants")!=null)
-        numberofServants.setText(String.valueOf(playerBoard.getStrongbox().get("Servants")));
+        if(strongbox.get("Servants")!=null)
+        numberofServants.setText(String.valueOf(strongbox.get("Servants")));
         else numberofServants.setText(String.valueOf(0));
         numberofServants.setFont(new Font("Arial", 20));
         numberofServants.setTextFill(Color.WHITE);
@@ -577,11 +566,11 @@ public class SceneLauncher {
 
     }
 
-    public List<Node> devCardBoard(){
+    public List<Node> devCardBoard(String [][] slotDevCard){
         List<Node> devcards = new ArrayList<>();
 
-        if(playerBoard.getSlotDevCard()[0][0]!=null) {
-            Image leadercard1 = new Image("front/"+playerBoard.getSlotDevCard()[0][0]+".png");
+        if(slotDevCard[0][0]!=null) {
+            Image leadercard1 = new Image("front/"+slotDevCard[0][0]+".png");
             ImageView leadercard1View = new ImageView(leadercard1);
             leadercard1View.setFitHeight(250);
             leadercard1View.setFitWidth(145);
@@ -589,8 +578,8 @@ public class SceneLauncher {
             leadercard1View.setLayoutY(290);
             devcards.add(leadercard1View);
         }
-        if(playerBoard.getSlotDevCard()[0][1]!=null) {
-            Image leadercard2 = new Image("front/"+playerBoard.getSlotDevCard()[0][1]+".png");
+        if(slotDevCard[0][1]!=null) {
+            Image leadercard2 = new Image("front/"+slotDevCard[0][1]+".png");
             ImageView leadercard2View = new ImageView(leadercard2);
             leadercard2View.setFitHeight(250);
             leadercard2View.setFitWidth(145);
@@ -598,8 +587,8 @@ public class SceneLauncher {
             leadercard2View.setLayoutY(290);
             devcards.add(leadercard2View);
         }
-        if(playerBoard.getSlotDevCard()[0][2]!=null) {
-            Image leadercard3 = new Image("front/"+playerBoard.getSlotDevCard()[0][2]+".png");
+        if(slotDevCard[0][2]!=null) {
+            Image leadercard3 = new Image("front/"+slotDevCard[0][2]+".png");
             ImageView leadercard3View = new ImageView(leadercard3);
             leadercard3View.setFitHeight(250);
             leadercard3View.setFitWidth(145);
@@ -607,8 +596,8 @@ public class SceneLauncher {
             leadercard3View.setLayoutY(290);
             devcards.add(leadercard3View);
         }
-        if(playerBoard.getSlotDevCard()[1][0]!=null) {
-            Image leadercard4 = new Image("front/"+playerBoard.getSlotDevCard()[1][0]+".png");
+        if(slotDevCard[1][0]!=null) {
+            Image leadercard4 = new Image("front/"+slotDevCard[1][0]+".png");
             ImageView leadercard4View = new ImageView(leadercard4);
             leadercard4View.setFitHeight(250);
             leadercard4View.setFitWidth(145);
@@ -616,8 +605,8 @@ public class SceneLauncher {
             leadercard4View.setLayoutY(245);
             devcards.add(leadercard4View);
         }
-        if(playerBoard.getSlotDevCard()[1][1]!=null) {
-            Image leadercard5 = new Image("front/"+playerBoard.getSlotDevCard()[1][1]+".png");
+        if(slotDevCard[1][1]!=null) {
+            Image leadercard5 = new Image("front/"+slotDevCard[1][1]+".png");
             ImageView leadercard5View = new ImageView(leadercard5);
             leadercard5View.setFitHeight(250);
             leadercard5View.setFitWidth(145);
@@ -625,8 +614,8 @@ public class SceneLauncher {
             leadercard5View.setLayoutY(245);
             devcards.add(leadercard5View);
         }
-        if(playerBoard.getSlotDevCard()[1][2]!=null) {
-            Image leadercard6 = new Image("front/"+playerBoard.getSlotDevCard()[1][2]+".png");
+        if(slotDevCard[1][2]!=null) {
+            Image leadercard6 = new Image("front/"+slotDevCard[1][2]+".png");
             ImageView leadercard6View = new ImageView(leadercard6);
             leadercard6View.setFitHeight(250);
             leadercard6View.setFitWidth(145);
@@ -634,8 +623,8 @@ public class SceneLauncher {
             leadercard6View.setLayoutY(245);
             devcards.add(leadercard6View);
         }
-        if(playerBoard.getSlotDevCard()[2][0]!=null) {
-            Image leadercard7 = new Image("front/"+playerBoard.getSlotDevCard()[2][0]+".png");
+        if(slotDevCard[2][0]!=null) {
+            Image leadercard7 = new Image("front/"+slotDevCard[2][0]+".png");
             ImageView leadercard7View = new ImageView(leadercard7);
             leadercard7View.setFitHeight(250);
             leadercard7View.setFitWidth(145);
@@ -643,8 +632,8 @@ public class SceneLauncher {
             leadercard7View.setLayoutY(200);
             devcards.add(leadercard7View);
         }
-        if(playerBoard.getSlotDevCard()[2][1]!=null) {
-            Image leadercard8 = new Image("front/"+playerBoard.getSlotDevCard()[2][1]+".png");
+        if(slotDevCard[2][1]!=null) {
+            Image leadercard8 = new Image("front/"+slotDevCard[2][1]+".png");
             ImageView leadercard8View = new ImageView(leadercard8);
             leadercard8View.setFitHeight(250);
             leadercard8View.setFitWidth(145);
@@ -652,8 +641,8 @@ public class SceneLauncher {
             leadercard8View.setLayoutY(200);
             devcards.add(leadercard8View);
         }
-        if(playerBoard.getSlotDevCard()[2][2]!=null) {
-            Image leadercard9 = new Image("front/"+playerBoard.getSlotDevCard()[2][2]+".png");
+        if(slotDevCard[2][2]!=null) {
+            Image leadercard9 = new Image("front/"+slotDevCard[2][2]+".png");
             ImageView leadercard9View = new ImageView(leadercard9);
             leadercard9View.setFitHeight(250);
             leadercard9View.setFitWidth(145);
@@ -666,7 +655,7 @@ public class SceneLauncher {
 
     }
 
-    public Node[] faithMArkerBoard(){
+    public Node[] faithMArkerBoard(String name){
         Node[] faithMarker;
         if(playerBoard.getPlayerList().size()==1) faithMarker = new Node[2];
         else faithMarker = new Node[1];
@@ -676,8 +665,8 @@ public class SceneLauncher {
         imageFaithView.setFitWidth(30);
         imageFaithView.setFitHeight(37);
         faithMarker[0] = imageFaithView;
-        faithMarker[0].setLayoutY(getFaithMarkerY(playerBoard.getFaithMarker()));
-        faithMarker[0].setLayoutX(getFaithMarkerX(playerBoard.getFaithMarker()));
+        faithMarker[0].setLayoutY(getFaithMarkerY(playerBoard.getPlayersFaithMarkerPosition().get(name)));
+        faithMarker[0].setLayoutX(getFaithMarkerX(playerBoard.getPlayersFaithMarkerPosition().get(name)));
 
         if(playerBoard.getPlayerList().size()==1){
             Image imageLorenzo = new Image("punchboard/croce.png");
@@ -692,7 +681,7 @@ public class SceneLauncher {
         return faithMarker;
     }
 
-    public List<Node> leaderCardBoard(){
+    public List<Node> leaderCardBoard(List<String> leadercards){
 
         List<Node> leaderCards = new ArrayList<>();
 
@@ -742,10 +731,7 @@ public class SceneLauncher {
                 activefirst.setLayoutY(340);
                 activefirst.setLayoutX(0);
                 activefirst.setOnAction(e->{
-
                     controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(0), 1));
-                    leaderCards.remove(activefirst);
-
                 });
                 leaderCards.add(activefirst);
            // }
@@ -770,7 +756,6 @@ public class SceneLauncher {
             activesecond.setLayoutX(0);
             activesecond.setOnAction(e->{
                 controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerBoard.getLeaderCards().get(1), 1));
-                leaderCards.remove(activesecond);
             });
             leaderCards.add(activesecond);
         }
@@ -790,112 +775,86 @@ public class SceneLauncher {
         return leaderCards;
     }
 
-    public Node prove(){
-        Button ok = new Button("✓");
-        ok.setFont(new Font("Arial", 7));
-        ok.setTextFill(Color.GREEN);
-
-        ok.setMaxWidth(17);
-        ok.setMaxHeight(17);
-
-        ok.setLayoutY(532);
-        ok.setLayoutX(133);
-
-        return ok;
-    }
-
-    public List<Node> extrachest(){
+    public List<Node> extrachest(Map<String,Integer> extrachest, List<String> leaderCards){
 
         List<Node> res = new ArrayList<>();
-
-        boolean coins = false;
-        boolean shields = false;
-        boolean stones = false;
-        boolean servants = false;
-
-        for(String card : playerBoard.getLeaderCards()){
-            if(card.charAt(2)=='C'){
-                if(card.charAt(4)=='1') stones = true;
-                else if(card.charAt(4)=='2') servants = true;
-                else if(card.charAt(4)=='3') shields=true;
-                else if(card.charAt(4)=='4') coins = true;
-            }
-        }
 
         List<Image> resourceExtra = new ArrayList<>();
         List<ImageView> resourceExtraView = new ArrayList<>();
         int numb=0;
 
-        if(!playerBoard.getExtrachest().isEmpty()){
-            for(String resource : playerBoard.getExtrachest().keySet()){
-                System.out.println("ci entro ");
-                if(resource == "Coins"){
+        if(!extrachest.isEmpty()){
+            for(String resource : extrachest.keySet()){
+
+                if(resource.equals("Coins")){
+
                     resourceExtra.add(new Image("punchboard/Coins.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
                     resourceExtra.add(new Image("punchboard/Coins.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
-                    if(coins){
-                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL4")*195);
+
+                        resourceExtraView.get(numb).setLayoutY(322 +leaderCards.indexOf("LCCL4")*195);
                         resourceExtraView.get(numb).setLayoutX(38);
                         resourceExtraView.get(numb).setOpacity(0.0);
-                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL4")*195);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +leaderCards.indexOf("LCCL4")*195);
                         resourceExtraView.get(numb+1).setLayoutX(95);
                         resourceExtraView.get(numb+1).setOpacity(0.0);
-                        for(int i=0; i<playerBoard.getExtrachest().get("Coins"); i++){
+                        for(int i=0; i<extrachest.get("Coins"); i++){
                             resourceExtraView.get(numb+i).setOpacity(1.0);
                         }
-                    }
+
                 }
-                else if(resource == "Stones"){
+                else if(resource.equals("Stones")){
+
                     resourceExtra.add(new Image("punchboard/Stones.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
                     resourceExtra.add(new Image("punchboard/Stones.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
-                    if(stones){
-                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL1")*195);
+
+                        resourceExtraView.get(numb).setLayoutY(322 +leaderCards.indexOf("LCCL1")*195);
                         resourceExtraView.get(numb).setLayoutX(38);
                         resourceExtraView.get(numb).setOpacity(0.0);
-                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL1")*195);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +leaderCards.indexOf("LCCL1")*195);
                         resourceExtraView.get(numb+1).setLayoutX(95);
                         resourceExtraView.get(numb+1).setOpacity(0.0);
-                        for(int i=0; i<playerBoard.getExtrachest().get("Stones"); i++){
+                        for(int i=0; i<extrachest.get("Stones"); i++){
                             resourceExtraView.get(numb+i).setOpacity(1.0);
                         }
-                    }
+
                 }
-                else if(resource == "Servants"){
+                else if(resource.equals("Servants")){
+
                     resourceExtra.add(new Image("punchboard/Servants.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
                     resourceExtra.add(new Image("punchboard/Servants.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
-                    if(servants){
-                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL2")*195);
+
+                        resourceExtraView.get(numb).setLayoutY(322 +leaderCards.indexOf("LCCL2")*195);
                         resourceExtraView.get(numb).setLayoutX(38);
                         resourceExtraView.get(numb).setOpacity(0.0);
-                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL2")*195);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +leaderCards.indexOf("LCCL2")*195);
                         resourceExtraView.get(numb+1).setLayoutX(95);
                         resourceExtraView.get(numb+1).setOpacity(0.0);
-                        for(int i=0; i<playerBoard.getExtrachest().get("Servants"); i++){
+                        for(int i=0; i<extrachest.get("Servants"); i++){
                             resourceExtraView.get(numb+i).setOpacity(1.0);
                         }
-                    }
+
                 }
-                else if(resource == "Shields"){
+                else if(resource.equals("Shields")){
                     resourceExtra.add(new Image("punchboard/Shields.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb)));
                     resourceExtra.add(new Image("punchboard/Shields.png"));
                     resourceExtraView.add(new ImageView(resourceExtra.get(numb+1)));
-                    if(shields){
-                        resourceExtraView.get(numb).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL3")*195);
+
+                        resourceExtraView.get(numb).setLayoutY(322 +leaderCards.indexOf("LCCL3")*195);
                         resourceExtraView.get(numb).setLayoutX(38);
                         resourceExtraView.get(numb).setOpacity(0.0);
-                        resourceExtraView.get(numb+1).setLayoutY(322 +playerBoard.getLeaderCards().indexOf("LCCL3")*195);
+                        resourceExtraView.get(numb+1).setLayoutY(322 +leaderCards.indexOf("LCCL3")*195);
                         resourceExtraView.get(numb+1).setLayoutX(95);
                         resourceExtraView.get(numb+1).setOpacity(0.0);
-                        for(int i=0; i<playerBoard.getExtrachest().get("Shields"); i++){
+                        for(int i=0; i<extrachest.get("Shields"); i++){
                             resourceExtraView.get(numb+i).setOpacity(1.0);
                         }
-                    }
                 }
                 numb += 2;
             }
@@ -2597,10 +2556,10 @@ public class SceneLauncher {
         left.getChildren().add(closeStageButton);
 
 
-        left.getChildren().addAll(leaderCardBoardOtherPlayer());
+        left.getChildren().addAll(leaderCardBoard(playerBoard.getOtherPlayer().getLeaderCards()));
 
-        //EXTRACHEST ancora da definire
-        //left.getChildren().addAll(extrachest());
+        //EXTRACHEST
+        left.getChildren().addAll(extrachest(playerBoard.getOtherPlayer().getExtrachest(), playerBoard.getOtherPlayer().getLeaderCards()));
 
         Image imageBoardMain = new Image("board/Masters of Renaissance_PlayerBoard (11_2020)-1.png");
         ImageView imageBoardView = new ImageView(imageBoardMain);
@@ -2609,7 +2568,7 @@ public class SceneLauncher {
 
         Pane boardMain = new Pane();
         boardMain.getChildren().addAll(imageBoardView);
-        boardMain.getChildren().addAll(faithMarkerBoardOtherPlayer());
+        boardMain.getChildren().addAll(faithMArkerBoard(playerBoard.getOtherPlayer().getName()));
 
         //POPE SPACE da definire
         /*
@@ -2743,9 +2702,9 @@ public class SceneLauncher {
         }
 
         //STRONGBOX
-        boardMain.getChildren().addAll(strongboxPaneOtherPlayer());
+        boardMain.getChildren().addAll(strongboxPane(playerBoard.getOtherPlayer().getStrongbox()));
         //SLOTDEVCARD
-        boardMain.getChildren().addAll(slotDevCardOtherPlayer());
+        boardMain.getChildren().addAll(devCardBoard(playerBoard.getOtherPlayer().getSlotDevCard()));
 
         HBox allBoard = new HBox();
         allBoard.getChildren().addAll(left, boardMain);
@@ -2755,222 +2714,6 @@ public class SceneLauncher {
         stage1.setTitle("Board other player");
         stage1.initStyle(StageStyle.UNDECORATED);
         stage1.show();
-    }
-
-    public Node[] faithMarkerBoardOtherPlayer(){
-        Node[] faithMarker = new Node[1];
-
-        Image imageFaith = new Image("punchboard/faithMarker.png");
-        ImageView imageFaithView = new ImageView(imageFaith);
-        imageFaithView.setFitWidth(30);
-        imageFaithView.setFitHeight(37);
-        faithMarker[0] = imageFaithView;
-        int faithMarkerOtherPlayer = playerBoard.getPlayersFaithMarkerPosition().get(playerBoard.getOtherPlayer().getName());
-        faithMarker[0].setLayoutY(getFaithMarkerY(faithMarkerOtherPlayer));
-        faithMarker[0].setLayoutX(getFaithMarkerX(faithMarkerOtherPlayer));
-
-        return faithMarker;
-    }
-
-    public List<Node> leaderCardBoardOtherPlayer(){
-        List<Node> leaderCards = new ArrayList<>();
-
-        Image[] leadercard = new Image[2];
-        leadercard[0] = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
-        leadercard[1] = new Image("back/Masters of Renaissance__Cards_BACK_3mmBleed-49-1.png");
-
-        List<String> leaderCardsOtherPlayer = playerBoard.getOtherPlayer().getLeaderCards();
-
-        if (!leaderCardsOtherPlayer.isEmpty()) {
-            for (int i = 0; i < leaderCardsOtherPlayer.size(); i++) {
-                if (leaderCardsOtherPlayer.get(0) != null) {
-                    leadercard[i] = new Image("front/" + leaderCardsOtherPlayer.get(i) + ".png");
-                }
-            }
-
-            ImageView leadercard1View = new ImageView(leadercard[0]);
-            leadercard1View.setFitHeight(195);
-            leadercard1View.setFitWidth(150);
-
-            ImageView leadercard2View = new ImageView(leadercard[1]);
-            leadercard2View.setFitHeight(195);
-            leadercard2View.setFitWidth(150);
-
-            leadercard1View.setLayoutY(160);
-            leaderCards.add(leadercard1View);
-            leadercard2View.setLayoutY(355);
-            leaderCards.add(leadercard2View);
-        }
-
-        return leaderCards;
-    }
-
-    public Node[] strongboxPaneOtherPlayer(){
-        Node[] resources = new Node[8];
-
-        Image coins = new Image("punchboard/Coins.png");
-        ImageView coinsView = new ImageView(coins);
-        coinsView.setFitWidth(30);
-        coinsView.setFitHeight(30);
-        coinsView.setLayoutX(20);
-        coinsView.setLayoutY(430);
-        resources[0] = coinsView;
-
-        Image shields = new Image("punchboard/Shields.png");
-        ImageView shieldsView = new ImageView(shields);
-        shieldsView.setFitWidth(30);
-        shieldsView.setFitHeight(30);
-        shieldsView.setLayoutX(20);
-        shieldsView.setLayoutY(470);
-        resources[1] = shieldsView;
-
-        Image stones = new Image("punchboard/Stones.png");
-        ImageView stonesView = new ImageView(stones);
-        stonesView.setFitWidth(30);
-        stonesView.setFitHeight(30);
-        stonesView.setLayoutX(90);
-        stonesView.setLayoutY(430);
-        resources[2] = stonesView;
-
-        Image servants = new Image("punchboard/Servants.png");
-        ImageView servantsView = new ImageView(servants);
-        servantsView.setFitWidth(30);
-        servantsView.setFitHeight(30);
-        servantsView.setLayoutX(90);
-        servantsView.setLayoutY(470);
-        resources[3] = servantsView;
-
-
-        Label numberofCoins = new Label();
-        if(playerBoard.getOtherPlayer().getStrongbox().get("Coins")!=null)
-            numberofCoins.setText(String.valueOf(playerBoard.getOtherPlayer().getStrongbox().get("Coins")));
-        else numberofCoins.setText(String.valueOf(0));
-        numberofCoins.setFont(new Font("Arial", 20));
-        numberofCoins.setTextFill(Color.WHITE);
-        numberofCoins.setLayoutX(50);
-        numberofCoins.setLayoutY(435);
-        resources[4] = numberofCoins;
-
-        Label numberofShields = new Label();
-        if(playerBoard.getOtherPlayer().getStrongbox().get("Shields")!=null)
-            numberofShields.setText(String.valueOf(playerBoard.getOtherPlayer().getStrongbox().get("Shields")));
-        else numberofShields.setText(String.valueOf(0));
-        numberofShields.setFont(new Font("Arial", 20));
-        numberofShields.setTextFill(Color.WHITE);
-        numberofShields.setLayoutX(50);
-        numberofShields.setLayoutY(475);
-        resources[5] = numberofShields;
-
-        Label numberofStones = new Label();
-        if(playerBoard.getOtherPlayer().getStrongbox().get("Stones")!=null)
-            numberofStones.setText(String.valueOf(playerBoard.getOtherPlayer().getStrongbox().get("Stones")));
-        else numberofStones.setText(String.valueOf(0));
-        numberofStones.setFont(new Font("Arial", 20));
-        numberofStones.setTextFill(Color.WHITE);
-        numberofStones.setLayoutX(120);
-        numberofStones.setLayoutY(435);
-        resources[6] = numberofStones;
-
-        Label numberofServants = new Label();
-        if(playerBoard.getOtherPlayer().getStrongbox().get("Servants")!=null)
-            numberofServants.setText(String.valueOf(playerBoard.getOtherPlayer().getStrongbox().get("Servants")));
-        else numberofServants.setText(String.valueOf(0));
-        numberofServants.setFont(new Font("Arial", 20));
-        numberofServants.setTextFill(Color.WHITE);
-        numberofServants.setLayoutX(120);
-        numberofServants.setLayoutY(475);
-        resources[7] = numberofServants;
-
-        return resources;
-
-    }
-
-    public List<Node> slotDevCardOtherPlayer(){
-        List<Node> devcards = new ArrayList<>();
-
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[0][0]!=null) {
-            Image leadercard1 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[0][0]+".png");
-            ImageView leadercard1View = new ImageView(leadercard1);
-            leadercard1View.setFitHeight(250);
-            leadercard1View.setFitWidth(145);
-            leadercard1View.setLayoutX(280);
-            leadercard1View.setLayoutY(290);
-            devcards.add(leadercard1View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[0][1]!=null) {
-            Image leadercard2 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[0][1]+".png");
-            ImageView leadercard2View = new ImageView(leadercard2);
-            leadercard2View.setFitHeight(250);
-            leadercard2View.setFitWidth(145);
-            leadercard2View.setLayoutX(427);
-            leadercard2View.setLayoutY(290);
-            devcards.add(leadercard2View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[0][2]!=null) {
-            Image leadercard3 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[0][2]+".png");
-            ImageView leadercard3View = new ImageView(leadercard3);
-            leadercard3View.setFitHeight(250);
-            leadercard3View.setFitWidth(145);
-            leadercard3View.setLayoutX(574);
-            leadercard3View.setLayoutY(290);
-            devcards.add(leadercard3View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[1][0]!=null) {
-            Image leadercard4 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[1][0]+".png");
-            ImageView leadercard4View = new ImageView(leadercard4);
-            leadercard4View.setFitHeight(250);
-            leadercard4View.setFitWidth(145);
-            leadercard4View.setLayoutX(280);
-            leadercard4View.setLayoutY(245);
-            devcards.add(leadercard4View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[1][1]!=null) {
-            Image leadercard5 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[1][1]+".png");
-            ImageView leadercard5View = new ImageView(leadercard5);
-            leadercard5View.setFitHeight(250);
-            leadercard5View.setFitWidth(145);
-            leadercard5View.setLayoutX(427);
-            leadercard5View.setLayoutY(245);
-            devcards.add(leadercard5View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[1][2]!=null) {
-            Image leadercard6 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[1][2]+".png");
-            ImageView leadercard6View = new ImageView(leadercard6);
-            leadercard6View.setFitHeight(250);
-            leadercard6View.setFitWidth(145);
-            leadercard6View.setLayoutX(574);
-            leadercard6View.setLayoutY(245);
-            devcards.add(leadercard6View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[2][0]!=null) {
-            Image leadercard7 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[2][0]+".png");
-            ImageView leadercard7View = new ImageView(leadercard7);
-            leadercard7View.setFitHeight(250);
-            leadercard7View.setFitWidth(145);
-            leadercard7View.setLayoutX(280);
-            leadercard7View.setLayoutY(200);
-            devcards.add(leadercard7View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[2][1]!=null) {
-            Image leadercard8 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[2][1]+".png");
-            ImageView leadercard8View = new ImageView(leadercard8);
-            leadercard8View.setFitHeight(250);
-            leadercard8View.setFitWidth(145);
-            leadercard8View.setLayoutX(427);
-            leadercard8View.setLayoutY(200);
-            devcards.add(leadercard8View);
-        }
-        if(playerBoard.getOtherPlayer().getSlotDevCard()[2][2]!=null) {
-            Image leadercard9 = new Image("front/"+playerBoard.getOtherPlayer().getSlotDevCard()[2][2]+".png");
-            ImageView leadercard9View = new ImageView(leadercard9);
-            leadercard9View.setFitHeight(250);
-            leadercard9View.setFitWidth(145);
-            leadercard9View.setLayoutX(427);
-            leadercard9View.setLayoutY(200);
-            devcards.add(leadercard9View);
-        }
-
-        return devcards;
     }
 
     public Stage getPayResourcesStage() {

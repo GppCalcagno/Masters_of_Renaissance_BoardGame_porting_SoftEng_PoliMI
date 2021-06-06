@@ -59,28 +59,50 @@ public class ViewExtraChest {
     }
 
     private void updateObject() {
+        boolean servants = false;
+        boolean shields = false;
+        boolean stones = false;
+        boolean coins = false;
         String resource = null;
         if(!extrachest.isEmpty()){
             for (int i = 0; i < extrachest.size(); i++) {
-                if (extrachest.containsKey("Servants")) {
+                if (extrachest.containsKey("Servants") && !servants) {
                     color = Color.ANSI_BRIGHTPURPLE.escape();
                     resource = "Servants";
-                } else if (extrachest.containsKey("Shields")) {
+                    servants = true;
+                    for (int j = 0; j < extrachest.get(resource); j++) {
+                        tiles[1][j * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    }
+                    plot();
+                } else if (extrachest.containsKey("Shields") && !shields) {
                     color = Color.ANSI_BRIGHTBLUE.escape();
                     resource = "Shields";
-                } else if (extrachest.containsKey("Coins")) {
+                    shields = true;
+                    for (int j = 0; j < extrachest.get(resource); j++) {
+                        tiles[1][j * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    }
+                    plot();
+                } else if (extrachest.containsKey("Coins") && !coins) {
                     color = Color.ANSI_YELLOW.escape();
                     resource = "Coins";
-                } else if (extrachest.containsKey("Stones")) {
+                    coins = true;
+                    for (int j = 0; j < extrachest.get(resource); j++) {
+                        tiles[1][j * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    }
+                    plot();
+                } else if (extrachest.containsKey("Stones") && !stones) {
                     color = Color.ANSI_BRIGHDARK.escape();
                     resource = "Stones";
+                    stones = true;
+                    for (int j = 0; j < extrachest.get(resource); j++) {
+                        tiles[1][j * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    }
+                    plot();
                 }
                 for (int j = 0; j < extrachest.get(resource); j++) {
-                    tiles[1][j * 4 + 2] = "●" + Color.ANSI_BRIGHTWHITE.escape();
+                    tiles[1][j * 4 + 2] = " ";
                 }
-                plot();
             }
-
         }
     }
 

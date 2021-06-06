@@ -398,7 +398,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showLeaderActionBox() {
-
+        System.out.println(Color.ANSI_YELLOW.escape() + "Yours leaderCard\n" + Color.RESET);
         ViewLeaderActionBox viewLeaderActionBox = new ViewLeaderActionBox(playerBoard.getLeaderCards());
         viewLeaderActionBox.plot();
         for (String card: playerBoard.getLeaderCards()){
@@ -408,12 +408,14 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showSlotDevCard() {
+        System.out.println(Color.ANSI_YELLOW.escape() + "SlotDevCard\n" + Color.RESET);
         ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(playerBoard.getSlotDevCard());
         viewSlotDevCard.plot();
     }
 
     @Override
     public void showWarehouse() {
+        System.out.println(Color.ANSI_YELLOW.escape() + "Warehouse\n" + Color.RESET);
         ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard.getWarehouse());
         viewWarehouse.plot();
         if(!playerBoard.getExtrachest().isEmpty()){
@@ -423,18 +425,21 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showStrongbox() {
+        System.out.println(Color.ANSI_YELLOW.escape() + "StrongBox\n" + Color.RESET);
         ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard.getStrongbox());
         viewStrongbox.plot();
     }
 
     @Override
     public void showFaithTrack() {
+        System.out.println(Color.ANSI_YELLOW.escape() + "FaithTrack\n" + Color.RESET);
         ViewFaithTrack viewFaithTrack = new ViewFaithTrack(playerBoard, nickname);
         viewFaithTrack.plot();
     }
 
     @Override
     public void showMarketTray() {
+        System.out.println(Color.ANSI_YELLOW.escape() + "MarketTray\n" + Color.RESET);
         ViewMarketTray viewMarketTray = new ViewMarketTray(playerBoard);
         viewMarketTray.plot();
     }
@@ -442,12 +447,14 @@ public class Cli implements ViewInterface {
 
     @Override
     public void showDevCardDeck() {
+        System.out.println(Color.ANSI_YELLOW.escape() + "DevCardDeck\n" + Color.RESET);
         ViewDevCardDeck viewDevCardDeck = new ViewDevCardDeck(playerBoard);
         viewDevCardDeck.plot();
     }
 
     @Override
     public void showExtraChest(){
+        System.out.println(Color.ANSI_YELLOW.escape() + "Extrachest\n" + Color.RESET);
         new ViewExtraChest(playerBoard.getExtrachest());
     }
 
@@ -482,7 +489,7 @@ public class Cli implements ViewInterface {
         System.out.println(Color.ANSI_YELLOW.escape() + "Warehouse: \n" + Color.RESET);
         new ViewWarehouse(playerBoard.getOtherPlayer().getWarehouse()).plot();
         System.out.println(Color.ANSI_YELLOW.escape() + "ExtraChest: \n" + Color.RESET);
-        new ViewExtraChest(playerBoard.getOtherPlayer().getExtrachest()).plot();
+        new ViewExtraChest(playerBoard.getOtherPlayer().getExtrachest());
         System.out.println(Color.ANSI_YELLOW.escape() + "Strongbox: \n" + Color.RESET);
         new ViewStrongbox(playerBoard.getOtherPlayer().getStrongbox()).plot();
         System.out.println(Color.ANSI_YELLOW.escape() + "SlotDevCard: \n" + Color.RESET);
