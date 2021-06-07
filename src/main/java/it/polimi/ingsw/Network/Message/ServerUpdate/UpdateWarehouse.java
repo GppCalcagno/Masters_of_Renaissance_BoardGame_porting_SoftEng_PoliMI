@@ -23,8 +23,10 @@ public class UpdateWarehouse extends Update {
     public void update(ViewInterface view) {
         view.getPlayerBoard().setWarehouse(warehouse,extraChest);
         view.getPlayerBoard().removemarblefromBuffer(removeMarblefromBuffer);
-        view.onUpdateWarehouse();
-    }
 
+
+        view.onUpdateWarehouse();
+
+    }
 
 }

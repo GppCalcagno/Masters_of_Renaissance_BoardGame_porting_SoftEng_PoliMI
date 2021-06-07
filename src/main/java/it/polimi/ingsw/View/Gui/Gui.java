@@ -73,6 +73,7 @@ public class Gui implements ViewInterface{
             }
             else {
                 Platform.runLater(() -> {
+                    sceneLauncher.showMessage("It' your turn");
                     sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
                 });
             }
@@ -244,6 +245,8 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateWarehouse() {
+        System.out.println(playerBoard.getExtrachest());
+
         //provvisorio
         if (playerBoard.isMyturn()) {
             Platform.runLater(() -> {
@@ -252,11 +255,13 @@ public class Gui implements ViewInterface{
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });
         }
+        /*
         else{
             Platform.runLater(()->{
                 sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update his Warehouse");
             });
         }
+         */
     }
 
     @Override
@@ -282,6 +287,7 @@ public class Gui implements ViewInterface{
     @Override
     public void onPlayerDisconnect(String name) {
         //when a player logs out
+        Platform.runLater(()->sceneLauncher.showMessage("PLAYER " + name +" has left the game."));
 
     }
 
