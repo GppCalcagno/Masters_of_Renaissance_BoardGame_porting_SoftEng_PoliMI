@@ -83,26 +83,6 @@ public class FaithTrack {
     }
 
     /**
-     * this method returns the number of VictoryPoints of the selected space
-     *
-     * @param i is the index of the faithtrack space
-     * @return the number VictoryPoints of the selected space
-     */
-    public int getVictoryPoints(int i) {
-        return faithtrack[i];
-    }
-
-    /**
-     * this method returns the number of Victory points of a popsfavouritetile
-     *
-     * @param i is the index of the popsfavouritetile Vector
-     * @return the number of Victory points of the selected popsfavouritetile
-     */
-    public int getPopsfavouritetilepoints(int i) {
-        return popsfavouritetilepoints[i];
-    }
-
-    /**
      * this method returns the current popTile
      *
      * @return currentPopTile
@@ -120,18 +100,18 @@ public class FaithTrack {
      * @param blackCrossToken is LorenzoIlMagnifico's blackCrossToken (=O if Multiplayer Game)
      */
     public void checkPopeSpace(List<Player> p, int blackCrossToken) throws GameFinishedException {
-        int actived = 0;
+        boolean actived = false;
         int VaticanReportSectionindex = 1 + currentPopTile * 2;
 
         if (currentPopTile < 3) {
             for (Player player : p) {
                 if (player.getFaithMarker() >= VaticanReportSection[VaticanReportSectionindex] || blackCrossToken >= VaticanReportSection[VaticanReportSectionindex])
-                    actived = 1;
+                    actived = true;
             }
 
             VaticanReportSectionindex--;
 
-            if (actived == 1) {
+            if (actived) {
                 for (Player player : p) {
                     player.setPopsfavortiles(currentPopTile, player.getFaithMarker() >= VaticanReportSection[VaticanReportSectionindex]);
                 }

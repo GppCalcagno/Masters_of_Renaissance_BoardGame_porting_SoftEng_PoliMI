@@ -178,31 +178,6 @@
               </configuration>
             </execution>
 
-            <execution>
-              <id>${project.artifactId}-ClientWindows</id>
-              <phase>package</phase>
-              <goals>
-                <goal>shade</goal>
-              </goals>
-              <configuration>
-                <finalName>${project.artifactId}-ClientWindows</finalName>
-                <transformers>
-                  <transformer
-                          implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                    <mainClass>it.polimi.ingsw.ClientGUIWindows</mainClass>
-                  </transformer>
-                </transformers>
-                <filters>
-                  <filter>
-                    <artifact>*:*</artifact>
-                    <excludes>
-                      <exclude>module-info.class</exclude>
-                    </excludes>
-                  </filter>
-                </filters>
-              </configuration>
-            </execution>
-
           </executions>
         </plugin>
 

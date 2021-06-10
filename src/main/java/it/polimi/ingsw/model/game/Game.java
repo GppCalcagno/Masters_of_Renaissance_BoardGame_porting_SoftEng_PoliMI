@@ -42,7 +42,7 @@ public class Game {
      */
     private FaithTrack faithTrack;
 
-    private Player lastPlayer;
+    private Player firstPlayer;
 
     /**
      * 0-2 slotDevCard Production
@@ -66,7 +66,7 @@ public class Game {
         this.marketStructure = new MarketStructure();
         this.faithTrack = new FaithTrack();
         this.finishedGame = false;
-        this.lastPlayer = null;
+        this.firstPlayer = null;
         this.canDoProduction = new boolean[6];
         setCanDoProductionTrue();
         this.update = update;
@@ -101,15 +101,12 @@ public class Game {
         }
         if(isSomeoneOnline) {
             int i = this.playersList.indexOf(this.currentPlayer);
-            if (finishedGame && lastPlayer == null)
-                lastPlayer = this.currentPlayer;
             do {
                 i++;
                 if (i >= this.playersList.size()) i = 0;
-                if (finishedGame && playersList.get(i) == lastPlayer)
+                if (finishedGame && playersList.get(i) == firstPlayer)
                     throw new EndGameException();
             } while (!playersList.get(i).getConnected());
-
             currentPlayer = playersList.get(i);
         }
     }
@@ -166,9 +163,7 @@ public class Game {
         // Set the current Player
         Collections.shuffle(this.playersList);
         currentPlayer=playersList.get(0);
-
-
-        playersList= (List<Player>) playersList;
+        firstPlayer=currentPlayer;
 
         //set Initial Resources
         for(int i=0;i<playersList.size();i++){
@@ -176,17 +171,14 @@ public class Game {
                 case 1:playersList.get(i).setInitialResources(1); break;
                 case 2:playersList.get(i).setInitialResources(1); break;
                 case 3:playersList.get(i).setInitialResources(2); break;
-                default:
-                    playersList.get(i).setInitialResources(0); break;
+                default: playersList.get(i).setInitialResources(0); break;
             }
         }
 
         // Set Initial FaithPoints
         for(int i = 2; i < this.playersList.size(); i++){
-            try {
-                this.playersList.get(i).increasefaithMarker();
-            }
-            catch (ActiveVaticanReportException ignored) {}
+            try { this.playersList.get(i).increasefaithMarker();}
+            catch (ActiveVaticanReportException ignored) {} //Max 2 points -> No Vatican Report
         }
         update.onUpdateStartGame(developmentCardDeck.getDevelopmentCardDeck(), playersList, marketStructure.getMarketTray(), marketStructure.getRemainingMarble());
     }
@@ -346,7 +338,7 @@ public class Game {
                             try {
                                 faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
                             } catch (GameFinishedException e) {
-                                if (isFinishedGame())
+                                if (!finishedGame && isFinishedGame())
                                     update.onUpdateGameFinished();
                             }
                             update.onUpdateFaithMarker(currentPlayer, playersList, true,getBlackCrossToken());
@@ -373,7 +365,7 @@ public class Game {
                         try {
                             faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
                         } catch (GameFinishedException gameFinishedException) {
-                            if (isFinishedGame())
+                            if (!finishedGame && isFinishedGame())
                                 update.onUpdateGameFinished();
                         }
                     }
@@ -479,23 +471,20 @@ public class Game {
                     currentPlayer.setColumnSlotBuyDev(-1);
                     update.onUpdateResources(currentPlayer);
                     currentPlayer.setTurnPhase(TurnPhase.ENDTURN);
-                    if (isFinishedGame()) {
+                    if (!finishedGame &&  isFinishedGame()) {
                         update.onUpdateGameFinished();
                         return true;
-                    } else {
-                        update.onUpdateError(currentPlayer.getNickname(), "The Game is yet not finished.");
-                        return false;
                     }
                 }
-            } else {
-                update.onUpdateError(currentPlayer.getNickname(), "You can not delete these resources.");
-                return false;
             }
+            update.onUpdateError(currentPlayer.getNickname(), "You can not delete these resources.");
+            return false;
         }
         else {
             update.onUpdateError(currentPlayer.getNickname(), "You can't do this action at the moment.");
             return false;
         }
+
     }
 
     /**
@@ -685,7 +674,7 @@ public class Game {
                         try {
                             faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
                         } catch (GameFinishedException gameFinishedException) {
-                            if (isFinishedGame())
+                            if (!finishedGame && isFinishedGame())
                                 update.onUpdateGameFinished();
                         }
                     }
@@ -830,7 +819,7 @@ public class Game {
                             try {
                                 faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
                             } catch (GameFinishedException gameFinishedException) {
-                                if (isFinishedGame())
+                                if (!finishedGame && isFinishedGame()) update.onUpdateGameFinished();
                                     update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
                             }
                         }
@@ -942,7 +931,7 @@ public class Game {
             try {
                 faithTrack.checkPopeSpace(playersList, getBlackCrossToken());
             } catch (GameFinishedException gameFinishedException) {
-                if (isFinishedGame())
+                if (!finishedGame &&  isFinishedGame()) update.onUpdateGameFinished();
                     update.onUpdateFaithMarker(currentPlayer, playersList, false,getBlackCrossToken());
             }
         }
@@ -1066,6 +1055,9 @@ public class Game {
         return null;
     }
 
+    public void setFinishedGame(boolean finishedGame) {
+        this.finishedGame = finishedGame;
+    }
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;

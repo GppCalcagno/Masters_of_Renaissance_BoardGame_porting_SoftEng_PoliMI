@@ -16,10 +16,6 @@ public class SinglePlayerGame extends Game {
      */
     private LorenzoIlMagnifico lorenzoIlMagnifico;
 
-    /**
-     * This attribute indicates if the game is finished
-     */
-    private boolean finishedGame;
 
     private boolean playerWin;
 
@@ -63,7 +59,7 @@ public class SinglePlayerGame extends Game {
         while(i< ColorCard.values().length){
             if(null == getDevelopmentCardDeck().getDevelopmentCardDeck()[0][i][0]){
                 playerWin = false;
-                finishedGame = true;
+                setFinishedGame(true);
                 return true;
             }
             else i++;
@@ -71,13 +67,13 @@ public class SinglePlayerGame extends Game {
 
         if(lorenzoIlMagnifico.getFaithMarker()>=getFaithTrack().getFaithtracksize()){
             playerWin = false;
-            finishedGame = true;
+            setFinishedGame(true);
             return true;
         }
 
         if(getCurrentPlayer().getSlotDevCards().countTotalNumberDevCards()>=7 || getCurrentPlayer().getFaithMarker() == getFaithTrack().getFaithtracksize()){
             playerWin = true;
-            finishedGame = true;
+            setFinishedGame(true);
             return true;
         }
         return false;
@@ -88,7 +84,6 @@ public class SinglePlayerGame extends Game {
      */
     @Override
     public void startgame () {
-        // Dà 4 carte leader a ogni giocatore. Poi tramite il controller verranno scartate 2 carte per ogni giocatore
         setDuringGame(true);
         setCurrentPlayer(getPlayersList().get(0));
         for (int x = 0; x < 4; x++) {
@@ -117,6 +112,7 @@ public class SinglePlayerGame extends Game {
         getUpdate().onUpdateWinnerSinglePlayer(false, getCurrentPlayer().getVictoryPoints());
         return;
         */
+
         boolean canEndTurn = onDisconnect;
         if(!onDisconnect) {
             if (getCurrentPlayer().getGameState().equals(GameState.INITGAME) && getCurrentPlayer().getLeaderActionBox().size() <= 2 && getCurrentPlayer().getInitialResources() == 0) {
@@ -143,7 +139,6 @@ public class SinglePlayerGame extends Game {
                 }
             }
             getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken(), lorenzoIlMagnifico.getCurrentToken().getColor());
-
             setCanDoProductionTrue();
             try {
                 setCurrentPlayer();
