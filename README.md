@@ -6,4 +6,4 @@ The goal of the project is to create a digital version of the board game ["Maste
 <figcaption>In Masters of Renaissance, you are an important citizen of Florence and your goal is to increase your fame and prestige. Take resources from the market and use them to buy new cards. Expand your power both in the city and in the surrounding territories! Every card gives you a production power. Try to use the leaders’ abilities to your advantage and don’t forget to show your devotion to the Pope! </figcaption>
 </p>
 
-## Software Engineering Final Exam AA 2020/2021
+## Documentation :books:
