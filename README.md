@@ -7,3 +7,4 @@ The goal of the project is to create a digital version of the board game ["Maste
 </p>
 
 ## Documentation :books:
+wip
