@@ -44,7 +44,7 @@ From the results of Junit we have a line covered of **100% on the controller** a
 The game can be started from the following [Jar files](https://github.com/Giuseppe-Calcagno/ingswAM2021-Caironi-Calcagno-Chiurco/tree/main/documentation/jar). The project was compiled using **java 15**, however there should be no problems recompiling it with a not too dated Java version.
 
 #### Server
-The server can be started via the command line, where you can optionally choose a custom listening port via the --port parameter
+The server can be started via the command line, where you can optionally choose a custom listening port via the `--port` parameter
 ```shell
 > java -jar AM16-server.jar [--port xxxx]
 ```
