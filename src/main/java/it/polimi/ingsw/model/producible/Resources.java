@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model.producible;
 
 import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 
-public abstract class Resources {
+public abstract class Resources implements Producible{
         /**
          * this method activates the effect of the resource: add Servants to player's StrongBox
          * @param p is the player who uses the resource
