@@ -10,7 +10,7 @@ The goal of the project is to create a digital version of the board game [Master
 ### Requirements :white_check_mark:
 The following requirements were covered in the development of the project:
 - [x] **Complete Rules**
-- [x] **CLI** && **GUI**
+- [x] **CLI** and **GUI**
 - [x] **Communication Protocol** (Socket)
 - [x] **Advanced Features: Local Game**
 - [x] **Advanced Features: Resilience to Disconnections**
