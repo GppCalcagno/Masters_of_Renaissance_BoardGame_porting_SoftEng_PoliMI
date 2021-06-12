@@ -31,6 +31,9 @@ Here is the list of tools used to carry out this project:
 |__JavaFx__|Graphic library for creating user interfaces.|
 |__JUnit__|Unit testing framework.|
 
+### JavaDoc :memo: WIP
+All the documentation regarding the java classes with their methods is available [here] link a breve
+
 ### Coverage report :microscope:  WIP
 From the results of Junit we have a line covered of **100% on the controller** and **96% on the model**, results that we believe are satisfactory. All the analyzes on the model classes are also shown below
 <p align="center">
@@ -38,11 +41,29 @@ From the results of Junit we have a line covered of **100% on the controller** a
 </p>
 
 ### Starting the Game :flower_playing_cards:
-the game can be started from the following Jar files:
--[server] ()
--[client] ()
+The game can be started from the following [Jar files](https://github.com/Giuseppe-Calcagno/ingswAM2021-Caironi-Calcagno-Chiurco/tree/main/documentation/jar). The project was compiled using **java 15**, however there should be no problems recompiling it with a not too dated Java version.
 
+#### Server
+The server can be started via the command line, where you can optionally choose a custom listening port via the --port parameter
+```shell
+> java -jar AM16-server.jar [--port xxxx]
+```
+#### Client
+ASCII ART was used in the implementation of the CLI, so we recommend the use of **terminal that supports UTF-8 encoding and ANSI escapes**. The client can be started via the command line by specifying 2 mandatory parameters:
+- `--cli\gui`:          to select the display mode
+- `--online\offline`:  to select the game mode
 
+if the parameters are not specified correctly, the mode is selected by default: __CLI ONLINE__
+```shell
+> java -jar AM16-client.jar --cli\gui --online\offline
+```
+
+## The Dream Team :star2:
+- [Giovanni Chiurco](https://github.com/GiovanniChiurco)
+- [Nicolò Caironi](https://github.com/NicoloCaironi)
+- [Giuseppe Calcagno](https://github.com/Giuseppe-Calcagno)
+
+Having reached the conclusion, there is only one thing left to do: *"it's coffee break gentlemen"*
 
 
 ## License
