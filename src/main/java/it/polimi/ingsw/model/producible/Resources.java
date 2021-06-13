@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.producible;
 
 import it.polimi.ingsw.model.exceptions.NegativeQuantityExceptions;
-import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 
 public abstract class Resources implements Producible{

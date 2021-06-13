@@ -101,12 +101,14 @@ public class Game {
         }
         if(isSomeoneOnline) {
             int i = this.playersList.indexOf(this.currentPlayer);
+
             do {
                 i++;
                 if (i >= this.playersList.size()) i = 0;
-                if (finishedGame && playersList.get(i) == firstPlayer)
+                if (finishedGame && playersList.get(i).equals(firstPlayer))
                     throw new EndGameException();
             } while (!playersList.get(i).getConnected());
+
             currentPlayer = playersList.get(i);
         }
     }
@@ -954,7 +956,11 @@ public class Game {
                     setCanDoProductionTrue();
                 }
             }
+        }else {
+            emptyBuffer();
+            setCanDoProductionTrue();
         }
+
         if(canEndTurn){
             try {
                 setCurrentPlayer();
