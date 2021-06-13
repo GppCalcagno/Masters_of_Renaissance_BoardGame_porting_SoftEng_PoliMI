@@ -183,8 +183,7 @@ public class SceneLauncher {
 
         grid.getChildren().addAll(numPlayersLabel, numPlayersField, numButton);
         grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene scene = new Scene(grid, 897, 550);
-        return scene;
+        return new Scene(grid, 897, 550);
     }
 
 
@@ -292,9 +291,7 @@ public class SceneLauncher {
         HBox allBoard = new HBox();
         allBoard.getChildren().addAll(left, boardMain);
 
-        Scene scene = new Scene(allBoard);
-
-        return scene;
+        return new Scene(allBoard);
     }
 
     public Node[] exchangeButton(){
@@ -305,7 +302,7 @@ public class SceneLauncher {
         List<CheckBox> exchangeCheck = new ArrayList<>();
         List<CheckBox> checkBoxList = new ArrayList<>();
 
-        ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {
+        ChangeListener<Boolean> listener = new ChangeListener<>() {
 
             private int activeCount = 0;
 
@@ -733,9 +730,7 @@ public class SceneLauncher {
                 activefirst.setMaxHeight(17);
                 activefirst.setLayoutY(340);
                 activefirst.setLayoutX(0);
-                activefirst.setOnAction(e->{
-                    controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerLeaderCards.get(0), 1));
-                });
+                activefirst.setOnAction(e-> controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerLeaderCards.get(0), 1)));
                 leaderCards.add(activefirst);
         }
 
@@ -755,9 +750,7 @@ public class SceneLauncher {
             activesecond.setMaxHeight(17);
             activesecond.setLayoutY(532);
             activesecond.setLayoutX(0);
-            activesecond.setOnAction(e->{
-                controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerLeaderCards.get(1), 1));
-            });
+            activesecond.setOnAction(e-> controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerLeaderCards.get(1), 1)));
             leaderCards.add(activesecond);
         }
 
@@ -813,17 +806,13 @@ public class SceneLauncher {
         Button marketTray = new Button();
         marketTray.setText("Extract");
         marketTray.setLayoutY(5);
-        marketTray.setOnAction(e->{
-            activeExtraction();
-        });
+        marketTray.setOnAction(e-> activeExtraction());
         marketTray.setDisable(!playerBoard.isMyturn());
 
         Button buyDevCard = new Button();
         buyDevCard.setText("Buy DevCard");
         buyDevCard.setLayoutY(31);
-        buyDevCard.setOnAction(e->{
-            activeBuyDevCard();
-        });
+        buyDevCard.setOnAction(e-> activeBuyDevCard());
         buyDevCard.setDisable(!playerBoard.isMyturn());
 
         Button production = new Button();
@@ -876,8 +865,7 @@ public class SceneLauncher {
         endTurn.setLayoutY(523);
         endTurn.setLayoutX(683);
         endTurn.setOnAction(e-> controller.sendMessage(new MessageEndTurn(playerBoard.getNickname())));
-        if(!playerBoard.isMyturn()) endTurn.setDisable(true);
-        else endTurn.setDisable(false);
+        endTurn.setDisable(!playerBoard.isMyturn());
 
         return endTurn;
     }
@@ -971,9 +959,6 @@ public class SceneLauncher {
             leaderCardImgView.setFitWidth(160);
             leaderCardImgView.setPreserveRatio(true);
             cardsBox.getChildren().add(leaderCardImgView);
-            //GridPane.setConstraints(leaderCardImgView, i, 1);
-            //grid.getChildren().add(leaderCardImgView);
-            //i++;
         }
         total.getChildren().add(cardsBox);
 
@@ -984,7 +969,7 @@ public class SceneLauncher {
         List<CheckBox> chosenCards = new ArrayList<>();
         List<CheckBox> checkBoxList = new ArrayList<>();
 
-        ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {
+        ChangeListener<Boolean> listener = new ChangeListener<>() {
             private int activeCount = 0;
 
             public void changed(ObservableValue<? extends Boolean> o, Boolean oldValue, Boolean newValue) {
@@ -1091,7 +1076,7 @@ public class SceneLauncher {
 
         int finalMaxCount = maxCount;
 
-        ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {
+        ChangeListener<Boolean> listener = new ChangeListener<>() {
             private int activeCount = 0;
 
             public void changed(ObservableValue<? extends Boolean> o, Boolean oldValue, Boolean newValue) {
@@ -1228,21 +1213,15 @@ public class SceneLauncher {
 
         Button baseProductionButton = new Button("Base\nProduction");
         buttonsBox.getChildren().add(baseProductionButton);
-        baseProductionButton.setOnAction(e->{
-            baseProductionScene(productionsStage);
-        });
+        baseProductionButton.setOnAction(e-> baseProductionScene(productionsStage));
 
         Button devCardProductionButton = new Button("Development Card\nProduction");
         buttonsBox.getChildren().add(devCardProductionButton);
-        devCardProductionButton.setOnAction(e->{
-            devCardProductionScene(productionsStage);
-        });
+        devCardProductionButton.setOnAction(e-> devCardProductionScene(productionsStage));
 
         Button leaderCardProductionButton = new Button("Leader Card\nProduction");
         buttonsBox.getChildren().add(leaderCardProductionButton);
-        leaderCardProductionButton.setOnAction(e->{
-            leaderCardProductionScene(productionsStage);
-        });
+        leaderCardProductionButton.setOnAction(e-> leaderCardProductionScene(productionsStage));
 
         borderPane.getChildren().add(buttonsBox);
 
@@ -1307,9 +1286,7 @@ public class SceneLauncher {
         GridPane.setConstraints(cbResources1, 1, 3);
         cbResources1.getSelectionModel().selectedIndexProperty().addListener(
                 (ObservableValue<? extends Number> ov,
-                 Number old_value, Number new_val) -> {
-                    chosenResources[0] = resourcesVett[new_val.intValue()];
-                });
+                 Number old_value, Number new_val) -> chosenResources[0] = resourcesVett[new_val.intValue()]);
         grid.getChildren().add(cbResources1);
 
         ChoiceBox cbStructure2 = new ChoiceBox(FXCollections.observableArrayList(
@@ -1342,9 +1319,7 @@ public class SceneLauncher {
         GridPane.setConstraints(cbResources2, 1, 5);
         cbResources2.getSelectionModel().selectedIndexProperty().addListener(
                 (ObservableValue<? extends Number> ov,
-                 Number old_value, Number new_val) -> {
-                    chosenResources[1] = resourcesVett[new_val.intValue()];
-                });
+                 Number old_value, Number new_val) -> chosenResources[1] = resourcesVett[new_val.intValue()]);
         grid.getChildren().add(cbResources2);
 
         Label explanationLabel2 = new Label("Choose the produced Resources: ");
@@ -1359,9 +1334,7 @@ public class SceneLauncher {
         GridPane.setConstraints(cbResources3, 0, 9);
         cbResources3.getSelectionModel().selectedIndexProperty().addListener(
                 (ObservableValue<? extends Number> ov,
-                 Number old_value, Number new_val) -> {
-                    chosenResources[2] = resourcesVett[new_val.intValue()];
-                });
+                 Number old_value, Number new_val) -> chosenResources[2] = resourcesVett[new_val.intValue()]);
         grid.getChildren().add(cbResources3);
 
         Button enterButton = new Button("Enter");
@@ -1570,7 +1543,7 @@ public class SceneLauncher {
 
         int finalMaxCount = 1;
 
-        ChangeListener<Boolean> listener2 = new ChangeListener<Boolean>() {
+        ChangeListener<Boolean> listener2 = new ChangeListener<>() {
             private int activeCount = 0;
 
             public void changed(ObservableValue<? extends Boolean> o, Boolean oldValue, Boolean newValue) {
@@ -2104,9 +2077,7 @@ public class SceneLauncher {
 
         Button discardButton = new Button("Discard");
         GridPane.setConstraints(discardButton, 0, 15);
-        discardButton.setOnAction(e->{
-            controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), 'D', -1, null));
-        });
+        discardButton.setOnAction(e-> controller.sendMessage(new MessageManageMarbles(playerBoard.getNickname(), 'D', -1, null)));
         grid.getChildren().add(discardButton);
 
         BorderPane borderPane = new BorderPane();
@@ -2332,9 +2303,7 @@ public class SceneLauncher {
         }
 
         Button closeButton = new Button("EndGame");
-        closeButton.setOnAction(e->{
-            controller.disconnect();
-        });
+        closeButton.setOnAction(e-> controller.disconnect());
         closeButton.setLayoutX(50);
         closeButton.setLayoutY(200);
 
@@ -2694,7 +2663,6 @@ public class SceneLauncher {
 
         grid.getChildren().addAll(numPlayersLabel);
         grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene scene = new Scene(grid, 897, 550);
-        return scene;
+        return new Scene(grid, 897, 550);
     }
 }
