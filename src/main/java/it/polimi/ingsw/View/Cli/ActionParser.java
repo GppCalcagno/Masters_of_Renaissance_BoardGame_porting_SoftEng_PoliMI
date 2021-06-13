@@ -201,7 +201,7 @@ public class ActionParser {
             switch(parts[1].toUpperCase(Locale.ROOT)){
                 case "LEADERACTIONBOX": cli.showLeaderActionBox();  break;
                 case "SLOTDEVCARD": cli.showSlotDevCard();          break;
-                case "WAREHOUSE":  cli.showWarehouse();             break;
+                case "WAREHOUSE":  cli.showWarehouse(playerBoard);  break;
                 case "STRONGBOX":   cli.showStrongbox();            break;
                 case "FAITHTRACK": cli.showFaithTrack();            break;
                 case "MARKETTRAY": cli.showMarketTray();            break;

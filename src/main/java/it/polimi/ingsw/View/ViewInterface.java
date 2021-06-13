@@ -99,7 +99,6 @@ public interface ViewInterface {
 
     void showLeaderActionBox();
     void showSlotDevCard();
-    void showWarehouse();
     void showStrongbox();
     void showFaithTrack();
     void showExtraChest();

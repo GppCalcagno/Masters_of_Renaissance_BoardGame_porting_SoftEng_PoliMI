@@ -5,6 +5,7 @@ import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.ViewInterface;
+import it.polimi.ingsw.model.player.Player;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -140,7 +141,7 @@ public class Cli implements ViewInterface {
                         Color.ANSI_YELLOW.escape()+"\t ACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET);
                 showMarketTray();
                 showStrongbox();
-                showWarehouse();
+                showWarehouse(playerBoard);
                 showDevCardDeck();
                 showSlotDevCard();
             }
@@ -248,7 +249,7 @@ public class Cli implements ViewInterface {
             if(!playerBoard.getMarbleBuffer().isEmpty()){
                 System.out.println("You have to manage the extracted Marbles");
                 showMarbleBuffer();
-                showWarehouse();
+                showWarehouse(playerBoard);
             }
             else{
                 if(playerBoard.getLeaderCards().size()>2 ){
@@ -286,9 +287,14 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateUpdateResources() {
-        if (playerBoard.isMyturn()) System.out.println("Your resources have been updated\n");
-        showStrongbox();
-        showWarehouse();
+        if (playerBoard.isMyturn()) {
+            System.out.println("Your resources have been updated\n");
+            showStrongbox();
+            showWarehouse(playerBoard);
+        }
+        else {
+            System.out.println(playerBoard.getCurrentPlayer() + "has updated his resources\n");
+        }
     }
 
     @Override
@@ -320,7 +326,7 @@ public class Cli implements ViewInterface {
                 "\n -- <col> the index of the column of the slotdevcard\n" +
                 "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
         showMarketTray();
-        showWarehouse();
+        showWarehouse(playerBoard);
         showDevCardDeck();
         showSlotDevCard();
     }
@@ -354,7 +360,7 @@ public class Cli implements ViewInterface {
     public void onUpdateWarehouse() {
         if(playerBoard.isMyturn()) {
             System.out.println("You update your warehouse");
-            showWarehouse();
+            showWarehouse(playerBoard);
         }
 
         if(!playerBoard.getMarbleBuffer().isEmpty()){
@@ -414,12 +420,11 @@ public class Cli implements ViewInterface {
         viewSlotDevCard.plot();
     }
 
-    @Override
-    public void showWarehouse() {
+    public void showWarehouse(PlayerBoard p) {
         System.out.println(Color.ANSI_YELLOW.escape() + "Warehouse\n" + Color.RESET);
-        ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard.getWarehouse());
+        ViewWarehouse viewWarehouse = new ViewWarehouse(p.getWarehouse());
         viewWarehouse.plot();
-        if(!playerBoard.getExtrachest().isEmpty()){
+        if(!p.getExtrachest().isEmpty()){
             showExtraChest();
         }
     }

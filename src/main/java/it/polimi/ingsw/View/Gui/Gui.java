@@ -353,11 +353,6 @@ public class Gui implements ViewInterface{
     }
 
     @Override
-    public void showWarehouse() {
-
-    }
-
-    @Override
     public void showStrongbox() {
 
     }
