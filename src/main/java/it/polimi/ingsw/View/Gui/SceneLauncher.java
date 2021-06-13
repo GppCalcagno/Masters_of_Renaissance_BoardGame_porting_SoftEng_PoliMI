@@ -187,6 +187,8 @@ public class SceneLauncher {
         return scene;
     }
 
+
+
     public Scene mainboard(){
 
         Pane left = new Pane();
@@ -724,7 +726,7 @@ public class SceneLauncher {
             discardfirst.setOnAction(e-> controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerLeaderCards.get(0), 0)));
             leaderCards.add(discardfirst);
 
-           // if(playerBoard.getLeaderActionMap().get(0)!=null && !playerBoard.getLeaderActionMap().get(0).getActivated()){
+
                 activefirst.setFont(new Font("Arial", 7));
                 activefirst.setTextFill(Color.GREEN);
                 activefirst.setMaxWidth(17);
@@ -735,10 +737,8 @@ public class SceneLauncher {
                     controller.sendMessage(new MessageUpdateStateLeaderActionClient(playerBoard.getNickname(), playerLeaderCards.get(0), 1));
                 });
                 leaderCards.add(activefirst);
-           // }
         }
 
-       // System.out.println(leadercard[1].getUrl().contains("Masters"));
         if(!leadercard[1].getUrl().contains("Masters")){
             discardsecond.setFont(new Font("Arial", 7));
             discardsecond.setTextFill(Color.RED);
@@ -774,20 +774,6 @@ public class SceneLauncher {
             discardsecond.setDisable(true);
         }
         return leaderCards;
-    }
-
-    public Node prove(){
-        Button ok = new Button("✓");
-        ok.setFont(new Font("Arial", 7));
-        ok.setTextFill(Color.GREEN);
-
-        ok.setMaxWidth(17);
-        ok.setMaxHeight(17);
-
-        ok.setLayoutY(532);
-        ok.setLayoutX(133);
-
-        return ok;
     }
 
     public List<Node> extraChest(Map<String,Integer> playerExtraChest, List<String> playerLeaderCards){
@@ -974,8 +960,6 @@ public class SceneLauncher {
         label.setTextFill(Color.WHITE);
         GridPane.setConstraints(label, 0, 0);
         grid.getChildren().add(label);
-
-        //int i = 0;
 
         HBox cardsBox = new HBox();
         cardsBox.setSpacing(5);
@@ -2135,18 +2119,7 @@ public class SceneLauncher {
         manageMarbleStage.setTitle("Manage marbles");
         manageMarbleStage.setScene(new Scene(borderPane));
         manageMarbleStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
-        /*
-        stage1.setOnCloseRequest(we -> {
-            try {
-                if (!playerBoard.getMarbleBuffer().isEmpty())
-                    stage1.showAndWait();
-            } catch (IllegalStateException exception) {
-                System.out.println("");
-            }
-        });
 
-         */
-        //stage1.initStyle(StageStyle.UNDECORATED);
         manageMarbleStage.setAlwaysOnTop(true);
         manageMarbleStage.show();
     }
@@ -2699,4 +2672,20 @@ public class SceneLauncher {
     }
     }
 
+
+    public Scene waitOtherPlayers() {
+
+        Pane grid = new Pane();
+
+        Label numPlayersLabel = new Label("Waiting for other players... ");
+        numPlayersLabel.setFont(new Font("Arial", 30));
+        numPlayersLabel.setTextFill(Color.BLACK);
+        numPlayersLabel.setLayoutX(250);
+        numPlayersLabel.setLayoutY(250);
+
+        grid.getChildren().addAll(numPlayersLabel);
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        Scene scene = new Scene(grid, 897, 550);
+        return scene;
+    }
 }

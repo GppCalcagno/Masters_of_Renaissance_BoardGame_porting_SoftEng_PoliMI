@@ -122,4 +122,6 @@ public interface ViewInterface {
     void showLorenzoTurn();
 
     PlayerBoard getPlayerBoard();
+
+    void waitforOtherPlayers();
 }

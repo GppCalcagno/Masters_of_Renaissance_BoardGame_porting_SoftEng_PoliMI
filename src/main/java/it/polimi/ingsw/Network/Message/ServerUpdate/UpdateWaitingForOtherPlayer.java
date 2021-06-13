@@ -13,7 +13,7 @@ public class UpdateWaitingForOtherPlayer extends Update {
 
     @Override
     public void update(ViewInterface view) {
-        view.showMessage("Waiting for Other Player.");
+        view.waitforOtherPlayers();
     }
 
 

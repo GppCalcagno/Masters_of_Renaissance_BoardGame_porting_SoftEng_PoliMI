@@ -560,6 +560,11 @@ public class Cli implements ViewInterface {
         return playerBoard;
     }
 
+    @Override
+    public void waitforOtherPlayers() {
+        System.out.println("Wait for other players....");
+    }
+
 
     public void clearboard(){
         for(int i=0;i<15;i++){

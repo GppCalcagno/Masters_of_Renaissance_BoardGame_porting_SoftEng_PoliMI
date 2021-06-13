@@ -245,9 +245,7 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onUpdateWarehouse() {
-        System.out.println(playerBoard.getExtrachest());
 
-        //provvisorio
         if (playerBoard.isMyturn()) {
             Platform.runLater(() -> {
                 if (playerBoard.getMarbleBuffer().isEmpty() && sceneLauncher.getManageMarbleStage() != null)
@@ -255,13 +253,7 @@ public class Gui implements ViewInterface{
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });
         }
-        /*
-        else{
-            Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update his Warehouse");
-            });
-        }
-         */
+
     }
 
     @Override
@@ -280,13 +272,11 @@ public class Gui implements ViewInterface{
 
     @Override
     public void onDisconnect() {
-        // when the server asks to disconnect
         clientController.disconnect();
     }
 
     @Override
     public void onPlayerDisconnect(String name) {
-        //when a player logs out
         Platform.runLater(()->sceneLauncher.showMessage("PLAYER " + name +" has left the game."));
 
     }
@@ -362,7 +352,6 @@ public class Gui implements ViewInterface{
                 });
             }
 
-            //inThread.start();
         }
         else {
             Platform.runLater(() -> {
@@ -456,10 +445,11 @@ public class Gui implements ViewInterface{
         return playerBoard;
     }
 
-    /*@Override
-    public ClientController getController() {
-        return clientController;
+    @Override
+    public void waitforOtherPlayers() {
+        Platform.runLater(() -> {
+            sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers());
+        });
     }
 
-*/
 }
