@@ -32,7 +32,6 @@ public class ViewMarketTray {
                 tiles[i][j]=" ";
             }
         }
-
         //spazio per la biglia 'fuori'
         tiles[0][17] = "╔";
         tiles[0][18] = "═";
