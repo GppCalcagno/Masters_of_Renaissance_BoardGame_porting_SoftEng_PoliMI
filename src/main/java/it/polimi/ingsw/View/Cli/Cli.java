@@ -165,19 +165,11 @@ public class Cli implements ViewInterface {
         if(playerBoard.isMyturn()){
             out.println("You activated : " + devCard);
             out.println("Now you can activate another production between :" +
-                    Color.ANSI_YELLOW.escape()+"\t ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>" + Color.RESET +
-                    "\n -- <resource wanted> is the resource you want to be produced" +
-                    "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
-                    "\n -- <resource> the resource you want to be as payment for the production\n" +
-                    Color.ANSI_YELLOW.escape()+"\t ACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET + "     only if you have a leader card with as effect an extraproduction" +
-                    "\n -- <ID> the id of the leader card" +
-                    "\n -- <W/S/E> where the resource you want to use to pay is taken: warehouse (W), strongbox (S), extrachest (E)" +
-                    "\n -- <resource> the resource you want\n" +
-                    Color.ANSI_YELLOW.escape()+"\t ACTIVEDEVCARDPRODUCTION <num>" + Color.RESET +
-                    "\n -- <col> the index of the column of the slotdevcard  \n");
+                    Color.ANSI_YELLOW.escape()+"\t ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>\n" + Color.RESET +
+                    Color.ANSI_YELLOW.escape()+"\t ACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> \n" +Color.RESET +
+                    Color.ANSI_YELLOW.escape()+"\t ACTIVEDEVCARDPRODUCTION <num>\n" + Color.RESET );
             out.println("Or you can type :" +
-                    Color.ANSI_YELLOW.escape()+"\t ENDPRODUCTION  "+Color.RESET+"      to finish your production but not the turn so you can do other actions\n" +
-                    Color.ANSI_YELLOW.escape()+"\t ENDTURN "+Color.RESET+"    to finish your turn\n");
+                    Color.ANSI_YELLOW.escape()+"\t ENDPRODUCTION  "+Color.RESET+" to finish your production but not the turn so you can do other actions\n"+ Color.RESET);
         }
         else System.out.println(playerBoard.getCurrentPlayer() + " activated " + devCard);
     }
@@ -384,7 +376,7 @@ public class Cli implements ViewInterface {
 
         }
         else
-            System.out.println(playerBoard.getCurrentPlayer()+" update his warehouse");
+            System.out.println(playerBoard.getCurrentPlayer()+" update your warehouse");
     }
 
 
