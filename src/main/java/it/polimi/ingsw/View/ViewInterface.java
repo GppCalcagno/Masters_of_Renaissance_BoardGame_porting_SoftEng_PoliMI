@@ -98,8 +98,6 @@ public interface ViewInterface {
     void showMessage(String message);
 
     void showLeaderActionBox();
-    void showSlotDevCard();
-    void showStrongbox();
     void showFaithTrack();
     void showExtraChest();
     void showMarketTray();

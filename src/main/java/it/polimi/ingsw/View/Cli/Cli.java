@@ -5,11 +5,12 @@ import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.ViewInterface;
-import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.Strongbox;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -139,11 +140,12 @@ public class Cli implements ViewInterface {
                         Color.ANSI_YELLOW.escape() + "\t ACTIVEDEVCARDPRODUCTION <num>\n" + Color.RESET +
                         Color.ANSI_YELLOW.escape()+"\t ACTIVEBASEPRODUCTION <resource wanted> <W/S/E> <resource> <W/S/E> <resource>\n" + Color.RESET +
                         Color.ANSI_YELLOW.escape()+"\t ACTIVELEADERACTIONPROD <ID> <W/S/E> <resource> " +Color.RESET);
-                showMarketTray();
-                showStrongbox();
-                showWarehouse(playerBoard);
                 showDevCardDeck();
-                showSlotDevCard();
+                showMarketTray();
+
+                showStrongbox(playerBoard.getStrongbox());
+                showWarehouse();
+                showSlotDevCard(playerBoard.getSlotDevCard());
             }
         }
         else System.out.println("Is " + playerBoard.getCurrentPlayer() + "'s turn.");
@@ -249,7 +251,7 @@ public class Cli implements ViewInterface {
             if(!playerBoard.getMarbleBuffer().isEmpty()){
                 System.out.println("You have to manage the extracted Marbles");
                 showMarbleBuffer();
-                showWarehouse(playerBoard);
+                showWarehouse();
             }
             else{
                 if(playerBoard.getLeaderCards().size()>2 ){
@@ -287,14 +289,12 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateUpdateResources() {
-        if (playerBoard.isMyturn()) {
-            System.out.println("Your resources have been updated\n");
-            showStrongbox();
-            showWarehouse(playerBoard);
+        if(playerBoard.isMyturn()){
+            if (playerBoard.isMyturn()) System.out.println("Your resources have been updated\n");
+            showStrongbox(playerBoard.getStrongbox());
+            showWarehouse();
         }
-        else {
-            System.out.println(playerBoard.getCurrentPlayer() + "has updated his resources\n");
-        }
+
     }
 
     @Override
@@ -326,15 +326,19 @@ public class Cli implements ViewInterface {
                 "\n -- <col> the index of the column of the slotdevcard\n" +
                 "Type HELPSHOW to see all commands to show the Market tray, the Development cards' deck, ecc.\n");
         showMarketTray();
-        showWarehouse(playerBoard);
+        showWarehouse();
         showDevCardDeck();
-        showSlotDevCard();
+        showSlotDevCard(playerBoard.getSlotDevCard());
     }
 
     @Override
     public void onUpdateSlotDevCards() {
-        System.out.println("You add a DevCard in your SlotDevCard");
-        showSlotDevCard();
+        if(playerBoard.isMyturn()){
+            System.out.println("You add a DevCard in your SlotDevCard");
+            showSlotDevCard(playerBoard.getSlotDevCard());
+        }
+        else
+            System.out.println(playerBoard.getCurrentPlayer()+ " add a DevCard in his SlotDevCard");
     }
 
     @Override
@@ -351,8 +355,12 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateStrongbox() {
-        if (playerBoard.isMyturn()) System.out.println("You update your strongbox ");
-        showStrongbox();
+        if(playerBoard.isMyturn()) {
+            System.out.println("You update your strongbox ");
+            showStrongbox(playerBoard.getStrongbox());
+        }
+        else
+            System.out.println(playerBoard.getCurrentPlayer() +" update his strongbox ");
     }
 
     @Override
@@ -360,23 +368,25 @@ public class Cli implements ViewInterface {
     public void onUpdateWarehouse() {
         if(playerBoard.isMyturn()) {
             System.out.println("You update your warehouse");
-            showWarehouse(playerBoard);
-        }
+            showWarehouse();
+            if (!playerBoard.getMarbleBuffer().isEmpty()) {
+                System.out.println("Please continue on manage your marbles...");
+                showMarbleBuffer();
+                System.out.println("You have to manage marbles you extracted\n" +
+                        Color.ANSI_YELLOW.escape() + "\t MANAGEMARBLE <W/E/D> <row W> <resource>" + Color.RESET +
+                        "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
+                        "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
+                        "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want");
+            }
+            if (playerBoard.getLeaderCards().size() == 4)
+                System.out.println("CHOOSELEADERCARDS <int position> <int position>" + Color.RESET + " to select the ones you prefer\n" +
+                        Color.ANSI_YELLOW.escape() + "\tSHOW LEADERCARD <String ID>" + Color.RESET + " to see the card\n");
 
-        if(!playerBoard.getMarbleBuffer().isEmpty()){
-            System.out.println("Please continue on manage your marbles...");
-            showMarbleBuffer();
-            System.out.println("You have to manage marbles you extracted\n" +
-                    Color.ANSI_YELLOW.escape() + "\t MANAGEMARBLE <W/E/D> <row W> <resource>" + Color.RESET +
-                    "\n -- <W/E/D> is where you want to store the marble: warehouse (W), extrachest (E), discard (D)" +
-                    "\n -- <row W> if you selected to store the marble in the warehouse you have to write in which row" +
-                    "\n -- <resource> if you have multiple leader card that transform a white marble in a resource please insert which resource you want");
         }
-        if (playerBoard.getLeaderCards().size() == 4)
-            System.out.println("CHOOSELEADERCARDS <int position> <int position>" +  Color.RESET+ " to select the ones you prefer\n" +
-                    Color.ANSI_YELLOW.escape() + "\tSHOW LEADERCARD <String ID>" +  Color.RESET+ " to see the card\n");
-
+        else
+            System.out.println(playerBoard.getCurrentPlayer()+" update his warehouse");
     }
+
 
     @Override
     public void onUpdateWinnerMultiplayer() {
@@ -413,26 +423,24 @@ public class Cli implements ViewInterface {
         }
     }
 
-    @Override
-    public void showSlotDevCard() {
+    public void showSlotDevCard(String[][] slotDevCard) {
         System.out.println(Color.ANSI_YELLOW.escape() + "SlotDevCard\n" + Color.RESET);
-        ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(playerBoard.getSlotDevCard());
+        ViewSlotDevCard viewSlotDevCard = new ViewSlotDevCard(slotDevCard);
         viewSlotDevCard.plot();
     }
 
-    public void showWarehouse(PlayerBoard p) {
+    public void showWarehouse() {
         System.out.println(Color.ANSI_YELLOW.escape() + "Warehouse\n" + Color.RESET);
-        ViewWarehouse viewWarehouse = new ViewWarehouse(p.getWarehouse());
+        ViewWarehouse viewWarehouse = new ViewWarehouse(playerBoard.getWarehouse());
         viewWarehouse.plot();
-        if(!p.getExtrachest().isEmpty()){
+        if(!playerBoard.getExtrachest().isEmpty()){
             showExtraChest();
         }
     }
 
-    @Override
-    public void showStrongbox() {
+    public void showStrongbox(Map<String,Integer> strongbox) {
         System.out.println(Color.ANSI_YELLOW.escape() + "StrongBox\n" + Color.RESET);
-        ViewStrongbox viewStrongbox = new ViewStrongbox(playerBoard.getStrongbox());
+        ViewStrongbox viewStrongbox = new ViewStrongbox(strongbox);
         viewStrongbox.plot();
     }
 
@@ -497,7 +505,7 @@ public class Cli implements ViewInterface {
         System.out.println(Color.ANSI_YELLOW.escape() + "ExtraChest: \n" + Color.RESET);
         new ViewExtraChest(playerBoard.getOtherPlayer().getExtrachest());
         System.out.println(Color.ANSI_YELLOW.escape() + "Strongbox: \n" + Color.RESET);
-        new ViewStrongbox(playerBoard.getOtherPlayer().getStrongbox()).plot();
+        showStrongbox(playerBoard.getOtherPlayer().getStrongbox());
         System.out.println(Color.ANSI_YELLOW.escape() + "SlotDevCard: \n" + Color.RESET);
         new ViewSlotDevCard(playerBoard.getOtherPlayer().getSlotDevCard()).plot();
         System.out.println(Color.ANSI_YELLOW.escape() + "LeaderCard: \n" + Color.RESET);

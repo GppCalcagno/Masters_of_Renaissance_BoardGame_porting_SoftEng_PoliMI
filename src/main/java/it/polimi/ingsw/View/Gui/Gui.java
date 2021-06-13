@@ -347,15 +347,6 @@ public class Gui implements ViewInterface{
 
     }
 
-    @Override
-    public void showSlotDevCard() {
-
-    }
-
-    @Override
-    public void showStrongbox() {
-
-    }
 
     @Override
     public void showFaithTrack() {
