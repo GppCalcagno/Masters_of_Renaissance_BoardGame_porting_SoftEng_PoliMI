@@ -36,7 +36,7 @@ All the documentation regarding the java classes with their methods is available
 
 All the documentation regarding the comunication protocol is available [here] link a breve
 
-### Coverage report :microscope:  WIP
+### Coverage report :microscope:
 From the results of Junit we have a line covered of **100% on the controller** and **96% on the model**, results that we believe are satisfactory. All the analyzes on the model classes are also shown below
 <p align="center">
 <img src="src/main/resources/ReadMe/Junit.png" alt="Logo" width="554" height="140">
