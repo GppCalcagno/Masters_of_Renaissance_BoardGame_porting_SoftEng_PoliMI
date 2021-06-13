@@ -123,12 +123,9 @@ public class SinglePlayerGame extends Game {
                 if (getCurrentPlayer().getTurnPhase().equals(TurnPhase.ENDTURN)) {
                     canEndTurn = true;
                     getCurrentPlayer().setTurnPhase(TurnPhase.DOTURN);
-                    setCanDoProductionTrue();
+                    getCurrentPlayer().setCanDoProductionTrue();
                 }
             }
-        }else{
-            emptyBuffer();
-            setCanDoProductionTrue();
         }
 
         if(canEndTurn){
@@ -143,7 +140,7 @@ public class SinglePlayerGame extends Game {
                 }
             }
             getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken(), lorenzoIlMagnifico.getCurrentToken().getColor());
-            setCanDoProductionTrue();
+            getCurrentPlayer().setCanDoProductionTrue();
             try {
                 setCurrentPlayer();
             } catch (EndGameException e) {

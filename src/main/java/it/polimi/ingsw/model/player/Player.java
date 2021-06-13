@@ -90,6 +90,13 @@ public class Player {
     private TurnPhase turnPhase;
 
     /**
+     * 0-2 slotDevCard Production
+     * 3-4 leaderCard Production
+     * 5 baseProduction
+     */
+    private boolean[] canDoProduction;
+
+    /**
      * This is the costructor of Player
      * @param nickname is the Nickname of the player
      */
@@ -99,6 +106,8 @@ public class Player {
         this.faithMarker=0;
         this.leaderActionBox = new ArrayList<LeaderAction>();
         this.connected = true ;
+        this.canDoProduction = new boolean[6];
+        setCanDoProductionTrue();
 
         this.popsfavortiles = new boolean[popfavortilessize];
 
@@ -119,6 +128,20 @@ public class Player {
 
         this.gameState=GameState.INITGAME;
         this.turnPhase=TurnPhase.DOTURN;
+    }
+
+    public void setCanDoProductionTrue(){
+        for (int i = 0; i < 6; i++) {
+            canDoProduction[i] = true;
+        }
+    }
+
+    public void setCanDoProduction(int i, boolean val) {
+        canDoProduction[i]=val;
+    }
+
+    public boolean getCanDoProduction(int i){
+        return canDoProduction[i];
     }
 
     /**
@@ -182,7 +205,6 @@ public class Player {
      * @param b is the current state of the player
      */
     public void setConnected(boolean b){
-        //come facciamo a riconoscere che il player è connesso- da implementare quando si costruisce rete
         this.connected=b;
     }
 
@@ -195,18 +217,6 @@ public class Player {
             throw new ActiveVaticanReportException();
         else if (faithMarker == 25)
             faithMarker = 24;
-    }
-
-    /**
-     * Remove a leaderaction from leaderActionBox
-     * @param i is the leaderAction's index to be removed
-     */
-    public void discardLeaderAction(int i){
-        leaderActionBox.remove(i);
-    }
-
-    public void discardLeaderAction(LeaderAction leaderAction){
-        leaderActionBox.remove(leaderAction);
     }
 
     /**

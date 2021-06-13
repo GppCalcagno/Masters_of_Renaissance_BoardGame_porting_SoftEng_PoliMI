@@ -325,11 +325,11 @@ public class Gui implements ViewInterface{
                         } else {
                             if (playerBoard.getCurrentDevCardToBuy() != null) {
                                 secondMessage = "You have to Complete Card Purchase";
+                                Platform.runLater(() -> sceneLauncher.resumeGameScene(firstMessage, secondMessage));
                                 if(getPlayerBoard().isMyturn())Platform.runLater(() -> sceneLauncher.payResourcesScene());
                                 else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
-                                Platform.runLater(() -> sceneLauncher.resumeGameScene(firstMessage, secondMessage));
+
                             } else {
-                                Platform.runLater(()->sceneLauncher.showMessage("it's your turn"));
                                 if(getPlayerBoard().isMyturn()) Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
                                 else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
                             }

@@ -44,12 +44,7 @@ public class Game {
 
     private Player firstPlayer;
 
-    /**
-     * 0-2 slotDevCard Production
-     * 3-4 leaderCard Production
-     * 5 baseProduction
-     */
-    private boolean[] canDoProduction;
+
 
     private UpdateCreator update;
 
@@ -67,17 +62,11 @@ public class Game {
         this.faithTrack = new FaithTrack();
         this.finishedGame = false;
         this.firstPlayer = null;
-        this.canDoProduction = new boolean[6];
-        setCanDoProductionTrue();
         this.update = update;
         this.isDuringGame=false;
     }
 
-    public void setCanDoProductionTrue(){
-        for (int i = 0; i < 6; i++) {
-            canDoProduction[i] = true;
-        }
-    }
+
 
     /**
      * This method returns the current player
@@ -545,7 +534,7 @@ public class Game {
                 return false;
             }
             if (currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN) || currentPlayer.getTurnPhase().equals(TurnPhase.DOPRODUCTION)) {
-                if (canDoProduction[5]) {
+                if (currentPlayer.getCanDoProduction(5)) {
                     Map<String, Integer> WarehouseRes = new HashMap<>();
                     Map<String, Integer> StrongboxRes = new HashMap<>();
                     Map<String, Integer> ExtrachestMap = new HashMap<>();
@@ -586,7 +575,7 @@ public class Game {
                     }
                     if (deleteRes(WarehouseRes, StrongboxRes, ExtrachestMap)) {
                         currentPlayer.getSlotDevCards().baseProduction(chosenResource);
-                        canDoProduction[5] = false;
+                        currentPlayer.setCanDoProduction(5,false);
                         currentPlayer.setTurnPhase(TurnPhase.DOPRODUCTION);
                         update.onUpdateResources(currentPlayer);
                         return true;
@@ -647,7 +636,7 @@ public class Game {
                     update.onUpdateError(currentPlayer.getNickname(), "Error.");
                     return false;
                 }
-                if (!canDoProduction[posLeaderBox + 3]) {
+                if (!currentPlayer.getCanDoProduction(posLeaderBox + 3)) {
                     update.onUpdateError(currentPlayer.getNickname(), "You have already do this production.");
                     return false;
                 }
@@ -689,7 +678,7 @@ public class Game {
 
                     update.onUpdateFaithMarker(currentPlayer, playersList, false, getBlackCrossToken());
                     update.onUpdateResources(currentPlayer);
-                    canDoProduction[posLeaderBox + 3] = false;
+                    currentPlayer.setCanDoProduction(posLeaderBox + 3,false);
                     currentPlayer.setTurnPhase(TurnPhase.DOPRODUCTION);
                     return true;
                 } else {
@@ -711,7 +700,7 @@ public class Game {
         if (currentPlayer.getGameState().equals(GameState.INGAME)) {
             if (currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN) || currentPlayer.getTurnPhase().equals(TurnPhase.DOPRODUCTION)) {
                 try {
-                    if (canDoProduction[col]) {
+                    if (currentPlayer.getCanDoProduction(col)) {
                         if (currentPlayer.getCurrentDevCardToProduce() != null) {
                             update.onUpdateError(currentPlayer.getNickname(), "You have to pay the card already activated.");
                             return false;
@@ -728,7 +717,7 @@ public class Game {
                         DevelopmentCard card = currentPlayer.getSlotDevCards().getDevCards(col);
                         if (card.getCostProduction().checkResources(currentPlayer) && currentPlayer.getSlotDevCards().checkUsage(card)) {
                             currentPlayer.setCurrentDevCardToProduce(currentPlayer.getSlotDevCards().getDevCards(col));
-                            canDoProduction[col] = false;
+                            currentPlayer.setCanDoProduction(col,false);
                             currentPlayer.setTurnPhase(TurnPhase.DOPRODUCTION);
                             update.onUpdateActivatedDevCardProduction(currentPlayer, card.getID());
                             return true;
@@ -953,14 +942,11 @@ public class Game {
                 if (currentPlayer.getTurnPhase().equals(TurnPhase.ENDTURN)) {
                     canEndTurn = true;
                     currentPlayer.setTurnPhase(TurnPhase.DOTURN);
-                    setCanDoProductionTrue();
+                    currentPlayer.setCanDoProductionTrue();
                 }
             }
-        }else {
-            emptyBuffer();
-            setCanDoProductionTrue();
         }
-
+        
         if(canEndTurn){
             try {
                 setCurrentPlayer();
