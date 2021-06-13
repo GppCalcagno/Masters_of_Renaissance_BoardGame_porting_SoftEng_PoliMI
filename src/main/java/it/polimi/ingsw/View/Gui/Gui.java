@@ -303,32 +303,35 @@ public class Gui implements ViewInterface{
                 secondMessage = "You have to Complete Initial Card choice";
                 Platform.runLater(() -> sceneLauncher.resumeGameScene(firstMessage, secondMessage));
                 if(getPlayerBoard().isMyturn()) Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialLeaderCards()));
+                else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
             } else {
                 if (playerBoard.getCurrentInitialResourcesToChoose() != 0) {
                     secondMessage = "You have to Complete Initial Resources choose";
                     Platform.runLater(() -> sceneLauncher.resumeGameScene(firstMessage, secondMessage));
                     if(getPlayerBoard().isMyturn()) Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialResources()));
-
+                    else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
                 } else {
                     if (!playerBoard.getMarbleBuffer().isEmpty()) {
                         secondMessage = "You have to manage the extracted Marbles";
                         Platform.runLater(() -> sceneLauncher.resumeGameScene(firstMessage, secondMessage));
                         if(getPlayerBoard().isMyturn()) Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
-
+                        else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
                     } else {
                         if (playerBoard.getActivedDevCardProd() != null) {
                             secondMessage = "You have to Complete Card Production";
                             Platform.runLater(() -> sceneLauncher.resumeGameScene(firstMessage, secondMessage));
                             if(getPlayerBoard().isMyturn()) Platform.runLater(() -> sceneLauncher.devCardProductionScene(sceneLauncher.getPayResourcesStage()));
-
+                            else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
                         } else {
                             if (playerBoard.getCurrentDevCardToBuy() != null) {
                                 secondMessage = "You have to Complete Card Purchase";
                                 if(getPlayerBoard().isMyturn())Platform.runLater(() -> sceneLauncher.payResourcesScene());
+                                else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
                                 Platform.runLater(() -> sceneLauncher.resumeGameScene(firstMessage, secondMessage));
                             } else {
                                 Platform.runLater(()->sceneLauncher.showMessage("it's your turn"));
                                 if(getPlayerBoard().isMyturn()) Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+                                else Platform.runLater(()-> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
                             }
                         }
                     }

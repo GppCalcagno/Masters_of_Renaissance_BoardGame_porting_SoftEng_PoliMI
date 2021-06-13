@@ -4,6 +4,7 @@ import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.Server.UpdateSender.ServerUpdate;
 import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.game.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.producible.Coins;
 import org.junit.jupiter.api.Test;
@@ -85,5 +86,50 @@ class SinglePlayerGameTest {
         game.startgame();
         game.givefinalpoints();
         assertEquals(i, game.getCurrentPlayer().getVictoryPoints());
+    }
+
+    @Test
+    void playLorenzoOneTurn() throws IOException, ActiveVaticanReportException {
+        SinglePlayerGame game = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234) )));
+        game.playLorenzoTurn();
+        assertTrue(game.getBlackCrossToken()!=0 || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][0][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][1][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][2][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][3][3]==null);
+
+    }
+
+    @Test
+    void playLorenzoMultipleturn() throws IOException, ActiveVaticanReportException {
+        SinglePlayerGame game = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234) )));
+        game.playLorenzoTurn();
+        game.playLorenzoTurn();
+        game.playLorenzoTurn();
+        game.playLorenzoTurn();
+        game.playLorenzoTurn();
+        assertTrue(game.getBlackCrossToken()!=0 && ( game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][0][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][1][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][2][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][3][3]==null));
+
+    }
+
+    @Test
+    void increaseLorenzoFaithTrack() throws IOException, ActiveVaticanReportException {
+        SinglePlayerGame game = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234) )));
+        game.increaseLorenzoFaithtrack();
+        game.increaseLorenzoFaithtrack();
+        game.increaseLorenzoFaithtrack();
+
+        assertEquals(game.getBlackCrossToken(), 3);
+
+    }
+
+    @Test
+    void endTurnSinglePlayer() throws IOException, EndGameException {
+        SinglePlayerGame game = new SinglePlayerGame(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
+
+        Player player1 = new Player("Vanessa Leonardi");
+        game.addPlayersList(player1);
+        game.setCurrentPlayer(player1);
+
+        game.endTurn(false);
+
+        assertTrue(game.getBlackCrossToken()!=0 || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][0][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][1][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][2][3]==null || game.getDevelopmentCardDeck().getDevelopmentCardDeck()[2][3][3]==null);
+
     }
 }
