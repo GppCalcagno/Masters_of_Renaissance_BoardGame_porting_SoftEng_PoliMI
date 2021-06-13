@@ -32,7 +32,7 @@ Here is the list of tools used to carry out this project:
 |__JUnit__|Unit testing framework.|
 
 ### JavaDoc and Comunication Protocol :memo: WIP
-All the documentation regarding the java classes with their methods is available [here] link a breve
+All the documentation regarding the java classes with their methods is available [here](https://github.com/Giuseppe-Calcagno/ingswAM2021-Caironi-Calcagno-Chiurco/tree/main/documentation/JavaDoc/it/polimi/ingsw/)
 
 All the documentation regarding the comunication protocol is available [here] link a breve
 
