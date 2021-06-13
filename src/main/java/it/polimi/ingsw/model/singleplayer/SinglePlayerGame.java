@@ -37,19 +37,6 @@ public class SinglePlayerGame extends Game {
     }
 
     /**
-     * This method returns the winner of the game between Lorenzo Il Magnifico and the single Player
-     * @return 0 if Single Player wins, 1 if Lorenzo Il Magnifico wins
-     */
-    @Override
-    public int getWinner () {
-        if(isFinishedGame()){
-            if(playerWin) return 0;
-            else return -1;
-        }
-        return -2;
-    }
-
-    /**
      * This method checks if the game is finished
      * @return true if the game is finished
      */

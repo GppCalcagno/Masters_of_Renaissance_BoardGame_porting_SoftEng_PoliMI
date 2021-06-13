@@ -951,8 +951,8 @@ public class Game {
             try {
                 setCurrentPlayer();
             } catch (EndGameException e) {
-                Player winner = playersList.get(getWinner());
                 givefinalpoints();
+                Player winner = playersList.get(getWinner());
                 update.onUpdateWinnerMultiplayer(winner, playersList);
                 isDuringGame=false;
                 return;  //finisci tutto
