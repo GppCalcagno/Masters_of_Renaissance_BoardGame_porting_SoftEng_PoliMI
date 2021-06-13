@@ -56,7 +56,7 @@ public class ActionParser {
                     case "SHOW": show(parts);                                       break;
                     case "HELP": help(parts);                                       break;
                     case "HELPSHOW": helpShow(parts);                               break;
-                    case "FAKETAXI": fake();                                        break;
+                    case "CHEAT": cheat();                                        break;
                     case "EXIT": exit();                                            break;
                     default:
                         System.out.println(Color.ANSI_RED.escape() +"The command doesn't exist!" + Color.RESET);
@@ -236,7 +236,7 @@ public class ActionParser {
         return  String.copyValueOf(vet);
     }
 
-    public void fake() {
+    public void cheat() {
         controller.sendMessage(new MessageFake(playerBoard.getNickname()));
     }
 

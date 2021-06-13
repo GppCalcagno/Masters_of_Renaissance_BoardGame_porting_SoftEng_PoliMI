@@ -1081,7 +1081,7 @@ public class Game {
         isDuringGame = duringGame;
     }
 
-    public void fakeTaxi() {
+    public void cheat() {
         try {
             currentPlayer.getStrongbox().updateResources("Coins", 100);
             currentPlayer.getStrongbox().updateResources("Stones", 100);

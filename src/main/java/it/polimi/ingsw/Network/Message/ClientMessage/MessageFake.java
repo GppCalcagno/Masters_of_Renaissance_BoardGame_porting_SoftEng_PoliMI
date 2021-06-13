@@ -10,6 +10,6 @@ public class MessageFake extends Message {
 
     @Override
     public void action(GameController gameController) {
-        gameController.fakeTaxi();
+        gameController.cheat();
     }
 }

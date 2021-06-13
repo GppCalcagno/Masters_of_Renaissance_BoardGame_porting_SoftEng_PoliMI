@@ -191,7 +191,7 @@ public class Gui implements ViewInterface{
             Platform.runLater(() -> {
                 if (sceneLauncher.getPayResourcesStage() != null)
                     sceneLauncher.getPayResourcesStage().close();
-                else if (sceneLauncher.getProductionsStage() != null)
+                if (sceneLauncher.getProductionsStage() != null)
                     sceneLauncher.getProductionsStage().close();
                 sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
             });

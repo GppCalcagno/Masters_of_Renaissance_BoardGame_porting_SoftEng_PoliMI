@@ -284,10 +284,10 @@ public class SceneLauncher {
         boardMain.getChildren().add(endTurn());
 
 
-        Button fake = new Button("cheat");
-        fake.setOnAction(e-> controller.sendMessage(new MessageFake(playerBoard.getNickname())));
+        Button cheat = new Button("cheat");
+        cheat.setOnAction(e-> controller.sendMessage(new MessageFake(playerBoard.getNickname())));
 
-        boardMain.getChildren().add(fake);
+        boardMain.getChildren().add(cheat);
 
         HBox allBoard = new HBox();
         allBoard.getChildren().addAll(left, boardMain);
@@ -2306,23 +2306,29 @@ public class SceneLauncher {
     public void endGameScene() {
         Stage stage1 = new Stage();
 
-        StackPane root = new StackPane();
-        root.setLayoutY(5);
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setHgap(50);
+        grid.setVgap(50);
 
         Text winnerText = new Text("The winner is " + playerBoard.getPlayerWinner());
         winnerText.setFont(new Font("Arial", 16));
         winnerText.setTextAlignment(TextAlignment.CENTER);
         winnerText.setStroke(Color.WHITE);
-        root.getChildren().add(winnerText);
-        StackPane.setAlignment(winnerText, Pos.TOP_CENTER);
 
+        GridPane.setConstraints(winnerText, 4, 1);
+        grid.getChildren().add(winnerText);
+
+        int i = 2;
         for (String player : playerBoard.getPlayerList()) {
             Text pointsText = new Text(player + " has scored " + playerBoard.getPlayersPoints().get(player));
             pointsText.setFont(new Font("Arial", 16));
             pointsText.setTextAlignment(TextAlignment.CENTER);
             pointsText.setStroke(Color.WHITE);
-            root.getChildren().add(pointsText);
-            StackPane.setAlignment(pointsText, Pos.CENTER);
+
+            GridPane.setConstraints(pointsText, 4, i);
+            grid.getChildren().add(pointsText);
+            i++;
         }
 
         Button closeButton = new Button("EndGame");
@@ -2331,11 +2337,10 @@ public class SceneLauncher {
         });
         closeButton.setLayoutX(50);
         closeButton.setLayoutY(200);
-        root.getChildren().add(closeButton);
 
-        root.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        stage1.setScene(new Scene(root, 500, 500));
+        stage1.setScene(new Scene(grid, 500, 500));
         stage1.setAlwaysOnTop(true);
         stage1.setTitle("The winner is ...");
         stage1.getIcons().add(new Image("punchboard/retro cerchi.png"));
@@ -2612,45 +2617,49 @@ public class SceneLauncher {
         Button showDevDeck = new Button("Show DevDeck");
 
         if(playerBoard.getLastTokenUsed()!=null){
-        if(playerBoard.getLastTokenUsed().equals("T1")){
-            token = new Image("punchboard/cerchio5.png");
-            tokenView = new ImageView(token);
-            tokenView.setFitWidth(70);
-            tokenView.setFitHeight(70);
-            explanation = new Label("Lorenzo moved his black cross of two spaces");
+            switch (playerBoard.getLastTokenUsed()) {
+                case "T1":
+                    token = new Image("punchboard/cerchio5.png");
+                    tokenView = new ImageView(token);
+                    tokenView.setFitWidth(70);
+                    tokenView.setFitHeight(70);
+                    explanation = new Label("Lorenzo moved his black cross of two spaces");
 
-        }
-        else if(playerBoard.getLastTokenUsed().equals("T2")){
-            token = new Image("punchboard/cerchio7.png");
-            tokenView = new ImageView(token);
-            tokenView.setFitWidth(70);
-            tokenView.setFitHeight(70);
-            explanation = new Label("Lorenzo moved his black cross of one space and\nreshuffle all his tokens");
-        }
-        else if(playerBoard.getLastTokenUsed().equals("T3")){
-            if(playerBoard.getLastTokenUsedColor().equals("BLUE")){
-                token = new Image("punchboard/cerchio1.png");
-                explanation = new Label("Lorenzo discard two blue cards");
-            }
-            else if(playerBoard.getLastTokenUsedColor().equals("GREEN")){
-                token = new Image("punchboard/cerchio2.png");
-                explanation = new Label("Lorenzo discard two green cards");
-            }
-            else if(playerBoard.getLastTokenUsedColor().equals("PURPLE")){
-                token = new Image("punchboard/cerchio3.png");
-                explanation = new Label("Lorenzo discard two purple cards");
-            }
-            else if(playerBoard.getLastTokenUsedColor().equals("YELLOW")){
-                token = new Image("punchboard/cerchio4.png");
-                explanation = new Label("Lorenzo discard two yellow cards");
-            }
-            tokenView = new ImageView(token);
-            tokenView.setFitWidth(70);
-            tokenView.setFitHeight(70);
-            showDevDeck.setOnAction(e->showDevDeck());
-            showDevDeck.setLayoutY(110);
-            showDevDeck.setLayoutX(300);
-            pane.getChildren().add(showDevDeck);
+                    break;
+                case "T2":
+                    token = new Image("punchboard/cerchio7.png");
+                    tokenView = new ImageView(token);
+                    tokenView.setFitWidth(70);
+                    tokenView.setFitHeight(70);
+                    explanation = new Label("Lorenzo moved his black cross of one space and\nreshuffle all his tokens");
+                    break;
+                case "T3":
+                    switch (playerBoard.getLastTokenUsedColor()) {
+                        case "BLUE":
+                            token = new Image("punchboard/cerchio1.png");
+                            explanation = new Label("Lorenzo discard two blue cards");
+                            break;
+                        case "GREEN":
+                            token = new Image("punchboard/cerchio2.png");
+                            explanation = new Label("Lorenzo discard two green cards");
+                            break;
+                        case "PURPLE":
+                            token = new Image("punchboard/cerchio3.png");
+                            explanation = new Label("Lorenzo discard two purple cards");
+                            break;
+                        case "YELLOW":
+                            token = new Image("punchboard/cerchio4.png");
+                            explanation = new Label("Lorenzo discard two yellow cards");
+                            break;
+                    }
+                    tokenView = new ImageView(token);
+                    tokenView.setFitWidth(70);
+                    tokenView.setFitHeight(70);
+                    showDevDeck.setOnAction(e -> showDevDeck());
+                    showDevDeck.setLayoutY(110);
+                    showDevDeck.setLayoutX(300);
+                    pane.getChildren().add(showDevDeck);
+                    break;
             }
 
         tokenView.setLayoutY(30);
@@ -2667,9 +2676,9 @@ public class SceneLauncher {
         newStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         newStage.setTitle("Lorenzo's turn");
         newStage.initStyle(StageStyle.UNDECORATED);
+        newStage.setAlwaysOnTop(true);
         newStage.show();
-
-    }
+        }
     }
 
 

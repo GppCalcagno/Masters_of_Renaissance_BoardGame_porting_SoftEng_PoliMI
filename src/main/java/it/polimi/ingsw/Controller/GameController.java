@@ -362,7 +362,7 @@ public class GameController {
         sender.sendtoPlayer(name,new ServerPing());
     }
 
-    public void fakeTaxi() {
-        game.fakeTaxi();
+    public void cheat() {
+        game.cheat();
     }
 }
