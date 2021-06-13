@@ -5,8 +5,6 @@ import it.polimi.ingsw.Client.PlayerBoard;
 import it.polimi.ingsw.Network.Message.ClientMessage.*;
 import it.polimi.ingsw.View.Cli.Structure.*;
 import it.polimi.ingsw.View.ViewInterface;
-import it.polimi.ingsw.model.player.Strongbox;
-
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.List;
