@@ -52,14 +52,11 @@ public class Gui implements ViewInterface{
     @Override
     public void onUpdateStartGame() {
         if (playerBoard.isMyturn()) {
-            Platform.runLater(() -> {
-                sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialLeaderCards());
-            });
+            Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialLeaderCards()));
         }
         else {
-            Platform.runLater(() -> {
-                sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
-            });
+            Platform.runLater(() -> sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn"));
+            Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.waitOtherPlayers()));
         }
     }
 
@@ -218,9 +215,7 @@ public class Gui implements ViewInterface{
                     sceneLauncher.getPayResourcesStage().close();
             });
         else{
-            Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update his SlotDevCards");
-            });
+            Platform.runLater(()-> sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update his SlotDevCards"));
         }
     }
 
@@ -234,9 +229,7 @@ public class Gui implements ViewInterface{
             Platform.runLater(() -> sceneLauncher.showMessage("The card has been " + decision));
         }
         else{
-            Platform.runLater(()->{
-                sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update one of his LeaderCard");
-            });
+            Platform.runLater(()-> sceneLauncher.showMessage(playerBoard.getCurrentPlayer() + " has update one of his LeaderCard"));
         }
     }
 
