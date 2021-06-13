@@ -64,7 +64,6 @@ public class Gui implements ViewInterface{
     public void onUpdateCurrPlayer() {
         if(playerBoard.isMyturn()) {
             Platform.runLater(()->sceneLauncher.showMessage("It' your turn"));
-
             if (playerBoard.getLeaderCards().size() > 2) {
                 Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.chooseInitialLeaderCards()));
             } else {
@@ -95,7 +94,7 @@ public class Gui implements ViewInterface{
                     sceneLauncher.getExtractionMarbleStage().close();
                 if (sceneLauncher.getActiveBuyDevCardStage() != null)
                     sceneLauncher.getActiveBuyDevCardStage().close();
-                sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
+                if(playerBoard.getLeaderCards().size()<=2)sceneLauncher.getStage().setScene(sceneLauncher.mainboard());
                 sceneLauncher.showMessage("It's " + playerBoard.getCurrentPlayer() + "'s turn");
             });
         }
