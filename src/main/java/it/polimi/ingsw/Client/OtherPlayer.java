@@ -3,6 +3,10 @@ package it.polimi.ingsw.Client;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class allows in the game to show the game of other players and their advance
+ */
+
 public class OtherPlayer {
     private String name;
     private String[][] warehouse;

@@ -208,7 +208,7 @@ public class SceneLauncher {
         boardMain.getChildren().addAll(faithMArkerBoard(playerBoard.getNickname()));
 
         //POPE SPACE
-        boardMain.getChildren().addAll(popeSpace());
+        boardMain.getChildren().addAll(popeSpace(playerBoard.getPlayersPopFavoriteTile(), playerBoard.getNickname()));
 
 
         //WAREHOUSE
@@ -380,7 +380,7 @@ public class SceneLauncher {
         return exchange;
     }
 
-    public Node[] popeSpace(){
+    public Node[] popeSpace(Map<String, boolean[]> popeSpace, String name){
 
         Node[] popespace = new Node[3];
 
@@ -395,9 +395,9 @@ public class SceneLauncher {
         popeSpace1View.setLayoutX(179);
         popeSpace1View.setLayoutY(79);
         if(playerBoard.getPlayerList().size()>1){
-            for(String player : playerBoard.getPlayerList()) if(playerBoard.getPlayersPopFavoriteTile().get(player)[0]) flag1 = true;
+            for(String player : playerBoard.getPlayerList()) if(popeSpace.get(player)[0]) flag1 = true;
             if(flag1){
-                if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[0]){
+                if(popeSpace.get(name)[0]){
                     popeSpace1 = new Image("punchboard/pope_favor1_front.png");
                     popeSpace1View.setImage(popeSpace1);
                     popeSpace1View.setOpacity(1.0);
@@ -408,7 +408,7 @@ public class SceneLauncher {
         }
         else{
             if(playerBoard.getBlackCrossToken()>=8){
-                if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[0]){
+                if(popeSpace.get(name)[0]){
                     popeSpace1 = new Image("punchboard/pope_favor1_front.png");
                     popeSpace1View.setImage(popeSpace1);
                     popeSpace1View.setOpacity(1.0);
@@ -427,9 +427,9 @@ public class SceneLauncher {
         popeSpace2View.setLayoutX(363);
         popeSpace2View.setLayoutY(35);
         if(playerBoard.getPlayerList().size()>1){
-            for(String player : playerBoard.getPlayerList()) if(playerBoard.getPlayersPopFavoriteTile().get(player)[1]) flag2 = true;
+            for(String player : playerBoard.getPlayerList()) if(popeSpace.get(player)[1]) flag2 = true;
             if(flag2){
-                if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[1]){
+                if(popeSpace.get(name)[1]){
                     popeSpace2 = new Image("punchboard/pope_favor2_front.png");
                     popeSpace2View.setImage(popeSpace2);
                     popeSpace2View.setOpacity(1.0);
@@ -440,7 +440,7 @@ public class SceneLauncher {
         }
         else{
             if(playerBoard.getBlackCrossToken()>=16){
-                if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[1]){
+                if(popeSpace.get(name)[1]){
                     popeSpace2 = new Image("punchboard/pope_favor2_front.png");
                     popeSpace2View.setImage(popeSpace2);
                     popeSpace2View.setOpacity(1.0);
@@ -457,9 +457,9 @@ public class SceneLauncher {
         popeSpace3View.setLayoutX(582);
         popeSpace3View.setLayoutY(78);
         if(playerBoard.getPlayerList().size()>1){
-            for(String player : playerBoard.getPlayerList()) if(playerBoard.getPlayersPopFavoriteTile().get(player)[2]) flag3 = true;
+            for(String player : playerBoard.getPlayerList()) if(popeSpace.get(player)[2]) flag3 = true;
             if(flag3){
-                if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[2]){
+                if(popeSpace.get(name)[2]){
                     popeSpace3 = new Image("punchboard/pope_favor3_front.png");
                     popeSpace3View.setImage(popeSpace3);
                     popeSpace3View.setOpacity(1.0);
@@ -470,7 +470,7 @@ public class SceneLauncher {
         }
         else{
             if(playerBoard.getBlackCrossToken()>=24){
-                if(playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[2]){
+                if(popeSpace.get(name)[2]){
                     popeSpace3 = new Image("punchboard/pope_favor3_front.png");
                     popeSpace3View.setImage(popeSpace3);
                     popeSpace3View.setOpacity(1.0);
@@ -2522,75 +2522,8 @@ public class SceneLauncher {
         boardMain.getChildren().addAll(imageBoardView);
         boardMain.getChildren().addAll(faithMArkerBoard(playerBoard.getOtherPlayer().getName()));
 
-        //POPE SPACE da definire
-        /*
-        Node[] popeSpace = new Node[3];
-        Image popeSpace1 = new Image("punchboard/quadrato giallo.png");
-        ImageView popeSpace1View = new ImageView(popeSpace1);
-        popeSpace1View.setFitHeight(60);
-        popeSpace1View.setFitWidth(60);
-        popeSpace[0] = popeSpace1View;
-        popeSpace[0].setLayoutX(179);
-        popeSpace[0].setLayoutY(79);
-        if(playerBoard.getPlayerList().size()>1){
-            for(String name : playerBoard.getPlayerList()) {
-                if (playerBoard.getPlayersPopFavoriteTile().get(name)[0]) {
-                    if (playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[0]){
-                        boardMain.getChildren().add(popeSpace[0]);
-                    }
-                }
-            }
-        }
-        else{
-            if(playerBoard.getBlackCrossToken()>=8 && playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[0]){
-                boardMain.getChildren().add(popeSpace[0]);
-            }
-        }
-
-        Image popeSpace2 = new Image("punchboard/quadrato arancione.png");
-        ImageView popeSpace2View = new ImageView(popeSpace2);
-        popeSpace2View.setFitHeight(60);
-        popeSpace2View.setFitWidth(60);
-        popeSpace[1] = popeSpace2View;
-        popeSpace[1].setLayoutX(363);
-        popeSpace[1].setLayoutY(35);
-        if(playerBoard.getPlayerList().size()>1){
-            for(String name : playerBoard.getPlayerList()) {
-                if (playerBoard.getPlayersPopFavoriteTile().get(name)[1]) {
-                    if (playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[1]){
-                        boardMain.getChildren().add(popeSpace[1]);
-                    }
-                }
-            }
-        }
-        else{
-            if(playerBoard.getBlackCrossToken()>=16 && playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[1]){
-                boardMain.getChildren().add(popeSpace[0]);
-            }
-        }
-
-        Image popeSpace3 = new Image("punchboard/quadrato rosso.png");
-        ImageView popeSpace3View = new ImageView(popeSpace3);
-        popeSpace3View.setFitHeight(60);
-        popeSpace3View.setFitWidth(60);
-        popeSpace[2] = popeSpace3View;
-        popeSpace[2].setLayoutX(582);
-        popeSpace[2].setLayoutY(78);
-        if(playerBoard.getPlayerList().size()>1){
-            for(String name : playerBoard.getPlayerList()) {
-                if (playerBoard.getPlayersPopFavoriteTile().get(name)[2]) {
-                    if (playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[2]){
-                        boardMain.getChildren().add(popeSpace[2]);
-                    }
-                }
-            }
-        }
-        else{
-            if(playerBoard.getBlackCrossToken()>=24 && playerBoard.getPlayersPopFavoriteTile().get(playerBoard.getNickname())[2]){
-                boardMain.getChildren().add(popeSpace[2]);
-            }
-        }
-        */
+       //POPE SPACE
+        boardMain.getChildren().addAll(popeSpace(playerBoard.getPlayersPopFavoriteTile(), playerBoard.getOtherPlayer().getName()));
 
         //WAREHOUSE
         if(playerBoard.getOtherPlayer().getWarehouse()[0][0]!=null){

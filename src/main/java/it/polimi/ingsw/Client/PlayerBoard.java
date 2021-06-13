@@ -24,33 +24,51 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * this class is used to store Client Data
+ * this class is used to store Client Data, them are stored most of all in String.
  */
 public class PlayerBoard {
 
     private List<String> playerList;
+    /**
+     * @nickname is the name of tha player whom this playerboard is connected
+     */
     private String nickname;
 
+    /**
+     * the name of the current player, not always the same of nickname
+     */
     private String currentPlayer;
 
+    //Structure for resources
     private String[][] warehouse;
     private Map<String,Integer> extrachest;
     private Map<String,Integer> strongbox;
 
+    //faith track
     private Map<String, Integer> playersFaithMarkerPosition;
     private Map<String, boolean[]> playersPopFavoriteTile;
 
+    //
     private List<String> leaderCards;
 
     private String [][] slotDevCard;
 
     private String [][][] devCardDeck;
     private String [][] marketTray;
-    private String remainingMarble;
 
+    private String remainingMarble;
+    /**
+     * this is the buffer that player has to manage when he does an extraction
+     */
     private List<String> marbleBuffer;
     private String activedDevCardProd;
+    /**
+     * the card player selects to buy but he doesn't pay it yet
+     */
     private String currentDevCardToBuy;
+    /**
+     * if the player isn't the first one he have to choose a resource, in order with the rules
+     */
     private int currentInitialResourcesToChoose;
 
     private String playerWinner;
@@ -60,9 +78,13 @@ public class PlayerBoard {
     private String lastTokenUsedColor; //only for singleplayer
     private int blackCrossToken; //only for singleplayer
 
+    /**
+     * other player to show the advance of other players
+     */
     private OtherPlayer otherPlayer;
     private Map<String, DevelopmentCard> developmentCardMap;
     private Map<String, LeaderAction> leaderActionMap;
+
 
     public PlayerBoard () {
         playerList= new ArrayList<>();
@@ -95,7 +117,7 @@ public class PlayerBoard {
             initializeLeaderCardMap();
             initializeDevCardMap();
         } catch (IOException ioException) {
-            System.out.println("CAN'T LOAD CARD! CHECH GSON FILE");
+            System.out.println("CAN'T LOAD CARD! CHECK GSON FILE");
             ioException.printStackTrace();
             System.exit(0);
         }
@@ -136,7 +158,9 @@ public class PlayerBoard {
             this.leaderCards = leaderCard;
     }
 
-
+    /**
+     * this method set the position of the faith marker, if is bigger than 24, the end of the fai track, it is set to 24
+     */
     public void setFaithMarker(Map<String, Integer> playersPosition, Map<String, boolean[]> playersPopFavoriteTile, int blackCrossToken){
         this.playersFaithMarkerPosition=playersPosition;
         this.playersPopFavoriteTile=playersPopFavoriteTile;
@@ -151,6 +175,11 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * when a player does an extraction the market tray change
+     * @param direction if is row or column
+     * @param n row or column's number
+     */
     public void updateMarketTray(char direction, int n){
         String temp = remainingMarble;
         switch (direction) {
@@ -176,11 +205,19 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * remove a marble form the buffer if action (add or discard) is true
+     * @param action add or discard, the player have to select one of those if wants remove a marble from the buffer
+     */
     public void removemarblefromBuffer(boolean action){
         if(isMyturn() && action)
             marbleBuffer.remove(0);
     }
 
+    /**
+     * this method remove a card from the top of a pile in the dev card deck
+     * @param ID the card to be removed
+     */
     public void removeCardfromDevCardDeck (String ID) {
         int k = 0;
         for (int i = 0; i < 3; i++) {
@@ -200,6 +237,9 @@ public class PlayerBoard {
 
     }
 
+    /**
+     * update the scructure that are changed
+     */
     public void updateresoruces(String[][] warehouse,  Map<String, Integer> extraChest, Map<String,Integer> strongbox){
         if(isMyturn()){
             this.warehouse=warehouse;
@@ -212,6 +252,9 @@ public class PlayerBoard {
     }
 
 
+    /**
+     * when game start set the first parameters
+     */
     public void onGameStart(List<String> playerList, Map<String,List<String>> leaderCards, String [][][] devCardDeck,  String[][] marketTray, String remainingMarble){
         this.playerList=playerList;
         currentPlayer=playerList.get(0);
@@ -227,6 +270,9 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * Lorenzo played a turn and his parameters have been updated
+     */
     public void singlePlayerUpdate(String[][][] devCardDeck, int blackCrossToken, String tokenID, String tokenColor){
         this.devCardDeck=devCardDeck;
         this.blackCrossToken=blackCrossToken;
@@ -236,6 +282,9 @@ public class PlayerBoard {
         if(this.blackCrossToken>24)this.blackCrossToken=24;
     }
 
+    /**
+     * update the slot dev card
+     */
     public void updateSlotDevCard(String ID, int col){
         if(isMyturn()){
             int i=0;
@@ -244,6 +293,11 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * update the state of a leadercard, in particular if the leadercard has been activated or discarded
+     * @param ID leadercard's id
+     * @param activeOrDiscard active or discard's state
+     */
     public void updateStateLeaderCard(String ID,boolean activeOrDiscard){
         if(isMyturn()){
             if(activeOrDiscard){
@@ -256,12 +310,21 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * update the winner of the game
+     * @param playerWinner the winner
+     * @param playersPoints winner's points
+     */
     public void updateWinner(String playerWinner, Map<String, Integer> playersPoints){
         this.playerWinner=playerWinner;
         this.playersPoints=playersPoints;
     }
 
-
+    /**
+     * update the winner of the single player's game
+     * @param win if win or lose, lorenzo wins
+     * @param finalpoint player's final points
+     */
     public void updateWinner(boolean win, int finalpoint){
         if(win)
             playerWinner=nickname;
@@ -270,8 +333,15 @@ public class PlayerBoard {
         playersPoints.put(nickname,finalpoint);
     }
 
+    /**
+     * this method return if is player's turn
+     */
     public boolean isMyturn(){ return currentPlayer.equals(nickname); }
 
+    /**
+     * how many resources a player can select at the game' start
+     * @return
+     */
     public int getNumInitialResources(){
         switch (playerList.indexOf(nickname)){
             case 0: return 0;
@@ -282,10 +352,34 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * the position of the player in the list
+     * @return
+     */
     public int getplayernumber(){
         return playerList.indexOf(nickname);
     }
 
+    /**
+     * this method allow to reconnect to a game when player accidentally or on purpose disconnect himself
+     * @param playersNameList
+     * @param currentPlayer
+     * @param devCardDeck
+     * @param marketTray
+     * @param remainingMarble
+     * @param marbleBuffer
+     * @param warehouse
+     * @param extraChest
+     * @param strongbox
+     * @param playersPosition
+     * @param playersPopFavoriteTile
+     * @param blackcrosstoken
+     * @param leaderCards
+     * @param slotDevCards
+     * @param activeDevCardToBuy
+     * @param activeDevCardProd
+     * @param currentInitialResourcesToChoose
+     */
     public void resume(List<String> playersNameList,
             String currentPlayer, String[][][] devCardDeck, String[][] marketTray,
             String remainingMarble,List<String> marbleBuffer, String[][] warehouse, Map<String,
@@ -318,10 +412,23 @@ public class PlayerBoard {
         this.blackCrossToken=blackcrosstoken;
     }
 
+    /**
+     * create an object other player for visualize it
+     * @param name
+     * @param warehouse
+     * @param extrachest
+     * @param strongbox
+     * @param leaderCards
+     * @param slotDevCard
+     */
     public void setOtherPlayer(String name, String[][] warehouse, Map<String, Integer> extrachest, Map<String, Integer> strongbox, List<String> leaderCards, String[][] slotDevCard) {
         this.otherPlayer = new OtherPlayer(name,warehouse,extrachest,strongbox,leaderCards,slotDevCard);
     }
 
+    /**
+     * load the gson file of the dev cards
+     * @throws IOException
+     */
     void initializeDevCardMap() throws IOException {
         Gson gson = new GsonBuilder().create();
 
@@ -387,6 +494,10 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * load the gson file of the leader cards
+     * @throws IOException
+     */
     void initializeLeaderCardMap () throws IOException {
         RuntimeTypeAdapterFactory<Requirements> requirementsRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of(Requirements.class)
                 .registerSubtype(RequestedResources.class)
@@ -428,17 +539,24 @@ public class PlayerBoard {
     }
 
 
+    /**
+     * allows the search of a card from its id
+     * @param ID card's id
+     * @return a DevelopmentCard object
+     */
     public DevelopmentCard searchDevCard (String ID) {
         return developmentCardMap.get(ID);
     }
 
+    /**
+     * allows the search of a card from its id
+     * @param ID card's id
+     * @return a DevelopmentCard object
+     */
     public LeaderAction searchLeaderCard (String ID) {
         return leaderActionMap.get(ID);
     }
 
-    public Map<String, DevelopmentCard> getDevelopmentCardMap() {
-        return developmentCardMap;
-    }
 
     public Map<String, LeaderAction> getLeaderActionMap() {
         return leaderActionMap;

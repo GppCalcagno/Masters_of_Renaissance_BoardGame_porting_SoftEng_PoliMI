@@ -24,4 +24,5 @@ class PlayerBoardTest {
 
         assertEquals("LCPL1", l.getID());
     }
+
 }

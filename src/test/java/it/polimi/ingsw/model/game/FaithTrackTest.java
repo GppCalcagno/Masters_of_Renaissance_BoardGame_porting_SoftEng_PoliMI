@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FaithTrackTest {
 
     @Test
-    void standardincrement() throws GameFinishedException {
+    void standardIncrement() throws GameFinishedException {
         FaithTrack testtrack = new FaithTrack();
         ArrayList<Player> playersVet = new ArrayList<>();
         playersVet.add(new Player("Aldo"));

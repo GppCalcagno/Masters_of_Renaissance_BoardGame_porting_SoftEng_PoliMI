@@ -28,7 +28,7 @@ public class DevCardsDeck {
     private DevelopmentCard[][][] developmentCardDeck;
 
     /**
-     * this is the constructor that initialized the cube as 4*3*4 in accord with the rules
+     * this is the constructor that initialized the cube as 3*4*4 in accord with the rules
      */
     public DevCardsDeck() throws IOException {
         developmentCardDeck = new DevelopmentCard[3][4][4];

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DiscountLeaderTest {
-    //Ho usato uno stub LeaderCardDeck nel cui costruttore non faccio shuffle e per questo so le posizioni delle carte nella lista
+    //Used a stub LeaderAction where in the constructor there isn't the shuffle method so we know where the card are located exactly
 
     @Test
     void doSpecialAbilityTestActivated() throws IOException, GameFinishedException {

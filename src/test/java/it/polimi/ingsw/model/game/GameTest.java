@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.game;
 import it.polimi.ingsw.Network.Server.UpdateCreator.JavaSerUpdateCreator;
 import it.polimi.ingsw.Network.Server.Server;
 import it.polimi.ingsw.Network.Server.UpdateSender.ServerUpdate;
+import it.polimi.ingsw.model.card.DevelopmentCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.marbles.BlueMarble;
 import it.polimi.ingsw.model.marbles.WhiteMarble;
@@ -293,26 +294,37 @@ class GameTest {
         assertTrue(game.exchangeWarehouse(0, 1));
     }
 
-    /*
-    @Test
-    void selectDevCardTestRight() throws IOException, NegativeQuantityExceptions {
+
+   /* @Test
+    void selectDevCardTestRight() throws IOException, NegativeQuantityExceptions, GameFinishedException {
         Game game = new Game(new JavaSerUpdateCreator(new ServerUpdate(new Server(1234))));
 
         Player player1 = new Player("Anna");
-        player1.getStrongbox().updateResources("Coins", 2);
+        player1.getStrongbox().updateResources("Coins", 10);
+        player1.getStrongbox().updateResources("Shields", 10);
+        player1.getStrongbox().updateResources("Stones", 10);
+        player1.getStrongbox().updateResources("Servants", 10);
+
         game.addPlayersList(player1);
         game.startgame();
         game.getCurrentPlayer().setGameState(GameState.INGAME);
 
-        assertTrue(game.selectDevCard("DCL1B1", 0));
+        String card = game.getDevelopmentCardDeck().getDevCards(2, 0).getID();
+
+        assertTrue(game.selectDevCard(card, 0));
 
         Map<String,Integer> WarehouseRes = new HashMap<>();
         Map<String,Integer> StrongboxRes = new HashMap<>();
         Map<String,Integer> ExtrachestMap = new HashMap<>();
-        StrongboxRes.put("Coins", 2);
+        StrongboxRes.put("Coins", 10);
+        StrongboxRes.put("Shields", 10);
+        StrongboxRes.put("Stones", 10);
+        StrongboxRes.put("Servants", 10);
+
+
         assertTrue(game.payResourcesToBuyDevCard(WarehouseRes, StrongboxRes, ExtrachestMap));
-    }
-    */
+    }*/
+
 
     @Test
     void selectDevCardTestWrongID() throws NegativeQuantityExceptions, IOException {

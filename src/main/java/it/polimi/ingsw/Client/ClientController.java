@@ -19,6 +19,11 @@ public class ClientController implements Observer {
     private ClientSender sender;
 
 
+    /**
+     * this method launch the client in the right way, cli or gui, online or offline. The offline game is only in single player
+     * @param isCli boolean that specifies if the first parameter is cli or gui
+     * @param isOnline boolean that specifies if the second parameters is online or offline
+     */
     public ClientController(boolean isCli, boolean isOnline) {
         if(isCli)
             view= new Cli(this);
@@ -34,11 +39,19 @@ public class ClientController implements Observer {
         }
     }
 
+    /**
+     * @param message information about Update
+     */
     @Override
     public void update(Update message) {
         message.update(view);
     }
 
+    /**
+     * create a connection
+     * @param address server's address
+     * @param port server's port
+     */
     public void connect(String address, int port){
         this.clientSocket= new ClientSocket(address,port,this);
         sender= new SendtoServer(clientSocket);

@@ -420,9 +420,9 @@ public class Game {
                     update.onUpdateError(currentPlayer.getNickname(), "Wrong column.");
                     return false;
                 }
-                //catch NullPointerException perché l'ID potrebbe essere errato
+                //catch NullPointerException because the ID could be wrong
                 try {
-                    //controllo che il giocatore abbia spazio nello SlotDevCard e che abbia le risorse necessarie
+                    //check player has enough space in his slotDevCard and he has right resources
                     if (currentPlayer.getSlotDevCards().canBuyDevCard(developmentCardDeck.getDevCardFromID(ID),column) && developmentCardDeck.getDevCardFromID(ID).getCost().checkBuy(currentPlayer)) {
                         currentPlayer.setCurrentDevCardToBuy(developmentCardDeck.getDevCardFromID(ID));
                         currentPlayer.setColumnSlotBuyDev(column);
