@@ -293,6 +293,7 @@ public class Cli implements ViewInterface {
 
     @Override
     public void onUpdateSinglePlayerGame() {
+
         out.println("Lorenzo played : " + playerBoard.getLastTokenUsed());
         switch (playerBoard.getLastTokenUsed()) {
             case "T1":

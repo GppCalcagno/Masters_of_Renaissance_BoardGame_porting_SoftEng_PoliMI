@@ -126,7 +126,11 @@ public class SinglePlayerGame extends Game {
                     setCanDoProductionTrue();
                 }
             }
+        }else{
+            emptyBuffer();
+            setCanDoProductionTrue();
         }
+
         if(canEndTurn){
             try {
                 playLorenzoTurn();
