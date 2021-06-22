@@ -11,7 +11,7 @@
     "level" : 1,
     "costProduction" : {
       "reqMap" : {
-        "Shields" : 1,
+        "Stones" : 1,
         "Servants" : 1
       }
     },

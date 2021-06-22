@@ -45,7 +45,7 @@
     "cost" : {
       "reqMap" : {
         "Coins" : 5,
-        "Shields" : 2
+        "Stones" : 2
       }
     },
     "colorCard" : "BLUE",

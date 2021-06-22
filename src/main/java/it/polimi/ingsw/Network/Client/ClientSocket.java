@@ -78,7 +78,6 @@ public class ClientSocket extends Observable {
         while(true) {
             try {
                 Update message = (Update) reciveMessage.readObject();
-                //todo-dacambiare ping o forse non necessario
                 if(message!=null){
                     notifyAllObserver(message);
                 }

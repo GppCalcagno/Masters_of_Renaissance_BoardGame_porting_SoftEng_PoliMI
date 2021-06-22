@@ -2306,6 +2306,8 @@ public class SceneLauncher {
         closeButton.setOnAction(e-> controller.disconnect());
         closeButton.setLayoutX(50);
         closeButton.setLayoutY(200);
+        GridPane.setConstraints(closeButton, 4, 7);
+        grid.getChildren().add(closeButton);
 
         grid.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
