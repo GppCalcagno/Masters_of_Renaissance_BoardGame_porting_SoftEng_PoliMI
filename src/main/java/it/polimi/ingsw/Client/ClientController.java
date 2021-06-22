@@ -17,6 +17,7 @@ public class ClientController implements Observer {
     private ClientSocket clientSocket;
     private ViewInterface view;
     private ClientSender sender;
+    private boolean isOnline;
 
 
     /**
@@ -25,6 +26,7 @@ public class ClientController implements Observer {
      * @param isOnline boolean that specifies if the second parameters is online or offline
      */
     public ClientController(boolean isCli, boolean isOnline) {
+        this.isOnline=isOnline;
         if(isCli)
             view= new Cli(this);
         else
@@ -59,7 +61,10 @@ public class ClientController implements Observer {
     }
 
     public void disconnect(){
-        this.clientSocket.disconnect();
+        if(isOnline)
+            this.clientSocket.disconnect();
+        else
+            System.exit(0);
     }
 
     public void sendMessage(Message message) {
