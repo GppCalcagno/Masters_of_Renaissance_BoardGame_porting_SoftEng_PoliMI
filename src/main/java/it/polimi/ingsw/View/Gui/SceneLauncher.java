@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -1788,6 +1789,7 @@ public class SceneLauncher {
         payResourcesStage.setScene(new Scene(borderPane));
         payResourcesStage.setTitle("Pay resources");
         payResourcesStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
+        payResourcesStage.initStyle(StageStyle.UNDECORATED);
         payResourcesStage.show();
     }
 
@@ -2090,7 +2092,7 @@ public class SceneLauncher {
         manageMarbleStage.setTitle("Manage marbles");
         manageMarbleStage.setScene(new Scene(borderPane));
         manageMarbleStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
-
+        manageMarbleStage.initStyle(StageStyle.UNDECORATED);
         manageMarbleStage.setAlwaysOnTop(true);
         manageMarbleStage.show();
     }
