@@ -31,10 +31,10 @@ Here is the list of tools used to carry out this project:
 |__JavaFx__|Graphic library for creating user interfaces.|
 |__JUnit__|Unit testing framework.|
 
-### JavaDoc and Comunication Protocol :memo: WIP
+### JavaDoc and Comunication Protocol :memo:
 All the documentation regarding the java classes with their methods is available [here](https://github.com/Giuseppe-Calcagno/ingswAM2021-Caironi-Calcagno-Chiurco/tree/main/documentation/JavaDoc/it/polimi/ingsw/)
 
-All the documentation regarding the comunication protocol is available [here] link a breve
+All the documentation regarding the comunication protocol is available [here](https://github.com/Giuseppe-Calcagno/ingswAM2021-Caironi-Calcagno-Chiurco/blob/main/documentation/Communication%20Protocol.pdf)
 
 ### Coverage report :microscope:
 From the results of Junit we have a line covered of **100% on the controller** and **96% on the model**, results that we believe are satisfactory. All the analyzes on the model classes are also shown below
