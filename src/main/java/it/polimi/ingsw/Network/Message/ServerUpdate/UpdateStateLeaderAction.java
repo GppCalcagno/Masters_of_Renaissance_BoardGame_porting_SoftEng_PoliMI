@@ -9,7 +9,7 @@ public class UpdateStateLeaderAction extends Update {
     private String ID;
 
     /**
-     * this attribute rappresent the new state of the Leader Card
+     * this attribute represents the new state of the Leader Card
      *  true -> to active
      *  false -> to discard
      */
