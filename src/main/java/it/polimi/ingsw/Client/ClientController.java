@@ -60,6 +60,9 @@ public class ClientController implements Observer {
         clientSocket.readMessage();
     }
 
+    /**
+     * disconnect this client from the server if is online
+     */
     public void disconnect(){
         if(isOnline)
             this.clientSocket.disconnect();
@@ -67,6 +70,11 @@ public class ClientController implements Observer {
             System.exit(0);
     }
 
+    /**
+     * client send message through the sender, the message could be passed to the server if is an online game or
+     * directly to the controller if the game is offline
+     * @param message a serialized java class
+     */
     public void sendMessage(Message message) {
         sender.sendMessage(message);
     }

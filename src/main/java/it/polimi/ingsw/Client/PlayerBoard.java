@@ -48,7 +48,6 @@ public class PlayerBoard {
     private Map<String, Integer> playersFaithMarkerPosition;
     private Map<String, boolean[]> playersPopFavoriteTile;
 
-    //
     private List<String> leaderCards;
 
     private String [][] slotDevCard;
@@ -67,7 +66,7 @@ public class PlayerBoard {
      */
     private String currentDevCardToBuy;
     /**
-     * if the player isn't the first one he have to choose a resource, in order with the rules
+     * if the player isn't the first one he has to choose a resource, in order with the rules
      */
     private int currentInitialResourcesToChoose;
 
@@ -79,7 +78,7 @@ public class PlayerBoard {
     private int blackCrossToken; //only for singleplayer
 
     /**
-     * other player to show the advance of other players
+     * other player to show the status of other players' board
      */
     private OtherPlayer otherPlayer;
     private Map<String, DevelopmentCard> developmentCardMap;
@@ -159,7 +158,7 @@ public class PlayerBoard {
     }
 
     /**
-     * this method set the position of the faith marker, if is bigger than 24, the end of the fai track, it is set to 24
+     * this method set the position of the faith marker, if is bigger than 24, the end of the faith track, it is set to 24
      */
     public void setFaithMarker(Map<String, Integer> playersPosition, Map<String, boolean[]> playersPopFavoriteTile, int blackCrossToken){
         this.playersFaithMarkerPosition=playersPosition;
@@ -177,7 +176,7 @@ public class PlayerBoard {
 
     /**
      * when a player does an extraction the market tray change
-     * @param direction if is row or column
+     * @param direction if row or column
      * @param n row or column's number
      */
     public void updateMarketTray(char direction, int n){

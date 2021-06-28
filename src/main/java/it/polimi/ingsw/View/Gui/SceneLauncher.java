@@ -285,9 +285,21 @@ public class SceneLauncher {
 
 
         Button cheat = new Button("cheat");
+        if(!playerBoard.isMyturn()) cheat.setDisable(true);
+        else cheat.setDisable(false);
         cheat.setOnAction(e-> controller.sendMessage(new MessageFake(playerBoard.getNickname())));
 
         boardMain.getChildren().add(cheat);
+
+        //CALAMAIO
+        Image inkwell = new Image("punchboard/calamaio.png");
+        ImageView inkwellview = new ImageView(inkwell);
+        inkwellview.setFitHeight(60);
+        inkwellview.setFitWidth(60);
+        inkwellview.setLayoutY(100);
+        inkwellview.setLayoutX(660);
+
+        if(playerBoard.getPlayerList().get(0).equals(playerBoard.getNickname())) boardMain.getChildren().add(inkwellview);
 
         HBox allBoard = new HBox();
         allBoard.getChildren().addAll(left, boardMain);

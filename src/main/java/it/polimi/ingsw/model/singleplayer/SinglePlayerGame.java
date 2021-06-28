@@ -92,6 +92,10 @@ public class SinglePlayerGame extends Game {
         lorenzoIlMagnifico.drawTokens();
     }
 
+    /**
+     * this method end the turn of the player and start a Lorenzo's turn
+     * @param onDisconnect if player disconnects
+     */
     @Override
     public void endTurn(boolean onDisconnect) {
         /* DECOMMENTA SE VUOI FAR FINIRE LA PARTITA AL PRIMO ENDTURN;

@@ -49,7 +49,7 @@ public class GameController {
 
     /**
      * this method lock the model and proceed with the logic of the game doing the action
-     * @param message a serialized message that indicates which action have to had done
+     * @param message a serialized message that indicates which action have to be done
      */
     public void onRecivedMessage(Message message) {
         synchronized (modelLock){
@@ -92,8 +92,8 @@ public class GameController {
     }
 
     /**
-     *
-     * @param name
+     * this method add players at the game before start it
+     * @param name name of the player that is logging
      */
     public void onLoginBeforeGame(String name) {
         if(isOnline) {
@@ -284,10 +284,10 @@ public class GameController {
     }
 
     /**
-     * this method allows player to pay for buying devcard or active a production
-     * @param WarehouseRes
-     * @param StrongboxRes
-     * @param ExtrachestMap
+     * this method allows player to pay for buying devcard
+     * @param WarehouseRes a map of the resources use for the payment that came from the warehouse
+     * @param StrongboxRes a map of the resources use for the payment that came from the strongbox
+     * @param ExtrachestMap a map of the resources use for the payment that came from the extrachest
      * @return true if is successful
      */
     public boolean payResources (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {

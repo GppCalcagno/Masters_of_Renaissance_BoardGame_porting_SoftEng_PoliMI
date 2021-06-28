@@ -28,7 +28,7 @@ public class DevCardsDeck {
     private DevelopmentCard[][][] developmentCardDeck;
 
     /**
-     * this is the constructor that initialized the cube as 3*4*4 in accord with the rules
+     * this is the constructor that initialized the structure as 3*4*4 in accord with the rules
      */
     public DevCardsDeck() throws IOException {
         developmentCardDeck = new DevelopmentCard[3][4][4];
@@ -145,7 +145,7 @@ public class DevCardsDeck {
     }
 
     /**
-     * this method return the card that is at the top of the cube
+     * this method return the card that is at the top of the structure
      * @param x row
      * @param y column
      * @return the card
@@ -155,7 +155,7 @@ public class DevCardsDeck {
     }
 
     /**
-     * this method remove the card at the top of the cube
+     * this method remove the card at the top of the structure
      * @param row row
      * @param column column
      */
@@ -172,6 +172,10 @@ public class DevCardsDeck {
         }
     }
 
+    /**
+     * this method remove the card at the top of the structure
+     * @param ID the id of the card that has to be removed
+     */
     public void removeDevCards (String ID) {
         int k = 0;
         for (int i = 0; i < 3; i++) {
@@ -189,7 +193,7 @@ public class DevCardsDeck {
     }
 
     /**
-     * this method assign the card at the top of the cube to the player who purchase it
+     * this method assign the card at the top of the structure to the player who purchase it
      * @param player player who calls
      * @param playercolumn for SlotDevCards' insertCards
      * @param level level of the row of the matrix - reverse of the level of card. levelMatrix = 0 --> levelCard = 3
@@ -220,10 +224,6 @@ public class DevCardsDeck {
         return i;
     }
 
-    /**
-     * a get of the developmentCardDeck
-     * @return developmentCardDeck
-     */
     public DevelopmentCard[][][] getDevelopmentCardDeck() {
         return developmentCardDeck;
     }

@@ -144,6 +144,10 @@ public class Server extends Observable {
 
     }
 
+    /**
+     * this method disconnect a player
+     * @param ID position in the list of players
+     */
     public void disconnect(int ID){
 
         synchronized (serverLocker) {

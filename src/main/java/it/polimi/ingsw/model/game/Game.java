@@ -42,12 +42,19 @@ public class Game {
      */
     private FaithTrack faithTrack;
 
+    /**
+     * this attribute is the first player, useful for the start and the end of the game
+     */
     private Player firstPlayer;
 
-
-
+    /**
+     * this attribute is a reference to the UpdateCreator
+     */
     private UpdateCreator update;
 
+    /**
+     * this attribute is true when game is alredy starts and not yet end
+     */
     private boolean isDuringGame;
 
     /**
@@ -437,6 +444,13 @@ public class Game {
         }
     }
 
+    /**
+     * this method allow the players to choose the resources to pay the DevCard he selected
+     * @param WarehouseRes a map of the resources from the warehouse
+     * @param StrongboxRes a map of the resources from the strongbox
+     * @param ExtrachestMap a map of the resources from the extrachest
+     * @return true if the resources are correct
+     */
     public boolean payResourcesToBuyDevCard (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
         if (currentPlayer.getTurnPhase().equals(TurnPhase.BUYDEVCARD)) {
             if (!currentPlayer.getCurrentDevCardToBuy().getCost().checkResources(currentPlayer,WarehouseRes, StrongboxRes, ExtrachestMap,true)) {
@@ -527,6 +541,15 @@ public class Game {
         return true;
     }
 
+    /**
+     * this method allow to activate the base production
+     * @param r1 structure where first resource came from
+     * @param reqRes1 first resource to pay
+     * @param r2 structure where second resource came from
+     * @param reqRes2 second resource to pay
+     * @param chosenResource the resource wanted
+     * @return true if the resource to be payed are correct
+     */
     public boolean activeBaseProduction (char r1, String reqRes1, char r2, String reqRes2, String chosenResource) {
         if (currentPlayer.getGameState().equals(GameState.INGAME)) {
             if (!isRightResource(reqRes1) || !isRightResource(reqRes2) || !isRightResource(chosenResource)) {
@@ -598,6 +621,11 @@ public class Game {
         }
     }
 
+    /**
+     * this method is to avoid the case sensitive
+     * @param resource the name of the resource
+     * @return true if the letters are equals
+     */
     public boolean isRightResource (String resource) {
         String[] allResources = {"Coins", "Servants", "Shields", "Stones"};
         for (String r : allResources){
@@ -609,6 +637,13 @@ public class Game {
         return false;
     }
 
+    /**
+     * this method active the leadercard production
+     * @param ID the card's ID
+     * @param r where the resource that have to be payed came from
+     * @param resource the resource that have to be payed
+     * @return true if the payment is correct
+     */
     public boolean activeLeaderCardProduction (String ID, char r, String resource) {
         if (currentPlayer.getGameState().equals(GameState.INGAME)) {
             if (currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN) || currentPlayer.getTurnPhase().equals(TurnPhase.DOPRODUCTION)) {
@@ -696,6 +731,11 @@ public class Game {
         }
     }
 
+    /**
+     * this method active a devcard production
+     * @param col the column where the card is stored, in according with the rules the card is always that one on the top
+     * @return true if the column is correct and the player has the resource to activate the card
+     */
     public boolean activeDevCardProduction (int col) {
         if (currentPlayer.getGameState().equals(GameState.INGAME)) {
             if (currentPlayer.getTurnPhase().equals(TurnPhase.DOTURN) || currentPlayer.getTurnPhase().equals(TurnPhase.DOPRODUCTION)) {
@@ -744,6 +784,13 @@ public class Game {
         }
     }
 
+    /**
+     * this method is called when a player wants to activate a devcard production and has to pay for it
+     * @param WarehouseRes a map of the resources use for the payment that came from the warehouse
+     * @param StrongboxRes a map of the resources use for the payment that came from the strongbox
+     * @param ExtrachestMap a map of the resources use for the payment that came from the extrachest
+     * @return true if the resources are correct
+     */
     public boolean payResourcesForDevCardProduction (Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap) {
             DevelopmentCard card = currentPlayer.getCurrentDevCardToProduce();
 
@@ -766,6 +813,13 @@ public class Game {
             return true;
     }
 
+    /**
+     * this method allow the payment when players buy a devcard
+     * @param WarehouseRes a map of the resources use for the payment that came from the warehouse
+     * @param StrongboxRes a map of the resources use for the payment that came from the strongbox
+     * @param ExtrachestMap a map of the resources use for the payment that came from the extrachest
+     * @return
+     */
     public boolean payResources(Map<String,Integer> WarehouseRes, Map<String,Integer> StrongboxRes, Map<String,Integer> ExtrachestMap){
         if(currentPlayer.getCurrentDevCardToProduce() != null)
             return payResourcesForDevCardProduction(WarehouseRes, StrongboxRes, ExtrachestMap);
@@ -778,6 +832,10 @@ public class Game {
         }
     }
 
+    /**
+     * this method is called from the player to empty his buffer and doesn't allow any other production
+     * @return true is buffer is empty
+     */
     public boolean endProduction () {
         if (!currentPlayer.getSlotDevCards().getBuffer().isEmpty()) {
            int currentPlayerFaithMarker = currentPlayer.getFaithMarker();
@@ -823,6 +881,12 @@ public class Game {
         return true;
     }
 
+    /**
+     * this method allow to change the status of leadercard
+     * @param ID leadercard's ID
+     * @param choice 0 to discard 1 to activate
+     * @return true is the status change correctly
+     */
     public boolean updateLeaderCard (String ID, int choice) {
         if (!currentPlayer.getLeaderActionBox().isEmpty()) {
             if (currentPlayer.getGameState().equals(GameState.INGAME)) {
@@ -930,6 +994,11 @@ public class Game {
         return true;
     }
 
+    /**
+     * this is the last action a player can does, the turn ends and start the turn of another player if the
+     * game is online or Lorenzo's turn if the game is in singleplayer
+     * @param onDisconnect if player disconnects
+     */
     public void endTurn(boolean onDisconnect) {
 
         boolean canEndTurn = onDisconnect;
@@ -965,7 +1034,11 @@ public class Game {
         }
     }
 
-
+    /**
+     * this method converts a string into an object resource
+     * @param stringResource the string to convert
+     * @return the resource object
+     */
     public Resources convertStringToResource (String stringResource) {
         Resources[] resources = {new Coins(), new Servants(), new Shields(), new Stones()};
         for (Resources r : resources) {
@@ -975,6 +1048,10 @@ public class Game {
         return null;
     }
 
+    /**
+     * this method show the board of another player
+     * @param name otherplayer's name
+     */
     public void onReqOtherPlayer(String name){
         int i=0;
 

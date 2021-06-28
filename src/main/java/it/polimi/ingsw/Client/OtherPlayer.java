@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class allows in the game to show the game of other players and their advance
+ * This class allows in the game to show the game's state of other players
  */
 
 public class OtherPlayer {

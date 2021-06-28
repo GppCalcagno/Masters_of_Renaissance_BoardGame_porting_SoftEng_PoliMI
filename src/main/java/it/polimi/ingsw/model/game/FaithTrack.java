@@ -82,11 +82,7 @@ public class FaithTrack {
         currentPopTile = 0;
     }
 
-    /**
-     * this method returns the current popTile
-     *
-     * @return currentPopTile
-     */
+
     public int getCurrentPopTile() {
         return currentPopTile;
     }
@@ -127,25 +123,21 @@ public class FaithTrack {
      * @return int indicating the number of VictoryPoints of a player
      */
     public int getPlayerPoint(Player player) {
-        int totale = 0;
+        int total = 0;
         int tracker= player.getFaithMarker();
 
         //adding Board Points
         while (faithtrack[tracker]==0 && tracker>0)tracker--;
-            totale += faithtrack[tracker];
+            total += faithtrack[tracker];
 
         //adding popsfavouritetile points
         for (int j = 0; j < popsfavouritetilepointsize; j++) {
             if (player.getPopsfavortiles(j))
-                totale += popsfavouritetilepoints[j];
+                total += popsfavouritetilepoints[j];
         }
-    return totale;
+    return total;
     }
 
-    /**
-     * this is a getter of Faithtracksize
-     * @return the faithtracksize attribute
-     */
     public int getFaithtracksize() {
         return faithtracksize-1;
     }

@@ -25,11 +25,12 @@ public class DiscardDevCards extends Tokens {
     @Override
     public void effectTokens(LorenzoIlMagnifico l) {
         int i=2;
-
-        while (i > 0 && l.getDevelopmentDeck().getDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color)) == null) { i--;}
-
-        if (i > 0) l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
-        if (i > 0) l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
+        for(int j=0; j<2; j++) {
+            while (i > 0 && l.getDevelopmentDeck().getDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color)) == null) {
+                i--;
+            }
+            if (i > 0) l.getDevelopmentDeck().removeDevCards(i, l.getDevelopmentDeck().getColumnFromColor(color));
+        }
 
         List<Tokens> tokensList= l.getTokensvet();
         Tokens temp= tokensList.remove(0);
