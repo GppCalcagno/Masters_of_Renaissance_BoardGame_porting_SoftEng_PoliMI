@@ -37,7 +37,7 @@ All the documentation regarding the java classes with their methods is available
 All the documentation regarding the comunication protocol is available [here](https://github.com/Giuseppe-Calcagno/ingswAM2021-Caironi-Calcagno-Chiurco/blob/main/documentation/Communication%20Protocol.pdf)
 
 ### Coverage report :microscope:
-From the results of Junit we have a line covered of **100% on the controller** and **96% on the model**, results that we believe are satisfactory. All the analyzes on the model classes are also shown below
+From the results of Junit we have a line covered **96% on the model**, results that we believe are satisfactory.The **controller** has not been tested as it is a very narrow part of the code that does not perform complex actions. All the analyzes on the model classes are also shown below
 <p align="center">
 <img src="src/main/resources/ReadMe/Junit.png" alt="Logo" width="554" height="140">
 </p>
