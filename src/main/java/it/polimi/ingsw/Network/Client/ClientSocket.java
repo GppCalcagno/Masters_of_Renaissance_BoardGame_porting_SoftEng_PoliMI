@@ -120,7 +120,7 @@ public class ClientSocket extends Observable {
      */
     public void EnablePing(boolean state){
         if(state){
-            pinger.schedule(new PingerTimerTask(this),0,300*1000);
+            pinger.schedule(new PingerTimerTask(this),0,SOTIMEOUT*1000/2);
         }
         else
             pinger.cancel();
