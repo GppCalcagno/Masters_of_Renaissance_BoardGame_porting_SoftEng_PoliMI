@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Network.Server;
 
 import it.polimi.ingsw.Network.Message.ClientMessage.MessageLogin;
+import it.polimi.ingsw.Network.Message.ClientMessage.MessagePing;
 import it.polimi.ingsw.Network.Message.Message;
+import it.polimi.ingsw.Network.Message.ServerUpdate.ServerPing;
 import it.polimi.ingsw.Network.Message.Update;
 import it.polimi.ingsw.Network.Message.ServerUpdate.UpdateRequestLogin;
 import it.polimi.ingsw.Observer.Observer;
@@ -77,8 +79,13 @@ public class ServerClientHandler implements Runnable, Observer {
                     SERVERLOGGER.info("Messagge recived" + "(from " + message.getNickname()+")"+ ":" + message.getClass().getName());
                         if(message instanceof MessageLogin)
                             server.addIDname(ID,message.getNickname(), message);
-                        else
+                        else{
+                            if(message instanceof MessagePing)
+                                update(new ServerPing());
+                            else
                             server.recivedMessage(message);
+                        }
+
                 }
             }//finewhile
         }

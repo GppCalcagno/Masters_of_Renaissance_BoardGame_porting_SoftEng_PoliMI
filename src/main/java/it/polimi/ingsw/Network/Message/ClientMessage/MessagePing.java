@@ -11,6 +11,6 @@ public class MessagePing extends Message {
     }
 
     public void action(GameController gameController) {
-        gameController.sendPing(getNickname());
+        //nothing to do
     }
 }

@@ -354,13 +354,6 @@ public class GameController {
         game.endTurn(onDisconnect);
     }
 
-    /**
-     * this method allow to maintain a connection between client and server
-     * @param name
-     */
-    public void sendPing(String name){
-        sender.sendtoPlayer(name,new ServerPing());
-    }
 
     public void cheat() {
         game.cheat();
