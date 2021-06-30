@@ -121,7 +121,7 @@ public class SinglePlayerGame extends Game {
 
         if(canEndTurn){
             try {
-                playLorenzoTurn();
+                if(!onDisconnect )  playLorenzoTurn();
             } catch (ActiveVaticanReportException e) {
                 try {
                     getFaithTrack().checkPopeSpace(getPlayersList(), getBlackCrossToken());
@@ -130,7 +130,7 @@ public class SinglePlayerGame extends Game {
                         getUpdate().onUpdateGameFinished();
                 }
             }
-            getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken(), lorenzoIlMagnifico.getCurrentToken().getColor());
+            if(!onDisconnect) getUpdate().onUpdateSinglePlayer(getBlackCrossToken(), getDevelopmentCardDeck().getDevelopmentCardDeck(), lorenzoIlMagnifico.getCurrentToken(), lorenzoIlMagnifico.getCurrentToken().getColor());
             getCurrentPlayer().setCanDoProductionTrue();
             try {
                 setCurrentPlayer();
