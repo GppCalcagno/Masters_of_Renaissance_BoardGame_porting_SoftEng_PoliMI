@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class Server extends Observable {
-    private final static int SOTIMEOUT=500;
+    private final static int SOTIMEOUT=5;
     private static Logger LOGGER;
 
     private Map<Integer, ServerClientHandler> iDClientMap;

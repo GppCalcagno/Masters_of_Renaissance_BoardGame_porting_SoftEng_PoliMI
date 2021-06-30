@@ -16,7 +16,7 @@ import java.util.Timer;
 
 public class ClientSocket extends Observable {
 
-    private final static int SOTIMEOUT=500;
+    private final static int SOTIMEOUT=5;
     /** this is the Client Socket */
     private Socket clientSocket;
 
