@@ -374,13 +374,17 @@ public class Cli implements ViewInterface {
 
         }
         else
-            System.out.println(playerBoard.getCurrentPlayer()+" update your warehouse");
+            System.out.println(playerBoard.getCurrentPlayer()+" update his warehouse");
     }
 
 
     @Override
     public void onUpdateWinnerMultiplayer() {
         System.out.println("The winner is : " + playerBoard.getPlayerWinner() + " with : " + playerBoard.getPlayersPoints().get(playerBoard.getPlayerWinner()) + " points!");
+
+        for(String name: playerBoard.getPlayerList()){
+            System.out.println(name+ " point's: " + playerBoard.getPlayersPoints().get(name));
+        }
         controller.disconnect();
     }
 
