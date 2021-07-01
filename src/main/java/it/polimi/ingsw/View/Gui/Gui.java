@@ -72,11 +72,14 @@ public class Gui implements ViewInterface{
                 } else {
                     if (!playerBoard.getMarbleBuffer().isEmpty()) {
                         Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+                        Platform.runLater(() -> sceneLauncher.manageMarbleScene());
                     } else {
                         if (playerBoard.getActivedDevCardProd() != null) {
-                            Platform.runLater(() -> sceneLauncher.devCardProductionScene(sceneLauncher.getPayResourcesStage()));
+                            Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
+                            Platform.runLater(() -> sceneLauncher.payResourcesScene());
                         } else {
                             if (playerBoard.getCurrentDevCardToBuy() != null) {
+                                Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));
                                 Platform.runLater(() -> sceneLauncher.payResourcesScene());
                             } else {
                                 Platform.runLater(() -> sceneLauncher.getStage().setScene(sceneLauncher.mainboard()));

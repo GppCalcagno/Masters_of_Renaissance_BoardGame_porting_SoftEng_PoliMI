@@ -6,6 +6,7 @@ import it.polimi.ingsw.Network.Client.ClientSocket;
 import it.polimi.ingsw.Network.Client.ClientSender.SendtoController;
 import it.polimi.ingsw.Network.Client.ClientSender.SendtoServer;
 import it.polimi.ingsw.Network.Message.*;
+import it.polimi.ingsw.Network.Message.ServerUpdate.*;
 import it.polimi.ingsw.Network.Server.UpdateSender.LocalUpdate;
 import it.polimi.ingsw.Observer.Observer;
 import it.polimi.ingsw.View.Cli.Cli;
@@ -46,7 +47,7 @@ public class ClientController implements Observer {
      */
     @Override
     public void update(Update message) {
-        message.update(view);
+        if (view.getPlayerBoard().getCurrentPlayer()!=null || message instanceof UpdateRequestLogin || message instanceof UpdateReconnect || message instanceof UpdateRequestNumPlayers || message instanceof UpdateWaitingForOtherPlayer || message instanceof UpdateStartGame) message.update(view);
     }
 
     /**
