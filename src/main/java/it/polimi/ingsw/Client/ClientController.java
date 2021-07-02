@@ -47,7 +47,9 @@ public class ClientController implements Observer {
      */
     @Override
     public void update(Update message) {
-        if (view.getPlayerBoard().getCurrentPlayer()!=null || message instanceof UpdateRequestLogin || message instanceof UpdateReconnect || message instanceof UpdateRequestNumPlayers || message instanceof UpdateWaitingForOtherPlayer || message instanceof UpdateStartGame) message.update(view);
+        /*  we have inserted this check to filter messages before the board is initialized */
+        if (view.getPlayerBoard().getCurrentPlayer()!=null || message instanceof UpdateRequestLogin || message instanceof UpdateReconnect || message instanceof UpdateRequestNumPlayers || message instanceof UpdateWaitingForOtherPlayer || message instanceof UpdateStartGame)
+            message.update(view);
     }
 
     /**
