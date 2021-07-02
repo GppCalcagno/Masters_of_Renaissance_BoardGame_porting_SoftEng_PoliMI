@@ -1207,6 +1207,8 @@ public class SceneLauncher {
 
     public void activeProductions() {
         productionsStage = new Stage();
+        productionsStage.setAlwaysOnTop(true);
+
 
         Pane borderPane = new Pane();
 
@@ -1247,6 +1249,7 @@ public class SceneLauncher {
         borderPane.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Scene scene = new Scene(borderPane, 310, 140);
+
         productionsStage.setScene(scene);
         productionsStage.getIcons().add(new Image("punchboard/retro cerchi.png"));
         productionsStage.setTitle("Active Production");
@@ -1629,6 +1632,7 @@ public class SceneLauncher {
 
     public void payResourcesScene() {
         payResourcesStage = new Stage();
+        payResourcesStage.setAlwaysOnTop(true);
 
         Pane pane = new Pane();
         ImageView devCardView = null;
@@ -1819,6 +1823,7 @@ public class SceneLauncher {
 
     public void activeExtraction(){
         extractionMarbleStage = new Stage();
+        extractionMarbleStage.setAlwaysOnTop(true);
         Pane marketTrayPane = new Pane();
 
         ImageView marblesPunchView = new ImageView(new Image("punchboard/plancia portabiglie.png"));
@@ -1929,6 +1934,7 @@ public class SceneLauncher {
 
     public void manageMarbleScene() {
         manageMarbleStage = new Stage();
+        manageMarbleStage.setAlwaysOnTop(true);
 
         Pane marblesBufferPane = new Pane();
 
@@ -2136,6 +2142,7 @@ public class SceneLauncher {
 
     public void activeBuyDevCard(){
         activeBuyDevCardStage = new Stage();
+        activeBuyDevCardStage.setAlwaysOnTop(true);
 
         Pane devCardsDeckPane = new Pane();
 
@@ -2262,6 +2269,7 @@ public class SceneLauncher {
 
     public void resumeGameScene(String firstMessage, String secondMessage) {
         Stage stage1 = new Stage();
+        stage1.setAlwaysOnTop(true);
 
         StackPane root = new StackPane();
 
@@ -2334,6 +2342,7 @@ public class SceneLauncher {
 
     public void showMarket(){
         Stage stage1 = new Stage();
+        stage1.setAlwaysOnTop(true);
         Pane marketTrayPane = new Pane();
 
         ImageView marblesPunchView = new ImageView(new Image("punchboard/plancia portabiglie.png"));
@@ -2374,6 +2383,7 @@ public class SceneLauncher {
 
     public void showDevDeck(){
         Stage newStage = new Stage();
+        newStage.setAlwaysOnTop(true);
         Pane devCardsDeckPane = new Pane();
 
         ImageView[][] devCardsDeckView = new ImageView[3][4];
@@ -2420,6 +2430,7 @@ public class SceneLauncher {
 
     public void showOtherPlayers(){
         otherPlayerStage = new Stage();
+        otherPlayerStage.setAlwaysOnTop(true);
 
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
@@ -2451,6 +2462,7 @@ public class SceneLauncher {
 
     public void showOtherPlayerBoard() {
         Stage stage1 = new Stage();
+        stage1.setAlwaysOnTop(true);
 
         Pane left = new Pane();
 
@@ -2590,6 +2602,7 @@ public class SceneLauncher {
 
     public void showLorenzoTurn(){
         Stage newStage = new Stage();
+        newStage.setAlwaysOnTop(true);
         Pane pane = new Pane();
         Button close = new Button("Ok");
         close.setLayoutY(110);
