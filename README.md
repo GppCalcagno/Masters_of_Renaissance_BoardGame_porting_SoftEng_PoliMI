@@ -59,7 +59,7 @@ if the parameters are not specified correctly, the mode is selected by default: 
 ```shell
 > java -jar AM16-client.jar --cli\gui --online\offline
 ```
-
+Note: We have included a "cheat" command that provides 100 units of each resource to show the advanced game stages
 ## The Dream Team :star2:
 - [Giovanni Chiurco](https://github.com/GiovanniChiurco)
 - [Nicolò Caironi](https://github.com/NicoloCaironi)
