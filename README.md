@@ -1,4 +1,4 @@
-# Software Engineering Final Exam AA 2020/2021
+# Masters of the Renaissance Board Game porting
 
 The goal of the project is to create a digital version of the board game [Masters of the Renaissance](https://www.craniocreations.it/prodotto/masters-of-renaissance/) as a distributed system consisting of a single server capable of managing one game and multiple clients using the MVC pattern.
 <p align="center">
